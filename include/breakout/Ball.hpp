@@ -3,7 +3,7 @@
 
 #include <SDL.h>
 #include <SDL_image.h>
-
+#include "base/GameObject.hpp"
 #include <cassert>
 
 #include "ResourceManager.hpp"
