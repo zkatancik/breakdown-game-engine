@@ -1,0 +1,52 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "group": { "kind": "build", "isDefault": true }
+      "label": "make run",
+      "command": "make",
+      "args": [ "run" ],
+      "type": "shell",
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": ["$gcc"],
+    },
+    {
+      "group": "build"
+      "label": "make run-tests",
+      "command": "make",
+      "args": [ "run-tests" ],
+      "type": "shell",
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": ["$gcc"],
+    },
+    {
+      "group": "build"
+      "label": "make doc",
+      "command": "make",
+      "args": [ "doc" ],
+      "type": "shell",
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": ["$gcc"],
+    },
+    {
+      "group": "build"
+      "label": "make all",
+      "command": "make",
+      "args": [ "all" ],
+      "type": "shell",
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": ["$gcc"],
+    },
+    {
+      "group": "build"
+      "label": "make clean",
+      "command": "make",
+      "args": [ "clean" ],
+      "type": "shell",
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": ["$gcc"],
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+    "version": 4,
+    "enableConfigurationSquiggles": false,
+    "configurations": [
+        {
+            "name": "default",
+            "cppStandard": "c++17",
+            "includePath": [
+                "${workspaceFolder}/src",
+                "${workspaceFolder}/extern/cxxtest-4.4",
+                "/mingw64/include/SDL2",
+                "/Library/Frameworks/SDL2.framework/Headers",
+                "/Library/Frameworks/SDL2_image.framework/Headers",
+                "/Library/Frameworks/SDL2_mixer.framework/Headers",
+                "/Library/Frameworks/SDL2_ttf.framework/Headers",
+                "/usr/include/SDL2"
+            ]
+        }
+    ]
+}
