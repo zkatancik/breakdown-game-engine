@@ -1,0 +1,9 @@
+6
+8
+24
+bbb  bbb
+bb    bb
+b      b
+b      b
+bb    bb
+bbb  bbb
