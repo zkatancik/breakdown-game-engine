@@ -1,7 +1,7 @@
 #ifndef MOUSE_HPP
 #define MOUSE_HPP
 
-#include "ResourceManager.hpp"
+#include "base/ResourceManager.hpp"
 #include "SDL_DEBUG.hpp"
 
 /**
