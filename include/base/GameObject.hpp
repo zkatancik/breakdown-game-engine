@@ -32,8 +32,6 @@ class GameObject: public std::enable_shared_from_this<GameObject> {
   GameObject(Level & level, float x, float y, float w, float h, int tag);
   virtual ~GameObject();
 
-  void startUp(float x, float y, float w, float h, int tag);
-
   inline int tag() const { return mTag; }
 
   inline void setX(float x) { mX = x; }

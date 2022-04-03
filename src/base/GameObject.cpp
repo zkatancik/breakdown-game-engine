@@ -4,17 +4,8 @@
 GameObject::GameObject(Level& level) : mLevel(level) {}
 
 
-GameObject::GameObject(Level& level, float x, float y, float w, float h, int tag)
-    : Renderable(x, y, w, h), mLevel(level), mTag(tag) {}
-
-
-void GameObject::startUp(float x, float y, float w, float h, int tag) {
-  mX = x;
-  mY = y;
-  mW = w;
-  mH = h;
-  mTag = tag;
-}
+GameObject::GameObject(Level& level, float x, float y, float w, float h, int tag) : mLevel(level), mX(x), mY(y), mW(w),
+                                                                                    mH(h), mTag(tag) {}
 
 GameObject::~GameObject()
 {
