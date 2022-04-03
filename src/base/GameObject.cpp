@@ -5,7 +5,7 @@ GameObject::GameObject(Level& level) : mLevel(level) {}
 
 
 GameObject::GameObject(Level& level, float x, float y, float w, float h, int tag)
-    : mLevel(level), mX(x), mY(y), mW(w), mH(h), mTag(tag) {}
+    : Renderable(x, y, w, h), mLevel(level), mTag(tag) {}
 
 
 void GameObject::startUp(float x, float y, float w, float h, int tag) {
@@ -53,7 +53,7 @@ GameObject::render(SDL_Renderer * renderer)
 }
 
 bool
-GameObject::isColliding(const GameObject & obj) const
+GameObject::isOverlapping(const GameObject & obj) const
 {
   SDL_Rect thisRect = { int(x()), int(y()), int(w()), int(h()) };
   SDL_Rect objRect = { int(obj.x()), int(obj.y()), int(obj.w()), int(obj.h()) };
@@ -62,7 +62,7 @@ GameObject::isColliding(const GameObject & obj) const
 }
 
 bool
-GameObject::isColliding(float px, float py) const
+GameObject::isOverlapping(float px, float py) const
 {
   SDL_Rect thisRect = { int(x()), int(y()), int(w()), int(h()) };
   SDL_Point point = { int(px), int(py) };

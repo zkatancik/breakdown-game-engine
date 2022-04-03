@@ -60,8 +60,8 @@ class GameObject: public std::enable_shared_from_this<GameObject> {
   void postStep(); //!< After the physics step for the object.
   void render(SDL_Renderer * renderer); //!< Render the object.
 
-  bool isColliding(const GameObject & obj) const; //!< Determine if this object is colliding with another.
-  bool isColliding(float px, float py) const; //!< Determine if this object is colliding with a point.
+  bool isOverlapping(const GameObject & obj) const; //!< Determine if this object is overlapping with another.
+  bool isOverlapping(float px, float py) const; //!< Determine if this object is overlapping with a point.
 
  private:
 
