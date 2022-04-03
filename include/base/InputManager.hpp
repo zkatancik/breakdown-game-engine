@@ -23,12 +23,15 @@ public:
   void handleEvent(const SDL_Event & e); //!< Update key state based on an event.
   bool isKeyDown(SDL_Keycode k) const; //!< Get if a key is currently down.
   bool isKeyPressed(SDL_Keycode k) const; //!< Get if a key was pressed this frame.
+  bool isMouseKeyDown(uint8_t mk) const; //!< Get if a mouse key is currently down.
+  bool isMouseKeyPressed(uint8_t mk) const; //!< Get if a mouse key was pressed this frame.
   
 private:
 
   std::set<SDL_Keycode> mKeysDown;
   std::set<SDL_Keycode> mKeysPressed;
-
+  std::set<uint8_t> mMouseKeysDown;
+  std::set<uint8_t> mMouseKeysPressed;
 };
 
 #endif //INPUT_MANAGER_HPP
