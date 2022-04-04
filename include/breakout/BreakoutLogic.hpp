@@ -12,6 +12,7 @@
 class BreakoutLogic : public SDLProgramLogic {
  public:
   BreakoutLogic() = default;
+  explicit BreakoutLogic(std::string  appName) : SDLProgramLogic(std::move(appName)) {};
   BreakoutLogic(BreakoutLogic const&) = delete; // Avoid copy constructor.
   void operator=(BreakoutLogic const&) = delete; // Don't allow copy assignment.
 
@@ -22,7 +23,7 @@ class BreakoutLogic : public SDLProgramLogic {
   }
 
   void shutDown() override {
-
+    mLevel->finalize();
     PhysicsManager::getInstance().shutDown();
   }
 

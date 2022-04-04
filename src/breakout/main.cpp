@@ -6,7 +6,7 @@
 #include "breakout/BreakoutLogic.hpp"
 
 int main(int argc, char** argv) {
-  auto logic = std::make_shared<BreakoutLogic>();
+  auto logic = std::make_shared<BreakoutLogic>("Breakout By Breakdown");
   // Create an instance of an object for a SDLGraphicsProgram
   SDLGraphicsProgram mySDLGraphicsProgram(logic, 1280, 720);
   // Run our program forever

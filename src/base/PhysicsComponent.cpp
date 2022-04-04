@@ -3,12 +3,12 @@
 #include "base/GameObject.hpp"
 #include "base/Level.hpp"
 
-PhysicsComponent::PhysicsComponent(GameObject & gameObject, Type type, float linearDamping, float density):
+PhysicsComponent::PhysicsComponent(GameObject & gameObject, b2BodyType type, bool isSensor, float linearDamping, float density):
 Component(gameObject)
 {
   if (PhysicsManager::getInstance().hasStarted()) {
     b2BodyDef bodyDef;
-    bodyDef.type = (type == Type::DYNAMIC_SOLID ? b2_dynamicBody : b2_staticBody);
+    bodyDef.type = type;
     bodyDef.position.x = (gameObject.x() + 0.5f * gameObject.w()) * PhysicsManager::GAME_TO_PHYSICS_SCALE;
     bodyDef.position.y = (gameObject.y() + 0.5f * gameObject.h()) * PhysicsManager::GAME_TO_PHYSICS_SCALE;
     bodyDef.linearDamping = linearDamping;
@@ -25,8 +25,8 @@ Component(gameObject)
         b2FixtureDef fixtureDef;
         fixtureDef.shape = &polygonShape;
         fixtureDef.friction = 0.0f;
-        fixtureDef.isSensor = (type == Type::STATIC_SENSOR);
-        fixtureDef.density = (type == Type::DYNAMIC_SOLID) ? density : 0.0 ;
+        fixtureDef.isSensor = isSensor;
+        fixtureDef.density = (type == b2_dynamicBody || type == b2_kinematicBody) ? density : 0.0 ;
 
         mBody->CreateFixture(&fixtureDef);
   }

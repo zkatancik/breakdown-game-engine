@@ -1,5 +1,5 @@
-#ifndef LEVELDATA_HPP
-#define LEVELDATA_HPP
+#ifndef GRAVERUNNER_LEVELDATA_HPP
+#define GRAVERUNNER_LEVELDATA_HPP
 
 #include <iostream>
 #include <vector>

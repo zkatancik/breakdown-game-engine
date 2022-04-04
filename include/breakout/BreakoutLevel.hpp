@@ -30,9 +30,6 @@ class BreakoutLevel : public Level {
  private:
   std::shared_ptr<GridRenderComponent> mGridRenderComponent;
 
-  Paddle *paddle = nullptr;
-  Ball *ball = nullptr;
-
   std::string highestScoreUsername;
 
   static const int livesPerGame = 3;
@@ -43,7 +40,6 @@ class BreakoutLevel : public Level {
   int rowsOfBlocks = 0;
   int numBlocks = -1;
   int blocksPerColor = 2;
-  std::vector<std::shared_ptr<Block>> blockList;
   bool blocksLeft;
 
   int level{1};

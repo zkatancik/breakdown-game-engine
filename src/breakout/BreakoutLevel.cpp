@@ -1,8 +1,8 @@
-#include "../../include/breakout/BreakoutLevel.hpp"
+#include "breakout/BreakoutLevel.hpp"
 
 const int MAX_LEVEL = 4;
-const int EASY_BALL_X = 80;
-const int EASY_BALL_Y = 80;
+const int EASY_BALL_X = 200;
+const int EASY_BALL_Y = 200;
 const int MEDIUM_BALL_X = 4;
 const int MEDIUM_BALL_Y = 6;
 const int HARD_BALL_X = 6;
@@ -21,7 +21,8 @@ void BreakoutLevel::initialize() {
 
   switch(gameDifficulty_) {
     case GameDifficulty::Easy:
-      paddle = std::make_shared<Paddle>(*this, w(), h(), 16, 208);
+    default:
+      paddle = std::make_shared<Paddle>(*this, w(), h(), 200, 208);
       ball = std::make_shared<Ball>(*this, 100, 75, EASY_BALL_X, EASY_BALL_Y);
       break;
     case GameDifficulty::Medium:
@@ -32,7 +33,6 @@ void BreakoutLevel::initialize() {
       paddle = std::make_shared<Paddle>(*this, w(), h(), 7, 208);
       ball = std::make_shared<Ball>(*this, 100, 75, HARD_BALL_X, HARD_BALL_Y);
       break;
-
   }
   addObject(paddle);
   addObject(ball);
@@ -51,15 +51,12 @@ void BreakoutLevel::initialize() {
           block = std::make_shared<Block>(*this, x, y, color, b, 1);
           blocksLeft = true;
           addObject(block);
-          blockList.push_back(block);
         } else if (b.block_Type == BlockType::HardBlock) {
           block = std::make_shared<Block>(*this, x, y, 5, b, 3);
           addObject(block);
-          blockList.push_back(block);
         } else if (b.block_Type == BlockType::Wall) {
           block = std::make_shared<Block>(*this, x, y, 6, b, 0);
           addObject(block);
-          blockList.push_back(block);
         }
       }
       x = x + 64;

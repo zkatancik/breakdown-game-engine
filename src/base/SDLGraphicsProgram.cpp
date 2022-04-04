@@ -7,7 +7,7 @@
 
 // Initialization function
 // Takes in dimensions of window.
-SDLGraphicsProgram::SDLGraphicsProgram(std::shared_ptr<SDLProgramLogic> logic, int w, int h)
+SDLGraphicsProgram::SDLGraphicsProgram(const std::shared_ptr<SDLProgramLogic>& logic, int w, int h)
     : screenHeight(h), screenWidth(w), gLogic(logic) {
   // Initialize random number generation.
   srand(time(NULL));
@@ -42,7 +42,7 @@ SDLGraphicsProgram::SDLGraphicsProgram(std::shared_ptr<SDLProgramLogic> logic, i
   }
 
   // Create window
-  gWindow = SDL_CreateWindow("GraveRunner", 100, 100, screenWidth, screenHeight,
+  gWindow = SDL_CreateWindow(logic->getAppName().c_str(), 100, 100, screenWidth, screenHeight,
                              SDL_WINDOW_SHOWN);
 
   // Check if Window did not create.

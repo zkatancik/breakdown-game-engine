@@ -5,9 +5,13 @@
 CXXTEST_HOME=extern/cxxtest-4.4
 
 ## external libraries
-EXTERN_INCLUDES=
-EXTERN_SOURCES=
-EXTERN_CXXFLAGS=
+EXTERN_INCLUDES=extern/box2d-2.4.1/include extern/box2d-2.4.1/src
+EXTERN_SOURCES=extern/box2d-2.4.1/include extern/box2d-2.4.1/src
+ifeq ($(OS),Windows_NT)
+       EXTERN_CXXFLAGS=-Wno-error=strict-aliasing -Wno-error=maybe-uninitialized -Wno-error=unused-but-set-variable -Wno-error=class-memaccess
+else
+       EXTERN_CXXFLAGS=-Wno-error=unused-variable
+endif
 
 ## various options for possible build configurations
 ## comment in one of the following sets or add your own
@@ -19,12 +23,10 @@ LDFLAGS_BASE=
 #CXXFLAGS_BASE:=$(CXXFLAGS_BASE) -O2 -pg
 #LDFLAGS_BASE:=$(LDFLAGS_BASE) -pg
 
-
-
 ## the following should not need to change
 
 ## generic options
-CXXFLAGS_BASE:=$(CXXFLAGS_BASE) -std=c++17 -Wall -Werror -pedantic-errors -Iinclude -Isrc $(EXTERN_CXXFLAGS)
+CXXFLAGS_BASE:=$(CXXFLAGS_BASE) -std=c++17 -Wall -pedantic-errors -Iinclude -Isrc $(EXTERN_CXXFLAGS)
 LDFLAGS_BASE:=$(LDFLAGS_BASE) -std=c++17
 
 ## platform-specific options
@@ -46,16 +48,48 @@ else
 	DOXYGEN=doxygen
 endif
 
-## files
-EXECUTABLE_SOURCE_FILES=$(shell sh -c '/usr/bin/find src -name "main*.cpp" 2>/dev/null')
-SOURCE_FILES=$(filter-out $(EXECUTABLE_SOURCE_FILES),$(shell sh -c '/usr/bin/find src $(EXTERN_SOURCES) -name "*.cpp" 2>/dev/null'))
-HEADER_FILES=$(shell sh -c '/usr/bin/find include src -name "*.hpp" 2>/dev/null')
-OBJECT_FILES_RELEASE=$(SOURCE_FILES:%.cpp=build/obj/%.o)
-OBJECT_FILES_DEBUG=$(SOURCE_FILES:%.cpp=build/obj/%_d.o)
-EXECUTABLES_RELEASE=$(patsubst src/%.cpp,bin/%,$(EXECUTABLE_SOURCE_FILES))
-EXECUTABLES_DEBUG=$(patsubst src/%.cpp,bin/%_d,$(EXECUTABLE_SOURCE_FILES))
-DEFAULT_EXE?=$(word 1,$(EXECUTABLES_RELEASE))
-DEFAULT_EXE_DEBUG=$(addsuffix _d,$(DEFAULT_EXE))
+## base files
+BASE_SOURCE_FILES=$(shell sh -c '/usr/bin/find src/base -name "*.cpp" 2>/dev/null')
+BASE_HEADER_FILES=$(shell sh -c '/usr/bin/find include/base -name "*.cpp" 2>/dev/null')
+
+## graverunner files
+GRAVERUNNER_EXE_SRC_FILES=$(shell sh -c '/usr/bin/find src/graverunner -name "main*.cpp" 2>/dev/null')
+GRAVERUNNER_SOURCE_FILES=$(filter-out $(GRAVERUNNER_EXE_SRC_FILES),$(shell sh -c '/usr/bin/find src/graverunner $(EXTERN_SOURCES) -name "*.cpp" 2>/dev/null'))
+GRAVERUNNER_HEADER_FILES=$(shell sh -c '/usr/bin/find include/graverunner src/graverunner -name "*.hpp" 2>/dev/null')
+GRAVERUNNER_SOURCE_FILES+=$(BASE_SOURCE_FILES)
+GRAVERUNNER_HEADER_FILES+=$(BASE_INCLUDE_FILES)
+GRAVERUNNER_OBJ_FILES_RELEASE=$(GRAVERUNNER_SOURCE_FILES:%.cpp=build/obj/%.o)
+GRAVERUNNER_OBJ_FILES_DEBUG=$(GRAVERUNNER_SOURCE_FILES:%.cpp=build/obj/%_d.o)
+GRAVERUNNER_EXECUTABLE_RELEASE=$(patsubst src/%.cpp,bin/%,$(GRAVERUNNER_EXE_SRC_FILES))
+GRAVERUNNER_EXECUTABLES_DEBUG=$(patsubst src/%.cpp,bin/%_d,$(GRAVERUNNER_EXE_SRC_FILES))
+DEFAULT_EXE=$(word 1,$(GRAVERUNNER_EXECUTABLE_RELEASE))
+DEFAULT_EXE_DEBUG=$(word 1,$(GRAVERUNNER_EXECUTABLES_DEBUG))
+
+
+## breakout files
+BREAKOUT_EXE_SRC_FILES=$(shell sh -c '/usr/bin/find src/breakout -name "main*.cpp" 2>/dev/null')
+BREAKOUT_SOURCE_FILES=$(filter-out $(BREAKOUT_EXE_SRC_FILES),$(shell sh -c '/usr/bin/find src/breakout $(EXTERN_SOURCES) -name "*.cpp" 2>/dev/null'))
+BREAKOUT_HEADER_FILES=$(shell sh -c '/usr/bin/find include/breakout src/breakout -name "*.hpp" 2>/dev/null')
+BREAKOUT_SOURCE_FILES+=$(BASE_SOURCE_FILES)
+BREAKOUT_HEADER_FILES+=$(BASE_INCLUDE_FILES)
+BREAKOUT_OBJ_FILES_RELEASE=$(BREAKOUT_SOURCE_FILES:%.cpp=build/obj/%.o)
+BREAKOUT_OBJ_FILES_DEBUG=$(BREAKOUT_SOURCE_FILES:%.cpp=build/obj/%_d.o)
+BREAKOUT_EXECUTABLE_RELEASE=$(patsubst src/%.cpp,bin/%,$(BREAKOUT_EXE_SRC_FILES))
+BREAKOUT_EXECUTABLES_DEBUG=$(patsubst src/%.cpp,bin/%_d,$(BREAKOUT_EXE_SRC_FILES))
+DEFAULT_EXE=$(word 1,$(BREAKOUT_EXECUTABLE_RELEASE))
+DEFAULT_EXE_DEBUG=$(word 1,$(BREAKOUT_EXECUTABLES_DEBUG))
+
+## editor files
+EDITOR_EXE_SRC_FILES=$(shell sh -c '/usr/bin/find src/editor -name "main*.cpp" 2>/dev/null')
+EDITOR_SOURCE_FILES=$(filter-out $(EDITOR_EXE_SRC_FILES) $(GRAVERUNNER_EXE_SRC_FILES) $(BREAKOUT_EXE_SRC_FILES),$(shell sh -c '/usr/bin/find src/editor src/graverunner $(EXTERN_SOURCES) -name "*.cpp" 2>/dev/null'))
+EDITOR_HEADER_FILES=$(shell sh -c '/usr/bin/find include include/editor src/editor -name "*.hpp" 2>/dev/null')
+EDITOR_SOURCE_FILES+=$(BASE_SOURCE_FILES)
+EDITOR_HEADER_FILES+=$(BASE_INCLUDE_FILES)
+EDITOR_OBJ_FILES_RELEASE=$(EDITOR_SOURCE_FILES:%.cpp=build/obj/%.o)
+EDITOR_OBJ_FILES_DEBUG=$(EDITOR_SOURCE_FILES:%.cpp=build/obj/%_d.o)
+EDITOR_EXECUTABLE_RELEASE=$(patsubst src/%.cpp,bin/%,$(EDITOR_EXE_SRC_FILES))
+EDITOR_EXECUTABLES_DEBUG=$(patsubst src/%.cpp,bin/%_d,$(EDITOR_EXE_SRC_FILES))
+
 
 ## test files
 CXXTEST_GEN=$(CXXTEST_HOME)/bin/cxxtestgen
@@ -63,8 +97,8 @@ CXXTEST_INCLUDE=$(CXXTEST_HOME)
 
 TEST_FILES=$(shell sh -c '/usr/bin/find test -name "*.cxxtest.hpp"')
 TEST_SOURCE_FILES=$(TEST_FILES:test/%.cxxtest.hpp=build/test/%.cxxtest.cpp) build/test/runner.cpp
-TEST_OBJECT_FILES_RELEASE=$(TEST_SOURCE_FILES:.cpp=.o)
-TEST_OBJECT_FILES_DEBUG=$(TEST_SOURCE_FILES:.cpp=_d.o)
+TEST_GRAVERUNNER_OBJ_FILES_RELEASE=$(TEST_SOURCE_FILES:.cpp=.o)
+TEST_GRAVERUNNER_OBJ_FILES_DEBUG=$(TEST_SOURCE_FILES:.cpp=_d.o)
 
 CXXFLAGS_BASE:=$(CXXFLAGS_BASE) -I$(CXXTEST_INCLUDE) $(EXTERN_INCLUDES:%=-I%)
 
@@ -79,20 +113,28 @@ LDFLAGS_DEBUG:=$(LDFLAGS_BASE)
 
 
 ## rules
-.PHONY: all everything clean doc exe exe_d tests tests_d run run_d run-tests run-tests_d
 
-all: exe
+all: doc graverunner graverunner_d breakout breakout_d tests tests_d
 
-everything: doc exe exe_d tests tests_d
-
+everything: doc graverunner graverunner_d breakout breakout_d tests tests_d
 
 
-doc: $(HEADER_FILES) $(SOURCE_FILES) Makefile
+doc: $(GRAVERUNNER_HEADER_FILES) $(GRAVERUNNER_SOURCE_FILES) Makefile
 	$(DOXYGEN)
 
-exe: $(EXECUTABLES_RELEASE)
 
-exe_d: $(EXECUTABLES_DEBUG)
+breakout: $(BREAKOUT_EXECUTABLE_RELEASE)
+
+breakout_d: $(BREAKOUT_EXECUTABLES_DEBUG)
+
+
+graverunner: $(GRAVERUNNER_EXECUTABLE_RELEASE)
+
+graverunner_d: $(GRAVERUNNER_EXECUTABLES_DEBUG)
+
+editor: $(EDITOR_EXECUTABLE_RELEASE)
+
+editor_d: $(EDITOR_EXECUTABLES_DEBUG)
 
 tests: bin/test
 
@@ -114,37 +156,73 @@ run-tests_d: bin/test_d
 
 
 
-$(EXECUTABLES_RELEASE): bin/%: build/obj/src/%.o $(OBJECT_FILES_RELEASE)
+$(GRAVERUNNER_EXECUTABLE_RELEASE): bin/%: build/obj/src/%.o $(GRAVERUNNER_OBJ_FILES_RELEASE)
 	mkdir -p $(dir $@)
 	g++  $^ $(LDFLAGS_RELEASE) -o $@
 
-$(EXECUTABLES_DEBUG): bin/%: build/obj/src/%.o $(OBJECT_FILES_DEBUG)
+$(GRAVERUNNER_EXECUTABLES_DEBUG): bin/%: build/obj/src/%.o $(GRAVERUNNER_OBJ_FILES_DEBUG)
 	mkdir -p $(dir $@)
 	g++  $^ $(LDFLAGS_DEBUG) -o $@
 
-build/obj/%.o: %.cpp $(HEADER_FILES) Makefile
+build/obj/%.o: %.cpp $(GRAVERUNNER_HEADER_FILES) Makefile
 	mkdir -p $(dir $@)
 	g++ -c $< $(CXXFLAGS_RELEASE) -o $@
 
-build/obj/%_d.o: %.cpp $(HEADER_FILES) Makefile
+build/obj/%_d.o: %.cpp $(GRAVERUNNER_HEADER_FILES) Makefile
+	mkdir -p $(dir $@)
+	g++ -c $< $(CXXFLAGS_DEBUG) -o $@
+
+
+$(BREAKOUT_EXECUTABLE_RELEASE): bin/%: build/obj/src/%.o $(BREAKOUT_OBJ_FILES_RELEASE)
+	mkdir -p $(dir $@)
+	g++  $^ $(LDFLAGS_RELEASE) -o $@
+
+$(BREAKOUT_EXECUTABLES_DEBUG): bin/%: build/obj/src/%.o $(BREAKOUT_OBJ_FILES_DEBUG)
+	mkdir -p $(dir $@)
+	g++  $^ $(LDFLAGS_DEBUG) -o $@
+
+build/obj/%.o: %.cpp $(BREAKOUT_HEADER_FILES) Makefile
+	mkdir -p $(dir $@)
+	g++ -c $< $(CXXFLAGS_RELEASE) -o $@
+
+build/obj/%_d.o: %.cpp $(BREAKOUT_HEADER_FILES) Makefile
+	mkdir -p $(dir $@)
+	g++ -c $< $(CXXFLAGS_DEBUG) -o $@
+
+
+
+$(EDITOR_EXECUTABLE_RELEASE): bin/%: build/obj/src/%.o $(EDITOR_OBJ_FILES_RELEASE)
+	mkdir -p $(dir $@)
+	g++  $^ $(LDFLAGS_RELEASE) -o $@
+
+$(EDITOR_EXECUTABLES_DEBUG): bin/%: build/obj/src/%.o $(EDITOR_OBJ_FILES_DEBUG)
+	mkdir -p $(dir $@)
+	g++  $^ $(LDFLAGS_DEBUG) -o $@
+
+build/obj/%.o: %.cpp $(EDITOR_HEADER_FILES) Makefile
+	mkdir -p $(dir $@)
+	g++ -c $< $(CXXFLAGS_RELEASE) -o $@
+
+build/obj/%_d.o: %.cpp $(EDITOR_HEADER_FILES) Makefile
 	mkdir -p $(dir $@)
 	g++ -c $< $(CXXFLAGS_DEBUG) -o $@
 
 ifneq ($(wildcard $(CXXTEST_HOME)),)
 
-bin/test: $(TEST_OBJECT_FILES_RELEASE) $(OBJECT_FILES_RELEASE)
+
+bin/test: $(TEST_GRAVERUNNER_OBJ_FILES_RELEASE) $(GRAVERUNNER_OBJ_FILES_RELEASE)
 	mkdir -p $(dir $@)
 	g++  $^ $(LDFLAGS_RELEASE) -o $@
 
-bin/test_d: $(TEST_OBJECT_FILES_DEBUG) $(OBJECT_FILES_DEBUG)
+bin/test_d: $(TEST_GRAVERUNNER_OBJ_FILES_DEBUG) $(GRAVERUNNER_OBJ_FILES_DEBUG)
 	mkdir -p $(dir $@)
 	g++  $^ $(LDFLAGS_DEBUG) -o $@
 
-build/test/%.o: build/test/%.cpp $(HEADER_FILES) Makefile
+build/test/%.o: build/test/%.cpp $(GRAVERUNNER_HEADER_FILES) Makefile
 	mkdir -p $(dir $@)
 	g++ -c $< $(CXXFLAGS_RELEASE) -o $@
 
-build/test/%_d.o: build/test/%.cpp $(HEADER_FILES) Makefile
+build/test/%_d.o: build/test/%.cpp $(GRAVERUNNER_HEADER_FILES) Makefile
 	mkdir -p $(dir $@)
 	g++ -c $< $(CXXFLAGS_DEBUG) -o $@
 

@@ -2,13 +2,16 @@
 #define SDL_PROGRAM_LOGIC_HPP
 #include <SDL_render.h>
 
+#include <utility>
+
 /**
  * @brief An interface for wrapping an SDL program's logic to get finer grained control over the subsystems used and
  * create arbitrary SDL programs
  */
 class SDLProgramLogic {
  public:
-  SDLProgramLogic()= default;
+  SDLProgramLogic() = default;
+  explicit SDLProgramLogic(std::string  appName) : mAppName(std::move(appName)) {};
   SDLProgramLogic(SDLProgramLogic const&) = delete; // Avoid copy constructor.
   void operator=(SDLProgramLogic const&) = delete; // Don't allow copy assignment.
 
@@ -20,31 +23,33 @@ class SDLProgramLogic {
 
   virtual void render(SDL_Renderer* render) = 0; //!< Render
 
+  std::string getAppName() {return mAppName;}
+
   std::string framerateModerator() {
     const size_t FRAME_COUNT = 60;
     const size_t DESIRED_TICKS_PER_FRAME = 1000 / FRAME_COUNT;
 
     Uint32 currTicks = SDL_GetTicks();
-    Uint32 elapsedTicks = currTicks - startTicks;
+    Uint32 elapsedTicks = currTicks - mStartTicks;
 
     if (elapsedTicks < DESIRED_TICKS_PER_FRAME) {
       SDL_Delay(DESIRED_TICKS_PER_FRAME - elapsedTicks);
       currTicks = SDL_GetTicks();
-      elapsedTicks = currTicks - startTicks;
+      elapsedTicks = currTicks - mStartTicks;
     }
 
-    startTicks = currTicks;
+    mStartTicks = currTicks;
 
-    frameTimes.push_back(elapsedTicks);
-    if (frameTimes.size() > FRAME_COUNT) {
-      frameTimes.pop_front();
+    mFrameTimes.push_back(elapsedTicks);
+    if (mFrameTimes.size() > FRAME_COUNT) {
+      mFrameTimes.pop_front();
     }
-    assert(frameTimes.size() >= 1);
-    assert(frameTimes.size() <= FRAME_COUNT);
+    assert(mFrameTimes.size() >= 1);
+    assert(mFrameTimes.size() <= FRAME_COUNT);
 
     float avgTicksPerFrame =
-        std::accumulate(frameTimes.begin(), frameTimes.end(), 0.0f) /
-        frameTimes.size();
+        std::accumulate(mFrameTimes.begin(), mFrameTimes.end(), 0.0f) /
+        mFrameTimes.size();
     float avgFps = 1.0f / (avgTicksPerFrame / 1000.0f);
 
     std::stringstream sstr;
@@ -53,8 +58,9 @@ class SDLProgramLogic {
     return sstr.str();
   }
  private:
-  std::deque<Uint32> frameTimes;
-  Uint32 startTicks;
+  std::deque<Uint32> mFrameTimes{};
+  Uint32 mStartTicks{0};
+  std::string mAppName{"mySDLApplication"};
 };
 
 #endif

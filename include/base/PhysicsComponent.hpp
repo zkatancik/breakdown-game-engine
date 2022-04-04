@@ -2,7 +2,7 @@
 #define BASE_PHYSICS_COMPONENT
 
 #include "base/Component.hpp"
-#include <box2d/box2d.h>
+#include "box2d/box2d.h"
 
 class Level;
 
@@ -15,7 +15,7 @@ class PhysicsComponent: public Component {
     STATIC_SENSOR
   };
 
-  PhysicsComponent(GameObject & gameObject, Type type, float linearDamping = 2.0f, float density = 1.0);
+  PhysicsComponent(GameObject & gameObject, b2BodyType type, bool isSensor, float linearDamping = 2.0f, float density = 1.0);
   virtual ~PhysicsComponent();
 
   void setVx(float vx); //!< set x velocity

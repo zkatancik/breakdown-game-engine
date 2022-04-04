@@ -7,7 +7,7 @@ Block::Block(Level &level, float x, float y, int color, BlockData bd, int h) :
   renderer_ = std::make_shared<TextureRenderComponent>(*this);
   renderer_->setTexture(texture);
   setRenderComponent(renderer_);
-  setPhysicsComponent(std::make_shared<PhysicsComponent>(*this, PhysicsComponent::Type::DYNAMIC_SOLID));
+  setPhysicsComponent(std::make_shared<PhysicsComponent>(*this, b2_staticBody, false));
   // Reduce health when colliding with ball
   auto collisionWithBallHook = [&](Level &level, std::shared_ptr<GameObject> obj) {
     if (health > 0) {

@@ -1,10 +1,11 @@
 #include <base/RemoveOnCollideComponent.hpp>
 #include "breakout/Ball.hpp"
+#include "box2d/box2d.h"
 
 Ball::Ball(Level& level, float x, float y, float dx, float dy) : GameObject(level, x, y, 30, 30, BallTag) {
   renderer_ = std::make_shared<TextureRenderComponent>(*this);
   setRenderComponent(renderer_);
-  setPhysicsComponent(std::make_shared<PhysicsComponent>(*this, PhysicsComponent::Type::DYNAMIC_SOLID, 0.0f));
+  setPhysicsComponent(std::make_shared<PhysicsComponent>(*this, b2_dynamicBody, false, 0.0f));
   addGenericComponent(std::make_shared<RemoveOnCollideComponent>(*this, LevelBoundaryTag));
   physicsComponent()->setVx(dx);
   physicsComponent()->setVy(dy);

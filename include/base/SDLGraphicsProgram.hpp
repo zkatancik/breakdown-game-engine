@@ -48,7 +48,7 @@ class SDLGraphicsProgram {
    * @param w window width
    * @param h window height
    */
-  SDLGraphicsProgram(std::shared_ptr<SDLProgramLogic> logic, int w, int h);
+  SDLGraphicsProgram(const std::shared_ptr<SDLProgramLogic>& logic, int w, int h);
 
   /**
    * @brief Clean up the SDLGraphicsProgram object.

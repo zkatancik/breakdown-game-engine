@@ -2,11 +2,13 @@
 #define BUTTON_HPP
 
 #include "graverunner/Mouse.hpp"
+#include "breakout/Tag.hpp"
+#include "base/TextObject.hpp"
 
 /**
- * @brief A class representing a clickable UI Text Button in our game.
+ * @brief A class representing a clickable UI Text Button.
  */
-class Button {
+class Button : public GameObject {
  private:
   const Uint8 BUTTON_TEXT_COLOR_RED = 249;
   const Uint8 BUTTON_TEXT_COLOR_GREEN = 219;
@@ -22,14 +24,9 @@ class Button {
   const int BUTTON_TEXT_Y_POS_OFFSET = 55;
   const int CLICK_FACTOR_MOVEMENT = 3;
   const std::string BUTTON_SPRITE_SHEET = "buttons/buttonspritesheet.png";
-  const std::string BUTTON_FONT = "GADAQUALI.ttf";
-  const std::string BUTTON_CLICK_SOUND =
-      "mixkit-video-game-mystery-alert-234.wav";
-  // const std::string BUTTON_MOUSEOVER_SOUND =
-  //     "mixkit-interface-click-hover-1127.wav";
+  const std::string BUTTON_CLICK_SOUND = "mixkit-video-game-mystery-alert-234.wav";
   SDL_Texture *texture_;
-  std::string text_;
-  SDL_Texture *textTexture;
+  std::shared_ptr<GameObject> mText;
   SDL_Texture *textTextureMouseover;
   SDL_Rect Src;
   SDL_Rect Dest;
@@ -44,16 +41,6 @@ class Button {
 
  public:
   /**
-   * @brief Construct an empty Button object, don't forget to call startUp().
-   */
-  Button();
-
-  /**
-   * @brief Destroy the Button object, don't forget to call shutDown().
-   */
-  virtual ~Button();
-
-  /**
    * @brief Initializes/Configures this Button for use and display.
    *
    * @param srcw Source width of texture to render
@@ -66,14 +53,8 @@ class Button {
    * @param clickedY Source y coord of texture to render for mouseover
    * @param text String to render onto the Button
    */
-  void startUp(int srcw, int srch, int srcx, int srcy, int clickedX,
-               int clickedY, int destx, int desty, std::string text);
-
-  /**
-   * @brief Cleans up this Button.
-   */
-  void shutDown();
-
+  Button(Level& level, int srcw, int srch, int srcx, int srcy, int destw,
+         int desth, int destx, int desty, std::string text);
   /**
    * @brief Mouse click handler, e.g. plays sound.
    */
