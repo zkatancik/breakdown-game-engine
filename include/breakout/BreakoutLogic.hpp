@@ -20,6 +20,10 @@ class BreakoutLogic : public SDLProgramLogic {
     PhysicsManager::getInstance().startUp();
     mLevel = std::make_shared<BreakoutLevel>(width, height, BreakoutLevel::GameDifficulty::Easy, Language::ENGLISH);
     mLevel->initialize();
+    // Music Volume adjustment
+    Mix_VolumeMusic(MIX_MAX_VOLUME / 6);
+    Mix_PlayMusic(ResourceManager::getInstance().getMusic("2DBreakout/SFX/251461__joshuaempyre__arcade-music-loop.wav"),
+                  -1);
   }
 
   void shutDown() override {

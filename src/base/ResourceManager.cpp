@@ -149,7 +149,7 @@ std::string ResourceManager::getFont(const std::string &filename) {
 }
 
 Mix_Music *ResourceManager::getMusic(const std::string &path) {
-  const filesystem::path resPath = getResourcePath("2DPlatformer_SFX");
+  const filesystem::path resPath = getResourcePath("");
 
   const std::string resourceFilename = (resPath / path).string();
   const resourceId_t resourceId = getSoundId(resourceFilename);
