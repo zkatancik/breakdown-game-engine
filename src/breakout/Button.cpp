@@ -6,7 +6,7 @@
 
 Button::Button(Level& level, float x, float y, float w, float h, const std::string& text,
                const std::function<void(void)>& selectHook) : GameObject(level, x, y, w, h, ButtonTag),
-               mText(std::make_shared<TextObject>(level, x + 30, y + 30, 64, text)){
+               mText(std::make_shared<TextObject>(level, x + 30, y + 30, 64, text, Language::ENGLISH)){
   auto renderComponent = std::make_shared<TextureRenderComponent>(*this);
   renderComponent->setTexture(ResourceManager::getInstance().getTexture("buttonSpriteSheet.png"));
   level.addObject(mText);

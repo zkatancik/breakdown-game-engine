@@ -6,14 +6,13 @@
 #include "base/GameObject.hpp"
 #include "breakout/Tag.hpp"
 #include "breakout/InputBreakoutComponent.hpp"
-#include "SDL_DEBUG.hpp"
 
 /**
  * @brief A class representing a user-controllable Paddle.
  */
 class Paddle : public GameObject {
  public:
-  Paddle(Level& level, float x, float y, float w, float h, float speed);
+  Paddle(Level& level, float sw, float sh, float width, float speed);
 
 
  private:

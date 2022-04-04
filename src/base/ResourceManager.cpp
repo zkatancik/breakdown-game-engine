@@ -168,7 +168,7 @@ Mix_Music *ResourceManager::getMusic(const std::string &path) {
 }
 
 Mix_Chunk *ResourceManager::getChunk(const std::string &path) {
-  const filesystem::path resPath = getResourcePath("2DPlatformer_SFX");
+  const filesystem::path resPath = getResourcePath("");
 
   const std::string resourceFilename = (resPath / path).string();
   const resourceId_t resourceId = getSoundId(resourceFilename);
@@ -258,125 +258,6 @@ void ResourceManager::closeAllfiles() {
   while (!fstream_.empty()) closeFileWithId(fstream_.begin()->first);
 }
 
-void ResourceManager::loadLevel(LevelData *levelData, int level) {
-  
-  levelData->levelGrid.clear();
-  levelData->blocks.clear();
-  levelData->enemyStartPositions.clear();
-
-  levelData->levelNumber = level;
-
-  const filesystem::path resPath = getResourcePath("levels");
-  std::string resourceFilename =
-      (resPath / ("level" + std::to_string(levelData->levelNumber) + ".txt")).string();
-
-  std::string line;
-  std::fstream *myfile = openFile(resourceFilename, std::ios_base::in);
-  if (myfile->is_open()) {
-    int lineCounter = 0;
-    int colCounter = 0;
-    std::string x;
-    std::string y;
-    while (std::getline(*myfile, line)) {
-      if (lineCounter == 0) {
-        levelData->rowCount = std::stoi(line);
-        lineCounter++;
-        continue;
-      } else if (lineCounter == 1) {
-        levelData->colCount = std::stoi(line);
-
-        // specify the default value to fill the vector elements
-        levelData->levelGrid.resize(levelData->rowCount, std::vector<LevelItem>(levelData->colCount, LevelItem::NONE));;
-
-        lineCounter++;
-        continue;
-      } else if (lineCounter == 2) {
-        x = line;
-        lineCounter++;
-        continue;
-      } else if (lineCounter == 3) {
-        y = line;
-        lineCounter++;
-        continue;
-      }
-
-      levelData->blockSize = Vector2D<int>(std::stoi(x), std::stoi(y));
-      //std::cout << "RS::Level Grid Row Size:" << levelData->levelGrid.size() << "\n";
-      //std::cout << "RS::Level Grid Row Size:" << levelData->levelGrid[0].size() << "\n";
-      //std::cout << "RS::Linecounter:" << std::to_string(lineCounter) << "\n";
-
-      // Traverse the string
-      colCounter = 0;
-
-      for (auto &ch : line) {
-        auto data = BlockData();
-        if (ch == '1') {
-          data.block_Type = BlockType::PlainBlock;
-          data.blockNumber = ch;
-          levelData->levelGrid[lineCounter - 4][colCounter] = LevelItem::TILE1;
-        } else if (ch == '2') {
-          data.block_Type = BlockType::PlainBlock;
-          data.blockNumber = ch;
-          levelData->levelGrid[lineCounter - 4][colCounter] = LevelItem::TILE2;
-        } else if (ch == '3') {
-          data.block_Type = BlockType::PlainBlock;
-          data.blockNumber = ch;
-          levelData->levelGrid[lineCounter - 4][colCounter] = LevelItem::TILE3;
-        } else if (ch == 'X') {
-          data.block_Type = BlockType::PlainBlock;
-          data.blockNumber = ch;
-          levelData->levelGrid[lineCounter - 4][colCounter] = LevelItem::TILEX;
-        } else if (ch == 'Y') {
-          data.block_Type = BlockType::PlainBlock;
-          data.blockNumber = ch;
-          levelData->levelGrid[lineCounter - 4][colCounter] = LevelItem::TILEY;
-        } else if (ch == 'Z') {
-          data.block_Type = BlockType::PlainBlock;
-          data.blockNumber = ch;
-          levelData->levelGrid[lineCounter - 4][colCounter] = LevelItem::TILEZ;
-        } else if (ch == '.') {
-          data.block_Type = BlockType::NoBlock;
-          levelData->levelGrid[lineCounter - 4][colCounter] = LevelItem::NOBLOCK;
-        } else if (ch == 'W') {
-          data.block_Type = BlockType::Wall;
-          levelData->levelGrid[lineCounter - 4][colCounter] = LevelItem::WALL;
-        } else if (ch == 'H') {
-          data.block_Type = BlockType::HardBlock;
-          levelData->levelGrid[lineCounter - 4][colCounter] = LevelItem::HARDBLOCK;
-        } else if (ch == 'K') {
-          data.block_Type = BlockType::Key;
-          levelData->levelGrid[lineCounter - 4][colCounter] = LevelItem::KEY;
-        } else if (ch == 'E') {
-          // Enemy start position
-          data.block_Type = BlockType::NoBlock;
-          levelData->enemyStartPositions.push_back(
-              Vector2D<int>(colCounter, lineCounter - 4));
-          levelData->levelGrid[lineCounter - 4][colCounter] = LevelItem::PATROLZOMBIE;
-        } else if (ch == 'F') {
-          // Follower Enemy start position
-          data.block_Type = BlockType::NoBlock;
-          levelData->followerEnemyStartPositions.push_back(
-              Vector2D<int>(colCounter, lineCounter - 4));
-          levelData->levelGrid[lineCounter - 4][colCounter] = LevelItem::FOLLOWZOMBIE;
-        } else if (ch == 'P') {
-          data.block_Type = BlockType::NoBlock;
-          levelData->playerStartPosition =
-              Vector2D<int>(colCounter, lineCounter - 4);
-          levelData->levelGrid[lineCounter - 4][colCounter] = LevelItem::JACK;
-        } else if (ch == 'G') {
-          data.block_Type = BlockType::Exit;
-          levelData->levelEndPosition =
-              Vector2D<int>(colCounter, lineCounter - 4);
-          levelData->levelGrid[lineCounter - 4][colCounter] = LevelItem::EXIT;
-        }
-
-        levelData->blocks.push_back(data);
-        colCounter++;
-      }
-
-      lineCounter++;
-      
-    }
 
     // std::cout << "LevelGRID:" << "\n";
     // for (std::vector<LevelItem> row: levelData->levelGrid)
@@ -387,65 +268,16 @@ void ResourceManager::loadLevel(LevelData *levelData, int level) {
     //     std::cout << std::endl;
     // }
     
-    closeFile(resourceFilename);
-  } else {
-    std::cout << "Unable to open file \n";
-  }
-}
+//    closeFile(resourceFilename);
+//  } else {
+//    std::cout << "Unable to open file \n";
+//  }
+//}
 
-void ResourceManager::updateLevelFile(LevelData ld,
-                                      Vector2D<int> gridPosition, LevelItem item) {
-
-  std::cout << "RS:[updateLevelFile]:" << std::endl;
-
-  const filesystem::path resPath = getResourcePath("levels");
-  std::string resourceFilename =
-      (resPath / ("level" + std::to_string(ld.levelNumber) + ".txt")).string();
-
-  std::string line;
-  std::fstream *myfile = openFile(resourceFilename, std::fstream::out | std::fstream::trunc);
-
-  int lineCounter = 0;
-  int colNumber = 0;
-
-  //std::cout << "RS:updateLevelFile:" << std::endl;
-  
-  if (myfile->is_open()) {
-
-    *myfile << std::to_string(ld.rowCount) << std::endl;
-  
-    *myfile << std::to_string(ld.colCount) << std::endl;
-  
-    *myfile << std::to_string(ld.blockSize.x) << std::endl;
-  
-    *myfile << std::to_string(ld.blockSize.y) << std::endl;
-
-    int i = 0;
-    int j = 0;
-    for (i = 0; i < ld.rowCount; i++)
-    {
-      for (j = 0; j < ld.colCount; j++)
-      {
-        *myfile << (char)ld.levelGrid[i][j];
-      }
-      
-      if (i != ld.rowCount - 1)
-      {
-        *myfile << std::endl;      
-      }
-      
-      lineCounter++;
-    }
-    
-    closeFile(resourceFilename);
-  } else {
-
-    // Create a new file.
-    std::cout << "Unable to open file \n";
-    std::cout << "Creating a new file \n";
-  
-  }
-}
+//void ResourceManager::updateLevelFile(LevelData ld,
+//                                      Vector2D<int> gridPosition, LevelItem item) {
+//
+//}
 
 std::string ResourceManager::getTranslation(const std::string &message,
                                             Language language) {

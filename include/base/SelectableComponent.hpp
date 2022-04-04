@@ -1,6 +1,8 @@
 #ifndef SELECTABLE_COMPONENT_HPP
 #define SELECTABLE_COMPONENT_HPP
 #include "base/GenericComponent.hpp"
+#include "functional"
+#include "base/InputManager.hpp"
 
 //! \brief A component that performs a function when it is selected by Mouse
 class SelectableComponent : public GenericComponent {
@@ -15,8 +17,8 @@ class SelectableComponent : public GenericComponent {
   void update(Level &level) override;
 
  private:
-  std::function<void(Level&, std::shared_ptr<GameObject>)> mSelectHook;
-  std::function<void(Level&, std::shared_ptr<GameObject>)> mHoverHook;
+  std::function<void(void)> mSelectHook;
+  std::function<void(void)> mHoverHook;
 };
 
 #endif

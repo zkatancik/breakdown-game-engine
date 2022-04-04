@@ -1,17 +1,15 @@
-#ifndef BLOCK_HPP
-#define BLOCK_HPP
+#ifndef BREAKOUT_BLOCK_HPP
+#define BREAKOUT_BLOCK_HPP
 
 #include <SDL.h>
 
 #include <vector>
 #include <base/TextureRenderComponent.hpp>
 #include "base/PerformHookOnCollideComponent.hpp"
-#include "LevelData.hpp"
+#include "breakout/LevelData.hpp"
 #include "base/ResourceManager.hpp"
 #include "base/GameObject.hpp"
 #include "breakout/Tag.hpp"
-#include "SDL_DEBUG.hpp"
-#include "TinyMath.hpp"
 
 /**
  * @brief A class representing a Block in our game, with various options (see

@@ -140,10 +140,6 @@ void SDLGraphicsProgram::loop() {
       if (InputManager::getInstance().isKeyDown(SDLK_q)) {
         quit = true;
       }
-      // Mouse Clicks.
-      if (e.type == SDL_MOUSEBUTTONUP) {
-        gLogic->checkButtons();
-      }
     }
 
     // Update our scene

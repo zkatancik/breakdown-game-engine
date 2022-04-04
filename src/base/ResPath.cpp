@@ -1,10 +1,9 @@
-#include "resPath.hpp"
+#include "base/ResPath.hpp"
 
 /*
  * Get the resource path for resources located in res/subDir
  */
 filesystem::path getResourcePath(const filesystem::path &subDir) {
-
   // This will hold the base resource path: Lessons/res/
   // We give it static lifetime so that we'll only need to call
   // SDL_GetBasePath once to get the executable path

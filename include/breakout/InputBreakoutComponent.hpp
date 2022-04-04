@@ -22,7 +22,7 @@ class InputBreakoutComponent: public GenericComponent {
   {
   }
 
-  virtual void update(Level & level) override
+  void update(Level & level) override
   {
     if (!PhysicsManager::getInstance().hasStarted())
       return;
@@ -40,13 +40,6 @@ class InputBreakoutComponent: public GenericComponent {
     } else {
       pc->setVx(0.0f);
     }
-  }
-
-  void collision(Level & level, std::shared_ptr<GameObject> obj) override {
-    if (obj->tag() == PaddleTag) {
-      Mix_PlayChannel(
-          0, ResourceManager::getInstance().getChunk("PaddleBorderHit_SFX.mp3"), 0);
-      }
   }
 
  private:

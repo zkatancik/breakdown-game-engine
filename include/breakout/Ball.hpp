@@ -6,7 +6,7 @@
 #include "base/GameObject.hpp"
 #include "base/TextureRenderComponent.hpp"
 #include "base/PhysicsComponent.hpp"
-#include "ResourceManager.hpp"
+#include "base/ResourceManager.hpp"
 #include "breakout/Tag.hpp"
 
 /**

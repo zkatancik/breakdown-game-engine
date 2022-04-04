@@ -3,7 +3,7 @@
 Block::Block(Level &level, float x, float y, int color, BlockData bd, int h) :
             GameObject(level, x, y, 64, 32, BlockTag),
             blockData(bd), health(h) {
-  auto texture = ResourceManager::getInstance().getTexture(colorMap[color]);
+  auto texture = ResourceManager::getInstance().getTexture(getResourcePath("2DBreakout/Graphics") / colorMap[color]);
   renderer_ = std::make_shared<TextureRenderComponent>(*this);
   renderer_->setTexture(texture);
   setRenderComponent(renderer_);
@@ -16,9 +16,9 @@ Block::Block(Level &level, float x, float y, int color, BlockData bd, int h) :
       if (blockData.block_Type == BlockType::HardBlock)
       {
         if (health == 2) {
-          texture = ResourceManager::getInstance().getTexture("element_grey_health_2_rectangle.png");
+          texture = ResourceManager::getInstance().getTexture(getResourcePath("2DBreakout/Graphics") / "element_grey_health_2_rectangle.png");
         } else if (health == 1) {
-          texture = ResourceManager::getInstance().getTexture("element_grey_health_1_rectangle.png");
+          texture = ResourceManager::getInstance().getTexture(getResourcePath("2DBreakout/Graphics") / "element_grey_health_1_rectangle.png");
         }
         renderer_->setTexture(texture);
       }

@@ -11,9 +11,8 @@
 #include <string>
 #include <vector>
 
-#include "../graverunner/LevelData.hpp"
 #include "SDL_DEBUG.hpp"
-#include "resPath.hpp"
+#include "ResPath.hpp"
 #include "TinyMath.hpp"
 
 // Use size_t to keep track of resource IDs in the release version; Use normal
@@ -248,22 +247,9 @@ class ResourceManager {
 
   inline void closeAllfiles();
 
-  /**
-   * @brief Load Level file based on the level passed to the function.
-   *
-   * @param blockDataList levelData loaded from the file
-   * @param level level number
-   */
-  void loadLevel(LevelData *levelData, int level);
 
-  /**
-   * @brief Update the item in the current level.
-   * 
-   * @param levelNumber  the levelNumber.txt to be updated
-   * @param gridPosition the position at which to update item
-   * @param item the item to add at above position
-   */
-  void updateLevelFile(LevelData ld, Vector2D<int> gridPosition, LevelItem item);
+
+
 
   std::fstream *openFile(const std::string &path,
                          std::ios_base::openmode flags = std::ios_base::in |
@@ -295,8 +281,7 @@ class ResourceManager {
   std::map<resourceId_t, SDL_Texture *> textures_;
   std::map<resourceId_t, Mix_Music *> music_;
   std::map<resourceId_t, Mix_Chunk *> chunk_;
-  std::map<resourceId_t, std::pair<std::ios_base::openmode, std::fstream *>>
-      fstream_;
+  std::map<resourceId_t, std::pair<std::ios_base::openmode, std::fstream *>> fstream_;
   std::map<std::string, std::map<Language, std::string>> localization_{
       {u8"START", {{Language::SPANISH, u8"COMIENZO"}}},
       {u8"SELECT DIFFICULTY", {{Language::SPANISH, u8"SELECCIONE DIFICULTAD"}}},

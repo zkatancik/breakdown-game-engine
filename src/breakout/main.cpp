@@ -2,12 +2,13 @@
 // Updated by Breakdown
 // Last Updated: Spring 2022
 // Please do not redistribute without asking permission.
-
-#include "SDLGraphicsProgram.hpp"
+#include "base/SDLGraphicsProgram.hpp"
+#include "breakout/BreakoutLogic.hpp"
 
 int main(int argc, char** argv) {
+  auto logic = std::make_shared<BreakoutLogic>();
   // Create an instance of an object for a SDLGraphicsProgram
-  SDLGraphicsProgram mySDLGraphicsProgram(1280, 720);
+  SDLGraphicsProgram mySDLGraphicsProgram(logic, 1280, 720);
   // Run our program forever
   mySDLGraphicsProgram.loop();
   // When our program ends, it will exit scope, the

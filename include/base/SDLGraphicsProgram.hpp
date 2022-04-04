@@ -31,10 +31,7 @@
 #include <string>
 
 #include "base/SDL_DEBUG.hpp"
-#include "graverunner/GameManager.hpp"
-#include "graverunner/Mouse.hpp"
-#include "ResourceManager.hpp"
-#include "graverunner/UIManager.hpp"
+#include "base/ResourceManager.hpp"
 #include "base/SDLProgramLogic.hpp"
 #include "base/InputManager.hpp"
 
