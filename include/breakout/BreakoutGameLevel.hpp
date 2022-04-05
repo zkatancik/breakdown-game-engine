@@ -15,6 +15,8 @@ class BreakoutGameLevel : public Level {
   gameDifficulty_(difficulty), mLevelNumber(levelNumber)
   {};
 
+  void setDifficulty(GameDifficulty difficulty) {gameDifficulty_ = difficulty;};
+
   void initialize() override;
 
   inline void setGridRenderComponent(

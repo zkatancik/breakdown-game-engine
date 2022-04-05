@@ -20,15 +20,15 @@ void BreakoutLogic::shutDown() {
   mStartMenu->finalize();
   mLanguageMenu->finalize();
   mDifficultyMenu->finalize();
-  for (const auto& l : mGameLevel)
+  for (const auto& l : mGameLevels)
     l->finalize();
   PhysicsManager::getInstance().shutDown();
 }
 
 
 void BreakoutLogic::loadAllLevels(int width, int height) {
-  for (unsigned int i = 0; i < mGameLevel.size(); i++) {
-    mGameLevel[i] = std::make_shared<BreakoutGameLevel>(width, height, mDifficulty, i + 1);
+  for (unsigned int i = 0; i < mGameLevels.size(); i++) {
+    mGameLevels[i] = std::make_shared<BreakoutGameLevel>(width, height, mDifficulty, i + 1);
   }
 }
 
@@ -42,6 +42,9 @@ void BreakoutLogic::createChangeDifficultyLevel(int width, int height) {
     Mix_PlayChannel(
         1, ResourceManager::getInstance().getChunk("2DBreakout/SFX/ButtonClick_SFX.wav"), 0);
     mDifficulty = BreakoutGameLevel::Easy;
+    for (const auto& l : mGameLevels) {
+      l->setDifficulty(mDifficulty);
+    }
     mCurrentlyActiveLevel = mStartMenu;
   };
 
@@ -55,6 +58,9 @@ void BreakoutLogic::createChangeDifficultyLevel(int width, int height) {
     Mix_PlayChannel(
         1, ResourceManager::getInstance().getChunk("2DBreakout/SFX/ButtonClick_SFX.wav"), 0);
     mDifficulty = BreakoutGameLevel::Medium;
+    for (const auto& l : mGameLevels) {
+      l->setDifficulty(mDifficulty);
+    }
     mCurrentlyActiveLevel = mStartMenu;
   };
 
@@ -68,6 +74,9 @@ void BreakoutLogic::createChangeDifficultyLevel(int width, int height) {
     Mix_PlayChannel(
         1, ResourceManager::getInstance().getChunk("2DBreakout/SFX/ButtonClick_SFX.wav"), 0);
     mDifficulty = BreakoutGameLevel::Hard;
+    for (const auto& l : mGameLevels) {
+      l->setDifficulty(mDifficulty);
+    }
     mCurrentlyActiveLevel = mStartMenu;
   };
 
@@ -104,7 +113,7 @@ void BreakoutLogic::createChangeLanguageLevel(int width, int height) {
     mLanguageMenu->changeLanguage(Language::ENGLISH);
     mStartMenu->changeLanguage(Language::ENGLISH);
     mDifficultyMenu->changeLanguage(Language::ENGLISH);
-    for (auto & l : mGameLevel) {
+    for (auto & l : mGameLevels) {
       l->changeLanguage(Language::ENGLISH);
     }
   };
@@ -120,7 +129,7 @@ void BreakoutLogic::createChangeLanguageLevel(int width, int height) {
     mLanguageMenu->changeLanguage(Language::SPANISH);
     mStartMenu->changeLanguage(Language::SPANISH);
     mDifficultyMenu->changeLanguage(Language::SPANISH);
-    for (auto & l : mGameLevel) {
+    for (auto & l : mGameLevels) {
       l->changeLanguage(Language::SPANISH);
     }
   };
@@ -154,8 +163,8 @@ void BreakoutLogic::createStartMenuLevel(int width, int height) {
   auto startGameLevelButtonHook = [&] () {
     Mix_PlayChannel(
         1, ResourceManager::getInstance().getChunk("2DBreakout/SFX/ButtonClick_SFX.wav"), 0);
-    mGameLevel[mCurrentlySelectedGameLevelIdx]->initialize();
-    mCurrentlyActiveLevel = mGameLevel[0];
+    mGameLevels[mCurrentlySelectedGameLevelIdx]->initialize();
+    mCurrentlyActiveLevel = mGameLevels[0];
   };
 
   // Add the Start game button
