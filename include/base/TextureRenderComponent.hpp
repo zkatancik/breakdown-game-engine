@@ -24,6 +24,7 @@ public:
   TextureRenderComponent(GameObject &gameObject,
                          std::vector<std::shared_ptr<TextureRenderComponent>> otherRenderComponents);
   inline void setTexture(SDL_Texture *texture) { texture_ = texture; }
+  SDL_Texture *GetTexture() const {return texture_;}
   inline void setFlip(bool flip) { flip_ = flip; }
   inline void setCrop(SDL_Rect crop) {crop_ = crop;}
   inline void setOffSetX(int x) {xOffset_ = x;}
