@@ -7,7 +7,6 @@
 #include "base/TextureRenderComponent.hpp"
 #include "base/PhysicsComponent.hpp"
 #include "base/ResourceManager.hpp"
-#include "base/Tag.hpp"
 #include "breakout/Tag.hpp"
 
 /**
