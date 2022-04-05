@@ -1,3 +1,4 @@
+#include <base/RemoveOnCollideComponent.hpp>
 #include "breakout/BreakoutGameLevel.hpp"
 
 const int MAX_LEVEL = 4;
@@ -72,6 +73,41 @@ void BreakoutGameLevel::initialize() {
     count++;
     y = y + 32;
   }
+  // Add Boundaries
+  auto leftMostBoundary = std::make_shared<GameObject>(*this,
+                                                       -1, 0, 1, h(), ReflectingWallTag);
+  leftMostBoundary->setPhysicsComponent(
+      std::make_shared<PhysicsComponent>(*leftMostBoundary, b2_staticBody, false, 0.f, 10.f));
+  addObject(leftMostBoundary);
+
+  auto rightMostBoundary = std::make_shared<GameObject>(*this,
+                                                        w(), 0, 1, h(), ReflectingWallTag);
+  rightMostBoundary->setPhysicsComponent(
+      std::make_shared<PhysicsComponent>(*rightMostBoundary, b2_staticBody, false, 0.f, 10.f));
+  addObject(rightMostBoundary);
+
+  auto topMostBoundary = std::make_shared<GameObject>(*this,
+                                                        -1, -1, w(), 1, ReflectingWallTag);
+  topMostBoundary->setPhysicsComponent(
+      std::make_shared<PhysicsComponent>(*topMostBoundary, b2_staticBody, false, 0.f, 10.f));
+  addObject(topMostBoundary);
+
+  // Add Bottom Boundary
+  auto BottomMostBoundary = std::make_shared<GameObject>(*this,
+                                                      -1, h(), w(), 1, BottomWallTag);
+  BottomMostBoundary->setPhysicsComponent(
+      std::make_shared<PhysicsComponent>(*BottomMostBoundary, b2_staticBody, false, 0.f, 10.f));
+
+  auto removeOnCollideComponent = std::make_shared<RemoveOnCollideComponent>(*BottomMostBoundary, BallTag);
+  BottomMostBoundary->addGenericComponent(removeOnCollideComponent);
+
+  auto reduceLifeOnCollideLambda = [&] (Level &level, std::shared_ptr<GameObject> obj) {
+    lives--;
+  };
+  auto reduceLifeOnCollideComponent = std::make_shared<PerformHookOnCollideComponent>(*BottomMostBoundary, BallTag, reduceLifeOnCollideLambda);
+  BottomMostBoundary->addGenericComponent(reduceLifeOnCollideComponent);
+  addObject(BottomMostBoundary);
+
 
   // Add UI Elements
 }
