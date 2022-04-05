@@ -11,7 +11,7 @@ class BreakoutGameLevel : public BreakoutLevel {
  public:
   enum GameDifficulty { Easy = 0, Medium, Hard };
 
-  BreakoutGameLevel(int w, int h, GameDifficulty difficulty, Language language, int levelNumber) : BreakoutLevel(w, h, language),
+  BreakoutGameLevel(int w, int h, GameDifficulty difficulty, int levelNumber) : BreakoutLevel(w, h),
   gameDifficulty_(difficulty), mLevelNumber(levelNumber)
   {};
 

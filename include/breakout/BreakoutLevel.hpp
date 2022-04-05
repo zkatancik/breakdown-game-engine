@@ -9,12 +9,7 @@ class BreakoutLevel : public Level {
 
   void initialize() override {};
 
-  BreakoutLevel(int w, int h, Language language) : Level(w, h),
-  language_(language) {};
-
-
- private:
-  Language language_{Language::ENGLISH};
+  BreakoutLevel(int w, int h) : Level(w, h) {};
 
 };
 
