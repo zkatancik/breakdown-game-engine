@@ -2,7 +2,6 @@
 #define SDL_PROGRAM_LOGIC_HPP
 #include <SDL_render.h>
 #include <SDL.h>
-#include <SDL2_framerate.h>
 #include <string>
 #include <deque>
 #include <cassert>

@@ -23,7 +23,7 @@ class BreakoutLogic : public SDLProgramLogic {
 
   void update() override {
     mCurrentlyActiveLevel->update();
-    std::cout << "is game active: " << (mCurrentlyActiveLevel == std::dynamic_pointer_cast<Level>(mGameLevel[0])) << std::endl;
+    std::cout << "is game active: " << isGameActive() << std::endl;
     framerateModerator();
   }
 
@@ -32,7 +32,7 @@ class BreakoutLogic : public SDLProgramLogic {
   }
  private:
   std::shared_ptr<Level> mStartMenu{nullptr};
-  std::shared_ptr<Level> mLanguageMenu{nullptr};
+  std::unique_ptr<Level> mLanguageMenu{nullptr};
   std::shared_ptr<Level> mDifficultyMenu{nullptr};
   std::vector<std::shared_ptr<BreakoutGameLevel>> mGameLevel{nullptr, nullptr, nullptr, nullptr};
   std::shared_ptr<Level> mCurrentlyActiveLevel{nullptr}; //< The level that is currently being shown
@@ -46,6 +46,8 @@ class BreakoutLogic : public SDLProgramLogic {
   void createChangeLanguageLevel(int width, int height);
 
   void createStartMenuLevel(int width, int height);
+
+  inline bool isGameActive() { return (mCurrentlyActiveLevel == std::dynamic_pointer_cast<Level>(mGameLevel[mCurrentlySelectedGameLevelIdx]))}
 
 };
 
