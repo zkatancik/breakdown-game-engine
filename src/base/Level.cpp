@@ -69,7 +69,7 @@ Level::render(SDL_Renderer * renderer)
     gameObject->render(renderer);
   }
 }
-const std::vector<std::shared_ptr<GameObject>> &Level::GetGameObjects() const {
+const std::vector<std::shared_ptr<GameObject>> &Level::getGameObjects() const {
   return mObjects;
 }
 

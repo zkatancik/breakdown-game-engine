@@ -25,6 +25,25 @@ void BreakoutLogic::shutDown() {
   PhysicsManager::getInstance().shutDown();
 }
 
+void BreakoutLogic::update() {
+  mCurrentlyActiveLevel->update();
+  if(InputManager::getInstance().isKeyPressed(SDLK_x)) {
+    if (isGameActive()) {
+      mGameLevels[mCurrentlySelectedGameLevelIdx]->finalize();
+      mCurrentlySelectedGameLevelIdx = mCurrentlySelectedGameLevelIdx == 3 ? 0 : (mCurrentlySelectedGameLevelIdx + 1);
+      mCurrentlyActiveLevel = mGameLevels[mCurrentlySelectedGameLevelIdx];
+      mCurrentlyActiveLevel->initialize();
+    }
+  }
+  if (InputManager::getInstance().isKeyPressed(SDLK_q)) {
+    mQuite = true;
+  }
+    std::cout << "is game active: " << isGameActive() << std::endl;
+  framerateModerator();
+}
+
+
+
 
 void BreakoutLogic::loadAllLevels(int width, int height) {
   for (unsigned int i = 0; i < mGameLevels.size(); i++) {
@@ -39,9 +58,8 @@ void BreakoutLogic::createChangeDifficultyLevel(int width, int height) {
   mDifficultyMenu = std::make_shared<Level>(width, height);
   // Lambda for changing the difficulty to easy
   auto changeDifficultyToEasy = [&] {
-    mDifficulty = BreakoutGameLevel::Easy;
     for (const auto& l : mGameLevels) {
-      l->setDifficulty(mDifficulty);
+      l->setDifficulty(BreakoutGameLevel::Easy);
     }
     mCurrentlyActiveLevel = mStartMenu;
   };
@@ -53,9 +71,8 @@ void BreakoutLogic::createChangeDifficultyLevel(int width, int height) {
 
   // Lambda for changing the difficulty to medium
   auto changeDifficultyToMedium = [&] {
-    mDifficulty = BreakoutGameLevel::Medium;
     for (const auto& l : mGameLevels) {
-      l->setDifficulty(mDifficulty);
+      l->setDifficulty(BreakoutGameLevel::Medium);
     }
     mCurrentlyActiveLevel = mStartMenu;
   };
@@ -67,9 +84,8 @@ void BreakoutLogic::createChangeDifficultyLevel(int width, int height) {
 
   // Lambda for changing the difficulty to hard
   auto changeDifficultyToHard = [&] {
-    mDifficulty = BreakoutGameLevel::Hard;
     for (const auto& l : mGameLevels) {
-      l->setDifficulty(mDifficulty);
+      l->setDifficulty(BreakoutGameLevel::Hard);
     }
     mCurrentlyActiveLevel = mStartMenu;
   };

@@ -21,16 +21,15 @@ class BreakoutLogic : public SDLProgramLogic {
 
   void shutDown() override;
 
-  void update() override {
-    mCurrentlyActiveLevel->update();
-    std::cout << "is game active: " << isGameActive() << std::endl;
-    framerateModerator();
-  }
+  void update() override;
+
+  bool quit() override {return mQuite;}
 
   void render(SDL_Renderer* renderer) override {
     mCurrentlyActiveLevel->render(renderer);
   }
  private:
+  bool mQuite{false};
   std::shared_ptr<Level> mStartMenu{nullptr};
   std::shared_ptr<Level> mLanguageMenu{nullptr};
   std::shared_ptr<Level> mDifficultyMenu{nullptr};

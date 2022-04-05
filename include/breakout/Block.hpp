@@ -10,6 +10,7 @@
 #include "base/ResourceManager.hpp"
 #include "base/GameObject.hpp"
 #include "breakout/Tag.hpp"
+#include "base/Level.hpp"
 
 /**
  * @brief A class representing a Block in our game, with various options (see

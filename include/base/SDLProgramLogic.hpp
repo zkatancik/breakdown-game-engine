@@ -29,6 +29,8 @@ class SDLProgramLogic {
 
   virtual void render(SDL_Renderer* render) = 0; //!< Render
 
+  virtual bool quit() = 0;
+
   std::string getAppName() {return mAppName;}
 
   std::string framerateModerator() {

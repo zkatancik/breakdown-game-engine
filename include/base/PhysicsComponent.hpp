@@ -15,7 +15,7 @@ class PhysicsComponent: public Component {
     STATIC_SENSOR
   };
 
-  PhysicsComponent(GameObject & gameObject, b2BodyType type, bool isSensor, float linearDamping = 2.0f, float density = 1.0);
+  PhysicsComponent(GameObject & gameObject, b2BodyType type, bool isSensor, float linearDamping = 2.0f, float density = 1.0, float restitution = 0.0);
   virtual ~PhysicsComponent();
 
   void setVx(float vx); //!< set x velocity

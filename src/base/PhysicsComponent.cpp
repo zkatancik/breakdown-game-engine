@@ -3,7 +3,8 @@
 #include "base/GameObject.hpp"
 #include "base/Level.hpp"
 
-PhysicsComponent::PhysicsComponent(GameObject & gameObject, b2BodyType type, bool isSensor, float linearDamping, float density):
+PhysicsComponent::PhysicsComponent(GameObject & gameObject, b2BodyType type, bool isSensor, float linearDamping, float density,
+                                   float restitution):
 Component(gameObject)
 {
   if (PhysicsManager::getInstance().hasStarted()) {
@@ -24,6 +25,7 @@ Component(gameObject)
 
         b2FixtureDef fixtureDef;
         fixtureDef.shape = &polygonShape;
+        fixtureDef.restitution = restitution;
         fixtureDef.friction = 0.0f;
         fixtureDef.isSensor = isSensor;
         fixtureDef.density = (type == b2_dynamicBody || type == b2_kinematicBody) ? density : 0.0 ;
