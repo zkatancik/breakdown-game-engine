@@ -15,7 +15,7 @@ Button::Button(Level& level, float x, float y, float w, float h, Color color,
   // Set crops from the sprite sheet.
   switch (color) {
     case RED:
-      mCropNotFocused = {510, 860, 513, 177};
+      mCropNotFocused = {635, 860, 513, 177};
       mCropFocused = {57, 860, 513, 177};
       break;
     case GREEN:
