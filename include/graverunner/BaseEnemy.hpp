@@ -15,7 +15,7 @@
 
 /**
  * @brief A class representing the enemy.
- * BaseEnemy can update and render himself.
+ * BaseEnemy can update and render itself.
  */
 class BaseEnemy : public GameObject {
  public:
@@ -25,21 +25,23 @@ class BaseEnemy : public GameObject {
   explicit BaseEnemy(Level& level);
 
   /**
-   * @brief Initialize this ZombieMale object, sets the location on screen.
+   * @brief Initialize this BaseEnemy object, sets the location on screen.
    *
    * @param tl_x top left x coordinate
    * @param tl_y top left y coordinate
    * @param w width of the zombie
    * @param h height of the zombie
-   * @param checkpoints checkpoints where the zombie patrols
+   * @param checkpoints checkpoints where this enemy patrols
+   * @param j pointer to Jack for interactions
    */
-  void startUp(float tl_x, float tl_y, float w, float h,
-               std::vector<std::pair<float, float>>& checkpoints, std::shared_ptr<Jack> j);
- 
+  explicit BaseEnemy(Level& level, float tl_x, float tl_y, float w, float h,
+                     std::vector<std::pair<float, float>>& checkpoints,
+                     std::shared_ptr<Jack> j);
+
   /**
-   * @brief Removes the genericComponents of the ZombieMale
+   * @brief Destroy this Base Enemy object
    */
-  void shutDown();
+  ~BaseEnemy();
 
   void update() override;
 
