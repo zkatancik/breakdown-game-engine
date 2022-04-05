@@ -3,7 +3,6 @@
 
 #include "graverunner/Mouse.hpp"
 #include "breakout/Tag.hpp"
-#include "base/TextObject.hpp"
 
 /**
  * @brief A class representing a clickable UI Text Button.

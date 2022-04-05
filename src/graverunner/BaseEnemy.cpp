@@ -1,20 +1,19 @@
+#include <box2d/b2_body.h>
 #include "graverunner/BaseEnemy.hpp"
 
-BaseEnemy::BaseEnemy(Level &level): GameObject(level) {
+BaseEnemy::BaseEnemy(Level& level, float tl_x, float tl_y, float w, float h,
+                     std::vector<std::pair<float, float>>& checkpoints,
+                     std::shared_ptr<Jack> j)
+    : GameObject(level, tl_x, tl_y, w, h, ZombieTag) {
   renderer_ = std::make_shared<TextureRenderComponent>(*this);
   setRenderComponent(renderer_);
-}
-
-void BaseEnemy::startUp(float tl_x, float tl_y, float w, float h,
-                         std::vector<std::pair<float, float>>& checkpoints, std::shared_ptr<Jack> j) {
-  GameObject::startUp(tl_x, tl_y, w, h, ZombieTag);
-  setPhysicsComponent(std::make_shared<PhysicsComponent>(*this, PhysicsComponent::Type::DYNAMIC_SOLID));
+  setPhysicsComponent(std::make_shared<PhysicsComponent>(*this, b2BodyType::b2_dynamicBody, false));
   counter_ = std::make_shared<CyclicCounterComponent>(*this, 10, true);
   addGenericComponent(counter_);
   addGenericComponent(std::make_shared<RemoveOnCollideComponent>(*this, BulletTag));
 }
 
-void BaseEnemy::shutDown() {
+BaseEnemy::~BaseEnemy() {
   genericComponents().clear();
 }
 

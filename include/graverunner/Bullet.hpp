@@ -13,8 +13,7 @@
  */
 class Bullet : public GameObject {
   public:
-    explicit Bullet(Level& level);
-    void startUp(float x, float y, float w, float h, bool isFacingLeft);
+    explicit Bullet(Level& level, float x, float y, float w, float h, bool isFacingLeft);
     void update() override;
   private:
     float velocity = 400;

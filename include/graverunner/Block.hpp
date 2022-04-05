@@ -26,11 +26,6 @@ public:
   Block(Level& level) : GameObject(level) {};
 
   /**
-   * @brief Default destructor, don't forget to call shutdown()
-   */
-  ~Block() = default;
-
-  /**
    * @brief Creates a Block object to be destroyed by a ball
    *
    * @param x the location of the Block to renders' x screen position in pixels
@@ -39,12 +34,12 @@ public:
    * @param h Block health based on BlockType
    * @param bs block size
    */
-  void startUp(int x, int y, BlockData bd, int h, Vector2D<int> bs);
-
+  Block(Level& level, float x, float y, BlockData bd, int h, Vector2D<int> bs);
+  
   /**
-   * @brief Cleans up and runs shut down logic when Block is to be destroyed.
+   * @brief Default destructor, don't forget to call shutdown()
    */
-  void shutDown();
+  ~Block() = default;
 
   /**
    * @brief Get the center of the Block.
