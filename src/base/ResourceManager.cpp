@@ -97,7 +97,7 @@ SDL_Texture *ResourceManager::getTextTexture(const std::string &message,
                                              const std::string &fontFile,
                                              SDL_Color color, int fontSize) {
   // Fetch the font absolute path
-  const filesystem::path resPath = getResourcePath("fonts");
+  const filesystem::path resPath = getResourcePath("");
 
   std::string resourceFilename = (resPath / fontFile).u8string();
 
@@ -141,7 +141,7 @@ SDL_Texture *ResourceManager::getTextTexture(const std::string &message,
 }
 
 std::string ResourceManager::getFont(const std::string &filename) {
-  const filesystem::path resPath = getResourcePath("fonts");
+  const filesystem::path resPath = getResourcePath("");
 
   std::string resource_filename = (resPath / filename).string();
 

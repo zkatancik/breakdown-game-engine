@@ -14,11 +14,15 @@ class SelectableComponent : public GenericComponent {
   SelectableComponent(GameObject& gameObject, std::function<void(void)> onSelectHook,
                       std::function<void(void)> onHoverHook);
 
+  SelectableComponent(GameObject& gameObject, std::function<void(void)> onSelectHook,
+                      std::function<void(void)> onHoverHook, std::function<void(void)> onNotSelectHook);
+
   void update(Level &level) override;
 
  private:
   std::function<void(void)> mSelectHook;
   std::function<void(void)> mHoverHook;
+  std::function<void(void)> mNotSelectHook;
 };
 
 #endif

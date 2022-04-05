@@ -90,7 +90,7 @@ class ResourceManager {
                                                  const std::string &fontFile,
                                                  SDL_Color color,
                                                  int fontSize) {
-    const filesystem::path resPath = getResourcePath("fonts");
+    const filesystem::path resPath = getResourcePath("");
 
     std::string resourceFilename = (resPath / fontFile).u8string();
     std::string stringId = u8"standard text//" + message + resourceFilename +
@@ -105,7 +105,7 @@ class ResourceManager {
   }
 
   static inline resourceId_t getSoundId(const std::string &filename) {
-    const filesystem::path resPath = getResourcePath("2DPlatformer_SFX");
+    const filesystem::path resPath = getResourcePath("");
 
     const std::string resourceFilename = (resPath / filename).u8string();
 #ifdef _DEBUG

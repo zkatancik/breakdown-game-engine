@@ -27,6 +27,9 @@ class Level {
   void update(); //!< Update the objects in the level.
   void render(SDL_Renderer * renderer); //!< Render the level.
 
+ protected:
+  const std::vector<std::shared_ptr<GameObject>> &GetGameObjects() const;
+
  private:
 
   Level(const Level &) = delete;

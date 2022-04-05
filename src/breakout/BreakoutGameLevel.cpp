@@ -1,4 +1,4 @@
-#include "breakout/BreakoutLevel.hpp"
+#include "breakout/BreakoutGameLevel.hpp"
 
 const int MAX_LEVEL = 4;
 const int EASY_BALL_X = 200;
@@ -9,7 +9,7 @@ const int HARD_BALL_X = 6;
 const int HARD_BALL_Y = 8;
 
 
-void BreakoutLevel::initialize() {
+void BreakoutGameLevel::initialize() {
   LevelData levelData;
   loadLevel(&levelData, 3);
 

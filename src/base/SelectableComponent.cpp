@@ -6,14 +6,23 @@
 
 SelectableComponent::SelectableComponent(GameObject& gameObject) : GenericComponent(gameObject),
                                                                    mSelectHook([&] () {}),
-                                                                   mHoverHook([&] () {}) {}
+                                                                   mHoverHook([&] () {}),
+                                                                   mNotSelectHook([&] () {})
+                                                                   {}
 
 SelectableComponent::SelectableComponent(GameObject &gameObject, std::function<void(void)> onSelectHook) : GenericComponent(gameObject),
-mSelectHook(std::move(onSelectHook)), mHoverHook([&] () {}) {}
+mSelectHook(std::move(onSelectHook)), mHoverHook([&] () {}), mNotSelectHook([&] () {}) {}
 
 SelectableComponent::SelectableComponent(GameObject& gameObject, std::function<void(void)> onSelectHook,
                                          std::function<void(void)> onHoverHook) : GenericComponent(gameObject),
-                                         mSelectHook(std::move(onSelectHook)), mHoverHook(std::move(onHoverHook)) {}
+                                         mSelectHook(std::move(onSelectHook)), mHoverHook(std::move(onHoverHook)), mNotSelectHook([&] () {}) {}
+
+SelectableComponent::SelectableComponent(GameObject &gameObject,
+                                         std::function<void(void)> onSelectHook,
+                                         std::function<void(void)> onHoverHook,
+                                         std::function<void(void)> NotSelectHook) : GenericComponent(gameObject),
+                                         mSelectHook(std::move(onSelectHook)), mHoverHook(std::move(onHoverHook)),
+                                         mNotSelectHook(std::move(NotSelectHook)){}
 
 void SelectableComponent::update(Level &level) {
   bool isLeftKeyPressed = InputManager::getInstance().isMouseKeyPressed(SDL_BUTTON_LEFT);
@@ -26,6 +35,9 @@ void SelectableComponent::update(Level &level) {
       mSelectHook();
     }
   }
+  else
+    mNotSelectHook();
 }
+
 
 
