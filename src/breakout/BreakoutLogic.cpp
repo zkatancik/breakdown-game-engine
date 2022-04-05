@@ -172,7 +172,7 @@ void BreakoutLogic::createStartMenuLevel(int width, int height) {
   };
 
   // Add the select difficulty button
-  mStartMenu->addObject(std::make_shared<Button>(*mStartMenu, width / 4, height / 6 + 200, width / 2, 139, Button::Color::GREEN,
+  mStartMenu->addObject(std::make_shared<Button>(*mStartMenu, width / 4, height / 6 + 200, 2 * width / 3, 139, Button::Color::GREEN,
                                                  u8"SELECT DIFFICULTY", changeDifficultyButtonHook));
 
   /******************************************************************************************************************/
@@ -186,7 +186,7 @@ void BreakoutLogic::createStartMenuLevel(int width, int height) {
   };
 
   // Add the change language button to the start menu
-  mStartMenu->addObject(std::make_shared<Button>(*mStartMenu, width / 4, height / 6 + 400, width / 2, 139, Button::Color::GREEN,
+  mStartMenu->addObject(std::make_shared<Button>(*mStartMenu, width / 4, height / 6 + 400, 2 * width / 3, 139, Button::Color::GREEN,
                                                  u8"CHANGE LANGUAGE", changeLanguageButtonHook));
 
   /******************************************************************************************************************/
