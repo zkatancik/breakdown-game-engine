@@ -1,5 +1,8 @@
 -- Who worked on this lab? Include names and GitHub usernames.
-
+- Roshan - recklessHogrider96
+- Marcin Kierzenka - mkierzenka
+- Zachary Katancik - zkatancik
+- Matin Raayai Ardakani - matinraayai
 
 
 -- Did you implement any extentions? If so, which ones, who implemented each, and how can they be tried out?
@@ -7,15 +10,20 @@
 
 
 -- Did you use any external resources? If so, cite them below.
-
-
+-Resource Manager (Project 1)
+-Game Manager (Project 1)
+-res_path (Project 1)
+-MakeFile (Project 1)
+-math library: TinyMath.hpp (Lab2)
+-cxxTest-4.4 (various)
+-Collisions and Gameobjects (Lab6)
 
 -- Did you use any code or resources from previous assignments? If so, list below.
-
+Merged the breakout project into the existing architecture.
 
 
 -- Did you collaborate with any other students/TAs/Professors? If so, list below.
-
+No
 
 
 -- Describe your approach to implementing the lab.
@@ -23,7 +31,10 @@
 
 
 -- How many hours did it take you to complete this lab?
-
+Roshan - 
+Zack - 
+Matin - 
+Marcin - 
 
 
 -- (Optional) What was your favorite part of the lab?
