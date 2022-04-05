@@ -25,7 +25,7 @@ class BreakoutLogic : public SDLProgramLogic {
     createStartMenuLevel(width, height);
     createChangeDifficultyLevel(width, height);
     createChangeLanguageLevel(width, height);
-
+    loadAllLevels(width, height);
     mCurrentlyActiveLevel = mStartMenu;
 
     // Music Volume adjustment
@@ -35,18 +35,11 @@ class BreakoutLogic : public SDLProgramLogic {
   }
 
   void shutDown() override {
-    if (mStartMenu != nullptr) {
-      mStartMenu->finalize();
-    }
-    if (mLanguageMenu != nullptr) {
-      mLanguageMenu->finalize();
-    }
-    if (mDifficultyMenu != nullptr) {
-      mDifficultyMenu->finalize();
-    }
-    if (mGameLevel != nullptr) {
-      mGameLevel->finalize();
-    }
+    mStartMenu->finalize();
+    mLanguageMenu->finalize();
+    mDifficultyMenu->finalize();
+    for (const auto& l : mGameLevel)
+        l->finalize();
     PhysicsManager::getInstance().shutDown();
   }
 
@@ -62,10 +55,16 @@ class BreakoutLogic : public SDLProgramLogic {
   std::shared_ptr<BreakoutLevel> mStartMenu{nullptr};
   std::shared_ptr<BreakoutLevel> mLanguageMenu{nullptr};
   std::shared_ptr<BreakoutLevel> mDifficultyMenu{nullptr};
-  std::shared_ptr<BreakoutGameLevel> mGameLevel{nullptr};
+  std::vector<std::shared_ptr<BreakoutGameLevel>> mGameLevel{nullptr, nullptr, nullptr};
   std::shared_ptr<BreakoutLevel> mCurrentlyActiveLevel{nullptr};
   Language mLanguage{Language::ENGLISH};
   BreakoutGameLevel::GameDifficulty mDifficulty{BreakoutGameLevel::Easy};
+
+  void loadAllLevels(int width, int height) {
+    for (int i = 0; i < mGameLevel.size(); i++) {
+      mGameLevel[i] = std::make_shared<BreakoutGameLevel>(width, height, mDifficulty, mLanguage, i);
+    }
+  }
 
   void createChangeDifficultyLevel(int width, int height) {
     if (mDifficultyMenu != nullptr)
@@ -175,9 +174,8 @@ class BreakoutLogic : public SDLProgramLogic {
     auto startGameLevelButtonHook = [&] () {
       Mix_PlayChannel(
           1, ResourceManager::getInstance().getChunk("2DBreakout/SFX/ButtonClick_SFX.wav"), 0);
-      mGameLevel = std::make_shared<BreakoutGameLevel>(width, height, mDifficulty, mLanguage);
-      mGameLevel->initialize();
-      mCurrentlyActiveLevel = mGameLevel;
+      mGameLevel[0]->initialize();
+      mCurrentlyActiveLevel = mGameLevel[0];
     };
 
     // Add the Start game button

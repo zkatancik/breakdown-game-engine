@@ -11,8 +11,8 @@ class BreakoutGameLevel : public BreakoutLevel {
  public:
   enum GameDifficulty { Easy = 0, Medium, Hard };
 
-  BreakoutGameLevel(int w, int h, GameDifficulty difficulty, Language language) : BreakoutLevel(w, h, language),
-  gameDifficulty_(difficulty)
+  BreakoutGameLevel(int w, int h, GameDifficulty difficulty, Language language, int levelNumber) : BreakoutLevel(w, h, language),
+  gameDifficulty_(difficulty), mLevelNumber(levelNumber)
   {};
 
   void initialize() override;
@@ -50,6 +50,7 @@ class BreakoutGameLevel : public BreakoutLevel {
 
   Language language_{Language::ENGLISH};
   GameDifficulty gameDifficulty_{GameDifficulty::Easy};
+  int mLevelNumber{1};
 
 };
 
