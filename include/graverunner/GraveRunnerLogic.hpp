@@ -28,7 +28,9 @@ class GraveRunnerLogic : public SDLProgramLogic {
     UIManager::getInstance().update();
   }
 
-  void checkButtons() override {
+  bool quit() override {return mQuit;}
+
+  void checkButtons() {
     UIManager::getInstance().checkButtons();
   }
 
@@ -36,6 +38,8 @@ class GraveRunnerLogic : public SDLProgramLogic {
     GameManager::getInstance().render(renderer);
     UIManager::getInstance().render(renderer);
   }
+ private:
+  bool mQuit{false};
 };
 
 #endif
