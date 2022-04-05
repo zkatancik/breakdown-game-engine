@@ -25,8 +25,8 @@ Button::Button(Level& level, float x, float y, float w, float h, Color color, co
 
 
   textRenderer = std::make_shared<TextureRenderComponent>(*this, std::vector({buttonRenderer}));
-  textRenderer->setOffSetX(30);
-  textRenderer->setOffSetY(30);
+  textRenderer->setOffSetX(int(w / 4));
+  textRenderer->setOffSetY(int(h / 4));
   textRenderer->setRenderMode(TextureRenderComponent::RenderMode::QUERY);
   changeLanguage(Language::ENGLISH);
 

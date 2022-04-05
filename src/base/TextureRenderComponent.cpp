@@ -24,6 +24,9 @@ void TextureRenderComponent::render(SDL_Renderer *renderer) const
     case QUERY:
       SDL_QueryTexture(texture_, nullptr, nullptr, &fillRect.w, &fillRect.h);
       break;
+    case CUSTOM_WIDTH:
+      fillRect.w = customW_;
+      fillRect.h = customH_;
   }
 
   SDL_RenderCopyEx(renderer, texture_, SDL_RectEmpty(&crop_) ? nullptr : &crop_, &fillRect, 0, nullptr,

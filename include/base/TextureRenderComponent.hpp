@@ -15,7 +15,8 @@ class TextureRenderComponent : public RenderComponent
 public:
   enum RenderMode {
     WHOLE_WIDTH,
-    QUERY
+    QUERY,
+    CUSTOM_WIDTH,
   };
 
 
@@ -27,6 +28,8 @@ public:
   inline void setCrop(SDL_Rect crop) {crop_ = crop;}
   inline void setOffSetX(int x) {xOffset_ = x;}
   inline void setOffSetY(int y) {yOffset_ = y;}
+  inline void setCustomW(int w) {customW_ = w;};
+  inline void setCustomH(int h) {customH_ = h;};
   inline void setRenderMode(RenderMode mode) {renderMode_ = mode;}
 
   inline const std::vector<std::shared_ptr<TextureRenderComponent>> &GetPrevComponents() const {
@@ -40,6 +43,8 @@ private:
   bool flip_{false};
   int xOffset_{0};
   int yOffset_{0};
+  int customH_{0};
+  int customW_{0};
   RenderMode renderMode_{WHOLE_WIDTH};
 
   std::vector<std::shared_ptr<TextureRenderComponent>> prevComponents{};
