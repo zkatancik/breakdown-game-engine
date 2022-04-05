@@ -4,6 +4,10 @@
 #include "base/PhysicsManager.hpp"
 #include "graverunner/GameManager.hpp"
 #include "graverunner/UIManager.hpp"
+#include "graverunner/GraveRunnerLevel.hpp"
+#include "graverunner/Mouse.hpp"
+#include "graverunner/Button.hpp"
+#include <iostream>
 
 /**
  * @brief Contains Subsystem management for the GraveRunner game.
@@ -11,20 +15,13 @@
 class GraveRunnerLogic : public SDLProgramLogic {
  public:
   GraveRunnerLogic() = default;
+  explicit GraveRunnerLogic(std::string  appName) : SDLProgramLogic(std::move(appName)) {};
   GraveRunnerLogic(GraveRunnerLogic const&) = delete; // Avoid copy constructor.
   void operator=(GraveRunnerLogic const&) = delete; // Don't allow copy assignment.
 
-  void startUp(SDL_Renderer* gRender, int width, int height) override {
-    PhysicsManager::getInstance().startUp();
-    GameManager::getInstance().startUp(width, height);
-    UIManager::getInstance().startUp(width, height);
-  }
+  void startUp(SDL_Renderer* gRender, int width, int height) override;
 
-  void shutDown() override {
-    PhysicsManager::getInstance().shutDown();
-    UIManager::getInstance().shutDown();
-    GameManager::getInstance().shutDown();
-  }
+  void shutDown() override;
 
   void update() override {
     GameManager::getInstance().update();
