@@ -19,7 +19,7 @@ class Button : public GameObject {
   };
 
   Button(Level& level, float x, float y, float w, float h, Color color, const std::string& text,
-         const std::function<void(void)>& selectHook);
+         std::function<void(void)> selectHook);
 
 
  private:

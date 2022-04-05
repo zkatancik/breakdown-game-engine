@@ -39,8 +39,6 @@ void BreakoutLogic::createChangeDifficultyLevel(int width, int height) {
   mDifficultyMenu = std::make_shared<Level>(width, height);
   // Lambda for changing the difficulty to easy
   auto changeDifficultyToEasy = [&] {
-    Mix_PlayChannel(
-        1, ResourceManager::getInstance().getChunk("2DBreakout/SFX/ButtonClick_SFX.wav"), 0);
     mDifficulty = BreakoutGameLevel::Easy;
     for (const auto& l : mGameLevels) {
       l->setDifficulty(mDifficulty);
@@ -55,8 +53,6 @@ void BreakoutLogic::createChangeDifficultyLevel(int width, int height) {
 
   // Lambda for changing the difficulty to medium
   auto changeDifficultyToMedium = [&] {
-    Mix_PlayChannel(
-        1, ResourceManager::getInstance().getChunk("2DBreakout/SFX/ButtonClick_SFX.wav"), 0);
     mDifficulty = BreakoutGameLevel::Medium;
     for (const auto& l : mGameLevels) {
       l->setDifficulty(mDifficulty);
@@ -71,8 +67,6 @@ void BreakoutLogic::createChangeDifficultyLevel(int width, int height) {
 
   // Lambda for changing the difficulty to hard
   auto changeDifficultyToHard = [&] {
-    Mix_PlayChannel(
-        1, ResourceManager::getInstance().getChunk("2DBreakout/SFX/ButtonClick_SFX.wav"), 0);
     mDifficulty = BreakoutGameLevel::Hard;
     for (const auto& l : mGameLevels) {
       l->setDifficulty(mDifficulty);
@@ -88,8 +82,6 @@ void BreakoutLogic::createChangeDifficultyLevel(int width, int height) {
 
   // Lambda for returning to main menu
   auto changeToStartMenu = [&] {
-    Mix_PlayChannel(
-        1, ResourceManager::getInstance().getChunk("2DBreakout/SFX/ButtonClick_SFX.wav"), 0);
     mCurrentlyActiveLevel = mStartMenu;
   };
 
@@ -108,8 +100,6 @@ void BreakoutLogic::createChangeLanguageLevel(int width, int height) {
   mLanguageMenu = std::make_shared<Level>(width, height);
   // Lambda for changing the language to English
   auto changeLanguageToEnglish = [&] {
-    Mix_PlayChannel(
-        1, ResourceManager::getInstance().getChunk("2DBreakout/SFX/ButtonClick_SFX.wav"), 0);
     mLanguageMenu->changeLanguage(Language::ENGLISH);
     mStartMenu->changeLanguage(Language::ENGLISH);
     mDifficultyMenu->changeLanguage(Language::ENGLISH);
@@ -124,8 +114,6 @@ void BreakoutLogic::createChangeLanguageLevel(int width, int height) {
   /******************************************************************************************************************/
   // Lambda for changing the language to English
   auto changeLanguageToSpanish = [&] {
-    Mix_PlayChannel(
-        1, ResourceManager::getInstance().getChunk("2DBreakout/SFX/ButtonClick_SFX.wav"), 0);
     mLanguageMenu->changeLanguage(Language::SPANISH);
     mStartMenu->changeLanguage(Language::SPANISH);
     mDifficultyMenu->changeLanguage(Language::SPANISH);
@@ -140,8 +128,6 @@ void BreakoutLogic::createChangeLanguageLevel(int width, int height) {
   /******************************************************************************************************************/
   // Lambda for returning to main menu
   auto changeToStartMenu = [&] {
-    Mix_PlayChannel(
-        1, ResourceManager::getInstance().getChunk("2DBreakout/SFX/ButtonClick_SFX.wav"), 0);
     mCurrentlyActiveLevel = mStartMenu;
   };
 
@@ -161,8 +147,6 @@ void BreakoutLogic::createStartMenuLevel(int width, int height) {
 
   // Lambda for creating a game level and setting the active level to be the game itself.
   auto startGameLevelButtonHook = [&] () {
-    Mix_PlayChannel(
-        1, ResourceManager::getInstance().getChunk("2DBreakout/SFX/ButtonClick_SFX.wav"), 0);
     mGameLevels[mCurrentlySelectedGameLevelIdx]->initialize();
     mCurrentlyActiveLevel = mGameLevels[0];
   };
@@ -175,8 +159,6 @@ void BreakoutLogic::createStartMenuLevel(int width, int height) {
 
   // Lambda for creating the change Difficulty menu
   auto changeDifficultyButtonHook = [&] () {
-    Mix_PlayChannel(
-        1, ResourceManager::getInstance().getChunk("2DBreakout/SFX/ButtonClick_SFX.wav"), 0);
     mCurrentlyActiveLevel = mDifficultyMenu;
   };
 
@@ -188,9 +170,6 @@ void BreakoutLogic::createStartMenuLevel(int width, int height) {
 
   // Lambda for creating the language menu, and setting the active level to be it
   auto changeLanguageButtonHook = [&] {
-    Mix_PlayChannel(
-        1, ResourceManager::getInstance().getChunk("2DBreakout/SFX/ButtonClick_SFX.wav"), 0);
-
     mCurrentlyActiveLevel = mLanguageMenu;
   };
 

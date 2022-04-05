@@ -7,7 +7,7 @@
 
 Button::Button(Level& level, float x, float y, float w, float h, Color color,
                const std::string& text,
-               const std::function<void(void)>& selectHook)
+               std::function<void(void)> selectHook)
     : GameObject(level, x, y, w, h, ButtonTag) {
   // Load sprite sheet for the buttons
   buttonRenderer = std::make_shared<TextureRenderComponent>(*this);
@@ -31,6 +31,11 @@ Button::Button(Level& level, float x, float y, float w, float h, Color color,
     buttonRenderer->setCrop(mCropNotFocused);
   };
 
+  auto addedSoundWithSelectHook = [selectHook=std::move(selectHook)] {
+    Mix_PlayChannel(
+        1, ResourceManager::getInstance().getChunk("2DBreakout/SFX/ButtonClick_SFX.wav"), 0);
+    selectHook();
+  };
   textRenderer = std::make_shared<TextureRenderComponent>(
       *this, std::vector({buttonRenderer}));
 
@@ -45,6 +50,6 @@ Button::Button(Level& level, float x, float y, float w, float h, Color color,
   addGenericComponent(std::make_shared<CenterTextComponent>(*this, textRenderer));
 
   auto selectableComponent = std::make_shared<SelectableComponent>(
-      *this, selectHook, mHoverChangeFocus, mNotSelectChangeFocus);
+      *this, addedSoundWithSelectHook, mHoverChangeFocus, mNotSelectChangeFocus);
   addGenericComponent(selectableComponent);
 }
