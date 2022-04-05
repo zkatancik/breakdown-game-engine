@@ -42,6 +42,7 @@ void BreakoutLogic::createChangeDifficultyLevel(int width, int height) {
     Mix_PlayChannel(
         1, ResourceManager::getInstance().getChunk("2DBreakout/SFX/ButtonClick_SFX.wav"), 0);
     mDifficulty = BreakoutGameLevel::Easy;
+    mCurrentlyActiveLevel = mStartMenu;
   };
 
   // Add the easy button
@@ -54,6 +55,7 @@ void BreakoutLogic::createChangeDifficultyLevel(int width, int height) {
     Mix_PlayChannel(
         1, ResourceManager::getInstance().getChunk("2DBreakout/SFX/ButtonClick_SFX.wav"), 0);
     mDifficulty = BreakoutGameLevel::Medium;
+    mCurrentlyActiveLevel = mStartMenu;
   };
 
   // Add the medium button
@@ -66,6 +68,7 @@ void BreakoutLogic::createChangeDifficultyLevel(int width, int height) {
     Mix_PlayChannel(
         1, ResourceManager::getInstance().getChunk("2DBreakout/SFX/ButtonClick_SFX.wav"), 0);
     mDifficulty = BreakoutGameLevel::Hard;
+    mCurrentlyActiveLevel = mStartMenu;
   };
 
   // Add the hard button
@@ -151,7 +154,7 @@ void BreakoutLogic::createStartMenuLevel(int width, int height) {
   auto startGameLevelButtonHook = [&] () {
     Mix_PlayChannel(
         1, ResourceManager::getInstance().getChunk("2DBreakout/SFX/ButtonClick_SFX.wav"), 0);
-    mGameLevel[0]->initialize();
+    mGameLevel[mCurrentlySelectedGameLevelIdx]->initialize();
     mCurrentlyActiveLevel = mGameLevel[0];
   };
 

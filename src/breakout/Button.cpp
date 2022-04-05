@@ -3,6 +3,7 @@
 #include <breakout/Tag.hpp>
 
 #include "base/InputManager.hpp"
+#include "base/CenterTextComponent.hpp"
 
 Button::Button(Level& level, float x, float y, float w, float h, Color color,
                const std::string& text,
@@ -41,10 +42,7 @@ Button::Button(Level& level, float x, float y, float w, float h, Color color,
                                                   mButtonFont, textRenderer);
   addGenericComponent(textComponent);
 
-  int textW, textH;
-  SDL_QueryTexture(textRenderer->GetTexture(), NULL, NULL, &textW, &textH);
-  textRenderer->setOffSetX(int((w - textW) / 2));
-  textRenderer->setOffSetY(int(30));
+  addGenericComponent(std::make_shared<CenterTextComponent>(*this, textRenderer));
 
   auto selectableComponent = std::make_shared<SelectableComponent>(
       *this, selectHook, mHoverChangeFocus, mNotSelectChangeFocus);
