@@ -47,7 +47,7 @@ class BreakoutLogic : public SDLProgramLogic {
 
   void createStartMenuLevel(int width, int height);
 
-  inline bool isGameActive() { return (mCurrentlyActiveLevel == std::dynamic_pointer_cast<Level>(mGameLevel[mCurrentlySelectedGameLevelIdx]))}
+  inline bool isGameActive() { return (mCurrentlyActiveLevel == std::dynamic_pointer_cast<Level>(mGameLevel[mCurrentlySelectedGameLevelIdx]));}
 
 };
 
