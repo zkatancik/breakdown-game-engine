@@ -1,8 +1,6 @@
 #include "breakout/LevelData.hpp"
 
 void loadLevel(LevelData *levelData, int level) {
-
-
   levelData->blocks.clear();
 
   const filesystem::path resPath = getResourcePath("2DBreakout/Levels");
@@ -50,11 +48,11 @@ void loadLevel(LevelData *levelData, int level) {
       lineCounter++;
       //std::cout << "\n";
 
-      myfile.close();
-    }} else {
+    }
+
+    myfile.close();
+  } else {
     std::cout << "Unable to open file \n";
   }
-}//
-// Created by matinr on 4/4/22.
-//
+}
 
