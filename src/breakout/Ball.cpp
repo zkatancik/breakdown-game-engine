@@ -6,7 +6,6 @@ Ball::Ball(Level& level, float x, float y, float dx, float dy) : GameObject(leve
   renderer_ = std::make_shared<TextureRenderComponent>(*this);
   setRenderComponent(renderer_);
   setPhysicsComponent(std::make_shared<PhysicsComponent>(*this, b2_dynamicBody, false, 0.0f));
-  addGenericComponent(std::make_shared<RemoveOnCollideComponent>(*this, LevelBoundaryTag));
   physicsComponent()->setVx(dx);
   physicsComponent()->setVy(dy);
   auto texture = ResourceManager::getInstance().getTexture("2DBreakout/Graphics/ballGrey.png");
