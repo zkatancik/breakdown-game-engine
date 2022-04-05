@@ -137,6 +137,7 @@ class BreakoutLogic : public SDLProgramLogic {
       for (auto & l : mGameLevel) {
         l->changeLanguage(Language::ENGLISH);
       }
+      mLanguage = Language::ENGLISH;
     };
 
     // Add the easy button
@@ -153,6 +154,7 @@ class BreakoutLogic : public SDLProgramLogic {
       for (auto & l : mGameLevel) {
         l->changeLanguage(Language::SPANISH);
       }
+      mLanguage = Language::SPANISH;
     };
 
     // Add the easy button

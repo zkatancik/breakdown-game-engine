@@ -74,6 +74,13 @@ const std::vector<std::shared_ptr<GameObject>> &Level::GetGameObjects() const {
 }
 
 void Level::changeLanguage(Language language) {
+  // If update() hasn't been called yet on the level, take care of the objects in the add queue as well.
+  for (auto gameObject: mObjectsToAdd){
+    auto textComponent = gameObject->getGenericComponent<TextComponent>();
+    if (textComponent != nullptr) {
+      textComponent->changeLanguage(language);
+    }
+  }
   for (auto gameObject: mObjects) {
     auto textComponent = gameObject->getGenericComponent<TextComponent>();
     if (textComponent != nullptr) {
