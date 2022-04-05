@@ -34,7 +34,7 @@ class BreakoutLogic : public SDLProgramLogic {
   std::shared_ptr<Level> mStartMenu{nullptr};
   std::shared_ptr<Level> mLanguageMenu{nullptr};
   std::shared_ptr<Level> mDifficultyMenu{nullptr};
-  std::vector<std::shared_ptr<BreakoutGameLevel>> mGameLevel{nullptr, nullptr, nullptr, nullptr};
+  std::vector<std::shared_ptr<BreakoutGameLevel>> mGameLevels{nullptr, nullptr, nullptr, nullptr};
   std::shared_ptr<Level> mCurrentlyActiveLevel{nullptr}; //< The level that is currently being shown
   int mCurrentlySelectedGameLevelIdx{0}; //< The index of the game level that will start/currently being played.
   BreakoutGameLevel::GameDifficulty mDifficulty{BreakoutGameLevel::Easy};
@@ -47,7 +47,7 @@ class BreakoutLogic : public SDLProgramLogic {
 
   void createStartMenuLevel(int width, int height);
 
-  inline bool isGameActive() { return (mCurrentlyActiveLevel == std::dynamic_pointer_cast<Level>(mGameLevel[mCurrentlySelectedGameLevelIdx]));}
+  inline bool isGameActive() { return (mCurrentlyActiveLevel == std::dynamic_pointer_cast<Level>(mGameLevels[mCurrentlySelectedGameLevelIdx]));}
 
 };
 
