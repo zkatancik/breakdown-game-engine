@@ -5,6 +5,8 @@
 #include <SDL.h>
 #include <memory>
 #include <vector>
+#include "base/ResourceManager.hpp"
+#include "base/TextComponent.hpp"
 
 //! \brief A level in the game.  Essentially mannages a collection of game
 //! objects, and does some collision detection.
@@ -26,6 +28,8 @@ class Level {
 
   void update(); //!< Update the objects in the level.
   void render(SDL_Renderer * renderer); //!< Render the level.
+
+  void changeLanguage(Language language); //!< Change the language of all Game objects with Text Components
 
  protected:
   const std::vector<std::shared_ptr<GameObject>> &GetGameObjects() const;

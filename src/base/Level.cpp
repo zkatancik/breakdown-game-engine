@@ -72,3 +72,12 @@ Level::render(SDL_Renderer * renderer)
 const std::vector<std::shared_ptr<GameObject>> &Level::GetGameObjects() const {
   return mObjects;
 }
+
+void Level::changeLanguage(Language language) {
+  for (auto gameObject: mObjects) {
+    auto textComponent = gameObject->getGenericComponent<TextComponent>();
+    if (textComponent != nullptr) {
+      textComponent->changeLanguage(language);
+    }
+  }
+}

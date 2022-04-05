@@ -12,12 +12,6 @@ class BreakoutLevel : public Level {
   BreakoutLevel(int w, int h, Language language) : Level(w, h),
   language_(language) {};
 
-  void changeLanguage(Language language) {
-    for (auto gameObject : Level::GetGameObjects()) {
-      if (gameObject->tag() == TextTag) {
-      }
-    }
-  }
 
  private:
   Language language_{Language::ENGLISH};

@@ -61,6 +61,17 @@ class GameObject: public std::enable_shared_from_this<GameObject> {
   bool isOverlapping(const GameObject & obj) const; //!< Determine if this object is overlapping with another.
   bool isOverlapping(float px, float py) const; //!< Determine if this object is overlapping with a point.
 
+  template<typename T>
+  std::shared_ptr<T> getGenericComponent() {//!< Get a generic component based on its type.
+    for(auto component: mGenericComponents) {
+      auto ret = std::dynamic_pointer_cast<T>(component);
+      if (ret) {
+        return ret;
+      }
+    }
+    return nullptr;
+  }
+
  private:
 
   GameObject(const GameObject &) = delete;

@@ -61,7 +61,7 @@ class BreakoutLogic : public SDLProgramLogic {
   BreakoutGameLevel::GameDifficulty mDifficulty{BreakoutGameLevel::Easy};
 
   void loadAllLevels(int width, int height) {
-    for (int i = 0; i < mGameLevel.size(); i++) {
+    for (unsigned int i = 0; i < mGameLevel.size(); i++) {
       mGameLevel[i] = std::make_shared<BreakoutGameLevel>(width, height, mDifficulty, mLanguage, i + 1);
     }
   }
@@ -131,7 +131,12 @@ class BreakoutLogic : public SDLProgramLogic {
     auto changeLanguageToEnglish = [&] {
       Mix_PlayChannel(
           1, ResourceManager::getInstance().getChunk("2DBreakout/SFX/ButtonClick_SFX.wav"), 0);
-      mLanguage = Language::ENGLISH;
+      mLanguageMenu->changeLanguage(Language::ENGLISH);
+      mStartMenu->changeLanguage(Language::ENGLISH);
+      mDifficultyMenu->changeLanguage(Language::ENGLISH);
+      for (auto & l : mGameLevel) {
+        l->changeLanguage(Language::ENGLISH);
+      }
     };
 
     // Add the easy button
@@ -142,7 +147,12 @@ class BreakoutLogic : public SDLProgramLogic {
     auto changeLanguageToSpanish = [&] {
       Mix_PlayChannel(
           1, ResourceManager::getInstance().getChunk("2DBreakout/SFX/ButtonClick_SFX.wav"), 0);
-      mLanguage = Language::SPANISH;
+      mLanguageMenu->changeLanguage(Language::SPANISH);
+      mStartMenu->changeLanguage(Language::SPANISH);
+      mDifficultyMenu->changeLanguage(Language::SPANISH);
+      for (auto & l : mGameLevel) {
+        l->changeLanguage(Language::SPANISH);
+      }
     };
 
     // Add the easy button

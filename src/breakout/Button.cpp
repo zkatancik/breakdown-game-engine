@@ -3,7 +3,7 @@
 #include "base/InputManager.hpp"
 
 Button::Button(Level& level, float x, float y, float w, float h, Color color, const std::string& text,
-               const std::function<void(void)>& selectHook) : GameObject(level, x, y, w, h, ButtonTag), mEnglishText(text) {
+               const std::function<void(void)>& selectHook) : GameObject(level, x, y, w, h, ButtonTag) {
   // Load sprite sheet for the buttons
   buttonRenderer = std::make_shared<TextureRenderComponent>(*this);
   buttonRenderer->setTexture(ResourceManager::getInstance().getTexture("2DBreakout/Graphics/buttonSpriteSheet.png"));
@@ -28,17 +28,12 @@ Button::Button(Level& level, float x, float y, float w, float h, Color color, co
   textRenderer->setOffSetX(int(w / 4));
   textRenderer->setOffSetY(int(h / 4));
   textRenderer->setRenderMode(TextureRenderComponent::RenderMode::QUERY);
-  changeLanguage(Language::ENGLISH);
 
   setRenderComponent(textRenderer);
 
+  textComponent = std::make_shared<TextComponent>(*this, text, mFontSize, mButtonFont, textRenderer);
+  addGenericComponent(textComponent);
+
   auto selectableComponent = std::make_shared<SelectableComponent>(*this, selectHook, mHoverChangeFocus, mNotSelectChangeFocus);
   addGenericComponent(selectableComponent);
-}
-
-void Button::changeLanguage(Language language) {
-  auto translationText = ResourceManager::getInstance().getTranslation(mEnglishText, language);
-  auto textTexture = ResourceManager::getInstance().getTextTexture(translationText,
-                                                                   mButtonFont, {255, 255, 255, 0}, mFontSize);
-  textRenderer->setTexture(textTexture);
 }
