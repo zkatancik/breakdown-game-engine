@@ -1,0 +1,69 @@
+Names:
+- Roshan - recklessHogrider96
+- Marcin Kierzenka - mkierzenka
+- Zachary Katancik - zkatancik
+- Matin Raayai Ardakani - matinraayai
+
+
+* Summary
+Our goal for the custom project is to create a tower defense game in the typical style of that genre: A round/wave begins with the user being able to select a number of towers and place them onto the map. By the final version, we hope to have multiple different types of towers with different abilities.
+
+The user will have some sort of coin/credit system, earned for completing levels, that restrict their ability to acquire towers. Then the user will select “start”, and a deterministic sequence of enemies will appear moving along a predetermined path. The towers will do damage to the enemies in accordance with their abilities. Any enemies that make it through all the user’s defenses will deal damage to the end point, eventually defeating it (player loses).
+
+If the user’s defenses destroy all enemies before the end point is destroyed, the player “survives the wave” and receives reward points for future rounds. The map will remain unchanged between waves, with the player’s towers remaining in place for subsequent waves. The waves will get progressively more difficult, with stronger and more numerous enemies.
+
+
+
+* Milestone 2
+
+Must
+[ ] At least one enemy type spawning from the beginning of the track.
+[ ] At least one track where enemies can enter from the start gate, traverse the map, and exit at the exit gate.
+[ ] At least one tower type, where a tower can be placed on the map by the user. The tower will be able to shoot enemies, removing them from the screen and giving the user some sort of credits. 
+[ ] A UI should be present on the left side of the map where a user can view their lives left, current amount of currency, and tower types available to be placed. 
+[ ] There should be turns, where between rounds users can place towers and hit a button to begin.
+[ ] Currency and score should be gained and deducted as expected.
+[ ] A user should win when they defeat all enemies or reach a certain round, and a user should lose when they lose all lives. The game menu should respond accordingly.
+
+Should
+[ ] At least 3 tower types of differing mechanics should be available to the user
+[ ] At least 3 enemy types should be available to the user
+
+Could
+[ ] Towers upgradable, with improvements like faster shooting or more powerful rounds
+[ ] A fast-forward button during rounds to allow for better gameplay experience
+[ ] At least 3 maps should be available to the user
+[ ] Users can view current round, rounds to go
+
+Won't
+[ ] Consumable items outside of towers to be placed on the track
+[ ] Tower types specific to certain types of terrain (like land or water).
+
+
+
+* Milestone 3
+
+Must
+[ ] At least 3 tower types of differing mechanics should be available to the user
+[ ] At least 3 enemy types should be in the game.
+[ ] At least 3 maps should be available to the user.
+[ ] Users can view the current round number, rounds to go.
+[ ] Level Editor (sans enemies)
+
+Should
+[ ] Level Editor (with enemies)
+[ ] Upgradable towers
+
+Could
+[ ] Animated enemies with effects
+
+Won't
+[ ] Microtransactions
+[ ] NFTs
+[ ] user-controlled tower projectiles.
+
+Extensions
+[ ] Add ability for towers to have user-selected enemy targeting (strong, weak, first, last). - Zack 
+[ ] Enemies with healthbars. - Marcin
+[ ] Anti-tank mine - Matin
+[ ] Making towers upgradable - Roshan
