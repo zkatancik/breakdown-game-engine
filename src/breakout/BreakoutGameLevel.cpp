@@ -10,6 +10,7 @@ const int HARD_BALL_Y = 8;
 
 
 void BreakoutGameLevel::initialize() {
+  finalize();
   LevelData levelData;
   loadLevel(&levelData, mLevelNumber);
 

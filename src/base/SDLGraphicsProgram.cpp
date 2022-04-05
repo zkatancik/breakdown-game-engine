@@ -125,7 +125,7 @@ void SDLGraphicsProgram::loop() {
   update();
 
   // While application is running
-  while (!quit) {
+  while (!quit && !gLogic->quit()) {
     InputManager::getInstance().resetForFrame();
 
     // Handle events on queue
@@ -136,10 +136,6 @@ void SDLGraphicsProgram::loop() {
         quit = true;
       }
       InputManager::getInstance().handleEvent(e);
-
-      if (InputManager::getInstance().isKeyDown(SDLK_q)) {
-        quit = true;
-      }
     }
 
     // Update our scene

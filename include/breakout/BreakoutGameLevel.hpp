@@ -33,8 +33,8 @@ class BreakoutGameLevel : public Level {
 
   std::string highestScoreUsername;
 
-  static const int livesPerGame = 3;
-  int lives = livesPerGame;
+  static const int livesPerGame{3};
+  int lives{livesPerGame};
   int highestScore = 0;
 
   int blocksPerRow = 0;
