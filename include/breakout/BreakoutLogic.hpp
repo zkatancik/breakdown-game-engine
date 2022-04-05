@@ -62,7 +62,7 @@ class BreakoutLogic : public SDLProgramLogic {
 
   void loadAllLevels(int width, int height) {
     for (int i = 0; i < mGameLevel.size(); i++) {
-      mGameLevel[i] = std::make_shared<BreakoutGameLevel>(width, height, mDifficulty, mLanguage, i);
+      mGameLevel[i] = std::make_shared<BreakoutGameLevel>(width, height, mDifficulty, mLanguage, i + 1);
     }
   }
 

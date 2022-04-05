@@ -41,7 +41,6 @@ class BreakoutGameLevel : public BreakoutLevel {
   int blocksPerColor = 2;
   bool blocksLeft;
 
-  int level{1};
   bool needNewBall{false};
 
   Uint32 needNewBallTicks{0};

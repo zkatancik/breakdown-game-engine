@@ -11,7 +11,7 @@ const int HARD_BALL_Y = 8;
 
 void BreakoutGameLevel::initialize() {
   LevelData levelData;
-  loadLevel(&levelData, 1);
+  loadLevel(&levelData, mLevelNumber);
 
   rowsOfBlocks = levelData.rowCount;
   blocksPerRow = levelData.colCount;
