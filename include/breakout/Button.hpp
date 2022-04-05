@@ -1,26 +1,26 @@
 #ifndef BUTTON_HPP
 #define BUTTON_HPP
-#include <functional>
 #include <base/GameObject.hpp>
-#include "base/ResourceManager.hpp"
+#include <functional>
+
 #include "base/Level.hpp"
+#include "base/ResourceManager.hpp"
 #include "base/SelectableComponent.hpp"
-#include "base/TextureRenderComponent.hpp"
 #include "base/TextComponent.hpp"
+#include "base/TextureRenderComponent.hpp"
 
 /**
  * @brief A class representing a clickable UI Text Button in Breakout
  */
 class Button : public GameObject {
  public:
-  enum Color {
-    RED,
-    GREEN
-  };
+  enum Color { RED, GREEN };
 
-  Button(Level& level, float x, float y, float w, float h, Color color, const std::string& text,
-         std::function<void(void)> selectHook);
-
+  Button(Level& level, float x, float y, float w, float h, Color color,
+         const std::string& text, std::function<void(void)> selectHook);
+  std::shared_ptr<TextureRenderComponent> getTextureRenderer() const {
+    return buttonRenderer;
+  }
 
  private:
   int mFontSize{64};
