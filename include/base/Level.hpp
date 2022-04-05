@@ -16,7 +16,7 @@ class Level {
   Level(int w, int h);
   virtual ~Level();
 
-  virtual void initialize() = 0;
+  virtual void initialize() {};
   void finalize();
 
   inline int w() const { return mW; }

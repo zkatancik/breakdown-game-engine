@@ -1,17 +1,17 @@
 #ifndef BREAKOUT_GAME_LEVEL_HPP
 #define BREAKOUT_GAME_LEVEL_HPP
 #include <base/GridRenderComponent.hpp>
-#include "breakout/BreakoutLevel.hpp"
+#include "base/Level.hpp"
 #include "breakout/Ball.hpp"
 #include "breakout/Paddle.hpp"
 #include "breakout/Block.hpp"
 #include "base/ResourceManager.hpp"
 
-class BreakoutGameLevel : public BreakoutLevel {
+class BreakoutGameLevel : public Level {
  public:
   enum GameDifficulty { Easy = 0, Medium, Hard };
 
-  BreakoutGameLevel(int w, int h, GameDifficulty difficulty, int levelNumber) : BreakoutLevel(w, h),
+  BreakoutGameLevel(int w, int h, GameDifficulty difficulty, int levelNumber) : Level(w, h),
   gameDifficulty_(difficulty), mLevelNumber(levelNumber)
   {};
 

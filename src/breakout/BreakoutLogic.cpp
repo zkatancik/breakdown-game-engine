@@ -36,7 +36,7 @@ void BreakoutLogic::loadAllLevels(int width, int height) {
 void BreakoutLogic::createChangeDifficultyLevel(int width, int height) {
   if (mDifficultyMenu != nullptr)
     return;
-  mDifficultyMenu = std::make_shared<BreakoutLevel>(width, height);
+  mDifficultyMenu = std::make_shared<Level>(width, height);
   // Lambda for changing the difficulty to easy
   auto changeDifficultyToEasy = [&] {
     Mix_PlayChannel(
@@ -93,7 +93,7 @@ void BreakoutLogic::createChangeDifficultyLevel(int width, int height) {
 void BreakoutLogic::createChangeLanguageLevel(int width, int height) {
   if (mLanguageMenu != nullptr)
     return;
-  mLanguageMenu = std::make_shared<BreakoutLevel>(width, height);
+  mLanguageMenu = std::make_shared<Level>(width, height);
   // Lambda for changing the language to English
   auto changeLanguageToEnglish = [&] {
     Mix_PlayChannel(
@@ -104,7 +104,6 @@ void BreakoutLogic::createChangeLanguageLevel(int width, int height) {
     for (auto & l : mGameLevel) {
       l->changeLanguage(Language::ENGLISH);
     }
-    mLanguage = Language::ENGLISH;
   };
 
   // Add the easy button
@@ -121,7 +120,6 @@ void BreakoutLogic::createChangeLanguageLevel(int width, int height) {
     for (auto & l : mGameLevel) {
       l->changeLanguage(Language::SPANISH);
     }
-    mLanguage = Language::SPANISH;
   };
 
   // Add the easy button
@@ -146,8 +144,8 @@ void BreakoutLogic::createStartMenuLevel(int width, int height) {
   // Return if the level is already created.
   if (mStartMenu != nullptr)
     return;
-  // Create a BreakoutLevel to hold the menu
-  mStartMenu = std::make_shared<BreakoutLevel>(width, height);
+  // Create a Level to hold the menu
+  mStartMenu = std::make_shared<Level>(width, height);
 
   // Lambda for creating a game level and setting the active level to be the game itself.
   auto startGameLevelButtonHook = [&] () {
