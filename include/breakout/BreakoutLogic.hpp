@@ -32,7 +32,7 @@ class BreakoutLogic : public SDLProgramLogic {
   }
  private:
   std::shared_ptr<Level> mStartMenu{nullptr};
-  std::unique_ptr<Level> mLanguageMenu{nullptr};
+  std::shared_ptr<Level> mLanguageMenu{nullptr};
   std::shared_ptr<Level> mDifficultyMenu{nullptr};
   std::vector<std::shared_ptr<BreakoutGameLevel>> mGameLevel{nullptr, nullptr, nullptr, nullptr};
   std::shared_ptr<Level> mCurrentlyActiveLevel{nullptr}; //< The level that is currently being shown
