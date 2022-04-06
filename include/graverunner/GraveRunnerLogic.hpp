@@ -1,13 +1,12 @@
 #ifndef GRAVE_RUNNER_LOGIC_HPP
 #define GRAVE_RUNNER_LOGIC_HPP
+#include <iostream>
 #include "base/SDLProgramLogic.hpp"
 #include "base/PhysicsManager.hpp"
-#include "graverunner/GameManager.hpp"
 #include "graverunner/UIManager.hpp"
 #include "graverunner/GraveRunnerLevel.hpp"
 #include "graverunner/Mouse.hpp"
 #include "graverunner/Button.hpp"
-#include <iostream>
 
 /**
  * @brief Contains Subsystem management for the GraveRunner game.
@@ -23,23 +22,37 @@ class GraveRunnerLogic : public SDLProgramLogic {
 
   void shutDown() override;
 
-  void update() override {
-    GameManager::getInstance().update();
-    UIManager::getInstance().update();
-  }
+  void update() override;
 
   bool quit() override {return mQuit;}
 
-  void checkButtons() {
-    UIManager::getInstance().checkButtons();
-  }
-
   void render(SDL_Renderer* renderer) override {
-    GameManager::getInstance().render(renderer);
-    UIManager::getInstance().render(renderer);
+    mCurrentlyActiveLevel->render(renderer);
   }
  private:
   bool mQuit{false};
+  std::shared_ptr<Level> mStartMenu{nullptr};
+  std::shared_ptr<Level> mLanguageMenu{nullptr};
+  std::vector<std::shared_ptr<GraveRunnerLevel>> mGameLevels{nullptr, nullptr,
+                                                              nullptr, nullptr};
+  std::shared_ptr<Level> mCurrentlyActiveLevel{
+      nullptr};  //< The level that is currently being shown
+  int mCurrentlySelectedGameLevelIdx{0};  //< The index of the game level that
+                                          //will start/currently being played.
+
+  void loadAllLevels(int width, int height);
+
+  void createChangeDifficultyLevel(int width, int height);
+
+  void createChangeLanguageLevel(int width, int height);
+
+  void createStartMenuLevel(int width, int height);
+
+  inline bool isGameActive() {
+    return (mCurrentlyActiveLevel ==
+            std::dynamic_pointer_cast<Level>(
+                mGameLevels[mCurrentlySelectedGameLevelIdx]));
+  }
 };
 
 #endif
