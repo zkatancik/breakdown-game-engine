@@ -1,17 +1,11 @@
 #ifndef ZOMBIE_MALE_HPP
 #define ZOMBIE_MALE_HPP
 
-#include "SDL.h"
-#include "base/ActionState.hpp"
-#include "base/CyclicCounterComponent.hpp"
+#include <vector>
 #include "base/GameObject.hpp"
-#include "InputGravComponent.hpp"
-#include "base/PatrolComponent.hpp"
-#include "base/FollowComponent.hpp"
-#include "base/RemoveOnCollideComponent.hpp"
+#include "base/Level.hpp"
 #include "base/TextureRenderComponent.hpp"
-#include "graverunner/Tag.hpp"
-#include "base/ResourceManager.hpp"
+#include "base/CyclicCounterComponent.hpp"
 #include "graverunner/Jack.hpp"
 
 /**

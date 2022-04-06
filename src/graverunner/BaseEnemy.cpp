@@ -1,6 +1,8 @@
 #include <box2d/b2_body.h>
-#include "graverunner/Jack.hpp"
 #include "graverunner/BaseEnemy.hpp"
+#include "graverunner/Tag.hpp"
+#include "base/ResourceManager.hpp"
+#include "base/RemoveOnCollideComponent.hpp"
 
 BaseEnemy::BaseEnemy(Level& level, float tl_x, float tl_y, float w, float h,
                      std::vector<std::pair<float, float>>& checkpoints,

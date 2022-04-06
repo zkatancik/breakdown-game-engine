@@ -1,5 +1,11 @@
 #include <box2d/b2_body.h>
 #include "graverunner/Bullet.hpp"
+#include "graverunner/Tag.hpp"
+#include "base/TextureRenderComponent.hpp"
+#include "base/RemoveOnCollideComponent.hpp"
+#include "base/ConstantVelocityComponent.hpp"
+#include "base/PhysicsComponent.hpp"
+#include "base/ResourceManager.hpp"
 
 Bullet::Bullet(Level& level, float x, float y, float w, float h,
                bool isFacingLeft)
