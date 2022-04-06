@@ -20,25 +20,14 @@
 class Jack : public GameObject {
  public:
   /**
-   * @brief Construct a new default Jack object.
-   */
-  explicit Jack(Level& level);
-
-  /**
-   * @brief Initialize this Jack object, sets the location on screen.
-   *
+   * @brief Construct a new Jack object.
+   * @param level Level information
    * @param tl_x top left x coordinate
    * @param tl_y top left y coordinate
    * @param w width of Jack
    * @param h height of Jack
    */
-  void startUp(float tl_x, float tl_y, float w, float h);
-
-  /**
-   * @brief Cleans up this Jack object to be destroyed.
-   */
-  void shutDown();
-
+  explicit Jack(Level& level, float tl_x, float tl_y, float w, float h);
 
   void update() override;
 

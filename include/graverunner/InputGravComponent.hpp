@@ -43,9 +43,11 @@ class InputGravComponent: public GenericComponent {
     GameObject & gameObject = getGameObject();
 
     if (fire) {
-      auto bullet = std::make_shared<Bullet>(level);
-      bullet->startUp(gameObject.x() + (isFacingLeft? 0.3 : 0.8) * (gameObject.w()) / 2,
-                      gameObject.y() + gameObject.h() / 3, gameObject.w() / 3, gameObject.h() / 3, isFacingLeft);
+      auto bullet = std::make_shared<Bullet>(
+          level,
+          gameObject.x() + (isFacingLeft ? 0.3 : 0.8) * (gameObject.w()) / 2,
+          gameObject.y() + gameObject.h() / 3, gameObject.w() / 3,
+          gameObject.h() / 3, isFacingLeft);
       level.addObject(bullet);
     }
 

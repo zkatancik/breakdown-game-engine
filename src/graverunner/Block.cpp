@@ -1,3 +1,4 @@
+#include <box2d/b2_body.h>
 #include "graverunner/Block.hpp"
 
 #include "base/TextureRenderComponent.hpp"
@@ -6,12 +7,11 @@
 
 using namespace std;
 
-void Block::startUp(int x, int y, BlockData bd, int h, Vector2D<int> bs) {
+Block::Block(Level& level, float x, float y, BlockData bd, int h,
+             Vector2D<int> bs)
+    : GameObject(level, x, y, bs.x, bs.y, KeyTag) {
   init(x, y, bd, h, bs);
-  // TODO this tag num should be different / an enum of some sort
 }
-
-void Block::shutDown() {}
 
 void Block::init(int xCoord, int yCoord, BlockData bd, int h,
                  Vector2D<int> bs) {
@@ -25,16 +25,13 @@ void Block::init(int xCoord, int yCoord, BlockData bd, int h,
 
   if (blockData.block_Type == BlockType::Key) {
     texture_ = ResourceManager::getInstance().getTexture("key.png");
-    GameObject::startUp(xCoord, yCoord, bs.x, bs.y, KeyTag);
-    setPhysicsComponent(std::make_shared<PhysicsComponent>(*this, PhysicsComponent::Type::STATIC_SENSOR));
+    setPhysicsComponent(std::make_shared<PhysicsComponent>(*this, b2BodyType::b2_staticBody, true));
   } else if (blockData.block_Type == BlockType::Exit) {
     texture_ = ResourceManager::getInstance().getTexture("exit.png");
-    GameObject::startUp(xCoord, yCoord, bs.x, bs.y, ExitTag);
-    setPhysicsComponent(std::make_shared<PhysicsComponent>(*this, PhysicsComponent::Type::STATIC_SENSOR));
+    setPhysicsComponent(std::make_shared<PhysicsComponent>(*this, b2BodyType::b2_staticBody, true));
   } else if (blockData.block_Type == BlockType::PlainBlock) {
     texture_ = getBlockTexture(blockData.blockNumber);
-    GameObject::startUp(xCoord, yCoord, bs.x, bs.y, NormalBlockTag);
-    setPhysicsComponent(std::make_shared<PhysicsComponent>(*this, PhysicsComponent::Type::STATIC_SOLID));
+    setPhysicsComponent(std::make_shared<PhysicsComponent>(*this, b2BodyType::b2_staticBody, false));
   }
 
   addGenericComponent(std::make_shared<RemoveOnCollideComponent>(*this, BulletTag));

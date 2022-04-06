@@ -101,4 +101,12 @@ struct LevelData {
   std::vector<Vector2D<int>> followerEnemyStartPositions;
 };
 
+/**
+ * @brief Load Level file based on the level passed to the function.
+ *
+ * @param blockDataList levelData loaded from the file
+ * @param level level number
+ */
+void loadLevel(LevelData *levelData, int level);
+
 #endif
