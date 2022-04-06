@@ -12,9 +12,9 @@
  */
 class Mouse : public GameObject {
  public:
-  Mouse(Level& level, float w, float h) : GameObject(level, 1, 1, w, h, MouseTag) {
+  Mouse(Level& level) : GameObject(level, 1, 1, 35, 61, MouseTag) {
     auto renderComponent = std::make_shared<TextureRenderComponent>(*this);
-    renderComponent->setTexture(ResourceManager::getInstance().getTexture("mouse/mouse.png"));
+    renderComponent->setTexture(ResourceManager::getInstance().getTexture("Graverunner/mouse/mouse.png"));
     setRenderComponent(renderComponent);
     SDL_ShowCursor(false);
   }
