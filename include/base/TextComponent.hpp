@@ -13,9 +13,10 @@ class TextComponent : public GenericComponent {
                 std::string engtext,
                 int fontSize,
                 std::string fontPath,
-                std::shared_ptr<TextureRenderComponent> renderComponent);
+                std::shared_ptr<TextureRenderComponent> renderComponent,
+                Language language = ENGLISH);
 
-  void update(Level & level) override {};
+  void update(Level & level) override;
 
   void changeLanguage(Language language);
 
@@ -43,6 +44,7 @@ class TextComponent : public GenericComponent {
   std::shared_ptr<TextureRenderComponent> mRenderComponent;
   std::string mText{};
   std::string mFontPath{};
+  Language mLanguage;
   int mFontSize{16};
 };
 

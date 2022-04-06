@@ -30,6 +30,8 @@ class Block : public GameObject {
  */
   Block(Level& level, float x, float y, int color, BlockData bd, int h);
 
+  BlockType getBlockType() const {return blockData.block_Type;};
+
  private:
   std::shared_ptr<TextureRenderComponent> renderer_;
   std::shared_ptr<HealthComponent> healthComponent_;

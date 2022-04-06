@@ -6,6 +6,7 @@
 #include "breakout/Paddle.hpp"
 #include "breakout/Block.hpp"
 #include "base/ResourceManager.hpp"
+#include "base/GameVariableComponent.hpp"
 
 class BreakoutGameLevel : public Level {
  public:
@@ -29,11 +30,19 @@ class BreakoutGameLevel : public Level {
   }
 
  private:
+  std::shared_ptr<Ball> createBallObject();
+
+  std::shared_ptr<GameObject> createLevelIndicatorObject();
+
+  std::shared_ptr<GameObject> createLivesIndicatorObject();
+
+  std::shared_ptr<GameObject> createScoreIndicatorObject();
+
   std::shared_ptr<GridRenderComponent> mGridRenderComponent;
 
   std::string highestScoreUsername;
 
-  static const int livesPerGame{3};
+  const int livesPerGame{3};
   int lives{livesPerGame};
   int highestScore = 0;
 
@@ -49,7 +58,6 @@ class BreakoutGameLevel : public Level {
 
   int score{0};
 
-  Language language_{Language::ENGLISH};
   GameDifficulty gameDifficulty_{GameDifficulty::Easy};
   int mLevelNumber{1};
 
