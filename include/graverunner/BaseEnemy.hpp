@@ -1,23 +1,23 @@
 #ifndef ZOMBIE_MALE_HPP
 #define ZOMBIE_MALE_HPP
 
-#include <vector>
-#include "base/GameObject.hpp"
-#include "base/Level.hpp"
-#include "base/TextureRenderComponent.hpp"
+#include "SDL.h"
+#include "base/ActionState.hpp"
 #include "base/CyclicCounterComponent.hpp"
-#include "graverunner/Jack.hpp"
-
+#include "base/GameObject.hpp"
+#include "InputGravComponent.hpp"
+#include "base/PatrolComponent.hpp"
+#include "base/FollowComponent.hpp"
+#include "base/RemoveOnCollideComponent.hpp"
+#include "base/TextureRenderComponent.hpp"
+#include "graverunner/Tag.hpp"
+#include "base/ResourceManager.hpp"
 /**
  * @brief A class representing the enemy.
  * BaseEnemy can update and render itself.
  */
 class BaseEnemy : public GameObject {
  public:
-  /**
-   * @brief Construct a new default BaseEnemy object.
-   */
-  explicit BaseEnemy(Level& level);
 
   /**
    * @brief Initialize this BaseEnemy object, sets the location on screen.

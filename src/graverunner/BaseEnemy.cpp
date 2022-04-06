@@ -3,6 +3,7 @@
 #include "graverunner/Tag.hpp"
 #include "base/ResourceManager.hpp"
 #include "base/RemoveOnCollideComponent.hpp"
+#include "base/PhysicsManager.hpp"
 
 BaseEnemy::BaseEnemy(Level& level, float tl_x, float tl_y, float w, float h,
                      std::vector<std::pair<float, float>>& checkpoints,

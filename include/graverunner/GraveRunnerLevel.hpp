@@ -3,8 +3,9 @@
 #include <base/GridRenderComponent.hpp>
 #include <base/Level.hpp>
 #include "graverunner/LevelData.hpp"
-#include "graverunner/Block.hpp"
-#include "graverunner/Jack.hpp"
+
+class Jack;
+class Block;
 
 class GraveRunnerLevel : public Level {
  public:

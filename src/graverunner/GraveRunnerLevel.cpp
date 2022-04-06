@@ -1,7 +1,11 @@
+#include <box2d/b2_body.h>
 #include "graverunner/GraveRunnerLevel.hpp"
 #include "graverunner/LevelData.hpp"
 #include "graverunner/Tag.hpp"
 #include "graverunner/Jack.hpp"
+#include "graverunner/FollowerZombie.hpp"
+#include "graverunner/PatrolZombie.hpp"
+#include "graverunner/Block.hpp"
 
 void GraveRunnerLevel::initialize() {
   finalize();
@@ -21,7 +25,7 @@ void GraveRunnerLevel::initialize() {
       *currentLevel, -1, 0, 1, float(rowsOfBlocks * levelData.blockSize.y),
       LevelBoundaryTag);
   leftMostBoundary->setPhysicsComponent(std::make_shared<PhysicsComponent>(
-      *leftMostBoundary, PhysicsComponent::Type::STATIC_SOLID));
+      *leftMostBoundary, b2BodyType::b2_staticBody, false));
   leftMostBoundary->addGenericComponent(
       std::make_shared<RemoveOnCollideComponent>(*leftMostBoundary, BulletTag));
   currentLevel->addObject(leftMostBoundary);
@@ -30,7 +34,7 @@ void GraveRunnerLevel::initialize() {
       *currentLevel, float(blocksPerRow * levelData.blockSize.x), 0, 1,
       float(rowsOfBlocks * levelData.blockSize.y), LevelBoundaryTag);
   rightMostBoundary->setPhysicsComponent(std::make_shared<PhysicsComponent>(
-      *rightMostBoundary, PhysicsComponent::Type::STATIC_SOLID));
+      *rightMostBoundary, b2BodyType::b2_staticBody, false));
   currentLevel->addObject(rightMostBoundary);
   rightMostBoundary->addGenericComponent(
       std::make_shared<RemoveOnCollideComponent>(*rightMostBoundary,
@@ -66,8 +70,7 @@ void GraveRunnerLevel::initialize() {
   }
 
   // Place Jack
-  jack = std::make_shared<Jack>(*currentLevel);
-  jack->startUp(blockSize.x * levelData.playerStartPosition.x,
+  jack = std::make_shared<Jack>(*currentLevel, blockSize.x * levelData.playerStartPosition.x,
                 blockSize.y * levelData.playerStartPosition.y, blockSize.x,
                 blockSize.y);
   currentLevel->addObject(jack);
@@ -79,11 +82,9 @@ void GraveRunnerLevel::initialize() {
          levelData.enemyStartPositions[i + 1].y * blockSize.y}};
 
     std::shared_ptr<PatrolZombie> maleZombie =
-        std::make_shared<PatrolZombie>(*currentLevel);
-    maleZombie->startUp(blockSize.x * levelData.enemyStartPositions[i].x,
+        std::make_shared<PatrolZombie>(*currentLevel, blockSize.x * levelData.enemyStartPositions[i].x,
                         blockSize.y * levelData.enemyStartPositions[i].y,
                         blockSize.x, blockSize.y, maleZombie1Path, jack);
-
     currentLevel->addObject(maleZombie);
   }
 

@@ -1,7 +1,9 @@
 #include "graverunner/Jack.hpp"
+#include "graverunner/Tag.hpp"
+#include <box2d/b2_body.h>
 
-
-Jack::Jack(Level &level) : GameObject(level) {
+Jack::Jack(Level& level, float tl_x, float tl_y, float w, float h) : GameObject(level, tl_x, tl_y, w, h, JackTag) {
+  numCollectedKeys = 0;
   renderer_ = std::make_shared<TextureRenderComponent>(*this);
   setRenderComponent(renderer_);
   counter_ = std::make_shared<CyclicCounterComponent>(*this, 10, true);
@@ -23,16 +25,8 @@ Jack::Jack(Level &level) : GameObject(level) {
       *this, ExitTag, [&](Level &level, std::shared_ptr<GameObject> obj) {}));
   addGenericComponent(
       std::make_shared<RemoveOnCollideComponent>(*this, ExitTag));
+  setPhysicsComponent(std::make_shared<PhysicsComponent>(*this, b2BodyType::b2_dynamicBody, false));
 }
-
-void Jack::startUp(float tl_x, float tl_y, float w, float h) {
-  numCollectedKeys = 0;
-
-  GameObject::startUp(tl_x, tl_y, w, h, JackTag);
-  setPhysicsComponent(std::make_shared<PhysicsComponent>(*this, PhysicsComponent::Type::DYNAMIC_SOLID));
-}
-
-void Jack::shutDown() {}
 
 void Jack::update() {
   std::string path = "jack/";
