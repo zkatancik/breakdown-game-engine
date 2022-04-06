@@ -28,7 +28,7 @@ void BreakoutLogic::shutDown() {
 
 void BreakoutLogic::update() {
   mCurrentlyActiveLevel->update();
-  if(InputManager::getInstance().isKeyPressed(SDLK_x)) {
+  if (InputManager::getInstance().isKeyPressed(SDLK_x)) {
     if (isGameActive()) {
       mGameLevels[mCurrentlySelectedGameLevelIdx]->finalize();
       mCurrentlySelectedGameLevelIdx = mCurrentlySelectedGameLevelIdx == 3 ? 0 : (mCurrentlySelectedGameLevelIdx + 1);
@@ -36,6 +36,14 @@ void BreakoutLogic::update() {
       mCurrentlyActiveLevel->initialize();
     }
   }
+  if (InputManager::getInstance().isKeyPressed(SDLK_r)) {
+    if (isGameActive()) {
+      mCurrentlyActiveLevel->finalize();
+      mCurrentlyActiveLevel->initialize();
+    }
+  }
+
+
   if (InputManager::getInstance().isKeyPressed(SDLK_q)) {
     mQuite = true;
   }
