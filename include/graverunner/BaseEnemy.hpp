@@ -12,6 +12,7 @@
 #include "base/TextureRenderComponent.hpp"
 #include "graverunner/Tag.hpp"
 #include "base/ResourceManager.hpp"
+#include "graverunner/Jack.hpp"
 
 /**
  * @brief A class representing the enemy.

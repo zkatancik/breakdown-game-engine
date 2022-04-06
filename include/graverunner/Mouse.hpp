@@ -4,7 +4,8 @@
 #include "base/SDL_DEBUG.hpp"
 #include "base/GameObject.hpp"
 #include "base/ResourceManager.hpp"
-#include "breakout/Tag.hpp"
+#include "graverunner/Tag.hpp"
+#include "base/TextureRenderComponent.hpp"
 
 /**
  * @brief A class representing a mouse cursor controllable by the user.
