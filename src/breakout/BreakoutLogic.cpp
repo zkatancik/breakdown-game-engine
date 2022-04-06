@@ -36,6 +36,7 @@ void BreakoutLogic::update() {
       mCurrentlyActiveLevel->initialize();
     }
   }
+  // Reset the level
   if (InputManager::getInstance().isKeyPressed(SDLK_r)) {
     if (isGameActive()) {
       mCurrentlyActiveLevel->finalize();

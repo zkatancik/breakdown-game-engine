@@ -3,7 +3,8 @@
 Block::Block(Level &level, float x, float y, int color, BlockData bd, int h) :
             GameObject(level, x, y, 64, 32, BlockTag),
             blockData(bd) {
-  auto texture = ResourceManager::getInstance().getTexture(getResourcePath("2DBreakout/Graphics") / filesystem::path(colorMap[color]));
+  auto texture = ResourceManager::getInstance().getTexture(
+      (filesystem::path("2DBreakout/Graphics") / filesystem::path(colorMap[color])).u8string());
   renderer_ = std::make_shared<TextureRenderComponent>(*this);
   renderer_->setTexture(texture);
   setRenderComponent(renderer_);
