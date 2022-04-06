@@ -19,7 +19,7 @@ class Button : public GameObject {
 
  private:
   int mFontSize{64};
-  const std::string mButtonFont = "2DBreakout/Fonts/Gageda.ttf";
+  const std::string mButtonFont = "Graverunner/fonts/GADAQUALI.ttf";
   std::shared_ptr<TextureRenderComponent> buttonRenderer;
   std::shared_ptr<TextureRenderComponent> textRenderer;
   std::shared_ptr<TextComponent> textComponent;
