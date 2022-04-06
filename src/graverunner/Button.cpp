@@ -6,25 +6,17 @@
 #include "base/InputManager.hpp"
 #include "base/SelectableComponent.hpp"
 
-Button::Button(Level& level, float x, float y, float w, float h, Color color,
+Button::Button(Level& level, float x, float y, float w, float h,
                const std::string& text, std::function<void(void)> selectHook)
     : GameObject(level, x, y, w, h, ButtonTag) {
   // Load sprite sheet for the buttons
   buttonRenderer = std::make_shared<TextureRenderComponent>(*this);
   buttonRenderer->setTexture(ResourceManager::getInstance().getTexture(
-      "2DBreakout/Graphics/buttonSpriteSheet.png"));
-  // Set crops from the sprite sheet.
-  switch (color) {
-    case RED:
-      mCropNotFocused = {635, 860, 513, 177};
-      mCropFocused = {57, 860, 513, 177};
-      break;
-    case GREEN:
-      mCropNotFocused = {635, 1122, 513, 177};
-      mCropFocused = {57, 1122, 513, 177};
-    default:
-      break;
-  }
+      "Graverunner/buttons/buttonSpriteSheet.png"));
+  // Set crop from the sprite sheet.
+  mCropNotFocused = {408, 179, 784, 295};
+  mCropFocused = {408, 541, 784, 295};
+
   // Set event handlers for the SelectableComponent
   auto mHoverChangeFocus = [&]() { buttonRenderer->setCrop(mCropFocused); };
   auto mNotSelectChangeFocus = [&]() {
@@ -34,7 +26,7 @@ Button::Button(Level& level, float x, float y, float w, float h, Color color,
   auto addedSoundWithSelectHook = [selectHook = std::move(selectHook)] {
     Mix_PlayChannel(1,
                     ResourceManager::getInstance().getChunk(
-                        "2DBreakout/SFX/ButtonClick_SFX.wav"),
+                        "Graverunner/2DPlatformer_SFX/mixkit-video-game-mystery-alert-234.wav"),
                     0);
     selectHook();
   };

@@ -10,10 +10,9 @@
  */
 class Button : public GameObject {
  public:
-  enum Color { RED, GREEN };
-
-  Button(Level& level, float x, float y, float w, float h, Color color,
+  Button(Level& level, float x, float y, float w, float h,
          const std::string& text, std::function<void(void)> selectHook);
+
   std::shared_ptr<TextureRenderComponent> getTextureRenderer() const {
     return buttonRenderer;
   }
@@ -27,8 +26,5 @@ class Button : public GameObject {
   SDL_Rect mCropNotFocused{0, 0, 0, 0};
   SDL_Rect mCropFocused{0, 0, 0, 0};
 };
-
-
-
 
 #endif

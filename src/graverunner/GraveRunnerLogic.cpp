@@ -63,7 +63,7 @@ void GraveRunnerLogic::createChangeLanguageLevel(int width, int height) {
   };
 
   // Add the English button
-  mLanguageMenu->addObject(std::make_shared<Button>(*mLanguageMenu, width / 4, height / 6, width / 4, 139, Button::Color::GREEN,
+  mLanguageMenu->addObject(std::make_shared<Button>(*mLanguageMenu, width / 4, height / 6, width / 4, 139,
                                                     u8"ENGLISH", changeLanguageToEnglish));
   /******************************************************************************************************************/
   // Lambda for changing the language to English
@@ -76,7 +76,7 @@ void GraveRunnerLogic::createChangeLanguageLevel(int width, int height) {
   };
 
   // Add the Spanish button
-  mLanguageMenu->addObject(std::make_shared<Button>(*mLanguageMenu, width / 4, height / 6 + 200, width / 4, 139, Button::Color::GREEN,
+  mLanguageMenu->addObject(std::make_shared<Button>(*mLanguageMenu, width / 4, height / 6 + 200, width / 4, 139,
                                                     u8"SPANISH", changeLanguageToSpanish));
   /******************************************************************************************************************/
   // Lambda for returning to main menu
@@ -85,7 +85,7 @@ void GraveRunnerLogic::createChangeLanguageLevel(int width, int height) {
   };
 
   // Add the return button
-  mLanguageMenu->addObject(std::make_shared<Button>(*mLanguageMenu, width / 2, height / 6 + 200, width / 4, 139, Button::Color::RED,
+  mLanguageMenu->addObject(std::make_shared<Button>(*mLanguageMenu, width / 2, height / 6 + 200, width / 4, 139,
                                                     u8"RETURN", changeToStartMenu ));
   /******************************************************************************************************************/
   mLanguageMenu->addObject(std::make_shared<Mouse>(*mLanguageMenu));
@@ -105,7 +105,7 @@ void GraveRunnerLogic::createStartMenuLevel(int width, int height) {
   };
 
   // // Add the Start game button
-  mStartMenu->addObject(std::make_shared<Button>(*mStartMenu, width / 4, height / 6, width / 4, 139, Button::Color::GREEN,
+  mStartMenu->addObject(std::make_shared<Button>(*mStartMenu, width / 4, height / 6, width / 4, 139,
                                                  u8"START", startGameLevelButtonHook));
 
   // /******************************************************************************************************************/
@@ -116,7 +116,7 @@ void GraveRunnerLogic::createStartMenuLevel(int width, int height) {
   };
 
   // Add the change language button to the start menu
-  mStartMenu->addObject(std::make_shared<Button>(*mStartMenu, width / 4, height / 6 + 400, 2 * width / 3, 139, Button::Color::GREEN,
+  mStartMenu->addObject(std::make_shared<Button>(*mStartMenu, width / 4, height / 6 + 400, 2 * width / 3, 139,
                                                  u8"CHANGE LANGUAGE", changeLanguageButtonHook));
 
   // /******************************************************************************************************************/
