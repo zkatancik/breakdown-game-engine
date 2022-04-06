@@ -19,25 +19,21 @@ void BreakoutGameLevel::initialize() {
   blocksPerRow = levelData.colCount;
   numBlocks = levelData.numOfblocks;
   std::shared_ptr<GameObject> paddle;
-  std::shared_ptr<GameObject> ball;
 
   switch(gameDifficulty_) {
     case GameDifficulty::Easy:
     default:
       paddle = std::make_shared<Paddle>(*this, w(), h(), 200, 400);
-      ball = std::make_shared<Ball>(*this, 100, 75, EASY_BALL_X, EASY_BALL_Y);
       break;
     case GameDifficulty::Medium:
       paddle = std::make_shared<Paddle>(*this, w(), h(), 11, 156);
-      ball = std::make_shared<Ball>(*this, 100, 75, MEDIUM_BALL_X, MEDIUM_BALL_Y);
       break;
     case GameDifficulty::Hard:
       paddle = std::make_shared<Paddle>(*this, w(), h(), 7, 208);
-      ball = std::make_shared<Ball>(*this, 100, 75, HARD_BALL_X, HARD_BALL_Y);
       break;
   }
   addObject(paddle);
-  addObject(ball);
+  addObject(createBallObject());
 
   // dynamic y placement of blocks
   int y = 100;
@@ -103,6 +99,8 @@ void BreakoutGameLevel::initialize() {
 
   auto reduceLifeOnCollideLambda = [&] (Level &level, std::shared_ptr<GameObject> obj) {
     lives--;
+    Mix_PlayChannel(1, ResourceManager::getInstance().getChunk("2DBreakout/SFX/LifeLost_SFX.mp3"), 0);
+    addObject(createBallObject());
   };
   auto reduceLifeOnCollideComponent = std::make_shared<PerformHookOnCollideComponent>(*BottomMostBoundary, BallTag, reduceLifeOnCollideLambda);
   BottomMostBoundary->addGenericComponent(reduceLifeOnCollideComponent);
@@ -111,3 +109,13 @@ void BreakoutGameLevel::initialize() {
 
   // Add UI Elements
 }
+std::shared_ptr<Ball> BreakoutGameLevel::createBallObject() {
+  switch(gameDifficulty_) {
+    case GameDifficulty::Easy:
+    default:
+      return std::make_shared<Ball>(*this, 100, 75, EASY_BALL_X, EASY_BALL_Y);
+    case GameDifficulty::Medium:
+      return std::make_shared<Ball>(*this, 100, 75, MEDIUM_BALL_X, MEDIUM_BALL_Y);
+    case GameDifficulty::Hard:
+      return std::make_shared<Ball>(*this, 100, 75, HARD_BALL_X, HARD_BALL_Y);
+}}

@@ -29,6 +29,8 @@ class BreakoutGameLevel : public Level {
   }
 
  private:
+  std::shared_ptr<Ball> createBallObject();
+
   std::shared_ptr<GridRenderComponent> mGridRenderComponent;
 
   std::string highestScoreUsername;
@@ -49,7 +51,6 @@ class BreakoutGameLevel : public Level {
 
   int score{0};
 
-  Language language_{Language::ENGLISH};
   GameDifficulty gameDifficulty_{GameDifficulty::Easy};
   int mLevelNumber{1};
 
