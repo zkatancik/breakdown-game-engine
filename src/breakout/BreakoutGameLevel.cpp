@@ -19,7 +19,13 @@ void BreakoutGameLevel::initialize() {
   blocksPerRow = levelData.colCount;
   numBlocks = levelData.numOfblocks;
   std::shared_ptr<GameObject> paddle;
-
+  // Create UI elements
+  addObject(createLevelIndicatorObject());
+  auto livesIndicator = createLivesIndicatorObject();
+  addObject(livesIndicator);
+  auto scoreIndicator = createScoreIndicatorObject();
+  addObject(scoreIndicator);
+  // Create ball and paddle
   switch(gameDifficulty_) {
     case GameDifficulty::Easy:
     default:
@@ -48,14 +54,20 @@ void BreakoutGameLevel::initialize() {
         if (b.block_Type == BlockType::PlainBlock) {
           block = std::make_shared<Block>(*this, x, y, color, b, 1);
           blocksLeft = true;
-          addObject(block);
         } else if (b.block_Type == BlockType::HardBlock) {
           block = std::make_shared<Block>(*this, x, y, 5, b, 3);
-          addObject(block);
         } else if (b.block_Type == BlockType::Wall) {
           block = std::make_shared<Block>(*this, x, y, 6, b, 1);
-          addObject(block);
         }
+        auto blockHealthComponent = block->getGenericComponent<HealthComponent>();
+        blockHealthComponent->setCallbackAtDeath(
+            [&, scoreIndicator = std::weak_ptr<GameObject>(scoreIndicator),
+             blockType = block->getBlockType()] () {
+              int increment = blockType == BlockType::HardBlock ? 3 : 1;
+              auto scoreVarComponent = scoreIndicator.lock()->getGenericComponent<GameVariableComponent<int>>();
+              scoreVarComponent->setVariable(scoreVarComponent->getVariable() + increment);
+            });
+        addObject(block);
       }
       x = x + 64;
     }
@@ -97,10 +109,11 @@ void BreakoutGameLevel::initialize() {
   auto removeOnCollideComponent = std::make_shared<RemoveOnCollideComponent>(*BottomMostBoundary, BallTag);
   BottomMostBoundary->addGenericComponent(removeOnCollideComponent);
 
-  auto reduceLifeOnCollideLambda = [&] (Level &level, std::shared_ptr<GameObject> obj) {
-    lives--;
+  auto reduceLifeOnCollideLambda = [&, livesIndicator = std::weak_ptr<GameObject>(livesIndicator)] (Level &level, std::shared_ptr<GameObject> obj) {
+    auto livesVarComponent = livesIndicator.lock()->getGenericComponent<GameVariableComponent<int>>();
+    livesVarComponent->setVariable(livesVarComponent->getVariable() - 1);
     Mix_PlayChannel(1, ResourceManager::getInstance().getChunk("2DBreakout/SFX/LifeLost_SFX.mp3"), 0);
-    addObject(createBallObject());
+    level.addObject(createBallObject());
   };
   auto reduceLifeOnCollideComponent = std::make_shared<PerformHookOnCollideComponent>(*BottomMostBoundary, BallTag, reduceLifeOnCollideLambda);
   BottomMostBoundary->addGenericComponent(reduceLifeOnCollideComponent);
@@ -119,3 +132,55 @@ std::shared_ptr<Ball> BreakoutGameLevel::createBallObject() {
     case GameDifficulty::Hard:
       return std::make_shared<Ball>(*this, 100, 75, HARD_BALL_X, HARD_BALL_Y);
 }}
+
+std::shared_ptr<GameObject> BreakoutGameLevel::createLevelIndicatorObject() {
+  auto levelIndicator = std::make_shared<GameObject>(*this, 10, 10, 50, 50, TextTag);
+  auto textRenderer = std::make_shared<TextureRenderComponent>(*levelIndicator);
+
+  textRenderer->setRenderMode(TextureRenderComponent::RenderMode::QUERY);
+  levelIndicator->setRenderComponent(textRenderer);
+  std::string levelMessage = "Level: " + std::to_string(mLevelNumber);
+  auto textComponent = std::make_shared<TextComponent>(*levelIndicator, levelMessage,
+                                                       32, "2DBreakout/Fonts/Gageda.ttf", textRenderer);
+  levelIndicator->addGenericComponent(textComponent);
+  return levelIndicator;
+}
+
+std::shared_ptr<GameObject> BreakoutGameLevel::createLivesIndicatorObject() {
+  auto livesIndicator = std::make_shared<GameObject>(*this, 10, 50, 50, 50, TextTag);
+  auto textRenderer = std::make_shared<TextureRenderComponent>(*livesIndicator);
+
+  textRenderer->setRenderMode(TextureRenderComponent::RenderMode::QUERY);
+  livesIndicator->setRenderComponent(textRenderer);
+  std::string levelMessage = "Lives: " + std::to_string(livesPerGame);
+  auto textComponent = std::make_shared<TextComponent>(*livesIndicator, levelMessage,
+                                                       32, "2DBreakout/Fonts/Gageda.ttf", textRenderer);
+  livesIndicator->addGenericComponent(textComponent);
+  auto gameVariableComponent = std::make_shared<GameVariableComponent<int>>(*livesIndicator, livesPerGame);
+  livesIndicator->addGenericComponent(gameVariableComponent);
+  std::weak_ptr<GameVariableComponent<int>> gameVariableComponentWeak(gameVariableComponent);
+  std::weak_ptr<TextComponent> textComponentWeak(textComponent);
+  gameVariableComponent->setUpdateCallBack([gameVariableComponentWeak, textComponentWeak]{
+    textComponentWeak.lock()->SetMText("Lives: " + std::to_string(gameVariableComponentWeak.lock()->getVariable()));
+  });
+  return livesIndicator;
+}
+std::shared_ptr<GameObject> BreakoutGameLevel::createScoreIndicatorObject() {
+  auto scoreIndicator = std::make_shared<GameObject>(*this, 10, 90, 50, 50, TextTag);
+  auto textRenderer = std::make_shared<TextureRenderComponent>(*scoreIndicator);
+
+  textRenderer->setRenderMode(TextureRenderComponent::RenderMode::QUERY);
+  scoreIndicator->setRenderComponent(textRenderer);
+  std::string levelMessage = "Score: " + std::to_string(livesPerGame);
+  auto textComponent = std::make_shared<TextComponent>(*scoreIndicator, levelMessage,
+                                                       32, "2DBreakout/Fonts/Gageda.ttf", textRenderer);
+  scoreIndicator->addGenericComponent(textComponent);
+  auto gameVariableComponent = std::make_shared<GameVariableComponent<int>>(*scoreIndicator, 0);
+  scoreIndicator->addGenericComponent(gameVariableComponent);
+  std::weak_ptr<GameVariableComponent<int>> gameVariableComponentWeak(gameVariableComponent);
+  std::weak_ptr<TextComponent> textComponentWeak(textComponent);
+  gameVariableComponent->setUpdateCallBack([gameVariableComponentWeak, textComponentWeak]{
+    textComponentWeak.lock()->SetMText("Score: " + std::to_string(gameVariableComponentWeak.lock()->getVariable()));
+  });
+  return scoreIndicator;
+}
