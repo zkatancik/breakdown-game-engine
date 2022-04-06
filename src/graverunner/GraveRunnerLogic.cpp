@@ -104,11 +104,12 @@ void GraveRunnerLogic::createStartMenuLevel(int width, int height) {
     mCurrentlyActiveLevel = mGameLevels[0];
   };
 
-  // // Add the Start game button
-  mStartMenu->addObject(std::make_shared<Button>(*mStartMenu, width / 4, height / 6, width / 4, 139,
+  // Add the Start game button
+  // Note, magic constants come from Button.cpp but also the w,h values don't matter for buttons
+  mStartMenu->addObject(std::make_shared<Button>(*mStartMenu, width / 2, height / 3, 784, 295,
                                                  u8"START", startGameLevelButtonHook));
 
-  // /******************************************************************************************************************/
+  /******************************************************************************************************************/
 
   // Lambda for creating the language menu, and setting the active level to be it
   auto changeLanguageButtonHook = [&] {
@@ -116,10 +117,10 @@ void GraveRunnerLogic::createStartMenuLevel(int width, int height) {
   };
 
   // Add the change language button to the start menu
-  mStartMenu->addObject(std::make_shared<Button>(*mStartMenu, width / 4, height / 6 + 400, 2 * width / 3, 139,
+  mStartMenu->addObject(std::make_shared<Button>(*mStartMenu, width / 2, height / 2, 784, 295,
                                                  u8"CHANGE LANGUAGE", changeLanguageButtonHook));
 
-  // /******************************************************************************************************************/
+  /******************************************************************************************************************/
   // Add mouse pointer
   mStartMenu->addObject(std::make_shared<Mouse>(*mStartMenu));
 }
