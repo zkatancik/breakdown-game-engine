@@ -9,7 +9,7 @@ class Block;
 
 class GraveRunnerLevel : public Level {
  public:
-  GraveRunnerLevel(int w, int h) : Level(w, h){};
+  GraveRunnerLevel(int w, int h, int levelNum) : Level(w, h), currentLevelNumber(levelNum) {};
 
   void initialize() override;
 

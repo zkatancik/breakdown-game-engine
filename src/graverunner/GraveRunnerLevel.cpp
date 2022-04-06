@@ -16,7 +16,8 @@ void GraveRunnerLevel::initialize() {
   blocksPerRow = levelData.colCount;
   currentLevel =
       std::make_shared<GraveRunnerLevel>(blocksPerRow * levelData.blockSize.x,
-                                         rowsOfBlocks * levelData.blockSize.y);
+                                         rowsOfBlocks * levelData.blockSize.y,
+                                         currentLevelNumber);
   blockSize = levelData.blockSize;
 
   // Place Level Boundaries (need solid physics component to be considered for
