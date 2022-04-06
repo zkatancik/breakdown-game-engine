@@ -3,7 +3,6 @@
 #include <iostream>
 #include "base/SDLProgramLogic.hpp"
 #include "base/PhysicsManager.hpp"
-#include "graverunner/UIManager.hpp"
 #include "graverunner/GraveRunnerLevel.hpp"
 #include "graverunner/Mouse.hpp"
 #include "graverunner/Button.hpp"
@@ -41,8 +40,6 @@ class GraveRunnerLogic : public SDLProgramLogic {
                                           //will start/currently being played.
 
   void loadAllLevels(int width, int height);
-
-  void createChangeDifficultyLevel(int width, int height);
 
   void createChangeLanguageLevel(int width, int height);
 
