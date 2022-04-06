@@ -3,7 +3,7 @@
 void GraveRunnerLogic::startUp(SDL_Renderer* gRender, int width, int height) {
   // Start up Physics Manager
   PhysicsManager::getInstance().startUp();
-  GameManager::getInstance().startUp(width, height);
+  //GameManager::getInstance().startUp(width, height);
   UIManager::getInstance().startUp(width, height);
   // Create Start Menu Level and set it as the currently active level
   // createStartMenuLevel(width, height);
@@ -27,7 +27,7 @@ void GraveRunnerLogic::shutDown() {
 
   PhysicsManager::getInstance().shutDown();
   UIManager::getInstance().shutDown();
-  GameManager::getInstance().shutDown();
+  //GameManager::getInstance().shutDown();
 }
 
 
@@ -184,6 +184,6 @@ void GraveRunnerLogic::createStartMenuLevel(int width, int height) {
 
   // /******************************************************************************************************************/
   // Add mouse pointer
-  mStartMenu->addObject(std::make_shared<Mouse>(*mStartMenu));
+  mStartMenu->addObject(std::make_shared<Mouse>(*mStartMenu, 35, 61));
 }
 
