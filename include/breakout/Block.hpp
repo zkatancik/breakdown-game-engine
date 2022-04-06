@@ -11,6 +11,7 @@
 #include "base/GameObject.hpp"
 #include "breakout/Tag.hpp"
 #include "base/Level.hpp"
+#include "base/HealthComponent.hpp"
 
 /**
  * @brief A class representing a Block in our game, with various options (see
@@ -29,25 +30,11 @@ class Block : public GameObject {
  */
   Block(Level& level, float x, float y, int color, BlockData bd, int h);
 
-  /**
-   * @brief Get configuration data about this Block.
-   *
-   * @return blockData about this Block
-   */
-  inline BlockData getBlockData() const { return blockData; };
-
-  /**
-   * @brief Reduce the health of a Block.
-   *
-   * @return true if health becomes 0
-   * @return false otherwise
-   */
-  bool reduceHealth();
-
  private:
   std::shared_ptr<TextureRenderComponent> renderer_;
+  std::shared_ptr<HealthComponent> healthComponent_;
   BlockData blockData;
-  int health;
+
 
   static inline const std::string colorMap[7] = {
       "element_yellow_rectangle.png", "element_green_rectangle.png",

@@ -1,5 +1,4 @@
 #include "breakout/Paddle.hpp"
-#include <limits>
 #include "base/ResourceManager.hpp"
 
 
@@ -7,6 +6,6 @@ Paddle::Paddle(Level& level, float sw, float sh, float width, float speed) : Gam
   mRenderer = std::make_shared<TextureRenderComponent>(*this);
   setRenderComponent(mRenderer);
   mRenderer->setTexture(ResourceManager::getInstance().getTexture("2DBreakout/Graphics/paddleRed.png"));
-  setPhysicsComponent(std::make_shared<PhysicsComponent>(*this, b2_kinematicBody, false, 0.f, 0.f));
+  setPhysicsComponent(std::make_shared<PhysicsComponent>(*this, b2_kinematicBody, false, 0.f, 10.f));
   addGenericComponent(std::make_shared<InputBreakoutComponent>(*this, speed));
 }
