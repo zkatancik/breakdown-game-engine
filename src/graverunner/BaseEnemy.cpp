@@ -1,4 +1,5 @@
 #include <box2d/b2_body.h>
+#include "graverunner/Jack.hpp"
 #include "graverunner/BaseEnemy.hpp"
 
 BaseEnemy::BaseEnemy(Level& level, float tl_x, float tl_y, float w, float h,
