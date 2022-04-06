@@ -39,7 +39,6 @@ void BreakoutLogic::update() {
   if (InputManager::getInstance().isKeyPressed(SDLK_q)) {
     mQuite = true;
   }
-    std::cout << "is game active: " << isGameActive() << std::endl;
   framerateModerator();
 }
 
