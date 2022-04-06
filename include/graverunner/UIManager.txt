@@ -14,7 +14,6 @@
 #include "base/SDLGraphicsProgram.hpp"
 #include "base/SDL_DEBUG.hpp"
 #include "graverunner/Button.hpp"
-#include "graverunner/LevelEditButton.hpp"
 #include "base/GridRenderComponent.hpp"
 
 /**
