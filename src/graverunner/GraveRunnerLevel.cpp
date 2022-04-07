@@ -12,9 +12,9 @@ void GraveRunnerLevel::initialize() {
   LevelData levelData;
   loadLevel(&levelData, currentLevelNumber);
 
-  rowsOfBlocks = levelData.rowCount;
-  blocksPerRow = levelData.colCount;
-  blockSize = levelData.blockSize;
+  int rowsOfBlocks = levelData.rowCount;
+  int blocksPerRow = levelData.colCount;
+  Vector2D<int> blockSize = levelData.blockSize;
 
   // Place Level Boundaries (need solid physics component to be considered for
   // collision) Left-most boundary
@@ -56,7 +56,6 @@ void GraveRunnerLevel::initialize() {
           block = std::make_shared<Block>(*this, x, y, b, 0, blockSize);
         } else if (b.block_Type == BlockType::Exit) {
           block = std::make_shared<Block>(*this, x, y, b, 0, blockSize);
-          exitBlock = block;
         }
         addObject(block);
       }
@@ -67,9 +66,9 @@ void GraveRunnerLevel::initialize() {
   }
 
   // Place Jack
-  jack = std::make_shared<Jack>(*this, blockSize.x * levelData.playerStartPosition.x,
-                blockSize.y * levelData.playerStartPosition.y, blockSize.x,
-                blockSize.y);
+  std::shared_ptr<Jack> jack = std::make_shared<Jack>(
+      *this, blockSize.x * levelData.playerStartPosition.x,
+      blockSize.y * levelData.playerStartPosition.y, blockSize.x, blockSize.y);
   addObject(jack);
 
   // Place Enemies end points DYNAMICALLY
