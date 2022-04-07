@@ -51,6 +51,8 @@ Button::Button(Level& level, float x, float y, float w, float h, Color color,
   addGenericComponent(std::make_shared<CenterTextComponent>(
       *this, textRenderer, this->x(), this->y()));
 
+  textRenderer->setOffSetY(int(30));
+
   auto selectableComponent = std::make_shared<SelectableComponent>(
       *this, addedSoundWithSelectHook, mHoverChangeFocus,
       mNotSelectChangeFocus);
