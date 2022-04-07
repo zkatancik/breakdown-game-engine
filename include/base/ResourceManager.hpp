@@ -303,7 +303,8 @@ class ResourceManager {
       {u8"Enter your name:", {{Language::SPANISH, u8"Introduzca su nombre:"}}},
       {u8"NEXT LEVEL", {{Language::SPANISH, u8"SIGUIENTE NIVEL"}}},
       {u8"LEVEL EDITOR", {{Language::SPANISH, u8"EDITOR DE NIVELES"}}},
-      {u8"GAME OVER", {{Language::SPANISH, u8"JUEGO TERMINADO"}}}
+      {u8"GAME OVER", {{Language::SPANISH, u8"JUEGO TERMINADO"}}},
+      {u8"GraveRunner", {{Language::SPANISH, u8"GraveRunner"}}},
   };
 };
 #endif

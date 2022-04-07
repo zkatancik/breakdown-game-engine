@@ -11,7 +11,7 @@ void loadLevel(LevelData *levelData, int level) {
 
   levelData->levelNumber = level;
 
-  const filesystem::path resPath = getResourcePath("levels");
+  const filesystem::path resPath = getResourcePath("Graverunner/levels");
   std::string resourceFilename =
       (resPath / ("level" + std::to_string(levelData->levelNumber) + ".txt")).string();
 
@@ -122,7 +122,7 @@ void loadLevel(LevelData *levelData, int level) {
     
     ResourceManager::getInstance().closeFile(resourceFilename);
   } else {
-    std::cout << "Unable to open file \n";
+    std::cout << "Unable to open level file at " << resourceFilename << std::endl;
   }
 }
 
