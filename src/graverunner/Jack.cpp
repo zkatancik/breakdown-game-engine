@@ -14,7 +14,7 @@ Jack::Jack(Level& level, float tl_x, float tl_y, float w, float h) : GameObject(
       *this, KeyTag, [&](Level &level, std::shared_ptr<GameObject> obj) {
         numCollectedKeys++;
         Mix_PlayChannel(
-            0, ResourceManager::getInstance().getChunk("BrickHit_SFX.mp3"), 0);
+            0, ResourceManager::getInstance().getChunk("Graverunner/2DPlatformer_SFX/BrickHit_SFX.mp3"), 0);
       }));
   addGenericComponent(std::make_shared<RemoveOnCollideComponent>(*this, KeyTag));
 //  addGenericComponent(std::make_shared<PerformHookOnCollideComponent>(
@@ -29,7 +29,7 @@ Jack::Jack(Level& level, float tl_x, float tl_y, float w, float h) : GameObject(
 }
 
 void Jack::update() {
-  std::string path = "jack/";
+  std::string path = "Graverunner/jack/";
   switch (input_grav_->getCurActionState()) {
     case IDLE:
       path += "Idle";

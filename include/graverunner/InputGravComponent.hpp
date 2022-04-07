@@ -91,12 +91,12 @@ class InputGravComponent: public GenericComponent {
         pc->setVy(-mJump);
         curActionState = JUMP;
         Mix_PlayChannel(
-            0, ResourceManager::getInstance().getChunk("PaddleBorderHit_SFX.mp3"), 0);
+            0, ResourceManager::getInstance().getChunk("Graverunner/2DPlatformer_SFX/PaddleBorderHit_SFX.mp3"), 0);
       }
       else if (onGround && down && (left ^ right)) {
         curActionState = SLIDE;
         Mix_PlayChannel(
-            0, ResourceManager::getInstance().getChunk("PaddleBorderHit_SFX.mp3"), 0);
+            0, ResourceManager::getInstance().getChunk("Graverunner/2DPlatformer_SFX/PaddleBorderHit_SFX.mp3"), 0);
       }
     }
   }
@@ -106,7 +106,7 @@ class InputGravComponent: public GenericComponent {
       if (curActionState != ActionState::SLIDE) {
         curActionState = ActionState::DEAD;
         Mix_PlayChannel(
-            1, ResourceManager::getInstance().getChunk("die_sound.mp3"), 0);
+            1, ResourceManager::getInstance().getChunk("Graverunner/2DPlatformer_SFX/die_sound.mp3"), 0);
       }
       else
         level.removeObject(obj);

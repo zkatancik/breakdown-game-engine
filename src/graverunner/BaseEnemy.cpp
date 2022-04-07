@@ -22,7 +22,7 @@ BaseEnemy::~BaseEnemy() {
 }
 
 void BaseEnemy::update() {
-  std::string path = "zombies/male/Walk";
+  std::string path = "Graverunner/zombies/male/Walk";
   path += (std::to_string(counter_->getCounter() + 1) + ".png");
 
   SDL_Texture* texture = ResourceManager::getInstance().getTexture(path);

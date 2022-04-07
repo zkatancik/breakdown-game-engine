@@ -80,7 +80,7 @@ private:
   static SDL_Texture *getBlockTexture(const std::string &name)
   {
     return ResourceManager::getInstance().getTexture(
-        (std::filesystem::path("graveyardtiles/png/Tiles/") /
+        (std::filesystem::path("Graverunner/graveyardtiles/png/Tiles/") /
          ("Tile" + name + ".png"))
             .string());
   }

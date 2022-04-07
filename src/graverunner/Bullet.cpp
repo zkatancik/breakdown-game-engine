@@ -11,7 +11,7 @@ Bullet::Bullet(Level& level, float x, float y, float w, float h,
                bool isFacingLeft)
     : GameObject(level, x, y, w, h, BulletTag) {
   auto renderer = std::make_shared<TextureRenderComponent>(*this);
-  renderer->setTexture(ResourceManager::getInstance().getTexture("graveyardtiles/png/Tiles/Bone2.png"));
+  renderer->setTexture(ResourceManager::getInstance().getTexture("Graverunner/graveyardtiles/png/Tiles/Bone2.png"));
   setRenderComponent(renderer);
   addGenericComponent(std::make_shared<RemoveOnCollideComponent>(*this, ZombieTag));
   setPhysicsComponent(std::make_shared<PhysicsComponent>(*this, b2BodyType::b2_dynamicBody, false));
