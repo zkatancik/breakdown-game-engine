@@ -6,6 +6,8 @@
 #include "graverunner/FollowerZombie.hpp"
 #include "graverunner/PatrolZombie.hpp"
 #include "graverunner/Block.hpp"
+#include "graverunner/KeyBlock.hpp"
+#include "graverunner/ExitBlock.hpp"
 
 void GraveRunnerLevel::initialize() {
   finalize();
@@ -37,7 +39,7 @@ void GraveRunnerLevel::initialize() {
       std::make_shared<RemoveOnCollideComponent>(*rightMostBoundary,
                                                  BulletTag));
 
-  // dynamic y placement of blocks
+  // Place the game objects/environment (blocks, keys, exit)
   int y = 0;
   int count = 1;
   for (int i = 0; i < rowsOfBlocks; i++) {
@@ -45,17 +47,17 @@ void GraveRunnerLevel::initialize() {
     for (int j = 0; j < blocksPerRow; j++) {
       auto b = levelData.blocks[(i * blocksPerRow) + j];
       if (b.block_Type != BlockType::NoBlock) {
-        std::shared_ptr<Block> block;
+        std::shared_ptr<GameObject> obj;
         if (b.block_Type == BlockType::PlainBlock) {
-          block = std::make_shared<Block>(*this, x, y, b, 1, blockSize);
+          obj = std::make_shared<Block>(*this, x, y, b, 1, blockSize);
         } else if (b.block_Type == BlockType::Wall) {
-          block = std::make_shared<Block>(*this, x, y, b, 0, blockSize);
+          obj = std::make_shared<Block>(*this, x, y, b, 0, blockSize);
         } else if (b.block_Type == BlockType::Key) {
-          block = std::make_shared<Block>(*this, x, y, b, 0, blockSize);
+          obj = std::make_shared<KeyBlock>(*this, x, y, blockSize);
         } else if (b.block_Type == BlockType::Exit) {
-          block = std::make_shared<Block>(*this, x, y, b, 0, blockSize);
+          obj = std::make_shared<ExitBlock>(*this, x, y, blockSize);
         }
-        addObject(block);
+        addObject(obj);
       }
       x = x + blockSize.x;
     }
