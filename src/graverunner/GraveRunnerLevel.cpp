@@ -48,8 +48,6 @@ void GraveRunnerLevel::initialize() {
         std::shared_ptr<Block> block;
         if (b.block_Type == BlockType::PlainBlock) {
           block = std::make_shared<Block>(*this, x, y, b, 1, blockSize);
-        } else if (b.block_Type == BlockType::HardBlock) {
-          block = std::make_shared<Block>(*this, x, y, b, 3, blockSize);
         } else if (b.block_Type == BlockType::Wall) {
           block = std::make_shared<Block>(*this, x, y, b, 0, blockSize);
         } else if (b.block_Type == BlockType::Key) {

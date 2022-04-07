@@ -21,10 +21,6 @@ enum BlockType {
   NoBlock,
   // Unbreakable Block
   Wall,
-  // Plain Block with health (multiple hits to destroy)
-  HardBlock,
-  // Heart
-  Heart,
   // Key to unlock the exit
   Key,
   // Exit of the Level (Also the goal)
@@ -61,7 +57,6 @@ enum LevelItem {
   PATROLZOMBIE = 'E',
   FOLLOWZOMBIE = 'F',
   WALL = 'W',
-  HARDBLOCK = 'H',
   KEY = 'K',
   EXIT = 'G',
 };

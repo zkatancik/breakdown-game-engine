@@ -82,9 +82,6 @@ void loadLevel(LevelData *levelData, int level) {
         } else if (ch == 'W') {
           data.block_Type = BlockType::Wall;
           levelData->levelGrid[lineCounter - 4][colCounter] = LevelItem::WALL;
-        } else if (ch == 'H') {
-          data.block_Type = BlockType::HardBlock;
-          levelData->levelGrid[lineCounter - 4][colCounter] = LevelItem::HARDBLOCK;
         } else if (ch == 'K') {
           data.block_Type = BlockType::Key;
           levelData->levelGrid[lineCounter - 4][colCounter] = LevelItem::KEY;
