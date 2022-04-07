@@ -42,8 +42,6 @@ class GraveRunnerLevel : public Level {
 
   int score{0};
 
-  std::shared_ptr<GraveRunnerLevel> currentLevel{nullptr};
-
   LevelData mLevelData;
 
 };
