@@ -54,9 +54,9 @@ class BreakoutLogic : public SDLProgramLogic {
 
   void createChangeLanguageLevel(int width, int height);
 
-  void createLevelClearedMenu(int width, int height);
+  void initializeLevelClearedMenu(int score);
 
-  void createLevelFailedMenu(int width, int height);
+  void initializeLevelFailedMenu(int score);
 
   void createStartMenuLevel(int width, int height);
 
