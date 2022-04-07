@@ -31,19 +31,22 @@ void BreakoutLogic::shutDown() {
 void BreakoutLogic::update() {
   mCurrentlyActiveLevel->update();
   if (isGameActive()) {
-    auto currGameLevel = std::weak_ptr<BreakoutGameLevel>(mGameLevels[mCurrentlySelectedGameLevelIdx]);
+    auto currGameLevel = std::weak_ptr<BreakoutGameLevel>(
+        mGameLevels[mCurrentlySelectedGameLevelIdx]);
     if (!currGameLevel.lock()->isLevelInProgress()) {
       if (currGameLevel.lock()->isGameWon()) {
         mCurrentlyActiveLevel = mLevelClearedMenu;
-      }
-      else
+      } else
         mCurrentlyActiveLevel = mLevelFailedMenu;
     }
   }
   if (InputManager::getInstance().isKeyPressed(SDLK_x)) {
     if (isGameActive()) {
       mGameLevels[mCurrentlySelectedGameLevelIdx]->finalize();
-      mCurrentlySelectedGameLevelIdx = mCurrentlySelectedGameLevelIdx == 3 ? 0 : (mCurrentlySelectedGameLevelIdx + 1);
+      mCurrentlySelectedGameLevelIdx =
+          mCurrentlySelectedGameLevelIdx == 3
+              ? 0
+              : (mCurrentlySelectedGameLevelIdx + 1);
       mCurrentlyActiveLevel = mGameLevels[mCurrentlySelectedGameLevelIdx];
       mCurrentlyActiveLevel->initialize();
     }
@@ -56,13 +59,11 @@ void BreakoutLogic::update() {
     }
   }
 
-
   if (InputManager::getInstance().isKeyPressed(SDLK_q)) {
     mQuite = true;
   }
   framerateModerator();
 }
-
 
 void BreakoutLogic::loadAllLevels(int width, int height) {
   for (unsigned int i = 0; i < mGameLevels.size(); i++) {
@@ -227,23 +228,32 @@ void BreakoutLogic::createLevelClearedMenu(int width, int height) {
   // Lambda for changing the language to English
   auto goToNextLevelLambda = [&] {
     mGameLevels[mCurrentlySelectedGameLevelIdx]->finalize();
-    mCurrentlySelectedGameLevelIdx = mCurrentlySelectedGameLevelIdx == 3 ? 0 : (mCurrentlySelectedGameLevelIdx + 1);
+    mCurrentlySelectedGameLevelIdx = mCurrentlySelectedGameLevelIdx == 3
+                                         ? 0
+                                         : (mCurrentlySelectedGameLevelIdx + 1);
     mCurrentlyActiveLevel = mGameLevels[mCurrentlySelectedGameLevelIdx];
     mCurrentlyActiveLevel->initialize();
   };
 
   mLevelClearedMenu->addObject(std::make_shared<Button>(
-      *mLevelClearedMenu, width / 2, height / 3, width / 4, 139,
+      *mLevelClearedMenu, width, height / 3, width / 4, 139,
       Button::Color::GREEN, u8"NEXT LEVEL", goToNextLevelLambda));
 
-  auto messageObject = std::make_shared<GameObject>(*mLevelClearedMenu, width / 2, height / 3, width / 4, 139, TextTag);
+  auto messageObject = std::make_shared<GameObject>(
+      *mLevelClearedMenu, width, height / 3, width / 4, 139, TextTag);
   auto textRenderer = std::make_shared<TextureRenderComponent>(*messageObject);
 
   textRenderer->setRenderMode(TextureRenderComponent::RenderMode::QUERY);
   messageObject->setRenderComponent(textRenderer);
   std::string levelMessage = "Level Cleared!";
-  auto textComponent = std::make_shared<TextComponent>(*messageObject, levelMessage,
-                                                   32, "2DBreakout/Fonts/Gageda.ttf", textRenderer);
+  auto textComponent = std::make_shared<TextComponent>(
+      *messageObject, levelMessage, 128, "2DBreakout/Fonts/Gageda.ttf",
+      textRenderer);
+
+  messageObject->addGenericComponent(std::make_shared<CenterTextComponent>(
+      *messageObject, textRenderer, width, height));
+
+  textRenderer->setOffSetY(int(100));
   messageObject->addGenericComponent(textComponent);
   mLevelClearedMenu->addObject(messageObject);
   mLevelClearedMenu->addObject(std::make_shared<Mouse>(*mLevelClearedMenu));
@@ -258,17 +268,24 @@ void BreakoutLogic::createLevelFailedMenu(int width, int height) {
   };
 
   mLevelFailedMenu->addObject(std::make_shared<Button>(
-      *mLevelFailedMenu, width / 2, height / 3, width / 4, 139,
+      *mLevelFailedMenu, width, height / 3, width / 4, 139,
       Button::Color::GREEN, u8"RETURN", goToMainMenuLevelLambda));
 
-  auto messageObject = std::make_shared<GameObject>(*mLevelFailedMenu, width / 2, height / 3, width / 4, 139, TextTag);
+  auto messageObject = std::make_shared<GameObject>(
+      *mLevelFailedMenu, width, height / 3, width / 4, 139, TextTag);
   auto textRenderer = std::make_shared<TextureRenderComponent>(*messageObject);
 
   textRenderer->setRenderMode(TextureRenderComponent::RenderMode::QUERY);
   messageObject->setRenderComponent(textRenderer);
   std::string levelMessage = "GAME OVER!";
-  auto textComponent = std::make_shared<TextComponent>(*messageObject, levelMessage,
-                                                       32, "2DBreakout/Fonts/Gageda.ttf", textRenderer);
+  auto textComponent = std::make_shared<TextComponent>(
+      *messageObject, levelMessage, 128, "2DBreakout/Fonts/Gageda.ttf",
+      textRenderer);
+
+  messageObject->addGenericComponent(std::make_shared<CenterTextComponent>(
+      *messageObject, textRenderer, width, height));
+
+  textRenderer->setOffSetY(int(100));
   messageObject->addGenericComponent(textComponent);
   mLevelFailedMenu->addObject(messageObject);
   mLevelFailedMenu->addObject(std::make_shared<Mouse>(*mLevelFailedMenu));
