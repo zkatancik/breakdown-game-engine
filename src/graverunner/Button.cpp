@@ -26,7 +26,8 @@ Button::Button(Level& level, float x, float y, float w, float h,
   auto addedSoundWithSelectHook = [selectHook = std::move(selectHook)] {
     Mix_PlayChannel(1,
                     ResourceManager::getInstance().getChunk(
-                        "Graverunner/2DPlatformer_SFX/mixkit-video-game-mystery-alert-234.wav"),
+                        "Graverunner/2DPlatformer_SFX/"
+                        "mixkit-video-game-mystery-alert-234.wav"),
                     0);
     selectHook();
   };
@@ -43,6 +44,8 @@ Button::Button(Level& level, float x, float y, float w, float h,
 
   addGenericComponent(std::make_shared<CenterTextComponent>(
       *this, textRenderer, this->x(), this->y()));
+
+  textRenderer->setOffSetY(int(60));
 
   auto selectableComponent = std::make_shared<SelectableComponent>(
       *this, addedSoundWithSelectHook, mHoverChangeFocus,
