@@ -31,7 +31,8 @@ void BreakoutLogic::shutDown() {
 void BreakoutLogic::update() {
   mCurrentlyActiveLevel->update();
   if (isGameActive()) {
-    auto currGameLevel = std::weak_ptr<BreakoutGameLevel>(mGameLevels[mCurrentlySelectedGameLevelIdx]);
+    auto currGameLevel = std::weak_ptr<BreakoutGameLevel>(
+        mGameLevels[mCurrentlySelectedGameLevelIdx]);
     if (!currGameLevel.lock()->isLevelInProgress()) {
       if (currGameLevel.lock()->isGameWon()) {
         initializeLevelClearedMenu(currGameLevel.lock()->getScore());
@@ -47,7 +48,10 @@ void BreakoutLogic::update() {
   if (InputManager::getInstance().isKeyPressed(SDLK_x)) {
     if (isGameActive()) {
       mGameLevels[mCurrentlySelectedGameLevelIdx]->finalize();
-      mCurrentlySelectedGameLevelIdx = mCurrentlySelectedGameLevelIdx == 3 ? 0 : (mCurrentlySelectedGameLevelIdx + 1);
+      mCurrentlySelectedGameLevelIdx =
+          mCurrentlySelectedGameLevelIdx == 3
+              ? 0
+              : (mCurrentlySelectedGameLevelIdx + 1);
       mCurrentlyActiveLevel = mGameLevels[mCurrentlySelectedGameLevelIdx];
       mCurrentlyActiveLevel->initialize();
     }
@@ -60,13 +64,11 @@ void BreakoutLogic::update() {
     }
   }
 
-
   if (InputManager::getInstance().isKeyPressed(SDLK_q)) {
     mQuite = true;
   }
   framerateModerator();
 }
-
 
 void BreakoutLogic::loadAllLevels(int width, int height) {
   for (unsigned int i = 0; i < mGameLevels.size(); i++) {
@@ -248,19 +250,21 @@ void BreakoutLogic::initializeLevelClearedMenu(int score) {
   // Lambda for changing the language to English
   auto goToNextLevelLambda = [&] {
     mGameLevels[mCurrentlySelectedGameLevelIdx]->finalize();
-    mCurrentlySelectedGameLevelIdx = mCurrentlySelectedGameLevelIdx == 3 ? 0 : (mCurrentlySelectedGameLevelIdx + 1);
+    mCurrentlySelectedGameLevelIdx = mCurrentlySelectedGameLevelIdx == 3
+                                         ? 0
+                                         : (mCurrentlySelectedGameLevelIdx + 1);
     mCurrentlyActiveLevel = mGameLevels[mCurrentlySelectedGameLevelIdx];
     mCurrentlyActiveLevel->initialize();
   };
   int width = mStartMenu->w();
   int height = mStartMenu->h();
   mLevelClearedMenu->addObject(std::make_shared<Button>(
-      *mLevelClearedMenu, width / 2, height / 3, width / 4, 139,
+      *mLevelClearedMenu, width, height / 3, width / 4, 139,
       Button::Color::GREEN, u8"NEXT LEVEL", goToNextLevelLambda));
 
-  createTextMessageForLevel(mLevelClearedMenu, "LEVEL CLEARED!", width / 2, height / 3);
+  createTextMessageForLevel(mLevelClearedMenu, "LEVEL CLEARED!", width, height / 3, 128);
 
-  createTextMessageForLevel(mLevelClearedMenu, "YOUR SCORE: " + std::to_string(score), width / 2, 2 * height / 3);
+  createTextMessageForLevel(mLevelClearedMenu, "YOUR SCORE: " + std::to_string(score), width, height);
   mLevelClearedMenu->addObject(std::make_shared<Mouse>(*mLevelClearedMenu));
 }
 
@@ -275,14 +279,12 @@ void BreakoutLogic::initializeLevelFailedMenu(int score) {
   int width = mLevelFailedMenu->w();
   int height = mLevelFailedMenu->h();
   mLevelFailedMenu->addObject(std::make_shared<Button>(
-      *mLevelFailedMenu, width / 2, height / 3, width / 4, 139,
+      *mLevelFailedMenu, width, height / 3, width / 4, 139,
       Button::Color::GREEN, u8"RETURN", goToMainMenuLevelLambda));
 
-  createTextMessageForLevel(mLevelFailedMenu, "GAME OVER!", width / 2, height / 3);
+  createTextMessageForLevel(mLevelFailedMenu, "GAME OVER!", width, height / 3, 128);
 
-  createTextMessageForLevel(mLevelFailedMenu, "YOUR SCORE: " + std::to_string(score), width / 2, 2 * height / 3);
+  createTextMessageForLevel(mLevelFailedMenu, "YOUR SCORE: " + std::to_string(score), width, height, 128);
 
   mLevelFailedMenu->addObject(std::make_shared<Mouse>(*mLevelFailedMenu));
 }
-
-
