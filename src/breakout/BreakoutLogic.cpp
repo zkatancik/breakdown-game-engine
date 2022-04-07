@@ -262,9 +262,9 @@ void BreakoutLogic::initializeLevelClearedMenu(int score) {
       *mLevelClearedMenu, width, height / 3, width / 4, 139,
       Button::Color::GREEN, u8"NEXT LEVEL", goToNextLevelLambda));
 
-  createTextMessageForLevel(mLevelClearedMenu, "LEVEL CLEARED!", width, height / 3, 128);
+  createTextMessageForLevel(mLevelClearedMenu, "LEVEL CLEARED!", width / 2, height / 3);
 
-  createTextMessageForLevel(mLevelClearedMenu, "YOUR SCORE: " + std::to_string(score), width, height);
+  createTextMessageForLevel(mLevelClearedMenu, "YOUR SCORE: " + std::to_string(score), width / 2, 2 * height / 3);
   mLevelClearedMenu->addObject(std::make_shared<Mouse>(*mLevelClearedMenu));
 }
 
@@ -282,9 +282,9 @@ void BreakoutLogic::initializeLevelFailedMenu(int score) {
       *mLevelFailedMenu, width, height / 3, width / 4, 139,
       Button::Color::GREEN, u8"RETURN", goToMainMenuLevelLambda));
 
-  createTextMessageForLevel(mLevelFailedMenu, "GAME OVER!", width, height / 3, 128);
+  createTextMessageForLevel(mLevelFailedMenu, "GAME OVER!", width / 2, height / 3);
 
-  createTextMessageForLevel(mLevelFailedMenu, "YOUR SCORE: " + std::to_string(score), width, height, 128);
+  createTextMessageForLevel(mLevelFailedMenu, "YOUR SCORE: " + std::to_string(score), width / 2, 2 * height / 3);
 
   mLevelFailedMenu->addObject(std::make_shared<Mouse>(*mLevelFailedMenu));
 }
