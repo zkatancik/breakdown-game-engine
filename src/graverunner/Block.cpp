@@ -9,7 +9,7 @@ using namespace std;
 
 Block::Block(Level& level, float x, float y, BlockData bd, int h,
              Vector2D<int> bs)
-    : GameObject(level, x, y, bs.x, bs.y, KeyTag) {
+    : GameObject(level, x, y, bs.x, bs.y, NormalBlockTag) {
   init(x, y, bd, h, bs);
 }
 

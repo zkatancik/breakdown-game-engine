@@ -20,10 +20,6 @@
 class Block : public GameObject
 {
 public:
-  /**
-   * @brief Default constructor, don't forget to call startup()
-   */
-  Block(Level& level) : GameObject(level) {};
 
   /**
    * @brief Creates a Block object to be destroyed by a ball
