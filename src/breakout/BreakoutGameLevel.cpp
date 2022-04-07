@@ -17,14 +17,16 @@ void BreakoutGameLevel::initialize() {
 
   rowsOfBlocks = levelData.rowCount;
   blocksPerRow = levelData.colCount;
-  numBlocks = levelData.numOfblocks;
+  numBlocksLeft = levelData.numOfblocks;
   std::shared_ptr<GameObject> paddle;
   // Create UI elements
   addObject(createLevelIndicatorObject());
-  auto livesIndicator = createLivesIndicatorObject();
-  addObject(livesIndicator);
-  auto scoreIndicator = createScoreIndicatorObject();
-  addObject(scoreIndicator);
+  auto livesIndicatorSharedPtr = createLivesIndicatorObject();
+  livesIndicator = livesIndicatorSharedPtr->weak_from_this();
+  addObject(livesIndicatorSharedPtr);
+  auto scoreIndicatorSharedPtr = createScoreIndicatorObject();
+  scoreIndicator = scoreIndicatorSharedPtr->weak_from_this();
+  addObject(scoreIndicatorSharedPtr);
   // Create ball and paddle
   switch(gameDifficulty_) {
     case GameDifficulty::Easy:
@@ -39,7 +41,8 @@ void BreakoutGameLevel::initialize() {
       break;
   }
   addObject(paddle);
-  addObject(createBallObject());
+  auto ballObject = createBallObject();
+  addObject(ballObject);
 
   // dynamic y placement of blocks
   int y = 100;
@@ -53,7 +56,6 @@ void BreakoutGameLevel::initialize() {
         std::shared_ptr<Block> block;
         if (b.block_Type == BlockType::PlainBlock) {
           block = std::make_shared<Block>(*this, x, y, color, b, 1);
-          blocksLeft = true;
         } else if (b.block_Type == BlockType::HardBlock) {
           block = std::make_shared<Block>(*this, x, y, 5, b, 3);
         } else if (b.block_Type == BlockType::Wall) {
@@ -61,11 +63,16 @@ void BreakoutGameLevel::initialize() {
         }
         auto blockHealthComponent = block->getGenericComponent<HealthComponent>();
         blockHealthComponent->setCallbackAtDeath(
-            [&, scoreIndicator = std::weak_ptr<GameObject>(scoreIndicator),
-             blockType = block->getBlockType()] () {
+            [&, scoreIndicator = std::weak_ptr<GameObject>(scoreIndicatorSharedPtr),
+             blockType = block->getBlockType(), ballObject = ballObject->weak_from_this()] () {
               int increment = blockType == BlockType::HardBlock ? 3 : 1;
               auto scoreVarComponent = scoreIndicator.lock()->getGenericComponent<GameVariableComponent<int>>();
               scoreVarComponent->setVariable(scoreVarComponent->getVariable() + increment);
+              numBlocksLeft--;
+              if (numBlocksLeft == 0) {
+                ballObject.lock()->physicsComponent()->setVx(0);
+                ballObject.lock()->physicsComponent()->setVy(0);
+              }
             });
         addObject(block);
       }
@@ -109,18 +116,17 @@ void BreakoutGameLevel::initialize() {
   auto removeOnCollideComponent = std::make_shared<RemoveOnCollideComponent>(*BottomMostBoundary, BallTag);
   BottomMostBoundary->addGenericComponent(removeOnCollideComponent);
 
-  auto reduceLifeOnCollideLambda = [&, livesIndicator = std::weak_ptr<GameObject>(livesIndicator)] (Level &level, std::shared_ptr<GameObject> obj) {
+  auto reduceLifeOnCollideLambda = [&, livesIndicator = std::weak_ptr<GameObject>(livesIndicatorSharedPtr)] (Level &level, std::shared_ptr<GameObject> obj) {
     auto livesVarComponent = livesIndicator.lock()->getGenericComponent<GameVariableComponent<int>>();
     livesVarComponent->setVariable(livesVarComponent->getVariable() - 1);
     Mix_PlayChannel(1, ResourceManager::getInstance().getChunk("2DBreakout/SFX/LifeLost_SFX.mp3"), 0);
-    level.addObject(createBallObject());
+    if (livesVarComponent->getVariable() > 0) {
+      level.addObject(createBallObject());
+    }
   };
   auto reduceLifeOnCollideComponent = std::make_shared<PerformHookOnCollideComponent>(*BottomMostBoundary, BallTag, reduceLifeOnCollideLambda);
   BottomMostBoundary->addGenericComponent(reduceLifeOnCollideComponent);
   addObject(BottomMostBoundary);
-
-
-  // Add UI Elements
 }
 std::shared_ptr<Ball> BreakoutGameLevel::createBallObject() {
   switch(gameDifficulty_) {
@@ -183,4 +189,12 @@ std::shared_ptr<GameObject> BreakoutGameLevel::createScoreIndicatorObject() {
     textComponentWeak.lock()->SetMText("Score: " + std::to_string(gameVariableComponentWeak.lock()->getVariable()));
   });
   return scoreIndicator;
+}
+
+bool BreakoutGameLevel::isLevelInProgress() {
+  int numLivesLeft = livesIndicator.lock()->getGenericComponent<GameVariableComponent<int>>()->getVariable();
+  return numLivesLeft > 0 && numBlocksLeft > 0;
+}
+int BreakoutGameLevel::getScore() {
+  return scoreIndicator.lock()->getGenericComponent<GameVariableComponent<int>>()->getVariable();
 }

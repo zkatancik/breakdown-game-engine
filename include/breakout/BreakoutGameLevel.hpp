@@ -20,6 +20,15 @@ class BreakoutGameLevel : public Level {
 
   void initialize() override;
 
+  bool isLevelInProgress();
+
+  int getScore();
+
+  inline bool isGameWon() {
+    int numLivesLeft = livesIndicator.lock()->getGenericComponent<GameVariableComponent<int>>()->getVariable();
+    return numLivesLeft > 0 && numBlocksLeft == 0;
+  }
+
   inline void setGridRenderComponent(
       std::shared_ptr<GridRenderComponent> gridRenderComponent) {
     mGridRenderComponent = gridRenderComponent;
@@ -40,23 +49,20 @@ class BreakoutGameLevel : public Level {
 
   std::shared_ptr<GridRenderComponent> mGridRenderComponent;
 
-  std::string highestScoreUsername;
+  std::weak_ptr<GameObject> livesIndicator;
 
+  std::weak_ptr<GameObject> scoreIndicator;
+
+  int numBlocksLeft;
   const int livesPerGame{3};
-  int lives{livesPerGame};
-  int highestScore = 0;
 
   int blocksPerRow = 0;
   int rowsOfBlocks = 0;
-  int numBlocks = -1;
   int blocksPerColor = 2;
-  bool blocksLeft;
 
   bool needNewBall{false};
 
   Uint32 needNewBallTicks{0};
-
-  int score{0};
 
   GameDifficulty gameDifficulty_{GameDifficulty::Easy};
   int mLevelNumber{1};
