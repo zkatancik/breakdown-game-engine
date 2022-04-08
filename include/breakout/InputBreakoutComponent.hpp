@@ -9,6 +9,7 @@
 #include "base/ResourceManager.hpp"
 #include "base/PhysicsManager.hpp"
 #include "breakout/Tag.hpp"
+#include "base/Level.hpp"
 
 /**
  * @brief Input component for Paddle in the Breakout Game.
@@ -33,9 +34,12 @@ class InputBreakoutComponent: public GenericComponent {
 
     std::shared_ptr<PhysicsComponent> pc = gameObject.physicsComponent();
 
-    if (left && !right) {
+    int levelW = level.w();
+    float paddleW = gameObject.w();
+    float paddleX = gameObject.x();
+    if (left && !right && paddleX > 0) {
       pc->setVx(-mSpeed);
-    } else if (!left && right) {
+    } else if (!left && right && paddleX + paddleW + 2 < levelW) {
       pc->setVx(mSpeed);
     } else {
       pc->setVx(0.0f);
