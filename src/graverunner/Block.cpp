@@ -7,35 +7,26 @@
 
 using namespace std;
 
-Block::Block(Level& level, float x, float y, BlockData bd, int h,
-             Vector2D<int> bs)
+Block::Block(Level& level, float x, float y, BlockData bd, Vector2D<int> bs)
     : GameObject(level, x, y, bs.x, bs.y, NormalBlockTag) {
-  init(x, y, bd, h, bs);
+  init(x, y, bd, bs);
 }
 
-void Block::init(int xCoord, int yCoord, BlockData bd, int h,
-                 Vector2D<int> bs) {
+void Block::init(int xCoord, int yCoord, BlockData bd, Vector2D<int> bs) {
   Dest.x = xCoord;
   Dest.y = yCoord;
   Dest.w = bs.x;
   Dest.h = bs.y;
 
   blockData = bd;
-  health = h;
 
   texture_ = getBlockTexture(blockData.blockNumber);
-  setPhysicsComponent(std::make_shared<PhysicsComponent>(*this, b2BodyType::b2_staticBody, false));
+  setPhysicsComponent(std::make_shared<PhysicsComponent>(
+      *this, b2BodyType::b2_staticBody, false));
 
-  addGenericComponent(std::make_shared<RemoveOnCollideComponent>(*this, BulletTag));
+  addGenericComponent(
+      std::make_shared<RemoveOnCollideComponent>(*this, BulletTag));
   auto render = std::make_shared<TextureRenderComponent>(*this);
   render->setTexture(texture_);
   setRenderComponent(render);
-}
-
-bool Block::reduceHealth() {
-  if (health > 0) {
-    health--;
-  }
-
-  return (health == 0);
 }

@@ -48,10 +48,9 @@ void GraveRunnerLevel::initialize() {
       auto b = levelData.blocks[(i * blocksPerRow) + j];
       if (b.block_Type != BlockType::NoBlock) {
         std::shared_ptr<GameObject> obj;
-        if (b.block_Type == BlockType::PlainBlock) {
-          obj = std::make_shared<Block>(*this, x, y, b, 1, blockSize);
-        } else if (b.block_Type == BlockType::Wall) {
-          obj = std::make_shared<Block>(*this, x, y, b, 0, blockSize);
+        if (b.block_Type == BlockType::PlainBlock ||
+            b.block_Type == BlockType::Wall) {
+          obj = std::make_shared<Block>(*this, x, y, b, blockSize);
         } else if (b.block_Type == BlockType::Key) {
           obj = std::make_shared<KeyBlock>(*this, x, y, blockSize);
         } else if (b.block_Type == BlockType::Exit) {
