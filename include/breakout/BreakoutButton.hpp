@@ -1,5 +1,5 @@
-#ifndef BUTTON_HPP
-#define BUTTON_HPP
+#ifndef BREAKOUT_BUTTON_HPP
+#define BREAKOUT_BUTTON_HPP
 #include <base/GameObject.hpp>
 #include <functional>
 
@@ -12,12 +12,12 @@
 /**
  * @brief A class representing a clickable UI Text Button in Breakout
  */
-class Button : public GameObject {
+class BreakoutButton : public GameObject {
  public:
   enum Color { RED, GREEN };
 
-  Button(Level& level, float x, float y, float w, float h, Color color,
-         const std::string& text, std::function<void(void)> selectHook);
+  BreakoutButton(Level& level, float x, float y, float w, float h, Color color,
+                    const std::string& text, std::function<void(void)> selectHook);
   std::shared_ptr<TextureRenderComponent> getTextureRenderer() const {
     return buttonRenderer;
   }

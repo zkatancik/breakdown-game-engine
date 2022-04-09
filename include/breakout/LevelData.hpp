@@ -9,7 +9,7 @@ namespace filesystem = std::filesystem;
 /**
  * @brief The types of blocks possible.
  */
-enum BlockType {
+enum BreakoutBlockType {
   // Colored Block
   PlainBlock = 0,
   // Hole or No block
@@ -24,8 +24,8 @@ enum BlockType {
  * @brief Represents data of a single Block.
  * Can add color and more to be read from level file.
  */
-struct BlockData {
-  BlockType block_Type{PlainBlock};
+struct BreakoutBlockData {
+  BreakoutBlockType block_Type{PlainBlock};
 };
 
 /**
@@ -37,8 +37,8 @@ struct BlockData {
  * row 3 - Minimum number of Blocks to clear a level
  * row 4 onwards - List of Blocks, organized in rows
  */
-struct LevelData {
-  std::vector<BlockData> blocks;
+struct BreakoutLevelData {
+  std::vector<BreakoutBlockData> blocks;
   int rowCount;
   int colCount;
   int numOfblocks;
@@ -52,7 +52,7 @@ struct LevelData {
  * @param blockDataList levelData loaded from the file
  * @param level level number
  */
-void loadLevel(LevelData *levelData, int level);
+void loadLevel(BreakoutLevelData *levelData, int level);
 
 ///**
 // * @brief Update the item in the current level.

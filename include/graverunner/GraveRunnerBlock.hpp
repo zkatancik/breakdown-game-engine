@@ -1,5 +1,5 @@
-#ifndef BLOCK_HPP
-#define BLOCK_HPP
+#ifndef GRAVERUNNER_BLOCK_HPP
+#define GRAVERUNNER_BLOCK_HPP
 
 #include <SDL.h>
 
@@ -17,7 +17,7 @@
  * @brief A class representing a Block in our game, with various options (see
  * BlockType).
  */
-class Block : public GameObject
+class GraveRunnerBlock : public GameObject
 {
 public:
 
@@ -30,12 +30,12 @@ public:
    * @param h Block health based on BlockType
    * @param bs block size
    */
-  Block(Level& level, float x, float y, BlockData bd, int h, Vector2D<int> bs);
+  GraveRunnerBlock(Level& level, float x, float y, GraveRunnerBlockData bd, int h, Vector2D<int> bs);
   
   /**
    * @brief Default destructor, don't forget to call shutdown()
    */
-  ~Block() = default;
+  ~GraveRunnerBlock() = default;
 
   /**
    * @brief Get the center of the Block.
@@ -60,7 +60,7 @@ public:
    *
    * @return blockData about this Block
    */
-  inline BlockData getBlockData() const { return blockData; };
+  inline GraveRunnerBlockData getBlockData() const { return blockData; };
 
   /**
    * @brief Reduce the health of a Block.
@@ -71,7 +71,7 @@ public:
   bool reduceHealth();
 
 private:
-  void init(int xCoord, int yCoord, BlockData bd, int h, Vector2D<int> bs);
+  void init(int xCoord, int yCoord, GraveRunnerBlockData bd, int h, Vector2D<int> bs);
 
   static SDL_Texture *getBlockTexture(const std::string &name)
   {
@@ -84,7 +84,7 @@ private:
   SDL_Texture *texture_ = nullptr;
   SDL_Rect Dest;
 
-  BlockData blockData;
+  GraveRunnerBlockData blockData;
   int health;
 };
 #endif

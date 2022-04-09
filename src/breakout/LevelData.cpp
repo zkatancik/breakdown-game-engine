@@ -1,6 +1,6 @@
 #include "breakout/LevelData.hpp"
 
-void loadLevel(LevelData *levelData, int level) {
+void loadLevel(BreakoutLevelData *levelData, int level) {
   levelData->blocks.clear();
 
   const filesystem::path resPath = getResourcePath("2DBreakout/Levels");
@@ -28,17 +28,17 @@ void loadLevel(LevelData *levelData, int level) {
       // Traverse the string
       for (auto &ch : line) {
 
-        auto data = BlockData();
+        auto data = BreakoutBlockData();
         if (ch == 'b') {
           //std::cout << ch << " ";
-          data.block_Type = BlockType::PlainBlock;
+          data.block_Type = BreakoutBlockType::PlainBlock;
         } else if (ch == ' ') {
           //std::cout << "-" << " ";
-          data.block_Type = BlockType::NoBlock;
+          data.block_Type = BreakoutBlockType::NoBlock;
         } else if (ch == 'w') {
-          data.block_Type = BlockType::Wall;
+          data.block_Type = BreakoutBlockType::Wall;
         } else if (ch == 'h') {
-          data.block_Type = BlockType::HardBlock;
+          data.block_Type = BreakoutBlockType::HardBlock;
         }
 
         levelData->blocks.push_back(data);

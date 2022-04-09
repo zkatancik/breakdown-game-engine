@@ -17,7 +17,7 @@
  * @brief A class representing a Block in our game, with various options (see
  * BlockType).
  */
-class Block : public GameObject {
+class BreakoutBlock : public GameObject {
  public:
   /**
  * @brief Creates a Block object to be destroyed by a ball
@@ -28,14 +28,14 @@ class Block : public GameObject {
  * @param bd Blockdata read from LevelData
  * @param h Block health based on BlockType
  */
-  Block(Level& level, float x, float y, int color, BlockData bd, int h);
+  BreakoutBlock(Level& level, float x, float y, int color, BreakoutBlockData bd, int h);
 
-  BlockType getBlockType() const {return blockData.block_Type;};
+  BreakoutBlockType getBlockType() const {return blockData.block_Type;};
 
  private:
   std::shared_ptr<TextureRenderComponent> renderer_;
   std::shared_ptr<HealthComponent> healthComponent_;
-  BlockData blockData;
+  BreakoutBlockData blockData;
 
 
   static inline const std::string colorMap[7] = {

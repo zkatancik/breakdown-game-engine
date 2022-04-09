@@ -1,17 +1,18 @@
-#ifndef BUTTON_HPP
-#define BUTTON_HPP
+#ifndef GRAVE_RUNNER_BUTTON_HPP
+#define GRAVE_RUNNER_BUTTON_HPP
 
 #include "graverunner/Mouse.hpp"
 #include "graverunner/Tag.hpp"
 #include "base/TextComponent.hpp"
+#include <functional>
 
 /**
  * @brief A class representing a clickable UI Text Button.
  */
-class Button : public GameObject {
+class GraveRunnerButton : public GameObject {
  public:
-  Button(Level& level, float x, float y, float w, float h,
-         const std::string& text, std::function<void(void)> selectHook);
+  GraveRunnerButton(Level& level, float x, float y, float w, float h,
+                    const std::string& text, std::function<void(void)> selectHook);
 
   std::shared_ptr<TextureRenderComponent> getTextureRenderer() const {
     return buttonRenderer;

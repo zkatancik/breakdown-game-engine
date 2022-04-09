@@ -1,6 +1,6 @@
 #include "breakout/Block.hpp"
 
-Block::Block(Level &level, float x, float y, int color, BlockData bd, int h) :
+BreakoutBlock::BreakoutBlock(Level &level, float x, float y, int color, BreakoutBlockData bd, int h) :
             GameObject(level, x, y, 64, 32, BlockTag),
             blockData(bd) {
   auto texture = ResourceManager::getInstance().getTexture(

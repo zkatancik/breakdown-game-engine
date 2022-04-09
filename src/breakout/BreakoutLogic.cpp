@@ -88,9 +88,9 @@ void BreakoutLogic::createChangeDifficultyLevel(int width, int height) {
   };
 
   // Add the easy button
-  mDifficultyMenu->addObject(std::make_shared<Button>(
+  mDifficultyMenu->addObject(std::make_shared<BreakoutButton>(
       *mDifficultyMenu, width / 2, height / 3, width / 4, 139,
-      Button::Color::GREEN, u8"EASY", changeDifficultyToEasy));
+      BreakoutButton::Color::GREEN, u8"EASY", changeDifficultyToEasy));
   /******************************************************************************************************************/
 
   // Lambda for changing the difficulty to medium
@@ -102,8 +102,8 @@ void BreakoutLogic::createChangeDifficultyLevel(int width, int height) {
   };
 
   // Add the medium button
-  mDifficultyMenu->addObject(std::make_shared<Button>(
-      *mDifficultyMenu, width, height / 3, width, 139, Button::Color::GREEN,
+  mDifficultyMenu->addObject(std::make_shared<BreakoutButton>(
+      *mDifficultyMenu, width, height / 3, width, 139, BreakoutButton::Color::GREEN,
       u8"MEDIUM", changeDifficultyToMedium));
   /******************************************************************************************************************/
 
@@ -116,18 +116,18 @@ void BreakoutLogic::createChangeDifficultyLevel(int width, int height) {
   };
 
   // Add the hard button
-  mDifficultyMenu->addObject(std::make_shared<Button>(
+  mDifficultyMenu->addObject(std::make_shared<BreakoutButton>(
       *mDifficultyMenu, width * 1.5, height / 3, width / 4, 139,
-      Button::Color::GREEN, u8"HARD", changeDifficultyToHard));
+      BreakoutButton::Color::GREEN, u8"HARD", changeDifficultyToHard));
   /******************************************************************************************************************/
 
   // Lambda for returning to main menu
   auto changeToStartMenu = [&] { mCurrentlyActiveLevel = mStartMenu; };
 
   // Add the return button
-  mDifficultyMenu->addObject(std::make_shared<Button>(
+  mDifficultyMenu->addObject(std::make_shared<BreakoutButton>(
       *mDifficultyMenu, width, 2 * height / 3, width / 4, 139,
-      Button::Color::RED, u8"RETURN", changeToStartMenu));
+      BreakoutButton::Color::RED, u8"RETURN", changeToStartMenu));
   /******************************************************************************************************************/
 
   mDifficultyMenu->addObject(std::make_shared<Mouse>(*mDifficultyMenu));
@@ -147,9 +147,9 @@ void BreakoutLogic::createChangeLanguageLevel(int width, int height) {
   };
 
   // Add the easy button
-  mLanguageMenu->addObject(std::make_shared<Button>(
+  mLanguageMenu->addObject(std::make_shared<BreakoutButton>(
       *mLanguageMenu, width / 2, height / 3, width / 4, 139,
-      Button::Color::GREEN, u8"ENGLISH", changeLanguageToEnglish));
+      BreakoutButton::Color::GREEN, u8"ENGLISH", changeLanguageToEnglish));
   /******************************************************************************************************************/
   // Lambda for changing the language to English
   auto changeLanguageToSpanish = [&] {
@@ -162,16 +162,16 @@ void BreakoutLogic::createChangeLanguageLevel(int width, int height) {
   };
 
   // Add the easy button
-  mLanguageMenu->addObject(std::make_shared<Button>(
+  mLanguageMenu->addObject(std::make_shared<BreakoutButton>(
       *mLanguageMenu, width * 1.5, height / 3, width / 4, 139,
-      Button::Color::GREEN, u8"SPANISH", changeLanguageToSpanish));
+      BreakoutButton::Color::GREEN, u8"SPANISH", changeLanguageToSpanish));
   /******************************************************************************************************************/
   // Lambda for returning to main menu
   auto changeToStartMenu = [&] { mCurrentlyActiveLevel = mStartMenu; };
 
   // Add the return button
-  mLanguageMenu->addObject(std::make_shared<Button>(
-      *mLanguageMenu, width, 2 * height / 3, width / 4, 139, Button::Color::RED,
+  mLanguageMenu->addObject(std::make_shared<BreakoutButton>(
+      *mLanguageMenu, width, 2 * height / 3, width / 4, 139, BreakoutButton::Color::RED,
       u8"RETURN", changeToStartMenu));
   /******************************************************************************************************************/
   mLanguageMenu->addObject(std::make_shared<Mouse>(*mLanguageMenu));
@@ -191,8 +191,8 @@ void BreakoutLogic::createStartMenuLevel(int width, int height) {
   };
 
   // Add the Start game button
-  std::shared_ptr<Button> startButton = std::make_shared<Button>(
-      *mStartMenu, width, height / 6, width / 4, 139, Button::Color::GREEN,
+  std::shared_ptr<BreakoutButton> startButton = std::make_shared<BreakoutButton>(
+      *mStartMenu, width, height / 6, width / 4, 139, BreakoutButton::Color::GREEN,
       u8"START", startGameLevelButtonHook);
 
   mStartMenu->addObject(startButton);
@@ -205,9 +205,9 @@ void BreakoutLogic::createStartMenuLevel(int width, int height) {
   };
 
   // Add the select difficulty button
-  mStartMenu->addObject(std::make_shared<Button>(
+  mStartMenu->addObject(std::make_shared<BreakoutButton>(
       *mStartMenu, width, height / 6 + 200, 2 * width / 3, 139,
-      Button::Color::GREEN, u8"SELECT DIFFICULTY", changeDifficultyButtonHook));
+      BreakoutButton::Color::GREEN, u8"SELECT DIFFICULTY", changeDifficultyButtonHook));
 
   /******************************************************************************************************************/
 
@@ -218,9 +218,9 @@ void BreakoutLogic::createStartMenuLevel(int width, int height) {
   };
 
   // Add the change language button to the start menu
-  mStartMenu->addObject(std::make_shared<Button>(
+  mStartMenu->addObject(std::make_shared<BreakoutButton>(
       *mStartMenu, width, height / 6 + 400, 2 * width / 3, 139,
-      Button::Color::GREEN, u8"CHANGE LANGUAGE", changeLanguageButtonHook));
+      BreakoutButton::Color::GREEN, u8"CHANGE LANGUAGE", changeLanguageButtonHook));
 
   /******************************************************************************************************************/
   // Add mouse pointer
@@ -258,9 +258,9 @@ void BreakoutLogic::initializeLevelClearedMenu(int score) {
   };
   int width = mStartMenu->w();
   int height = mStartMenu->h();
-  mLevelClearedMenu->addObject(std::make_shared<Button>(
+  mLevelClearedMenu->addObject(std::make_shared<BreakoutButton>(
       *mLevelClearedMenu, width, 2 * height / 3, width / 4, 139,
-      Button::Color::GREEN, u8"NEXT LEVEL", goToNextLevelLambda));
+      BreakoutButton::Color::GREEN, u8"NEXT LEVEL", goToNextLevelLambda));
 
   createTextMessageForLevel(mLevelClearedMenu, "LEVEL CLEARED!", width,
                             height / 3, 128);
@@ -281,9 +281,9 @@ void BreakoutLogic::initializeLevelFailedMenu(int score) {
 
   int width = mLevelFailedMenu->w();
   int height = mLevelFailedMenu->h();
-  mLevelFailedMenu->addObject(std::make_shared<Button>(
+  mLevelFailedMenu->addObject(std::make_shared<BreakoutButton>(
       *mLevelFailedMenu, width, 2 * height / 3, width / 4, 139,
-      Button::Color::GREEN, u8"RETURN", goToMainMenuLevelLambda));
+      BreakoutButton::Color::GREEN, u8"RETURN", goToMainMenuLevelLambda));
 
   createTextMessageForLevel(mLevelFailedMenu, "GAME OVER!", width, height / 3,
                             128);

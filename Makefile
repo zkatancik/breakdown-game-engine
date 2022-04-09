@@ -81,7 +81,7 @@ DEFAULT_EXE_DEBUG=$(word 1,$(BREAKOUT_EXECUTABLES_DEBUG))
 
 ## editor files
 EDITOR_EXE_SRC_FILES=$(shell sh -c '/usr/bin/find src/editor -name "main*.cpp" 2>/dev/null')
-EDITOR_SOURCE_FILES=$(filter-out $(EDITOR_EXE_SRC_FILES) $(GRAVERUNNER_EXE_SRC_FILES) $(BREAKOUT_EXE_SRC_FILES),$(shell sh -c '/usr/bin/find src/editor src/graverunner $(EXTERN_SOURCES) -name "*.cpp" 2>/dev/null'))
+EDITOR_SOURCE_FILES=$(filter-out $(EDITOR_EXE_SRC_FILES) $(GRAVERUNNER_EXE_SRC_FILES) $(BREAKOUT_EXE_SRC_FILES),$(shell sh -c '/usr/bin/find src/editor src/graverunner src/breakout $(EXTERN_SOURCES) -name "*.cpp" 2>/dev/null'))
 EDITOR_HEADER_FILES=$(shell sh -c '/usr/bin/find include include/editor src/editor -name "*.hpp" 2>/dev/null')
 EDITOR_SOURCE_FILES+=$(BASE_SOURCE_FILES)
 EDITOR_HEADER_FILES+=$(BASE_INCLUDE_FILES)
@@ -114,9 +114,9 @@ LDFLAGS_DEBUG:=$(LDFLAGS_BASE)
 
 ## rules
 
-all: doc graverunner graverunner_d breakout breakout_d tests tests_d
+all: doc graverunner graverunner_d breakout breakout_d editor editor_d tests tests_d
 
-everything: doc graverunner graverunner_d breakout breakout_d tests tests_d
+everything: doc graverunner graverunner_d breakout breakout_d editor editor_d tests tests_d
 
 
 doc: $(GRAVERUNNER_HEADER_FILES) $(GRAVERUNNER_SOURCE_FILES) Makefile
