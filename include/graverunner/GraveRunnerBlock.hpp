@@ -75,8 +75,6 @@ private:
   SDL_Texture *texture_ = nullptr;
   SDL_Rect Dest;
 
-  BlockData blockData;
   GraveRunnerBlockData blockData;
-  int health;
 };
 #endif

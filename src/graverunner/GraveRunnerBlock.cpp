@@ -12,8 +12,7 @@ GraveRunnerBlock::GraveRunnerBlock(Level& level, float x, float y, GraveRunnerBl
   init(x, y, bd, bs);
 }
 
-void GraveRunnerBlock::init(int xCoord, int yCoord, GraveRunnerBlockData bd, int h,
-                         Vector2D<int> bs) {
+void GraveRunnerBlock::init(int xCoord, int yCoord, GraveRunnerBlockData bd, Vector2D<int> bs) {
   Dest.x = xCoord;
   Dest.y = yCoord;
   Dest.w = bs.x;
