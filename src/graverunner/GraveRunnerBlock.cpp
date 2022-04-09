@@ -1,5 +1,5 @@
 #include <box2d/b2_body.h>
-#include "graverunner/Block.hpp"
+#include "graverunner/GraveRunnerBlock.hpp"
 
 #include "base/TextureRenderComponent.hpp"
 #include "base/ResourceManager.hpp"
@@ -7,12 +7,13 @@
 
 using namespace std;
 
-Block::Block(Level& level, float x, float y, BlockData bd, Vector2D<int> bs)
+GraveRunnerBlock::GraveRunnerBlock(Level& level, float x, float y, GraveRunnerBlockData bd, Vector2D<int> bs)
     : GameObject(level, x, y, bs.x, bs.y, NormalBlockTag) {
   init(x, y, bd, bs);
 }
 
-void Block::init(int xCoord, int yCoord, BlockData bd, Vector2D<int> bs) {
+void GraveRunnerBlock::init(int xCoord, int yCoord, GraveRunnerBlockData bd, int h,
+                         Vector2D<int> bs) {
   Dest.x = xCoord;
   Dest.y = yCoord;
   Dest.w = bs.x;

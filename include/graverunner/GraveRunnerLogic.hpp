@@ -5,7 +5,7 @@
 #include "base/CenterTextComponent.hpp"
 #include "base/PhysicsManager.hpp"
 #include "base/SDLProgramLogic.hpp"
-#include "graverunner/Button.hpp"
+#include "graverunner/GraveRunnerButton.hpp"
 #include "graverunner/GraveRunnerLevel.hpp"
 #include "graverunner/Mouse.hpp"
 

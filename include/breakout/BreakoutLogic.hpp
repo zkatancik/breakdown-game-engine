@@ -1,12 +1,10 @@
 #ifndef BREAKOUT_LOGIC_HPP
 #define BREAKOUT_LOGIC_HPP
-#include <iostream>
-
 #include "base/CenterTextComponent.hpp"
 #include "base/PhysicsManager.hpp"
 #include "base/SDLProgramLogic.hpp"
 #include "breakout/BreakoutGameLevel.hpp"
-#include "breakout/Button.hpp"
+#include "breakout/BreakoutButton.hpp"
 #include "breakout/Mouse.hpp"
 
 /**

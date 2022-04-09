@@ -5,13 +5,13 @@
 #include "graverunner/Jack.hpp"
 #include "graverunner/FollowerZombie.hpp"
 #include "graverunner/PatrolZombie.hpp"
-#include "graverunner/Block.hpp"
+#include "graverunner/GraveRunnerBlock.hpp"
 #include "graverunner/KeyBlock.hpp"
 #include "graverunner/ExitBlock.hpp"
 
 void GraveRunnerLevel::initialize() {
   finalize();
-  LevelData levelData;
+  GraveRunnerLevelData levelData;
   loadLevel(&levelData, currentLevelNumber);
 
   int rowsOfBlocks = levelData.rowCount;
@@ -46,14 +46,14 @@ void GraveRunnerLevel::initialize() {
     int x = 0;
     for (int j = 0; j < blocksPerRow; j++) {
       auto b = levelData.blocks[(i * blocksPerRow) + j];
-      if (b.block_Type != BlockType::NoBlock) {
+      if (b.block_Type != GraveRunnerBlockType::NoBlock) {
         std::shared_ptr<GameObject> obj;
-        if (b.block_Type == BlockType::PlainBlock ||
-            b.block_Type == BlockType::Wall) {
-          obj = std::make_shared<Block>(*this, x, y, b, blockSize);
-        } else if (b.block_Type == BlockType::Key) {
+        if (b.block_Type == GraveRunnerBlockType::PlainBlock ||
+        b.block_Type == GraveRunnerBlockType::Wall) {
+          obj = std::make_shared<GraveRunnerBlock>(*this, x, y, b, blockSize);
+        } else if (b.block_Type == GraveRunnerBlockType::Key) {
           obj = std::make_shared<KeyBlock>(*this, x, y, blockSize);
-        } else if (b.block_Type == BlockType::Exit) {
+        } else if (b.block_Type == GraveRunnerBlockType::Exit) {
           obj = std::make_shared<ExitBlock>(*this, x, y, blockSize);
         }
         addObject(obj);

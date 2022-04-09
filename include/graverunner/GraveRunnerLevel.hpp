@@ -5,7 +5,7 @@
 #include "graverunner/LevelData.hpp"
 
 class Jack;
-class Block;
+class BreakoutBlock;
 
 class GraveRunnerLevel : public Level {
  public:
@@ -29,7 +29,7 @@ class GraveRunnerLevel : public Level {
 
   int currentLevelNumber{1};
 
-  LevelData mLevelData;
+  GraveRunnerLevelData mLevelData;
 };
 
 #endif

@@ -12,7 +12,7 @@ const int HARD_BALL_Y = 400;
 
 void BreakoutGameLevel::initialize() {
   finalize();
-  LevelData levelData;
+  BreakoutLevelData levelData;
   loadLevel(&levelData, mLevelNumber);
 
   rowsOfBlocks = levelData.rowCount;
@@ -52,14 +52,14 @@ void BreakoutGameLevel::initialize() {
     int x = (w() - (blocksPerRow * 64)) / 2;
     for (int j = 0; j < blocksPerRow; j++) {
       auto b = levelData.blocks[(i * blocksPerRow) + j];
-      if (b.block_Type != BlockType::NoBlock) {
-        std::shared_ptr<Block> block;
-        if (b.block_Type == BlockType::PlainBlock) {
-          block = std::make_shared<Block>(*this, x, y, color, b, 1);
-        } else if (b.block_Type == BlockType::HardBlock) {
-          block = std::make_shared<Block>(*this, x, y, 5, b, 3);
-        } else if (b.block_Type == BlockType::Wall) {
-          block = std::make_shared<Block>(*this, x, y, 6, b, 1);
+      if (b.block_Type != BreakoutBlockType::NoBlock) {
+        std::shared_ptr<BreakoutBlock> block;
+        if (b.block_Type == BreakoutBlockType::PlainBlock) {
+          block = std::make_shared<BreakoutBlock>(*this, x, y, color, b, 1);
+        } else if (b.block_Type == BreakoutBlockType::HardBlock) {
+          block = std::make_shared<BreakoutBlock>(*this, x, y, 5, b, 3);
+        } else if (b.block_Type == BreakoutBlockType::Wall) {
+          block = std::make_shared<BreakoutBlock>(*this, x, y, 6, b, 1);
         }
         auto blockHealthComponent =
             block->getGenericComponent<HealthComponent>();
@@ -69,7 +69,7 @@ void BreakoutGameLevel::initialize() {
                  std::weak_ptr<GameObject>(scoreIndicatorSharedPtr),
              blockType = block->getBlockType(),
              ballObject = ballObject->weak_from_this()]() {
-              int increment = blockType == BlockType::HardBlock ? 3 : 1;
+              int increment = blockType == BreakoutBlockType::HardBlock ? 3 : 1;
               auto scoreVarComponent =
                   scoreIndicator.lock()
                       ->getGenericComponent<GameVariableComponent<int>>();

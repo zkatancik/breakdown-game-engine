@@ -6,15 +6,10 @@
 
 #include "base/TinyMath.hpp"
 
-static const int TAG_PLAYER = 1;
-static const int TAG_GOAL   = 2;
-static const int TAG_BLOCK  = 3;
-static const int TAG_ENEMY = 4;
-
 /**
  * @brief The types of blocks possible.
  */
-enum BlockType {
+enum GraveRunnerBlockType {
   // Colored Block
   PlainBlock = 0,
   // Hole or No block
@@ -31,7 +26,7 @@ enum BlockType {
  * @brief The types of items present in a level.
  * - All the items you see in the LevelFile.
  */
-enum LevelItem {
+enum GraveRunnerLevelItem {
   NONE,
   NOBLOCK = '.',
   TILE1 = '1',
@@ -65,8 +60,8 @@ enum LevelItem {
  * @brief Represents data of a single Block.
  * Can add color and more to be read from level file.
  */
-struct BlockData {
-  BlockType block_Type{PlainBlock};
+struct GraveRunnerBlockData {
+  GraveRunnerBlockType block_Type{PlainBlock};
   std::string blockNumber;
 };
 
@@ -79,13 +74,13 @@ struct BlockData {
  * row 3 - Minimum number of Blocks to clear a level
  * row 4 onwards - List of Blocks, organized in rows
  */
-struct LevelData {
+struct GraveRunnerLevelData {
   
   int levelNumber{0};
   
-  std::vector<std::vector<LevelItem>> levelGrid;
+  std::vector<std::vector<GraveRunnerLevelItem>> levelGrid;
   
-  std::vector<BlockData> blocks;
+  std::vector<GraveRunnerBlockData> blocks;
   int rowCount;
   int colCount;
   Vector2D<int> blockSize;
@@ -102,6 +97,6 @@ struct LevelData {
  * @param blockDataList levelData loaded from the file
  * @param level level number
  */
-void loadLevel(LevelData *levelData, int level);
+void loadLevel(GraveRunnerLevelData *levelData, int level);
 
 #endif

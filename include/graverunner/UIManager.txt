@@ -18,7 +18,7 @@
 
 /**
  * @brief A class for managing game references, like references to Ball,
- * Paddles, Block and score management. Starts at level 1, progresses through
+ * Paddles, BreakoutBlock and score management. Starts at level 1, progresses through
  * levels (defined as text files) as the player clears all blocks.
  */
 class UIManager {

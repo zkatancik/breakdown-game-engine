@@ -10,7 +10,7 @@
 
 #include "base/SDL_DEBUG.hpp"
 #include "graverunner/BaseEnemy.hpp"
-#include "graverunner/Block.hpp"
+#include "graverunner/BreakoutBlock.hpp"
 #include "graverunner/Button.hpp"
 #include "graverunner/FollowerZombie.hpp"
 #include "graverunner/GraveRunnerLevel.hpp"
@@ -22,7 +22,7 @@
 
 /**
  * @brief A class for managing game references, like references to Ball,
- * Paddles, Block and score management. Starts at level 1, progresses through
+ * Paddles, BreakoutBlock and score management. Starts at level 1, progresses through
  * levels (defined as text files) as the player clears all blocks.
  */
 class GameManager {
@@ -161,7 +161,7 @@ class GameManager {
 
   std::shared_ptr<Jack> jack;
 
-  std::shared_ptr<Block> exitBlock = nullptr;
+  std::shared_ptr<BreakoutBlock> exitBlock = nullptr;
 
   int blocksPerRow = 0;
   int rowsOfBlocks = 0;

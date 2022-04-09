@@ -1,22 +1,29 @@
-#include "graverunner/Button.hpp"
+#include "breakout/BreakoutButton.hpp"
 
-#include <graverunner/Tag.hpp>
+#include <breakout/Tag.hpp>
 
 #include "base/CenterTextComponent.hpp"
 #include "base/InputManager.hpp"
-#include "base/SelectableComponent.hpp"
 
-Button::Button(Level& level, float x, float y, float w, float h,
-               const std::string& text, std::function<void(void)> selectHook)
+BreakoutButton::BreakoutButton(Level& level, float x, float y, float w, float h, Color color,
+                                     const std::string& text, std::function<void(void)> selectHook)
     : GameObject(level, x, y, w, h, ButtonTag) {
   // Load sprite sheet for the buttons
   buttonRenderer = std::make_shared<TextureRenderComponent>(*this);
   buttonRenderer->setTexture(ResourceManager::getInstance().getTexture(
-      "Graverunner/buttons/buttonSpriteSheet.png"));
-  // Set crop from the sprite sheet.
-  mCropNotFocused = {408, 179, 784, 295};
-  mCropFocused = {408, 541, 784, 295};
-
+      "2DBreakout/Graphics/buttonSpriteSheet.png"));
+  // Set crops from the sprite sheet.
+  switch (color) {
+    case RED:
+      mCropNotFocused = {635, 860, 513, 177};
+      mCropFocused = {57, 860, 513, 177};
+      break;
+    case GREEN:
+      mCropNotFocused = {635, 1122, 513, 177};
+      mCropFocused = {57, 1122, 513, 177};
+    default:
+      break;
+  }
   // Set event handlers for the SelectableComponent
   auto mHoverChangeFocus = [&]() { buttonRenderer->setCrop(mCropFocused); };
   auto mNotSelectChangeFocus = [&]() {
@@ -26,8 +33,7 @@ Button::Button(Level& level, float x, float y, float w, float h,
   auto addedSoundWithSelectHook = [selectHook = std::move(selectHook)] {
     Mix_PlayChannel(1,
                     ResourceManager::getInstance().getChunk(
-                        "Graverunner/2DPlatformer_SFX/"
-                        "mixkit-video-game-mystery-alert-234.wav"),
+                        "2DBreakout/SFX/ButtonClick_SFX.wav"),
                     0);
     selectHook();
   };
@@ -45,7 +51,7 @@ Button::Button(Level& level, float x, float y, float w, float h,
   addGenericComponent(std::make_shared<CenterTextComponent>(
       *this, textRenderer, this->x(), this->y()));
 
-  textRenderer->setOffSetY(int(60));
+  textRenderer->setOffSetY(int(30));
 
   auto selectableComponent = std::make_shared<SelectableComponent>(
       *this, addedSoundWithSelectHook, mHoverChangeFocus,

@@ -4,7 +4,7 @@
 #include "base/ResourceManager.hpp"
 #include "graverunner/LevelData.hpp"
 
-void loadLevel(LevelData *levelData, int level) {
+void loadLevel(GraveRunnerLevelData *levelData, int level) {
   levelData->levelGrid.clear();
   levelData->blocks.clear();
   levelData->enemyStartPositions.clear();
@@ -31,7 +31,7 @@ void loadLevel(LevelData *levelData, int level) {
         levelData->colCount = std::stoi(line);
 
         // specify the default value to fill the vector elements
-        levelData->levelGrid.resize(levelData->rowCount, std::vector<LevelItem>(levelData->colCount, LevelItem::NONE));;
+        levelData->levelGrid.resize(levelData->rowCount, std::vector<GraveRunnerLevelItem>(levelData->colCount, GraveRunnerLevelItem::NONE));;
 
         lineCounter++;
         continue;
@@ -51,62 +51,62 @@ void loadLevel(LevelData *levelData, int level) {
       colCounter = 0;
 
       for (auto &ch : line) {
-        auto data = BlockData();
+        auto data = GraveRunnerBlockData();
         if (ch == '1') {
-          data.block_Type = BlockType::PlainBlock;
+          data.block_Type = GraveRunnerBlockType::PlainBlock;
           data.blockNumber = ch;
-          levelData->levelGrid[lineCounter - 4][colCounter] = LevelItem::TILE1;
+          levelData->levelGrid[lineCounter - 4][colCounter] = GraveRunnerLevelItem::TILE1;
         } else if (ch == '2') {
-          data.block_Type = BlockType::PlainBlock;
+          data.block_Type = GraveRunnerBlockType::PlainBlock;
           data.blockNumber = ch;
-          levelData->levelGrid[lineCounter - 4][colCounter] = LevelItem::TILE2;
+          levelData->levelGrid[lineCounter - 4][colCounter] = GraveRunnerLevelItem::TILE2;
         } else if (ch == '3') {
-          data.block_Type = BlockType::PlainBlock;
+          data.block_Type = GraveRunnerBlockType::PlainBlock;
           data.blockNumber = ch;
-          levelData->levelGrid[lineCounter - 4][colCounter] = LevelItem::TILE3;
+          levelData->levelGrid[lineCounter - 4][colCounter] = GraveRunnerLevelItem::TILE3;
         } else if (ch == 'X') {
-          data.block_Type = BlockType::PlainBlock;
+          data.block_Type = GraveRunnerBlockType::PlainBlock;
           data.blockNumber = ch;
-          levelData->levelGrid[lineCounter - 4][colCounter] = LevelItem::TILEX;
+          levelData->levelGrid[lineCounter - 4][colCounter] = GraveRunnerLevelItem::TILEX;
         } else if (ch == 'Y') {
-          data.block_Type = BlockType::PlainBlock;
+          data.block_Type = GraveRunnerBlockType::PlainBlock;
           data.blockNumber = ch;
-          levelData->levelGrid[lineCounter - 4][colCounter] = LevelItem::TILEY;
+          levelData->levelGrid[lineCounter - 4][colCounter] = GraveRunnerLevelItem::TILEY;
         } else if (ch == 'Z') {
-          data.block_Type = BlockType::PlainBlock;
+          data.block_Type = GraveRunnerBlockType::PlainBlock;
           data.blockNumber = ch;
-          levelData->levelGrid[lineCounter - 4][colCounter] = LevelItem::TILEZ;
+          levelData->levelGrid[lineCounter - 4][colCounter] = GraveRunnerLevelItem::TILEZ;
         } else if (ch == '.') {
-          data.block_Type = BlockType::NoBlock;
-          levelData->levelGrid[lineCounter - 4][colCounter] = LevelItem::NOBLOCK;
+          data.block_Type = GraveRunnerBlockType::NoBlock;
+          levelData->levelGrid[lineCounter - 4][colCounter] = GraveRunnerLevelItem::NOBLOCK;
         } else if (ch == 'W') {
-          data.block_Type = BlockType::Wall;
-          levelData->levelGrid[lineCounter - 4][colCounter] = LevelItem::WALL;
+          data.block_Type = GraveRunnerBlockType::Wall;
+          levelData->levelGrid[lineCounter - 4][colCounter] = GraveRunnerLevelItem::WALL;
         } else if (ch == 'K') {
-          data.block_Type = BlockType::Key;
-          levelData->levelGrid[lineCounter - 4][colCounter] = LevelItem::KEY;
+          data.block_Type = GraveRunnerBlockType::Key;
+          levelData->levelGrid[lineCounter - 4][colCounter] = GraveRunnerLevelItem::KEY;
         } else if (ch == 'E') {
           // Enemy start position
-          data.block_Type = BlockType::NoBlock;
+          data.block_Type = GraveRunnerBlockType::NoBlock;
           levelData->enemyStartPositions.push_back(
               Vector2D<int>(colCounter, lineCounter - 4));
-          levelData->levelGrid[lineCounter - 4][colCounter] = LevelItem::PATROLZOMBIE;
+          levelData->levelGrid[lineCounter - 4][colCounter] = GraveRunnerLevelItem::PATROLZOMBIE;
         } else if (ch == 'F') {
           // Follower Enemy start position
-          data.block_Type = BlockType::NoBlock;
+          data.block_Type = GraveRunnerBlockType::NoBlock;
           levelData->followerEnemyStartPositions.push_back(
               Vector2D<int>(colCounter, lineCounter - 4));
-          levelData->levelGrid[lineCounter - 4][colCounter] = LevelItem::FOLLOWZOMBIE;
+          levelData->levelGrid[lineCounter - 4][colCounter] = GraveRunnerLevelItem::FOLLOWZOMBIE;
         } else if (ch == 'P') {
-          data.block_Type = BlockType::NoBlock;
+          data.block_Type = GraveRunnerBlockType::NoBlock;
           levelData->playerStartPosition =
               Vector2D<int>(colCounter, lineCounter - 4);
-          levelData->levelGrid[lineCounter - 4][colCounter] = LevelItem::JACK;
+          levelData->levelGrid[lineCounter - 4][colCounter] = GraveRunnerLevelItem::JACK;
         } else if (ch == 'G') {
-          data.block_Type = BlockType::Exit;
+          data.block_Type = GraveRunnerBlockType::Exit;
           levelData->levelEndPosition =
               Vector2D<int>(colCounter, lineCounter - 4);
-          levelData->levelGrid[lineCounter - 4][colCounter] = LevelItem::EXIT;
+          levelData->levelGrid[lineCounter - 4][colCounter] = GraveRunnerLevelItem::EXIT;
         }
 
         levelData->blocks.push_back(data);
