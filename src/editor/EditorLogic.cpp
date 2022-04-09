@@ -49,9 +49,54 @@ void EditorLogic::createAndInitStartMenu(int width, int height) {
 
 void EditorLogic::createAndInitBreakoutLevelSelector(int width, int height) {
   mBreakOutLevelSelector = std::make_shared<Level>(width, height);
+  // Create the select level message
+  auto gameSelectMessage = std::make_shared<TextMessageObject>(*mBreakOutLevelSelector,
+                                                               "Select Level:",
+                                                               width / 2 - 150, height / 5,
+                                                               "2DBreakout/Fonts/Gageda.ttf",
+                                                               64);
+  mBreakOutLevelSelector->addObject(gameSelectMessage);
+  // Level numbers button
+  for (int i = 0; i < 4; i++) {
+    auto breakoutButton = std::make_shared<BreakoutButton>(*mBreakOutLevelSelector, width * 0.4 + i * (width * 0.4), height / 2,
+                                                           2 * width / 3, 139, BreakoutButton::Color::GREEN,
+                                                           std::to_string(i),
+                                                           [&](){mCurrentlyActiveLevel = mBreakOutLevelSelector;});
+    mBreakOutLevelSelector->addObject(breakoutButton);
+  }
+
+  // Back button
+  auto returnButton = std::make_shared<BreakoutButton>(*mBreakOutLevelSelector, width * 1.0 - 25, height * 0.7,
+                                                         2 * width / 3, 139, BreakoutButton::Color::RED,
+                                                         "Return",
+                                                         [&](){mCurrentlyActiveLevel = mStartMenu;});
+  mBreakOutLevelSelector->addObject(returnButton);
 }
 void EditorLogic::createAndInitGraveRunnerSelector(int width, int height) {
   mGraveRunnerLevelSelector = std::make_shared<Level>(width, height);
+  // Create the select level message
+  auto gameSelectMessage = std::make_shared<TextMessageObject>(*mGraveRunnerLevelSelector,
+                                                               "Select Level:",
+                                                               width / 2 - 200, height / 5,
+                                                               "Graverunner/fonts/GADAQUALI.ttf",
+                                                               64);
+  mGraveRunnerLevelSelector->addObject(gameSelectMessage);
+  // Level numbers button
+  for (int i = 0; i < 3; i++) {
+    auto breakoutButton = std::make_shared<GraveRunnerButton>(*mGraveRunnerLevelSelector, width * 0.4 + i * (width * 0.5), height / 2,
+                                                           2 * width / 3, 139,
+                                                           std::to_string(i),
+                                                           [&](){mCurrentlyActiveLevel = mGraveRunnerLevelSelector;});
+    mGraveRunnerLevelSelector->addObject(breakoutButton);
+  }
+
+  // Back button
+  auto returnButton = std::make_shared<GraveRunnerButton>(*mGraveRunnerLevelSelector, width * 1.0 - 25, height * 0.7,
+                                                         2 * width / 3, 139,
+                                                         "Return",
+                                                         [&](){mCurrentlyActiveLevel = mStartMenu;});
+  mGraveRunnerLevelSelector->addObject(returnButton);
+
 }
 
 
