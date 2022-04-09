@@ -1,9 +1,7 @@
 #include <SDL.h>
 #include <cxxtest/TestSuite.h>
-
 #include <string>
-
-#include "graverunner/ResourceManager.hpp"
+#include "base/ResourceManager.hpp"
 
 class ResourceManagerTestSuite : public CxxTest::TestSuite {
  public:
@@ -45,31 +43,17 @@ class ResourceManagerTestSuite : public CxxTest::TestSuite {
     SDL_Quit();
   }
 
+  void setUp() {
+    ResourceManager::getInstance().startUp(testRenderer);
+  }
+
+  void tearDown() {
+    ResourceManager::getInstance().shutDown();
+  }
+
   // --------------------- ResourceManager TESTS
   // -----------------------------------
 
-  void testStartup() {
-    {
-      bool hasStarted = ResourceManager::getInstance().startUp(nullptr);
-      TS_ASSERT_EQUALS(hasStarted, false);
-    }
-    {
-      auto testWindow = SDL_CreateWindow("ResourceManager Test Window", 100,
-                                         100, 500, 500, SDL_WINDOW_HIDDEN);
-      TS_ASSERT_DIFFERS(testWindow, nullptr);
-
-      auto testRenderer =
-          SDL_CreateRenderer(testWindow, -1, SDL_RENDERER_ACCELERATED);
-      TS_ASSERT_DIFFERS(testRenderer, nullptr);
-      ResourceManager& resourceManager = ResourceManager::getInstance();
-      bool hasStarted = resourceManager.startUp(testRenderer);
-      auto renderer = resourceManager.getRenderer();
-      auto missingTexture = resourceManager.getMissingTexture();
-      TS_ASSERT_EQUALS(hasStarted, true);
-      TS_ASSERT_EQUALS(renderer, testRenderer);
-      TS_ASSERT_DIFFERS(missingTexture, nullptr);
-    }
-  }
 
   void testInstanceUniqueness() {
     {
@@ -127,12 +111,11 @@ class ResourceManagerTestSuite : public CxxTest::TestSuite {
       TS_ASSERT_EQUALS(texture, missingTexture);
       TS_ASSERT_EQUALS(sizeBeforeQuery, sizeAfterQuery);
     }
-    /* TODO- Flakey
     {
       ResourceManager& resourceManager = ResourceManager::getInstance();
       auto textureMap = resourceManager.getTexturesMap();
       int sizeBeforeInsertion = textureMap->size();
-      SDL_Texture* texture = resourceManager.getTexture("exit.png");
+      SDL_Texture* texture = resourceManager.getTexture("Graverunner/exit.png");
       int sizeAfterInsertion = textureMap->size();
       const SDL_Texture* missingTexture = resourceManager.getMissingTexture();
       TS_ASSERT_DIFFERS(texture, missingTexture);
@@ -143,18 +126,20 @@ class ResourceManagerTestSuite : public CxxTest::TestSuite {
       ResourceManager& resourceManager = ResourceManager::getInstance();
       auto textureMap = resourceManager.getTexturesMap();
       int sizeBeforeQuery = textureMap->size();
-      SDL_Texture* texture = resourceManager.getTexture("exit.png");
+      SDL_Texture* texture = resourceManager.getTexture("Graverunner/exit.png");
       int sizeAfterQuery = textureMap->size();
       const SDL_Texture* missingTexture = resourceManager.getMissingTexture();
       TS_ASSERT_DIFFERS(texture, missingTexture);
       TS_ASSERT_DIFFERS(texture, nullptr);
       TS_ASSERT_EQUALS(sizeBeforeQuery, sizeAfterQuery);
-    }*/
+    }
   }
 
   void testTextureDeletion() {
     {
       ResourceManager& resourceManager = ResourceManager::getInstance();
+      resourceManager.getTexture("should_not_be_found.png");
+
       auto textureMap = resourceManager.getTexturesMap();
       int sizeBeforeRemoval = textureMap->size();
       resourceManager.unloadImageTexture("should_not_be_found.png");
@@ -171,9 +156,11 @@ class ResourceManagerTestSuite : public CxxTest::TestSuite {
     }
     {
       ResourceManager& resourceManager = ResourceManager::getInstance();
+      resourceManager.getTexture("Graverunner/exit.png");
+
       auto textureMap = resourceManager.getTexturesMap();
       int sizeBeforeRemoval = textureMap->size();
-      resourceManager.unloadImageTexture("should_not_be_found.bmp");
+      resourceManager.unloadImageTexture("Graverunner/exit.png");
       int sizeAfterRemoval = textureMap->size();
       TS_ASSERT_EQUALS(sizeBeforeRemoval - 1, sizeAfterRemoval);
     }
@@ -181,23 +168,7 @@ class ResourceManagerTestSuite : public CxxTest::TestSuite {
       ResourceManager& resourceManager = ResourceManager::getInstance();
       auto textureMap = resourceManager.getTexturesMap();
       int sizeBeforeRemoval = textureMap->size();
-      resourceManager.unloadImageTexture("should_not_be_found.bmp");
-      int sizeAfterRemoval = textureMap->size();
-      TS_ASSERT_EQUALS(sizeBeforeRemoval, sizeAfterRemoval);
-    }
-    {
-      ResourceManager& resourceManager = ResourceManager::getInstance();
-      auto textureMap = resourceManager.getTexturesMap();
-      int sizeBeforeRemoval = textureMap->size();
-      resourceManager.unloadImageTexture("exit.png");
-      int sizeAfterRemoval = textureMap->size();
-      TS_ASSERT_EQUALS(sizeBeforeRemoval - 1, sizeAfterRemoval);
-    }
-    {
-      ResourceManager& resourceManager = ResourceManager::getInstance();
-      auto textureMap = resourceManager.getTexturesMap();
-      int sizeBeforeRemoval = textureMap->size();
-      resourceManager.unloadImageTexture("exit.png");
+      resourceManager.unloadImageTexture("Graverunner/exit.png");
       int sizeAfterRemoval = textureMap->size();
       TS_ASSERT_EQUALS(sizeBeforeRemoval, sizeAfterRemoval);
     }
@@ -231,7 +202,7 @@ class ResourceManagerTestSuite : public CxxTest::TestSuite {
       auto textureMap = resourceManager.getTexturesMap();
       int sizeBeforeInsertion = textureMap->size();
       SDL_Texture* texture = resourceManager.getTextTexture(
-          "Test Message", "kenpixel_mini_square.ttf", {255, 255, 255, 0}, 32);
+          "Test Message", "Graverunner/fonts/kenpixel_mini_square.ttf", {255, 255, 255, 0}, 32);
       int sizeAfterInsertion = textureMap->size();
       const SDL_Texture* missingTexture = resourceManager.getMissingTexture();
       TS_ASSERT_DIFFERS(texture, missingTexture);
@@ -243,7 +214,7 @@ class ResourceManagerTestSuite : public CxxTest::TestSuite {
       auto textureMap = resourceManager.getTexturesMap();
       int sizeBeforeQuery = textureMap->size();
       SDL_Texture* texture = resourceManager.getTextTexture(
-          "Test Message", "kenpixel_mini_square.ttf", {255, 255, 255, 0}, 32);
+          "Test Message", "Graverunner/fonts/kenpixel_mini_square.ttf", {255, 255, 255, 0}, 32);
       int sizeAfterQuery = textureMap->size();
       const SDL_Texture* missingTexture = resourceManager.getMissingTexture();
       TS_ASSERT_DIFFERS(texture, missingTexture);
@@ -255,6 +226,8 @@ class ResourceManagerTestSuite : public CxxTest::TestSuite {
   void testFontTextureDeletion() {
     {
       ResourceManager& resourceManager = ResourceManager::getInstance();
+      resourceManager.getTextTexture("Test Message", "should_not_be_found.ttf", {255, 255, 255, 0}, 32);
+
       auto textureMap = resourceManager.getTexturesMap();
       int sizeBeforeRemoval = textureMap->size();
       resourceManager.unloadTTFTextTexture(
@@ -273,10 +246,12 @@ class ResourceManagerTestSuite : public CxxTest::TestSuite {
     }
     {
       ResourceManager& resourceManager = ResourceManager::getInstance();
+      resourceManager.getTextTexture("Test Message", "Graverunner/fonts/kenpixel_mini_square.ttf", {255, 255, 255, 0}, 32);
+
       auto textureMap = resourceManager.getTexturesMap();
       int sizeBeforeRemoval = textureMap->size();
       resourceManager.unloadTTFTextTexture(
-          "Test Message", "kenpixel_mini_square.ttf", {255, 255, 255, 0}, 32);
+          "Test Message", "Graverunner/fonts/kenpixel_mini_square.ttf", {255, 255, 255, 0}, 32);
       int sizeAfterRemoval = textureMap->size();
       TS_ASSERT_EQUALS(sizeBeforeRemoval - 1, sizeAfterRemoval);
     }
@@ -285,7 +260,7 @@ class ResourceManagerTestSuite : public CxxTest::TestSuite {
       auto textureMap = resourceManager.getTexturesMap();
       int sizeBeforeRemoval = textureMap->size();
       resourceManager.unloadTTFTextTexture(
-          "Test Message", "kenpixel_mini_square.ttf", {255, 255, 255, 0}, 32);
+          "Test Message", "Graverunner/fonts/kenpixel_mini_square.ttf", {255, 255, 255, 0}, 32);
       int sizeAfterRemoval = textureMap->size();
       TS_ASSERT_EQUALS(sizeBeforeRemoval, sizeAfterRemoval);
     }
@@ -316,7 +291,7 @@ class ResourceManagerTestSuite : public CxxTest::TestSuite {
       auto musicMap = resourceManager.getMusicMap();
       int sizeBeforeQuery = musicMap->size();
       auto music = resourceManager.getMusic(
-          "251461__joshuaempyre__arcade-music-loop.wav");
+          "Graverunner/2DPlatformer_SFX/251461__joshuaempyre__arcade-music-loop.wav");
       int sizeAfterQuery = musicMap->size();
       TS_ASSERT_DIFFERS(music, nullptr);
       TS_ASSERT_EQUALS(sizeBeforeQuery + 1, sizeAfterQuery);
@@ -326,7 +301,7 @@ class ResourceManagerTestSuite : public CxxTest::TestSuite {
       auto musicMap = resourceManager.getMusicMap();
       int sizeBeforeQuery = musicMap->size();
       auto music = resourceManager.getMusic(
-          "251461__joshuaempyre__arcade-music-loop.wav");
+          "Graverunner/2DPlatformer_SFX/251461__joshuaempyre__arcade-music-loop.wav");
       int sizeAfterQuery = musicMap->size();
       TS_ASSERT_DIFFERS(music, nullptr);
       TS_ASSERT_EQUALS(sizeBeforeQuery, sizeAfterQuery);
@@ -336,6 +311,8 @@ class ResourceManagerTestSuite : public CxxTest::TestSuite {
   void testMusicDeletion() {
     {
       ResourceManager& resourceManager = ResourceManager::getInstance();
+      resourceManager.getMusic("should_not_be_found.mp3");
+
       auto musicMap = resourceManager.getMusicMap();
       int sizeBeforeQuery = musicMap->size();
       resourceManager.unloadMusic("should_not_be_found.mp3");
@@ -352,10 +329,12 @@ class ResourceManagerTestSuite : public CxxTest::TestSuite {
     }
     {
       ResourceManager& resourceManager = ResourceManager::getInstance();
+      resourceManager.getMusic("Graverunner/2DPlatformer_SFX/251461__joshuaempyre__arcade-music-loop.wav");
+
       auto musicMap = resourceManager.getMusicMap();
       int sizeBeforeQuery = musicMap->size();
       resourceManager.unloadMusic(
-          "251461__joshuaempyre__arcade-music-loop.wav");
+          "Graverunner/2DPlatformer_SFX/251461__joshuaempyre__arcade-music-loop.wav");
       int sizeAfterQuery = musicMap->size();
       TS_ASSERT_EQUALS(sizeBeforeQuery - 1, sizeAfterQuery);
     }
@@ -364,7 +343,7 @@ class ResourceManagerTestSuite : public CxxTest::TestSuite {
       auto musicMap = resourceManager.getMusicMap();
       int sizeBeforeQuery = musicMap->size();
       resourceManager.unloadMusic(
-          "251461__joshuaempyre__arcade-music-loop.wav");
+          "Graverunner/2DPlatformer_SFX/251461__joshuaempyre__arcade-music-loop.wav");
       int sizeAfterQuery = musicMap->size();
       TS_ASSERT_EQUALS(sizeBeforeQuery, sizeAfterQuery);
     }
@@ -393,7 +372,7 @@ class ResourceManagerTestSuite : public CxxTest::TestSuite {
       ResourceManager& resourceManager = ResourceManager::getInstance();
       auto chunkMap = resourceManager.getChunkMap();
       int sizeBeforeQuery = chunkMap->size();
-      auto chunk = resourceManager.getChunk("BrickHit_SFX.mp3");
+      auto chunk = resourceManager.getChunk("Graverunner/2DPlatformer_SFX/BrickHit_SFX.mp3");
       int sizeAfterQuery = chunkMap->size();
       TS_ASSERT_DIFFERS(chunk, nullptr);
       TS_ASSERT_EQUALS(sizeBeforeQuery + 1, sizeAfterQuery);
@@ -402,7 +381,7 @@ class ResourceManagerTestSuite : public CxxTest::TestSuite {
       ResourceManager& resourceManager = ResourceManager::getInstance();
       auto chunkMap = resourceManager.getChunkMap();
       int sizeBeforeQuery = chunkMap->size();
-      auto chunk = resourceManager.getChunk("BrickHit_SFX.mp3");
+      auto chunk = resourceManager.getChunk("Graverunner/2DPlatformer_SFX/BrickHit_SFX.mp3");
       int sizeAfterQuery = chunkMap->size();
       TS_ASSERT_DIFFERS(chunk, nullptr);
       TS_ASSERT_EQUALS(sizeBeforeQuery, sizeAfterQuery);
@@ -412,6 +391,8 @@ class ResourceManagerTestSuite : public CxxTest::TestSuite {
   void testChunkDeletion() {
     {
       ResourceManager& resourceManager = ResourceManager::getInstance();
+      resourceManager.getChunk("should_not_be_found.wav");
+
       auto chunkMap = resourceManager.getChunkMap();
       int sizeBeforeQuery = chunkMap->size();
       resourceManager.unloadChunk("should_not_be_found.wav");
@@ -428,9 +409,11 @@ class ResourceManagerTestSuite : public CxxTest::TestSuite {
     }
     {
       ResourceManager& resourceManager = ResourceManager::getInstance();
+      resourceManager.getChunk("Graverunner/2DPlatformer_SFX/BrickHit_SFX.mp3");
+
       auto chunkMap = resourceManager.getChunkMap();
       int sizeBeforeQuery = chunkMap->size();
-      resourceManager.unloadChunk("BrickHit_SFX.mp3");
+      resourceManager.unloadChunk("Graverunner/2DPlatformer_SFX/BrickHit_SFX.mp3");
       int sizeAfterQuery = chunkMap->size();
       TS_ASSERT_EQUALS(sizeBeforeQuery - 1, sizeAfterQuery);
     }
@@ -438,34 +421,9 @@ class ResourceManagerTestSuite : public CxxTest::TestSuite {
       ResourceManager& resourceManager = ResourceManager::getInstance();
       auto chunkMap = resourceManager.getChunkMap();
       int sizeBeforeQuery = chunkMap->size();
-      resourceManager.unloadChunk("BrickHit_SFX.mp3");
+      resourceManager.unloadChunk("Graverunner/2DPlatformer_SFX/BrickHit_SFX.mp3");
       int sizeAfterQuery = chunkMap->size();
       TS_ASSERT_EQUALS(sizeBeforeQuery, sizeAfterQuery);
     }
-  }
-
-  void testShutDown() {
-    ResourceManager& resourceManager = ResourceManager::getInstance();
-    for (int i = 0; i < 10; i++) {
-      auto i_string = std::to_string(i);
-      resourceManager.getTexture(i_string + ".png");
-      resourceManager.getTextTexture("Test Message", i_string + ".tff",
-                                     {255, 255, 255, 0}, 32);
-      resourceManager.getMusic(i_string + ".mp3");
-      resourceManager.getChunk(i_string + ".wav");
-    }
-
-    resourceManager.shutDown();
-    auto textureMap = resourceManager.getTexturesMap();
-    auto musicMap = resourceManager.getMusicMap();
-    auto chunkMap = resourceManager.getChunkMap();
-    auto renderer = resourceManager.getRenderer();
-    auto missingTexture = resourceManager.getMissingTexture();
-    TS_ASSERT_EQUALS(resourceManager.hasStarted(), false);
-    TS_ASSERT_EQUALS(textureMap->empty(), true);
-    TS_ASSERT_EQUALS(musicMap->empty(), true);
-    TS_ASSERT_EQUALS(chunkMap->empty(), true);
-    TS_ASSERT_EQUALS(renderer, nullptr);
-    TS_ASSERT_EQUALS(missingTexture, nullptr);
   }
 };

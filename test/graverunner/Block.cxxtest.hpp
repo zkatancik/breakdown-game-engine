@@ -60,6 +60,9 @@ class BlockTestSuite : public CxxTest::TestSuite {
     Vector2D<int> blockSize{64, 50};
     Block *block = new Block(lvl, 15, 44, data, blockSize);
 
-    TS_ASSERT_EQUALS(block->getBlockData(), data);
+    BlockData actualBD = block->getBlockData();
+
+    TS_ASSERT_EQUALS(actualBD.block_Type, data.block_Type);
+    TS_ASSERT_EQUALS(actualBD.blockNumber, data.blockNumber);
   }
 };

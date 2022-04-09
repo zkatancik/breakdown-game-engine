@@ -37,7 +37,7 @@ class Jack : public GameObject {
 
 #ifdef _TEST
   inline const int getXStep() const { return xVelocity; }
-  inline const int getGravityStep() const { return gravityVelocity; }
+  inline const int getGravityStep() const { return mGravityForce; }
   inline const int getJumpStep() const { return jumpVelocity; }
 #endif
 
