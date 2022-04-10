@@ -99,4 +99,8 @@ struct GraveRunnerLevelData {
  */
 void loadLevel(GraveRunnerLevelData *levelData, int level);
 
+void updateCurrentLevel(GraveRunnerLevelData *levelData, Vector2D<int> gridPosition, GraveRunnerLevelItem item);
+
+void updateLevelFile(GraveRunnerLevelData ld, Vector2D<int> gridPosition, GraveRunnerLevelItem item);
+
 #endif
