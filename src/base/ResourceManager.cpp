@@ -281,23 +281,43 @@ void ResourceManager::closeAllfiles() {
 
 std::string ResourceManager::getTranslation(const std::string &message,
                                             Language language) {
-  auto it = localization_.find(message);
-  if (it == localization_.end()) {
-    std::cerr << "Couldn't find '" << message << "' in the localization database."
-              << std::endl;
-    return message;
-  }
-  if (language == Language::ENGLISH)
-    return message;
-  else {
-    auto message_it = it->second.find(language);
-    if (message_it == it->second.end()) {
-      std::cerr << "Message '" << message << "' doesn't have translation in "
-                << language << std::endl;
-      return message;
+  // Strip away symbols
+  std::vector<int> separators{0};
+  std::string numbers{"0123456789"};
+  for (unsigned int i = 0; i < message.size(); i++) {
+    for (char number : numbers) {
+      if (message[i] == number)
+        separators.push_back(int(i));
     }
-    return message_it->second;
   }
+  separators.push_back(int(message.size()));
+  std::stringstream out;
+  for (unsigned int i = 0; i < separators.size() - 1; i++) {
+    std::string subMessage = message.substr(separators[i], separators[i + 1] - separators[i]);
+    if (subMessage.size() == 1) {
+      out << subMessage;
+      continue;
+    }
+    auto it = localization_.find(subMessage);
+    if (it == localization_.end()) {
+      std::cerr << "Couldn't find '" << subMessage << "' in the localization database." << std::endl;
+      out << subMessage;
+    }
+    else if (language == Language::ENGLISH)
+      out << subMessage;
+    else {
+      auto subMessage_it = it->second.find(language);
+      if (subMessage_it == it->second.end()) {
+        std::cerr << "Message '" << subMessage << "' doesn't have translation in "
+        << language << std::endl;
+        out << subMessage;
+      }
+      out << subMessage_it->second;
+    }
+    if (i != 0 && i != message.size())
+      out << message[separators[i]];
+  }
+  return out.str();
 }
 
 std::fstream *ResourceManager::openFile(const std::string &path,
