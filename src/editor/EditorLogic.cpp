@@ -52,18 +52,17 @@ void EditorLogic::createAndInitBreakoutLevelSelector(int width, int height) {
   mBreakOutLevelSelector->addObject(gameSelectMessage);
   // Level numbers button
   for (size_t i = 0; i < mBreakoutLevelEditors.size(); i++) {
-    auto returnButton = std::make_shared<BreakoutButton>(
-        *mBreakoutLevelEditors[i], width * 1.0 - 25, height * 0.7,
-        2 * width / 3, 139, BreakoutButton::Color::RED, "Return",
-        [&]() { mCurrentlyActiveLevel = mStartMenu; });
-    mBreakoutLevelEditors[i]->addObject(returnButton);
-
     auto breakoutButton = std::make_shared<BreakoutButton>(
         *mBreakOutLevelSelector, width * 0.4 + i * (width * 0.4), height / 2,
         2 * width / 3, 139, BreakoutButton::Color::GREEN, std::to_string(i + 1),
         [=]() {
           mBreakoutLevelEditors[i]->finalize();
           mBreakoutLevelEditors[i]->initialize();
+          auto returnButton = std::make_shared<BreakoutButton>(
+              *mBreakoutLevelEditors[i], width * 1.0 - 25, height * 0.7,
+              2 * width / 3, 139, BreakoutButton::Color::RED, "Return",
+              [&]() {mBreakoutLevelEditors[i]->finalize(); mCurrentlyActiveLevel = mStartMenu; });
+          mBreakoutLevelEditors[i]->addObject(returnButton);
           mCurrentlyActiveLevel = mBreakoutLevelEditors[i];
         });
     mBreakOutLevelSelector->addObject(breakoutButton);
