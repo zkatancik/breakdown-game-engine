@@ -17,10 +17,15 @@
 class LevelEditButton : public GameObject {
  public:
   LevelEditButton(Level& level, float x, float y, float w, float h,
-                  std::function<void(void)> selectHook);
+                  float xOffSet, float yOffSet, std::string path,
+                  std::string soundPath, std::function<void(void)> selectHook);
 
-  std::shared_ptr<RectangleRenderComponent> getTextureRenderer() const {
+  std::shared_ptr<RectangleRenderComponent> getButtonRenderer() const {
     return buttonRenderer;
+  }
+
+  std::shared_ptr<TextureRenderComponent> getItemRenderer() const {
+    return itemRenderer;
   }
 
  private:

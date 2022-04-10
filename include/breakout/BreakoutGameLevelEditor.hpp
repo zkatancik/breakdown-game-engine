@@ -26,6 +26,7 @@ class BreakoutGameLevelEditor : public BreakoutGameLevel {
  private:
   std::weak_ptr<GridRenderComponent> mGridRenderComponent;
   int mScreenHeight;
+  std::string mSoundPath = "2DBreakout/SFX/ButtonClick_SFX.wav";
 
   BreakoutLevelData mLevelData;
 };

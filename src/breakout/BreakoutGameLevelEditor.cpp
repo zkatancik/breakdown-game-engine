@@ -35,11 +35,15 @@ void BreakoutGameLevelEditor::initialize() {
 
   addObject(toolbarBackground);
 
-  auto changeLanguageToEnglish = [&] {};
+  auto changeLanguageToEnglish = [&] { std::cout << "click" << std::endl; };
 
-  // Add the English button
-  addObject(std::make_shared<LevelEditButton>(*this, 100, 100, 100, 100,
-                                              changeLanguageToEnglish));
+  auto button =
+      std::make_shared<LevelEditButton>(*this, 100, 100, 74, 74, 5.f, 37.f,
+                                        "2DBreakout/Graphics/"
+                                        "element_blue_rectangle.png",
+                                        mSoundPath, changeLanguageToEnglish);
+
+  addObject(button);
 
   // Add buttons here:
   // w and h where the buttons are going to be placed
