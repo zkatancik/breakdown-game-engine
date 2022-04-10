@@ -290,9 +290,9 @@ class ResourceManager {
       {u8"RETURN", {{Language::SPANISH, u8"REGRESO"}}},
       {u8"ENGLISH", {{Language::SPANISH, u8"INGLÉS"}}},
       {u8"SPANISH", {{Language::SPANISH, u8"ESPAÑOL"}}},
-      {u8"Level", {{Language::SPANISH, u8"Nivel"}}},
-      {u8"Score", {{Language::SPANISH, u8"Puntaje"}}},
-      {u8"Lives", {{Language::SPANISH, u8"Vidas"}}},
+      {u8"Level: ", {{Language::SPANISH, u8"Nivel"}}},
+      {u8"Score: ", {{Language::SPANISH, u8"Puntaje"}}},
+      {u8"Lives: ", {{Language::SPANISH, u8"Vidas"}}},
       {u8"LEVEL CLEARED!", {{Language::SPANISH, u8"NIVEL COMPLETADO!"}}},
       {u8"YOU LOST", {{Language::SPANISH, u8"PERDISTE"}}},
       {u8"Highest Ever", {{Language::SPANISH, u8"El mas alto de todos"}}},
@@ -303,6 +303,7 @@ class ResourceManager {
       {u8"LEVEL EDITOR", {{Language::SPANISH, u8"EDITOR DE NIVELES"}}},
       {u8"GAME OVER", {{Language::SPANISH, u8"JUEGO TERMINADO"}}},
       {u8"GraveRunner", {{Language::SPANISH, u8"GraveRunner"}}},
+      {u8"YOUR SCORE: ", {{Language::SPANISH, u8"TU PUNTUACIÓN: "}}},
   };
 };
 #endif

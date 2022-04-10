@@ -21,6 +21,42 @@ enum BreakoutBlockType {
 };
 
 /**
+ * @brief The types of items present in a level.
+ * - All the items you see in the LevelFile.
+ */
+enum BreakoutLevelItem {
+  NONE,
+  NOBLOCK = '.',
+  PLAINBLOCK = 'b',
+  // TILE1 = '1',
+  // TILE2 = '2',
+  // TILE3 = '3',
+  // TILEX = 'X',
+  // TILEY = 'Y',
+  // TILEZ = 'Z',
+  // BONES1,
+  // BONES2,
+  // BONES3,
+  // ARROWSIGN,
+  // BUSH1,
+  // BUSH2,
+  // CRATE,
+  // DEADBUSH,
+  // SIGN,
+  // SKELETON,
+  // TOMBSTONE1,
+  // TOMEBSTONE2,
+  // TREE,
+  // JACK = 'P',
+  // PATROLZOMBIE = 'E',
+  // FOLLOWZOMBIE = 'F',
+  WALL = 'w',
+  HARDBLOCK = 'h',
+  // KEY = 'K',
+  EXIT = 'g',
+};
+
+/**
  * @brief Represents data of a single Block.
  * Can add color and more to be read from level file.
  */
@@ -38,6 +74,8 @@ struct BreakoutBlockData {
  * row 4 onwards - List of Blocks, organized in rows
  */
 struct BreakoutLevelData {
+  int levelNumber{0};
+  std::vector<std::vector<BreakoutLevelItem>> levelGrid;
   std::vector<BreakoutBlockData> blocks;
   int rowCount;
   int colCount;
@@ -54,62 +92,6 @@ struct BreakoutLevelData {
  */
 void loadLevel(BreakoutLevelData *levelData, int level);
 
-///**
-// * @brief Update the item in the current level.
-// *
-// * @param levelNumber  the levelNumber.txt to be updated
-// * @param gridPosition the position at which to update item
-// * @param item the item to add at above position
-// */
-//void updateLevelFile(LevelData ld, Vector2D<int> gridPosition, LevelItem item) {
-//
-//  std::cout << "RS:[updateLevelFile]:" << std::endl;
-//
-//  const filesystem::path resPath = getResourcePath("levels");
-//  std::string resourceFilename =
-//      (resPath / ("level" + std::to_string(ld.levelNumber) + ".txt")).string();
-//
-//  std::string line;
-//  std::fstream *myfile = ResourceManager::getInstance().openFile(resourceFilename, std::fstream::out | std::fstream::trunc);
-//
-//  int lineCounter = 0;
-//  int colNumber = 0;
-//
-//  //std::cout << "RS:updateLevelFile:" << std::endl;
-//
-//  if (myfile->is_open()) {
-//
-//    *myfile << std::to_string(ld.rowCount) << std::endl;
-//
-//    *myfile << std::to_string(ld.colCount) << std::endl;
-//
-//    *myfile << std::to_string(ld.blockSize.x) << std::endl;
-//
-//    *myfile << std::to_string(ld.blockSize.y) << std::endl;
-//
-//    int i = 0;
-//    int j = 0;
-//    for (i = 0; i < ld.rowCount; i++)
-//    {
-//      for (j = 0; j < ld.colCount; j++)
-//      {
-//        *myfile << (char)ld.levelGrid[i][j];
-//      }
-//
-//      if (i != ld.rowCount - 1)
-//      {
-//        *myfile << std::endl;
-//      }
-//
-//      lineCounter++;
-//    }
-//
-//    closeFile(resourceFilename);
-//  } else {
-//
-//    // Create a new file.
-//    std::cout << "Unable to open file \n";
-//    std::cout << "Creating a new file \n";
-//
-//  }
-//}
+void updateCurrentLevel(BreakoutLevelData *levelData, Vector2D<int> gridPosition, BreakoutLevelItem item);
+
+void updateLevelFile(BreakoutLevelData ld, Vector2D<int> gridPosition, BreakoutLevelItem item);
