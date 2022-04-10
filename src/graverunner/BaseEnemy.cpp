@@ -8,13 +8,13 @@
 BaseEnemy::BaseEnemy(Level& level, float tl_x, float tl_y, float w, float h,
                      std::vector<std::pair<float, float>>& checkpoints,
                      std::shared_ptr<Jack> j)
-    : GameObject(level, tl_x, tl_y, w, h, ZombieTag) {
+    : GameObject(level, tl_x, tl_y, w, h, GraveRunnerZombieTag) {
   renderer_ = std::make_shared<TextureRenderComponent>(*this);
   setRenderComponent(renderer_);
   setPhysicsComponent(std::make_shared<PhysicsComponent>(*this, b2BodyType::b2_dynamicBody, false));
   counter_ = std::make_shared<CyclicCounterComponent>(*this, 10, true);
   addGenericComponent(counter_);
-  addGenericComponent(std::make_shared<RemoveOnCollideComponent>(*this, BulletTag));
+  addGenericComponent(std::make_shared<RemoveOnCollideComponent>(*this, GraveRunnerBulletTag));
 }
 
 BaseEnemy::~BaseEnemy() {

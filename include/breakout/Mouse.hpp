@@ -12,7 +12,7 @@
  */
 class Mouse : public GameObject {
  public:
-  explicit Mouse(Level& level) : GameObject(level, 1, 1, 35, 35, MouseTag) {
+  explicit Mouse(Level& level) : GameObject(level, 1, 1, 35, 35, BaseMouseTag) {
     updateMouseLocation();
     auto renderComponent = std::make_shared<TextureRenderComponent>(*this);
     renderComponent->setTexture(ResourceManager::getInstance().getTexture("2DBreakout/Graphics/mouse.png"));

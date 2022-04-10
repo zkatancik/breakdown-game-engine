@@ -1,12 +1,11 @@
 #ifndef GRAVERUNNER_TAG
 #define GRAVERUNNER_TAG
-const static int JackTag = 0;
-const static int ZombieTag = 1;
-const static int NormalBlockTag = 10;
-const static int KeyTag = 11;
-const static int ExitTag = 12;
-const static int BulletTag = 20;
-const static int ButtonTag = 21;
-const static int MouseTag = 22;
-const static int LevelBoundaryTag = 23;
+#include "base/Tag.hpp"
+const static int GraveRunnerJackTag = hash("GraveRunnerJackTag");
+const static int GraveRunnerZombieTag = hash("GraveRunnerZombieTag");
+const static int GraveRunnerNormalBlockTag = hash("GraveRunnerNormalBlockTag");
+const static int GraveRunnerKeyTag = hash("GraveRunnerKeyTag");
+const static int GraveRunnerExitTag = hash("GraveRunnerExitTag");
+const static int GraveRunnerBulletTag = hash(" GraveRunnerBulletTag");
+const static int GraveRunnerLevelBoundaryTag = hash("GraveRunnerLevelBoundaryTag");
 #endif

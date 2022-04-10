@@ -5,6 +5,7 @@ void EditorLogic::startUp(SDL_Renderer *gRender, int width, int height) {
   createAndInitStartMenu(width, height);
   createAndInitBreakoutLevelSelector(width, height);
   createAndInitGraveRunnerSelector(width, height);
+  createBreakoutLevelEditors(width, height);
   mCurrentlyActiveLevel = mStartMenu;
 }
 void EditorLogic::update() {
@@ -20,6 +21,8 @@ void EditorLogic::shutDown() {
   mStartMenu->finalize();
   mBreakOutLevelSelector->finalize();
   mGraveRunnerLevelSelector->finalize();
+  for (auto l : mBreakoutLevelEditors)
+    l->finalize();
 }
 
 
@@ -57,11 +60,15 @@ void EditorLogic::createAndInitBreakoutLevelSelector(int width, int height) {
                                                                64);
   mBreakOutLevelSelector->addObject(gameSelectMessage);
   // Level numbers button
-  for (int i = 0; i < 4; i++) {
+  for (size_t i = 0; i < mBreakoutLevelEditors.size(); i++) {
     auto breakoutButton = std::make_shared<BreakoutButton>(*mBreakOutLevelSelector, width * 0.4 + i * (width * 0.4), height / 2,
                                                            2 * width / 3, 139, BreakoutButton::Color::GREEN,
-                                                           std::to_string(i),
-                                                           [&](){mCurrentlyActiveLevel = mBreakOutLevelSelector;});
+                                                           std::to_string(i + 1),
+                                                           [=](){
+      mBreakoutLevelEditors[i]->finalize();
+      mBreakoutLevelEditors[i]->initialize();
+      mCurrentlyActiveLevel = mBreakoutLevelEditors[i];
+    });
     mBreakOutLevelSelector->addObject(breakoutButton);
   }
 
@@ -85,7 +92,7 @@ void EditorLogic::createAndInitGraveRunnerSelector(int width, int height) {
   for (int i = 0; i < 3; i++) {
     auto breakoutButton = std::make_shared<GraveRunnerButton>(*mGraveRunnerLevelSelector, width * 0.4 + i * (width * 0.5), height / 2,
                                                            2 * width / 3, 139,
-                                                           std::to_string(i),
+                                                           std::to_string(i + 1),
                                                            [&](){mCurrentlyActiveLevel = mGraveRunnerLevelSelector;});
     mGraveRunnerLevelSelector->addObject(breakoutButton);
   }
@@ -98,6 +105,12 @@ void EditorLogic::createAndInitGraveRunnerSelector(int width, int height) {
   mGraveRunnerLevelSelector->addObject(returnButton);
 
 }
+void EditorLogic::createBreakoutLevelEditors(int width, int height) {
+  for (size_t i = 0; i < mBreakoutLevelEditors.size(); i++)
+    mBreakoutLevelEditors[i] = std::make_shared<BreakoutGameLevelEditor>(width, height, i + 1);
+}
+
+
 
 
 

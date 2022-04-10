@@ -22,22 +22,22 @@ void GraveRunnerLevel::initialize() {
   // collision) Left-most boundary
   auto leftMostBoundary = std::make_shared<GameObject>(
       *this, -1, 0, 1, float(rowsOfBlocks * levelData.blockSize.y),
-      LevelBoundaryTag);
+      GraveRunnerLevelBoundaryTag);
   leftMostBoundary->setPhysicsComponent(std::make_shared<PhysicsComponent>(
       *leftMostBoundary, b2BodyType::b2_staticBody, false));
   leftMostBoundary->addGenericComponent(
-      std::make_shared<RemoveOnCollideComponent>(*leftMostBoundary, BulletTag));
+      std::make_shared<RemoveOnCollideComponent>(*leftMostBoundary, GraveRunnerBulletTag));
   addObject(leftMostBoundary);
   // Right-most boundary
   auto rightMostBoundary = std::make_shared<GameObject>(
       *this, float(blocksPerRow * levelData.blockSize.x), 0, 1,
-      float(rowsOfBlocks * levelData.blockSize.y), LevelBoundaryTag);
+      float(rowsOfBlocks * levelData.blockSize.y), GraveRunnerLevelBoundaryTag);
   rightMostBoundary->setPhysicsComponent(std::make_shared<PhysicsComponent>(
       *rightMostBoundary, b2BodyType::b2_staticBody, false));
   addObject(rightMostBoundary);
   rightMostBoundary->addGenericComponent(
       std::make_shared<RemoveOnCollideComponent>(*rightMostBoundary,
-                                                 BulletTag));
+                                                 GraveRunnerBulletTag));
 
   // Place the game objects/environment (blocks, keys, exit)
   int y = 0;

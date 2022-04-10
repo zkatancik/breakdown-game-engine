@@ -1,7 +1,7 @@
 #include "breakout/Block.hpp"
 
 BreakoutBlock::BreakoutBlock(Level &level, float x, float y, int color, BreakoutBlockData bd, int h) :
-            GameObject(level, x, y, 64, 32, BlockTag),
+            GameObject(level, x, y, 64, 32, BreakoutBlockTag),
             blockData(bd) {
   auto texture = ResourceManager::getInstance().getTexture(
       (filesystem::path("2DBreakout/Graphics") / filesystem::path(colorMap[color])).u8string());
@@ -12,13 +12,13 @@ BreakoutBlock::BreakoutBlock(Level &level, float x, float y, int color, Breakout
   // Health component. Only gets added if it's not a wall.
   healthComponent_ = std::make_shared<HealthComponent>(*this, h);
   if (blockData.block_Type != Wall) {
-    healthComponent_->addHealthModifier(BallTag, -1);
+    healthComponent_->addHealthModifier(BreakoutBallTag, -1);
 
   }
   addGenericComponent(healthComponent_);
   // Play audio on collision
   addGenericComponent(
-      std::make_shared<PerformHookOnCollideComponent>(*this, BallTag, [&] (Level&, const std::shared_ptr<GameObject>&) {
+      std::make_shared<PerformHookOnCollideComponent>(*this, BreakoutBallTag, [&] (Level&, const std::shared_ptr<GameObject>&) {
         switch(blockData.block_Type) {
           case PlainBlock:
             Mix_PlayChannel(1, ResourceManager::getInstance().getChunk("2DBreakout/SFX/BrickHit_SFX.mp3"), 0);
@@ -34,7 +34,7 @@ BreakoutBlock::BreakoutBlock(Level &level, float x, float y, int color, Breakout
         }}));
   // Update texture of Hard block based on its health
   addGenericComponent(
-      std::make_shared<PerformHookOnCollideComponent>(*this, BallTag, [&] (Level&, const std::shared_ptr<GameObject>&) {
+      std::make_shared<PerformHookOnCollideComponent>(*this, BreakoutBallTag, [&] (Level&, const std::shared_ptr<GameObject>&) {
         if (blockData.block_Type == HardBlock) {
           switch (healthComponent_->getHealth()) {
             case 2:

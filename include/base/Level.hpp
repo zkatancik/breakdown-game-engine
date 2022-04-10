@@ -10,7 +10,7 @@
 
 //! \brief A level in the game.  Essentially mannages a collection of game
 //! objects, and does some collision detection.
-class Level {
+ class Level : public std::enable_shared_from_this<Level> {
  public:
 
   Level(int w, int h);

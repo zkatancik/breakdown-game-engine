@@ -24,18 +24,11 @@ class BreakoutGameLevel : public Level {
 
   int getScore();
 
+  int getLevelNumber() {return mLevelNumber;};
+
   inline bool isGameWon() {
     int numLivesLeft = livesIndicator.lock()->getGenericComponent<GameVariableComponent<int>>()->getVariable();
     return numLivesLeft > 0 && numBlocksLeft == 0;
-  }
-
-  inline void setGridRenderComponent(
-      std::shared_ptr<GridRenderComponent> gridRenderComponent) {
-    mGridRenderComponent = gridRenderComponent;
-  }
-
-  inline std::shared_ptr<GridRenderComponent> getGridRenderComponent() {
-    return mGridRenderComponent;
   }
 
  private:
@@ -46,8 +39,6 @@ class BreakoutGameLevel : public Level {
   std::shared_ptr<GameObject> createLivesIndicatorObject();
 
   std::shared_ptr<GameObject> createScoreIndicatorObject();
-
-  std::shared_ptr<GridRenderComponent> mGridRenderComponent;
 
   std::weak_ptr<GameObject> livesIndicator;
 

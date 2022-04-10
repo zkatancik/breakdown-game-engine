@@ -97,31 +97,31 @@ void BreakoutGameLevel::initialize() {
   }
   // Add Boundaries
   auto leftMostBoundary =
-      std::make_shared<GameObject>(*this, -1, 0, 1, 3 * h(), ReflectingWallTag);
+      std::make_shared<GameObject>(*this, -1, 0, 1, 3 * h(), BreakoutReflectingWallTag);
   leftMostBoundary->setPhysicsComponent(std::make_shared<PhysicsComponent>(
       *leftMostBoundary, b2_staticBody, false, 0.f, 10.f));
   addObject(leftMostBoundary);
 
   auto rightMostBoundary = std::make_shared<GameObject>(
-      *this, w(), 0, 1, 3 * h(), ReflectingWallTag);
+      *this, w(), 0, 1, 3 * h(), BreakoutReflectingWallTag);
   rightMostBoundary->setPhysicsComponent(std::make_shared<PhysicsComponent>(
       *rightMostBoundary, b2_staticBody, false, 0.f, 10.f));
   addObject(rightMostBoundary);
 
   auto topMostBoundary = std::make_shared<GameObject>(*this, -1, -1, 3 * w(), 1,
-                                                      ReflectingWallTag);
+                                                      BreakoutReflectingWallTag);
   topMostBoundary->setPhysicsComponent(std::make_shared<PhysicsComponent>(
       *topMostBoundary, b2_staticBody, false, 0.f, 10.f));
   addObject(topMostBoundary);
 
   // Add Bottom Boundary
   auto BottomMostBoundary =
-      std::make_shared<GameObject>(*this, -1, h(), 3 * w(), 1, BottomWallTag);
+      std::make_shared<GameObject>(*this, -1, h(), 3 * w(), 1, BreakoutBottomWallTag);
   BottomMostBoundary->setPhysicsComponent(std::make_shared<PhysicsComponent>(
       *BottomMostBoundary, b2_staticBody, true, 0.f, 10.f));
 
   auto removeOnCollideComponent =
-      std::make_shared<RemoveOnCollideComponent>(*BottomMostBoundary, BallTag);
+      std::make_shared<RemoveOnCollideComponent>(*BottomMostBoundary, BreakoutBallTag);
   BottomMostBoundary->addGenericComponent(removeOnCollideComponent);
 
   auto reduceLifeOnCollideLambda =
@@ -141,7 +141,7 @@ void BreakoutGameLevel::initialize() {
       };
   auto reduceLifeOnCollideComponent =
       std::make_shared<PerformHookOnCollideComponent>(
-          *BottomMostBoundary, BallTag, reduceLifeOnCollideLambda);
+          *BottomMostBoundary, BreakoutBallTag, reduceLifeOnCollideLambda);
   BottomMostBoundary->addGenericComponent(reduceLifeOnCollideComponent);
   addObject(BottomMostBoundary);
 }
@@ -160,7 +160,7 @@ std::shared_ptr<Ball> BreakoutGameLevel::createBallObject() {
 
 std::shared_ptr<GameObject> BreakoutGameLevel::createLevelIndicatorObject() {
   auto levelIndicator =
-      std::make_shared<GameObject>(*this, 10, 10, 50, 50, TextTag);
+      std::make_shared<GameObject>(*this, 10, 10, 50, 50, BaseTextTag);
   auto textRenderer = std::make_shared<TextureRenderComponent>(*levelIndicator);
 
   textRenderer->setRenderMode(TextureRenderComponent::RenderMode::QUERY);
@@ -175,7 +175,7 @@ std::shared_ptr<GameObject> BreakoutGameLevel::createLevelIndicatorObject() {
 
 std::shared_ptr<GameObject> BreakoutGameLevel::createLivesIndicatorObject() {
   auto livesIndicator =
-      std::make_shared<GameObject>(*this, 10, 50, 50, 50, TextTag);
+      std::make_shared<GameObject>(*this, 10, 50, 50, 50, BaseTextTag);
   auto textRenderer = std::make_shared<TextureRenderComponent>(*livesIndicator);
 
   textRenderer->setRenderMode(TextureRenderComponent::RenderMode::QUERY);
@@ -201,7 +201,7 @@ std::shared_ptr<GameObject> BreakoutGameLevel::createLivesIndicatorObject() {
 }
 std::shared_ptr<GameObject> BreakoutGameLevel::createScoreIndicatorObject() {
   auto scoreIndicator =
-      std::make_shared<GameObject>(*this, 10, 90, 50, 50, TextTag);
+      std::make_shared<GameObject>(*this, 10, 90, 50, 50, BaseTextTag);
   auto textRenderer = std::make_shared<TextureRenderComponent>(*scoreIndicator);
 
   textRenderer->setRenderMode(TextureRenderComponent::RenderMode::QUERY);

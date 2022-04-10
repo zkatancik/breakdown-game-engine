@@ -1,11 +1,9 @@
 #ifndef BREAKOUT_TAG
 #define BREAKOUT_TAG
-const static int BottomWallTag = 0;
-const static int ReflectingWallTag = 1;
-const static int BallTag = 10;
-const static int BlockTag = 11;
-const static int PaddleTag = 12;
-const static int MouseTag = 20;
-const static int ButtonTag = 21;
-const static int TextTag = 22;
+#include "base/Tag.hpp"
+const static int BreakoutBottomWallTag = int(hash("BreakoutBottomWallTag"));
+const static int BreakoutReflectingWallTag = int(hash("BreakoutReflectingWallTag"));
+const static int BreakoutBallTag = int(hash("BreakoutBallTag"));
+const static int BreakoutBlockTag = int(hash("BreakoutBlockTag"));
+const static int BreakoutPaddleTag = int(hash("BreakoutPaddleTag"));
 #endif

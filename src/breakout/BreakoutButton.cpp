@@ -7,7 +7,7 @@
 
 BreakoutButton::BreakoutButton(Level& level, float x, float y, float w, float h, Color color,
                                      const std::string& text, std::function<void(void)> selectHook)
-    : GameObject(level, x, y, w, h, ButtonTag) {
+    : GameObject(level, x, y, w, h, BaseButtonTag) {
   // Load sprite sheet for the buttons
   buttonRenderer = std::make_shared<TextureRenderComponent>(*this);
   buttonRenderer->setTexture(ResourceManager::getInstance().getTexture(

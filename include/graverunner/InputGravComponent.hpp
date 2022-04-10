@@ -81,7 +81,7 @@ class InputGravComponent: public GenericComponent {
       if (PhysicsManager::getInstance().getCollisions(gameObject.x() + inset, gameObject.y() + gameObject.h(),
                                                       gameObject.w() - 2 * inset, 1.0f, objects)) {
         for (auto obj: objects) {
-          if (obj->tag() == NormalBlockTag) {
+          if (obj->tag() == GraveRunnerNormalBlockTag) {
             onGround = true;
           }
         }
@@ -102,7 +102,7 @@ class InputGravComponent: public GenericComponent {
   }
 
   void collision(Level & level, std::shared_ptr<GameObject> obj) override {
-    if (obj->tag() == ZombieTag) {
+    if (obj->tag() == GraveRunnerZombieTag) {
       if (curActionState != ActionState::SLIDE) {
         curActionState = ActionState::DEAD;
         Mix_PlayChannel(

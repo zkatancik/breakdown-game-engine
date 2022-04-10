@@ -4,7 +4,7 @@
 #include "base/SDL_DEBUG.hpp"
 #include "base/GameObject.hpp"
 #include "base/ResourceManager.hpp"
-#include "graverunner/Tag.hpp"
+#include "base/Tag.hpp"
 #include "base/TextureRenderComponent.hpp"
 
 /**
@@ -12,7 +12,7 @@
  */
 class Mouse : public GameObject {
  public:
-  Mouse(Level& level) : GameObject(level, 1, 1, 35, 61, MouseTag) {
+  Mouse(Level& level) : GameObject(level, 1, 1, 35, 61, BaseMouseTag) {
     auto renderComponent = std::make_shared<TextureRenderComponent>(*this);
     renderComponent->setTexture(ResourceManager::getInstance().getTexture("Graverunner/mouse/mouse.png"));
     setRenderComponent(renderComponent);

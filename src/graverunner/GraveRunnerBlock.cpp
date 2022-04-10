@@ -8,7 +8,7 @@
 using namespace std;
 
 GraveRunnerBlock::GraveRunnerBlock(Level& level, float x, float y, GraveRunnerBlockData bd, Vector2D<int> bs)
-    : GameObject(level, x, y, bs.x, bs.y, NormalBlockTag) {
+    : GameObject(level, x, y, bs.x, bs.y, GraveRunnerNormalBlockTag) {
   init(x, y, bd, bs);
 }
 
@@ -25,7 +25,7 @@ void GraveRunnerBlock::init(int xCoord, int yCoord, GraveRunnerBlockData bd, Vec
       *this, b2BodyType::b2_staticBody, false));
 
   addGenericComponent(
-      std::make_shared<RemoveOnCollideComponent>(*this, BulletTag));
+      std::make_shared<RemoveOnCollideComponent>(*this, GraveRunnerBulletTag));
   auto render = std::make_shared<TextureRenderComponent>(*this);
   render->setTexture(texture_);
   setRenderComponent(render);
