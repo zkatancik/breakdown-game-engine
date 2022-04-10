@@ -1,10 +1,47 @@
-//#include "editor/LevelEditButton.hpp"
+#include "editor/LevelEditButton.hpp"
+
+LevelEditButton::LevelEditButton(Level& level, float x, float y, float w,
+                                 float h, std::function<void(void)> selectHook)
+    : GameObject(level, x, y, w, h, BaseButtonTag) {
+  buttonRenderer = std::make_shared<RectangleRenderComponent>(255, 0, 0, *this);
+  buttonRenderer->setFlip(true);
+
+  // Set event handlers for the SelectableComponent
+  auto mHoverChangeFocus = [&]() { buttonRenderer->setFlip(false); };
+  auto mNotSelectChangeFocus = [&]() { buttonRenderer->setFlip(true); };
+
+  auto addedSoundWithSelectHook = [selectHook = std::move(selectHook)] {
+    Mix_PlayChannel(1,
+                    ResourceManager::getInstance().getChunk(
+                        "Graverunner/2DPlatformer_SFX/"
+                        "mixkit-video-game-mystery-alert-234.wav"),
+                    0);
+    selectHook();
+  };
+  itemRenderer = std::make_shared<TextureRenderComponent>(
+      *this, std::vector({buttonRenderer}));
+
+  itemRenderer->setRenderMode(TextureRenderComponent::RenderMode::QUERY);
+
+  setRenderComponent(itemRenderer);
+
+  itemRenderer->setTexture(ResourceManager::getInstance().getTexture(
+      "2DBreakout/Graphics/element_yellow_rectangle.png"));
+
+  itemRenderer->setOffSetY(int(60));
+
+  auto selectableComponent = std::make_shared<SelectableComponent>(
+      *this, addedSoundWithSelectHook, mHoverChangeFocus,
+      mNotSelectChangeFocus);
+  addGenericComponent(selectableComponent);
+}
+
 //
-//LevelEditButton::LevelEditButton() {}
+// LevelEditButton::LevelEditButton() {}
 //
-//LevelEditButton::~LevelEditButton() {}
+// LevelEditButton::~LevelEditButton() {}
 //
-//void LevelEditButton::startUp(std::string imagePath, int x, int y, int w,
+// void LevelEditButton::startUp(std::string imagePath, int x, int y, int w,
 //                              int h) {
 //  texture = ResourceManager::getInstance().getTexture(imagePath);
 //
@@ -22,9 +59,9 @@
 //  clickFactor = y + CLICK_FACTOR_MOVEMENT;
 //}
 //
-//void LevelEditButton::shutDown() {}
+// void LevelEditButton::shutDown() {}
 //
-//void LevelEditButton::isClicked() {
+// void LevelEditButton::isClicked() {
 //  isSelected = false;
 //
 //  // LevelEditButton Click sound.
@@ -32,7 +69,7 @@
 //      1, ResourceManager::getInstance().getChunk(BUTTON_CLICK_SOUND), 0);
 //}
 //
-//void LevelEditButton::update(Mouse *mouse) {
+// void LevelEditButton::update(Mouse *mouse) {
 //  if (SDL_HasIntersection(&texture_dest, &mouse->point)) {
 //    isSelected = true;
 //    texture_dest.y = clickFactor;
@@ -42,7 +79,7 @@
 //  }
 //}
 //
-//void LevelEditButton::render(SDL_Renderer *renderer) {
+// void LevelEditButton::render(SDL_Renderer *renderer) {
 //  if (isSelected) {
 //    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
 //    SDL_RenderFillRect(renderer, &texture_outline);
@@ -53,4 +90,4 @@
 //  }
 //}
 //
-//bool LevelEditButton::IsSelected() const { return isSelected; }
+// bool LevelEditButton::IsSelected() const { return isSelected; }

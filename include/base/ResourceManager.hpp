@@ -11,8 +11,8 @@
 #include <string>
 #include <vector>
 
-#include "SDL_DEBUG.hpp"
 #include "ResPath.hpp"
+#include "SDL_DEBUG.hpp"
 #include "TinyMath.hpp"
 
 // Use size_t to keep track of resource IDs in the release version; Use normal
@@ -247,15 +247,13 @@ class ResourceManager {
 
   inline void closeAllfiles();
 
-
-
-
-
   std::fstream *openFile(const std::string &path,
                          std::ios_base::openmode flags = std::ios_base::in |
                                                          std::ios_base::out);
 
   void closeFile(const std::string &path);
+
+  inline const SDL_Renderer *getRenderer() { return renderer_; }
 
 #ifdef _TEST
   inline const std::map<resourceId_t, SDL_Texture *> *getTexturesMap() {
@@ -267,7 +265,6 @@ class ResourceManager {
   inline const std::map<resourceId_t, Mix_Chunk *> *getChunkMap() {
     return &chunk_;
   }
-  inline const SDL_Renderer *getRenderer() { return renderer_; }
   inline const SDL_Texture *getMissingTexture() { return missing_texture_; }
 #endif
 
@@ -281,7 +278,8 @@ class ResourceManager {
   std::map<resourceId_t, SDL_Texture *> textures_;
   std::map<resourceId_t, Mix_Music *> music_;
   std::map<resourceId_t, Mix_Chunk *> chunk_;
-  std::map<resourceId_t, std::pair<std::ios_base::openmode, std::fstream *>> fstream_;
+  std::map<resourceId_t, std::pair<std::ios_base::openmode, std::fstream *>>
+      fstream_;
   std::map<std::string, std::map<Language, std::string>> localization_{
       {u8"START", {{Language::SPANISH, u8"COMIENZO"}}},
       {u8"SELECT DIFFICULTY", {{Language::SPANISH, u8"SELECCIONE DIFICULTAD"}}},

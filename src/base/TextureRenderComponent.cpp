@@ -1,21 +1,26 @@
+#include "base/TextureRenderComponent.hpp"
+
 #include <assert.h>
 
 #include <utility>
+
 #include "base/GameObject.hpp"
-#include "base/TextureRenderComponent.hpp"
 
-TextureRenderComponent::TextureRenderComponent(GameObject &gameObject) : RenderComponent(gameObject) {}
+TextureRenderComponent::TextureRenderComponent(GameObject &gameObject)
+    : RenderComponent(gameObject) {}
 
-void TextureRenderComponent::render(SDL_Renderer *renderer) const
-{
-  for (const auto& comp : prevComponents) {
+void TextureRenderComponent::render(SDL_Renderer *renderer) const {
+  for (const auto &comp : prevComponents) {
     comp->render(renderer);
+  }
+
+  for (const auto &rect : prevRects) {
+    rect->render(renderer);
   }
   assert(texture_ != nullptr);
   const GameObject &gameObject = getGameObject();
   SDL_Rect fillRect = {int(gameObject.x()) + xOffset_,
-                       int(gameObject.y()) + yOffset_,
-                       0, 0};
+                       int(gameObject.y()) + yOffset_, 0, 0};
   switch (renderMode_) {
     case WHOLE_WIDTH:
       fillRect.w = int(gameObject.w());
@@ -29,10 +34,17 @@ void TextureRenderComponent::render(SDL_Renderer *renderer) const
       fillRect.h = customH_;
   }
 
-  SDL_RenderCopyEx(renderer, texture_, SDL_RectEmpty(&crop_) ? nullptr : &crop_, &fillRect, 0, nullptr,
+  SDL_RenderCopyEx(renderer, texture_, SDL_RectEmpty(&crop_) ? nullptr : &crop_,
+                   &fillRect, 0, nullptr,
                    flip_ ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE);
 }
-TextureRenderComponent::TextureRenderComponent(GameObject &gameObject,
-                                               std::vector<std::shared_ptr<TextureRenderComponent>>  otherRenderComponents) :
-                                               RenderComponent(gameObject),
-                                               prevComponents(std::move(otherRenderComponents))  {}
+TextureRenderComponent::TextureRenderComponent(
+    GameObject &gameObject,
+    std::vector<std::shared_ptr<TextureRenderComponent>> otherRenderComponents)
+    : RenderComponent(gameObject),
+      prevComponents(std::move(otherRenderComponents)) {}
+
+TextureRenderComponent::TextureRenderComponent(
+    GameObject &gameObject,
+    std::vector<std::shared_ptr<RectangleRenderComponent>> otherRectComponents)
+    : RenderComponent(gameObject), prevRects(std::move(otherRectComponents)) {}
