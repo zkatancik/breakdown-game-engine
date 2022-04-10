@@ -64,4 +64,11 @@ void BreakoutGameLevelEditor::initialize() {
   }
 
   // Grid component here
+  auto levelGrid =
+      std::make_shared<GameObject>(*this, xOffset, 0, 20 * 64, 20 * 32, 44);
+  auto gridRenderComponent =
+      std::make_shared<GridRenderComponent>(*levelGrid, 64, 32, 21, 15);
+  levelGrid->setRenderComponent(gridRenderComponent);
+  setGridRenderComponent(gridRenderComponent);
+  addObject(levelGrid);
 }
