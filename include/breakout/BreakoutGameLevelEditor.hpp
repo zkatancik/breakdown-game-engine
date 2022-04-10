@@ -7,6 +7,7 @@
 #include "breakout/Ball.hpp"
 #include "breakout/Block.hpp"
 #include "breakout/BreakoutGameLevel.hpp"
+#include "breakout/LevelData.hpp"
 #include "breakout/Paddle.hpp"
 #include "editor/LevelEditButton.hpp"
 
@@ -29,6 +30,14 @@ class BreakoutGameLevelEditor : public BreakoutGameLevel {
   std::string mSoundPath = "2DBreakout/SFX/ButtonClick_SFX.wav";
 
   BreakoutLevelData mLevelData;
+
+  std::map<BreakoutLevelItem, std::string> itemMap = {
+      {BreakoutLevelItem::PLAINBLOCK,
+       "2DBreakout/Graphics/element_blue_rectangle.png"},
+      {BreakoutLevelItem::WALL,
+       "2DBreakout/Graphics/element_wall_rectangle.png"},
+      {BreakoutLevelItem::HARDBLOCK,
+       "2DBreakout/Graphics/element_grey_rectangle.png"}};
 };
 
 #endif

@@ -35,61 +35,33 @@ void BreakoutGameLevelEditor::initialize() {
 
   addObject(toolbarBackground);
 
-  auto changeLanguageToEnglish = [&] { std::cout << "click" << std::endl; };
+  auto changeToErase = [&] { std::cout << "click" << std::endl; };
 
-  auto button =
-      std::make_shared<LevelEditButton>(*this, 100, 100, 74, 74, 5.f, 21.f,
+  auto eraseButton =
+      std::make_shared<LevelEditButton>(*this, 35, 35, 74, 74, 5.f, 5.f,
                                         "2DBreakout/Graphics/"
-                                        "element_blue_rectangle.png",
-                                        mSoundPath, changeLanguageToEnglish);
+                                        "erase.png",
+                                        mSoundPath, changeToErase);
 
-  addObject(button);
+  addObject(eraseButton);
 
   // Add buttons here:
-  // w and h where the buttons are going to be placed
-  for (int i = 0; i < 2; i++) {
-    for (int j = 0; j < 5; j++) {
-      // Lambda to set global state.
-      // auto editorButton = std::make_shared<EditorButton>(*this, the texutre,
-      // the block data, lambda) addObject(editorButton);
+  int x = 26;
+  int y = 114;
+  int count = 0;
+  for (const auto& pair : itemMap) {
+    auto lambda = [&] { std::cout << "click" << pair.first << std::endl; };
+    auto button = std::make_shared<LevelEditButton>(
+        *this, x, y, 74, 42, 5.f, 5.f, pair.second, mSoundPath, lambda);
+    addObject(button);
+    x = x + 79;
+    count++;
+    if (count == 2) {
+      y = y + 47;
+      x = 26;
+      count = 0;
     }
   }
 
   // Grid component here
-  // The lambda should check for currently selected button, and overwrite.
-  // Render over is also nice to have.
-
-  // auto mHoverChangeFocus = [&]() { buttonRenderer->setCrop(mCropFocused); };
-  // auto mNotSelectChangeFocus = [&]() {
-  //   buttonRenderer->setCrop(mCropNotFocused);
-  // };
-
-  // auto addedSoundWithSelectHook = [selectHook = std::move(selectHook)] {
-  //   Mix_PlayChannel(1,
-  //                   ResourceManager::getInstance().getChunk(
-  //                       "Graverunner/2DPlatformer_SFX/"
-  //                       "mixkit-video-game-mystery-alert-234.wav"),
-  //                   0);
-  //   selectHook();
-  // };
-  // textRenderer = std::make_shared<TextureRenderComponent>(
-  //     *this, std::vector({buttonRenderer}));
-
-  // textRenderer->setRenderMode(TextureRenderComponent::RenderMode::QUERY);
-
-  // setRenderComponent(textRenderer);
-
-  // textComponent = std::make_shared<TextComponent>(*this, text, mFontSize,
-  //                                                 mButtonFont, textRenderer);
-  // addGenericComponent(textComponent);
-
-  // addGenericComponent(std::make_shared<CenterTextComponent>(
-  //     *this, textRenderer, this->x(), this->y()));
-
-  // textRenderer->setOffSetY(int(60));
-
-  // auto selectableComponent = std::make_shared<SelectableComponent>(
-  //     *this, addedSoundWithSelectHook, mHoverChangeFocus,
-  //     mNotSelectChangeFocus);
-  // addGenericComponent(selectableComponent);
 }
