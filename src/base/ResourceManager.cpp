@@ -294,7 +294,7 @@ std::string ResourceManager::getTranslation(const std::string &message,
   std::stringstream out;
   for (unsigned int i = 0; i < separators.size() - 1; i++) {
     std::string subMessage = message.substr(separators[i], separators[i + 1] - separators[i]);
-    if (subMessage.size() == 1) {
+    if (subMessage.size() == 1 || subMessage.empty()) {
       out << subMessage;
       continue;
     }
