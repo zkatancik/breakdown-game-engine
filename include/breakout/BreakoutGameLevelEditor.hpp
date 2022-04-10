@@ -22,6 +22,11 @@ class BreakoutGameLevelEditor : public BreakoutGameLevel {
                           BreakoutGameLevel::GameDifficulty::Easy,
                           levelNumber){};
 
+  inline void setGridRenderComponent(
+      std::shared_ptr<GridRenderComponent> gridRenderComponent) {
+    mGridRenderComponent = gridRenderComponent;
+  }
+
   void initialize() override;
 
  private:

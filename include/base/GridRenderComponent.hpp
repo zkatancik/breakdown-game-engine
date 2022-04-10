@@ -12,14 +12,19 @@
 
 class GridRenderComponent : public RenderComponent {
  public:
-  GridRenderComponent(GameObject& gameObject, float size, int xsz, int ysz)
-      : RenderComponent(gameObject), mSize(size), mXsz(xsz), mYsz(ysz) {
+  GridRenderComponent(GameObject& gameObject, float xSize, float ySize, int xsz,
+                      int ysz)
+      : RenderComponent(gameObject),
+        mXSize(xSize),
+        mYSize(ySize),
+        mXsz(xsz),
+        mYsz(ysz) {
     for (int ii = 0; ii < mXsz; ++ii) {
       gridRects.push_back(std::vector<SDL_Rect>());
       for (int jj = 0; jj < mYsz; ++jj) {
-        SDL_Rect drawRect = {int(gameObject.x() + ii * mSize),
-                             int(gameObject.y() + jj * mSize), int(mSize),
-                             int(mSize)};
+        SDL_Rect drawRect = {int(gameObject.x() + ii * mXSize),
+                             int(gameObject.y() + jj * mYSize), int(mXSize),
+                             int(mYSize)};
         gridRects[ii].push_back(drawRect);
       }
     }
@@ -65,7 +70,7 @@ class GridRenderComponent : public RenderComponent {
   }
 
  private:
-  const float mSize;
+  const float mXSize, mYSize;
   const int mXsz, mYsz;
 
   std::vector<std::vector<SDL_Rect>> gridRects;
