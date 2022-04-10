@@ -63,6 +63,12 @@ void BreakoutGameLevelEditor::initialize() {
     }
   }
 
+  // auto returnButton = std::make_shared<BreakoutButton>(
+  //     *this, 100, 100, 100, 139, BreakoutButton::Color::RED, "Return",
+  //     [&]() { mCurrentlyActiveLevel = mStartMenu; });
+
+  // addObject(returnButton);
+
   // Grid component here
   auto levelGrid =
       std::make_shared<GameObject>(*this, xOffset, 0, 20 * 64, 20 * 32, 44);
