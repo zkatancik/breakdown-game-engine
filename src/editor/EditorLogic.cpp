@@ -89,9 +89,9 @@ void EditorLogic::createAndInitGraveRunnerSelector(int width, int height) {
       "Graverunner/fonts/GADAQUALI.ttf", 64);
   mGraveRunnerLevelSelector->addObject(gameSelectMessage);
   // Level numbers button
-  for (size_t i = 0; i < mBreakoutLevelEditors.size(); i++) {
+  for (size_t i = 0; i < mGraveRunnerLevelEditors.size(); i++) {
     auto graverunnerButton = std::make_shared<GraveRunnerButton>(
-        *mGraveRunnerLevelSelector, width * 0.4 + i * (width * 0.5), height / 2,
+        *mGraveRunnerLevelSelector, width * 0.4 + i * (width * 0.4), height / 2,
         2 * width / 3, 139, std::to_string(i + 1), [=]() {
           mGraveRunnerLevelEditors[i]->finalize();
           mGraveRunnerLevelEditors[i]->initialize();
@@ -104,7 +104,7 @@ void EditorLogic::createAndInitGraveRunnerSelector(int width, int height) {
           mGraveRunnerLevelEditors[i]->addObject(returnButton);
           mCurrentlyActiveLevel = mGraveRunnerLevelEditors[i];
         });
-    mBreakOutLevelSelector->addObject(graverunnerButton);
+    mGraveRunnerLevelSelector->addObject(graverunnerButton);
   }
 }
 
