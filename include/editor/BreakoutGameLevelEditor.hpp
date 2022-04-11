@@ -20,7 +20,7 @@ class BreakoutGameLevelEditor : public BreakoutGameLevel {
       : mScreenHeight(h),
         BreakoutGameLevel(w - xOffset, h,
                           BreakoutGameLevel::GameDifficulty::Easy,
-                          levelNumber, true){};
+                          levelNumber){};
 
   void initialize() override;
 

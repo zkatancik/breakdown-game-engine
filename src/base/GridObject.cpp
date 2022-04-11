@@ -35,7 +35,6 @@ class GridComponent: public GenericComponent {
     std::pair<int, int> mouseGridLocation = getMouseGridCoords();
     bool isLeftMousePressed = InputManager::getInstance().isMouseKeyPressed(SDL_BUTTON_LEFT);
     if (isLeftMousePressed && mouseGridLocation.first != -1 && mouseGridLocation.second != -1) {
-      std::cout << "Here!" << std::endl;
       mCallBack(mouseGridLocation.first, mouseGridLocation.second);
     }
 

@@ -29,7 +29,8 @@ void GraveRunnerLogic::shutDown() {
   mInstructionsMenu->finalize();
   mLevelClearedMenu->finalize();
   mLevelFailedMenu->finalize();
-  for (const auto& l : mGameLevels) l->finalize();
+  for (const auto& l : mGameLevels)
+    l->finalize();
   PhysicsManager::getInstance().shutDown();
 }
 

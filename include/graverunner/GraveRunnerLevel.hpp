@@ -13,15 +13,6 @@ class GraveRunnerLevel : public Level {
 
   void initialize() override;
 
-  inline void setGridRenderComponent(
-      std::shared_ptr<GridRenderComponent> gridRenderComponent) {
-    mGridRenderComponent = gridRenderComponent;
-  }
-
-  inline std::shared_ptr<GridRenderComponent> getGridRenderComponent() {
-    return mGridRenderComponent;
-  }
-
   inline int getLevelNumber() { return currentLevelNumber; };
 
   /**
@@ -35,11 +26,10 @@ class GraveRunnerLevel : public Level {
   bool isLevelInProgress() const;
 
  private:
-  std::shared_ptr<GridRenderComponent> mGridRenderComponent;
 
   // An internal pointer to Jack- note, he is still added as a gameobject so
   // this should generally be used read-only (e.g. to check if game over)
-  std::shared_ptr<Jack> mJack;
+  std::weak_ptr<Jack> mJack;
 
   // The number of exits found when loading this level
   int initialNumExits{0};
@@ -48,7 +38,9 @@ class GraveRunnerLevel : public Level {
 
   int currentLevelNumber{1};
 
-  GraveRunnerLevelData mLevelData;
+  std::shared_ptr<GameObject> createLevelIndicatorObject();
+
+  std::shared_ptr<GameObject> createKeyIndicatorObject();
 };
 
 #endif
