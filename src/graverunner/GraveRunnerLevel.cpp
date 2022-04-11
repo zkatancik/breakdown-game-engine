@@ -55,6 +55,7 @@ void GraveRunnerLevel::initialize() {
           obj = std::make_shared<KeyBlock>(*this, x, y, blockSize);
         } else if (b.block_Type == GraveRunnerBlockType::Exit) {
           obj = std::make_shared<ExitBlock>(*this, x, y, blockSize);
+          initialNumExits++;
         }
         addObject(obj);
       }
@@ -100,4 +101,20 @@ void GraveRunnerLevel::initialize() {
   }
 
   levelData = mLevelData;
+}
+
+bool GraveRunnerLevel::isLevelWon() const {
+  int curNumExits = 0;
+  bool blocksPresent = false;
+  for (const auto& gameobj : getGameObjects()) {
+    if (gameobj.get()->tag() == GraveRunnerExitTag) {
+      curNumExits++;
+    }
+    blocksPresent = true;
+  }
+  return blocksPresent && curNumExits < initialNumExits;
+}
+
+bool GraveRunnerLevel::isLevelInProgress() const {
+  return mJack.get()->isAlive() && !isLevelWon();
 }

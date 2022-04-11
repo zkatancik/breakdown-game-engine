@@ -39,6 +39,7 @@ class GraveRunnerLogic : public SDLProgramLogic {
   std::shared_ptr<Level> mStartMenu{nullptr};
   std::shared_ptr<Level> mLanguageMenu{nullptr};
   std::shared_ptr<Level> mInstructionsMenu{nullptr};
+  std::shared_ptr<Level> mLevelClearedMenu{nullptr};
   std::vector<std::shared_ptr<GraveRunnerLevel>> mGameLevels{nullptr, nullptr,
                                                              nullptr, nullptr};
   std::shared_ptr<Level> mCurrentlyActiveLevel{
@@ -53,6 +54,8 @@ class GraveRunnerLogic : public SDLProgramLogic {
   void createInstructionsLevel(int width, int height);
 
   void createStartMenuLevel(int width, int height);
+
+  void initializeLevelClearedMenu();
 
   inline bool isGameActive() {
     return (mCurrentlyActiveLevel ==
