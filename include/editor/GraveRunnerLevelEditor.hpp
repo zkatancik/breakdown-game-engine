@@ -27,7 +27,7 @@ class GraveRunnerLevelEditor : public GraveRunnerLevel {
   std::string mSoundPath = "Graverunner/2DPlatformer_SFX/ButtonClick_SFX.wav";
 
   GraveRunnerLevelData mLevelData;
-  GraveRunnerLevelItem currentlySelected{NONE};
+  GraveRunnerLevelItem currentlySelected{GraveRunnerLevelItem::NONE};
 
   static std::string getGraverunnerBlockPath(const std::string &name) {
     return ("Graverunner/graveyardtiles/png/Tiles/Tile" + name + ".png");
