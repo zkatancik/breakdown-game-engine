@@ -35,7 +35,7 @@ void BreakoutGameLevelEditor::initialize() {
 
   addObject(toolbarBackground);
 
-  auto changeToErase = [&] { std::cout << "click" << std::endl; };
+  auto changeToErase = [&] { currentlySelected = BreakoutLevelItem::NOBLOCK; };
 
   auto eraseButton =
       std::make_shared<LevelEditButton>(*this, 35, 35, 74, 74, 5.f, 5.f,
@@ -50,7 +50,10 @@ void BreakoutGameLevelEditor::initialize() {
   int y = 114;
   int count = 0;
   for (const auto& pair : itemMap) {
-    auto lambda = [&] { std::cout << "click" << pair.first << std::endl; };
+    auto lambda = [&] {
+      currentlySelected = pair.first;
+      // mGridRenderComponent.setCurrentlySelectedPath(pair.second);
+    };
     auto button = std::make_shared<LevelEditButton>(
         *this, x, y, 74, 42, 5.f, 5.f, pair.second, mSoundPath, lambda);
     addObject(button);
@@ -61,20 +64,14 @@ void BreakoutGameLevelEditor::initialize() {
       x = 26;
       count = 0;
     }
+
+    // Grid component here
+    auto levelGrid =
+        std::make_shared<GameObject>(*this, xOffset, 0, 20 * 64, 20 * 32, 44);
+    mGridRenderComponent =
+        std::make_shared<GridRenderComponent>(*levelGrid, 64, 32, 21, 15);
+    levelGrid->setRenderComponent(mGridRenderComponent);
+    setGridRenderComponent(mGridRenderComponent);
+    addObject(levelGrid);
   }
-
-  // auto returnButton = std::make_shared<BreakoutButton>(
-  //     *this, 100, 100, 100, 139, BreakoutButton::Color::RED, "Return",
-  //     [&]() { mCurrentlyActiveLevel = mStartMenu; });
-
-  // addObject(returnButton);
-
-  // Grid component here
-  auto levelGrid =
-      std::make_shared<GameObject>(*this, xOffset, 0, 20 * 64, 20 * 32, 44);
-  auto gridRenderComponent =
-      std::make_shared<GridRenderComponent>(*levelGrid, 64, 32, 21, 15);
-  levelGrid->setRenderComponent(gridRenderComponent);
-  setGridRenderComponent(gridRenderComponent);
-  addObject(levelGrid);
 }

@@ -8,6 +8,7 @@
 
 #include "base/GameObject.hpp"
 #include "base/RenderComponent.hpp"
+#include "base/TextureRenderComponent.hpp"
 #include "base/TinyMath.hpp"
 
 class GridRenderComponent : public RenderComponent {
@@ -28,6 +29,10 @@ class GridRenderComponent : public RenderComponent {
         gridRects[ii].push_back(drawRect);
       }
     }
+    // item = std::make_shared<GameObject>(*this, 0, 0, width, height, 44);
+    // itemRenderer = std::make_shared<TextureRenderComponent>(*item);
+    // itemRenderer->setRenderMode(TextureRenderComponent::RenderMode::QUERY);
+    // background->setRenderComponent(itemRenderer);
   }
 
   virtual void render(SDL_Renderer* renderer) const override {
@@ -42,7 +47,10 @@ class GridRenderComponent : public RenderComponent {
         if (SDL_HasIntersection(&drawRect, &mousePos)) {
           // EditorUIManager::getInstance().getPathMap();
           SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0xFF);
+          // itemRenderer->setTexture(ResourceManager::getInstance().getTexture(
+          //     "Graverunner/graveyardtiles/menubg.jpg"));
 
+          // addObject(item);
         } else {
           SDL_SetRenderDrawColor(renderer, 0x33, 0x33, 0x33, 0xFF);
         }
@@ -69,11 +77,18 @@ class GridRenderComponent : public RenderComponent {
     return gridCoords;
   }
 
+  inline void setCurrentlySelectedPath(std::string currentlySelectedPath) {
+    mCurrentlySelectedPath = currentlySelectedPath;
+  }
+
  private:
   const float mXSize, mYSize;
   const int mXsz, mYsz;
 
   std::vector<std::vector<SDL_Rect>> gridRects;
+  // std::shared_ptr<TextureRenderComponent> itemRenderer;
+  // std::make_shared<GameObject> item;
+  std::string mCurrentlySelectedPath;
 };
 
 #endif
