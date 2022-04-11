@@ -5,6 +5,7 @@ void EditorLogic::startUp(SDL_Renderer *gRender, int width, int height) {
   createAndInitBreakoutLevelSelector(width, height);
   createAndInitGraveRunnerSelector(width, height);
   createBreakoutLevelEditors(width, height);
+  createGraveRunnerLevelEditors(width, height);
   mCurrentlyActiveLevel = mStartMenu;
 }
 void EditorLogic::update() {
@@ -21,6 +22,7 @@ void EditorLogic::shutDown() {
   mBreakOutLevelSelector->finalize();
   mGraveRunnerLevelSelector->finalize();
   for (auto l : mBreakoutLevelEditors) l->finalize();
+  for (auto l : mGraveRunnerLevelEditors) l->finalize();
 }
 
 void EditorLogic::createAndInitStartMenu(int width, int height) {
@@ -90,12 +92,22 @@ void EditorLogic::createAndInitGraveRunnerSelector(int width, int height) {
       "Graverunner/fonts/GADAQUALI.ttf", 64);
   mGraveRunnerLevelSelector->addObject(gameSelectMessage);
   // Level numbers button
-  for (int i = 0; i < 3; i++) {
-    auto breakoutButton = std::make_shared<GraveRunnerButton>(
-        *mGraveRunnerLevelSelector, width * 0.4 + i * (width * 0.5), height / 2,
-        2 * width / 3, 139, std::to_string(i + 1),
-        [&]() { mCurrentlyActiveLevel = mGraveRunnerLevelSelector; });
-    mGraveRunnerLevelSelector->addObject(breakoutButton);
+  for (size_t i = 0; i < mGraveRunnerLevelEditors.size(); i++) {
+    auto graverunnerButton = std::make_shared<GraveRunnerButton>(
+        *mGraveRunnerLevelSelector, width * 0.4 + i * (width * 0.4), height / 2,
+        2 * width / 3, 139, std::to_string(i + 1), [=]() {
+          mGraveRunnerLevelEditors[i]->finalize();
+          mGraveRunnerLevelEditors[i]->initialize();
+          auto returnButton = std::make_shared<GraveRunnerButton>(
+              *mGraveRunnerLevelSelector, width * 1.0 - 25, height * 0.7,
+              2 * width / 3, 139, "Return", [&]() {
+                mGraveRunnerLevelEditors[i]->finalize();
+                mCurrentlyActiveLevel = mStartMenu;
+              });
+          mGraveRunnerLevelEditors[i]->addObject(returnButton);
+          mCurrentlyActiveLevel = mGraveRunnerLevelEditors[i];
+        });
+    mGraveRunnerLevelSelector->addObject(graverunnerButton);
   }
 
   // Back button
@@ -109,5 +121,12 @@ void EditorLogic::createBreakoutLevelEditors(int width, int height) {
   for (size_t i = 0; i < mBreakoutLevelEditors.size(); i++) {
     mBreakoutLevelEditors[i] =
         std::make_shared<BreakoutGameLevelEditor>(width, height, i + 1);
+  }
+}
+
+void EditorLogic::createGraveRunnerLevelEditors(int width, int height) {
+  for (size_t i = 0; i < mGraveRunnerLevelEditors.size(); i++) {
+    mGraveRunnerLevelEditors[i] =
+        std::make_shared<GraveRunnerLevelEditor>(width, height, i + 1);
   }
 }

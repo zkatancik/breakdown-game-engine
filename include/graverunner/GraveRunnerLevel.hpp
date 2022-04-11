@@ -22,8 +22,27 @@ class GraveRunnerLevel : public Level {
     return mGridRenderComponent;
   }
 
+  inline int getLevelNumber() { return currentLevelNumber; };
+
+  /**
+   * @brief Is this level in a "win" state?
+   */
+  bool isLevelWon() const;
+
+  /**
+   * @brief Is this level still in progress?
+   */
+  bool isLevelInProgress() const;
+
  private:
   std::shared_ptr<GridRenderComponent> mGridRenderComponent;
+
+  // An internal pointer to Jack- note, he is still added as a gameobject so
+  // this should generally be used read-only (e.g. to check if game over)
+  std::shared_ptr<Jack> mJack;
+
+  // The number of exits found when loading this level
+  int initialNumExits{0};
 
   const std::string BACKGROUND_IMAGE = "graveyardtiles/png/BG.jpg";
 
