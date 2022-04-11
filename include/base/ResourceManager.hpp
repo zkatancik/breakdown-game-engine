@@ -309,7 +309,9 @@ class ResourceManager {
       {u8"HOW TO PLAY", {{Language::SPANISH, u8"CÓMO JUGAR"}}},
       {u8"Select Level:", {{Language::SPANISH, u8"Elegir Nivel:"}}},
       {u8"Breakout", {{Language::SPANISH, u8"Breakout"}}},
+      {u8"GraveRunner", {{Language::SPANISH, u8"GraveRunner"}}},
       {u8"Select Game:", {{Language::SPANISH, u8"Elegir Juego:"}}},
+      {u8"Keys Collected: ", {{Language::SPANISH, u8"Teclas recogidas: "}}},
   };
 };
 #endif

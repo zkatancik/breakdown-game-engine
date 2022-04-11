@@ -4,23 +4,6 @@
 #include "graverunner/Tag.hpp"
 
 void GraveRunnerLevelEditor::initialize() {
-  // Let the game initialize itself as it would in a normal game
-  GraveRunnerLevel::initialize();
-  // Update so that gameObjects are added to the list
-  update();
-  // Strip away unwanted things for rendering in level editor
-  for (const auto& gameObject : getGameObjects()) {
-    // Remove boundaries and bullets
-    if (gameObject->tag() == GraveRunnerLevelBoundaryTag ||
-        gameObject->tag() == GraveRunnerBulletTag)
-      removeObject(gameObject);
-    // Add an x-offset to make space for buttons
-    gameObject->setX(gameObject->x() + float(xOffset));
-  }
-  update();
-  // Read in the level data for our own usage
-  loadLevel(&mLevelData, getLevelNumber());
-
   auto toolbarBackground = std::make_shared<GameObject>(
       *this, 0, 0, xOffset, mScreenHeight, hash("ToolbarTag"));
   auto backgroundRenderer =
@@ -84,6 +67,7 @@ void GraveRunnerLevelEditor::initialize() {
                                                   64, gridCallback);
     addObject(levelGrid);
   }
+  refreshLevelEditor();
 }
 
 std::string GraveRunnerLevelEditor::getGraverunnerBlockPath(
@@ -126,7 +110,13 @@ void GraveRunnerLevelEditor::refreshLevelEditor() {
   for (const auto& gameObject : getGameObjects()) {
     // Remove any blocks remaining previously
     if (gameObject->tag() == GraveRunnerLevelBoundaryTag ||
-        gameObject->tag() == GraveRunnerBulletTag)
+    gameObject->tag() == GraveRunnerBulletTag ||
+    gameObject->tag() == GraveRunnerJackTag ||
+    gameObject->tag() == GraveRunnerZombieTag ||
+    gameObject->tag() == GraveRunnerExitTag ||
+    gameObject->tag() == GraveRunnerKeyTag ||
+    gameObject->tag() == GraveRunnerNormalBlockTag ||
+    gameObject->tag() == BaseTextTag)
       removeObject(gameObject);
   }
   GraveRunnerLevel::initialize();
@@ -135,7 +125,14 @@ void GraveRunnerLevelEditor::refreshLevelEditor() {
     // Remove any text components (lives, level, score, etc) + Ball + Paddle +
     // Boundaries
     if (gameObject->tag() == GraveRunnerLevelBoundaryTag ||
-        gameObject->tag() == GraveRunnerBulletTag)
+    gameObject->tag() == GraveRunnerBulletTag ||
+    gameObject->tag() == GraveRunnerJackTag ||
+    gameObject->tag() == GraveRunnerZombieTag ||
+    gameObject->tag() == GraveRunnerExitTag ||
+    gameObject->tag() == GraveRunnerKeyTag ||
+    gameObject->tag() == GraveRunnerNormalBlockTag ||
+    gameObject->tag() == BaseTextTag
+    )
       // Add an x-offset to make space for buttons
       gameObject->setX(gameObject->x() + float(xOffset));
   }
