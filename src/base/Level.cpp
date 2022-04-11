@@ -88,3 +88,9 @@ void Level::changeLanguage(Language language) {
     }
   }
 }
+const std::vector<std::shared_ptr<GameObject>> &Level::getGameObjectsToAdd() const {
+  return mObjectsToAdd;
+}
+const std::vector<std::shared_ptr<GameObject>> &Level::getGameObjectsToRemove() const {
+  return mObjectsToRemove;
+}

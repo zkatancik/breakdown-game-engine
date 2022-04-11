@@ -22,15 +22,12 @@ class BreakoutGameLevelEditor : public BreakoutGameLevel {
                           BreakoutGameLevel::GameDifficulty::Easy,
                           levelNumber, true){};
 
-  inline void setGridRenderComponent(
-      std::shared_ptr<GridRenderComponent> gridRenderComponent) {
-    mGridRenderComponent = gridRenderComponent;
-  }
-
   void initialize() override;
 
  private:
-  std::shared_ptr<GridRenderComponent> mGridRenderComponent;
+
+  void refreshLevelEditor();
+
   int mScreenHeight;
   std::string mSoundPath = "2DBreakout/SFX/ButtonClick_SFX.wav";
 

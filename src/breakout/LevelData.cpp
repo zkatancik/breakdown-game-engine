@@ -113,9 +113,9 @@ void updateLevelFile(BreakoutLevelData ld, Vector2D<int> gridPosition, BreakoutL
 
   std::cout << "RS:[updateLevelFile]:" << std::endl;
 
-  const filesystem::path resPath = getResourcePath("levels");
+  const filesystem::path resPath = getResourcePath("2DBreakout/Levels");
   std::string resourceFilename =
-      (resPath / ("level" + std::to_string(ld.levelNumber) + ".txt")).string();
+      (resPath / ("Level" + std::to_string(ld.levelNumber) + ".txt")).string();
 
   std::string line;
   std::fstream *myfile = ResourceManager::getInstance().openFile(resourceFilename, std::fstream::out | std::fstream::trunc);

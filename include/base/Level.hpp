@@ -33,6 +33,8 @@
 
  protected:
   const std::vector<std::shared_ptr<GameObject>> &getGameObjects() const;
+  const std::vector<std::shared_ptr<GameObject>> &getGameObjectsToAdd() const;
+  const std::vector<std::shared_ptr<GameObject>> &getGameObjectsToRemove() const;
 
  private:
 
@@ -43,7 +45,9 @@
   std::vector<std::shared_ptr<GameObject>> mObjects{};
 
   std::vector<std::shared_ptr<GameObject>> mObjectsToAdd{};
-  std::vector<std::shared_ptr<GameObject>> mObjectsToRemove{};
+
+  private:
+   std::vector<std::shared_ptr<GameObject>> mObjectsToRemove{};
 
 };
 

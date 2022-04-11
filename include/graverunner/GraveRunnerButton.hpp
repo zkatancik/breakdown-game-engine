@@ -6,6 +6,7 @@
 #include "base/TextComponent.hpp"
 #include "graverunner/Mouse.hpp"
 #include "graverunner/Tag.hpp"
+#include <functional>
 
 /**
  * @brief A class representing a clickable UI Text Button.
