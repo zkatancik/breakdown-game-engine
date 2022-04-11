@@ -44,11 +44,11 @@ void BreakoutGameLevel::initialize() {
   addObject(ballObject);
 
   // dynamic y placement of blocks
-  int y = isEditor ? 0 : 96;
+  int y = 0;
   int count = 1;
   int color = 3;
   for (int i = 0; i < rowsOfBlocks; i++) {
-    int x = isEditor ? 0 : ((w() - (blocksPerRow * 64)) / 2);
+    int x = 0;
     for (int j = 0; j < blocksPerRow; j++) {
       auto b = levelData.blocks[(i * blocksPerRow) + j];
       if (b.block_Type != BreakoutBlockType::NoBlock) {
