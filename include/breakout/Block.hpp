@@ -28,7 +28,7 @@ class BreakoutBlock : public GameObject {
  * @param bd Blockdata read from LevelData
  * @param h Block health based on BlockType
  */
-  BreakoutBlock(Level& level, float x, float y, int color, BreakoutBlockData bd, int h);
+  BreakoutBlock(Level& level, float x, float y, BreakoutBlockData bd, int h);
 
   BreakoutBlockType getBlockType() const {return blockData.block_Type;};
 
@@ -37,11 +37,14 @@ class BreakoutBlock : public GameObject {
   std::shared_ptr<HealthComponent> healthComponent_;
   BreakoutBlockData blockData;
 
-    // delete this
-  static inline const std::string colorMap[7] = {
-      "element_yellow_rectangle.png", "element_green_rectangle.png",
-      "element_blue_rectangle.png", "element_purple_rectangle.png",
-      "element_red_rectangle.png", "element_grey_rectangle.png", "element_wall_rectangle.png"};
+  static SDL_Texture *getBlockTexture(const std::string &name)
+  {
+    return ResourceManager::getInstance().getTexture(
+        (std::filesystem::path("2DBreakout/Graphics/") /
+         ("element_rectangle_" + name + ".png"))
+            .u8string());
+  }
+
 };
 
 #endif

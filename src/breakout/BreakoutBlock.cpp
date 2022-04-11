@@ -1,10 +1,13 @@
 #include "breakout/Block.hpp"
 
-BreakoutBlock::BreakoutBlock(Level &level, float x, float y, int color, BreakoutBlockData bd, int h) :
+BreakoutBlock::BreakoutBlock(Level &level, float x, float y, BreakoutBlockData bd, int h) :
             GameObject(level, x, y, 64, 32, BreakoutBlockTag),
             blockData(bd) {
-  auto texture = ResourceManager::getInstance().getTexture(
-      (filesystem::path("2DBreakout/Graphics") / filesystem::path(colorMap[color])).u8string());
+  //auto texture = ResourceManager::getInstance().getTexture(
+  //    (filesystem::path("2DBreakout/Graphics") / filesystem::path(colorMap[color])).u8string());
+
+  auto texture = getBlockTexture(blockData.blockNumber);
+
   renderer_ = std::make_shared<TextureRenderComponent>(*this);
   renderer_->setTexture(texture);
   setRenderComponent(renderer_);

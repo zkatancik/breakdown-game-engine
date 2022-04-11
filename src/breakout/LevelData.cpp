@@ -39,17 +39,36 @@ void loadLevel(BreakoutLevelData *levelData, int level) {
       for (auto &ch : line) {
 
         auto data = BreakoutBlockData();
-        if (ch == 'b') {
+        if (ch == '1') {
           data.block_Type = BreakoutBlockType::PlainBlock;
-          levelData->levelGrid[lineCounter - 3][colCounter] = BreakoutLevelItem::PLAINBLOCK;
+          data.blockNumber = ch;
+          levelData->levelGrid[lineCounter - 3][colCounter] = BreakoutLevelItem::BLOCKBLUE;
+        } else if (ch == '2') {
+          data.block_Type = BreakoutBlockType::PlainBlock;
+          data.blockNumber = ch;
+          levelData->levelGrid[lineCounter - 3][colCounter] = BreakoutLevelItem::BLOCKRED;
+        } else if (ch == '3') {
+          data.block_Type = BreakoutBlockType::PlainBlock;
+          data.blockNumber = ch;
+          levelData->levelGrid[lineCounter - 3][colCounter] = BreakoutLevelItem::BLOCKYELLOW;
+        } else if (ch == '4') {
+          data.block_Type = BreakoutBlockType::PlainBlock;
+          data.blockNumber = ch;
+          levelData->levelGrid[lineCounter - 3][colCounter] = BreakoutLevelItem::BLOCKGREEN;
+        } else if (ch == '5') {
+          data.block_Type = BreakoutBlockType::PlainBlock;
+          data.blockNumber = ch;
+          levelData->levelGrid[lineCounter - 3][colCounter] = BreakoutLevelItem::BLOCKPURPLE;
         } else if (ch == ' ') {
           data.block_Type = BreakoutBlockType::NoBlock;
           levelData->levelGrid[lineCounter - 3][colCounter] = BreakoutLevelItem::NOBLOCK;
         } else if (ch == 'w') {
           data.block_Type = BreakoutBlockType::Wall;
+          data.blockNumber = ch;
           levelData->levelGrid[lineCounter - 3][colCounter] = BreakoutLevelItem::WALL;
         } else if (ch == 'h') {
           data.block_Type = BreakoutBlockType::HardBlock;
+          data.blockNumber = ch;
           levelData->levelGrid[lineCounter - 3][colCounter] = BreakoutLevelItem::HARDBLOCK;
         }
 
