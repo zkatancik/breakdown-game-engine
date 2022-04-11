@@ -308,6 +308,8 @@ class ResourceManager {
       {u8"YOUR SCORE: ", {{Language::SPANISH, u8"TU PUNTUACIÓN: "}}},
       {u8"HOW TO PLAY", {{Language::SPANISH, u8"CÓMO JUGAR"}}},
       {u8"Select Level:", {{Language::SPANISH, u8"Elegir Nivel:"}}},
+      {u8"Breakout", {{Language::SPANISH, u8"Breakout"}}},
+      {u8"Select Game:", {{Language::SPANISH, u8"Elegir Juego:"}}},
   };
 };
 #endif
