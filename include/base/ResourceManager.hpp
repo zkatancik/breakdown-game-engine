@@ -307,6 +307,7 @@ class ResourceManager {
       {u8"GraveRunner", {{Language::SPANISH, u8"GraveRunner"}}},
       {u8"YOUR SCORE: ", {{Language::SPANISH, u8"TU PUNTUACIÓN: "}}},
       {u8"HOW TO PLAY", {{Language::SPANISH, u8"CÓMO JUGAR"}}},
+      {u8"Select Level:", {{Language::SPANISH, u8"Elegir Nivel:"}}},
   };
 };
 #endif
