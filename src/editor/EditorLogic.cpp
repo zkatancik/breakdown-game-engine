@@ -59,9 +59,13 @@ void EditorLogic::createAndInitBreakoutLevelSelector(int width, int height) {
           mBreakoutLevelEditors[i]->finalize();
           mBreakoutLevelEditors[i]->initialize();
           auto returnButton = std::make_shared<BreakoutButton>(
-              *mBreakoutLevelEditors[i], width * 1.0 - 25, height * 0.7,
-              2 * width / 3, 139, BreakoutButton::Color::RED, "Return",
-              [&]() {mBreakoutLevelEditors[i]->finalize(); mCurrentlyActiveLevel = mStartMenu; });
+              *mBreakoutLevelEditors[i], 200, 650, 2 * width / 3, 50,
+              BreakoutButton::Color::RED, "Return",
+              [&]() {
+                mBreakoutLevelEditors[i]->finalize();
+                mCurrentlyActiveLevel = mStartMenu;
+              },
+              40);
           mBreakoutLevelEditors[i]->addObject(returnButton);
           mCurrentlyActiveLevel = mBreakoutLevelEditors[i];
         });

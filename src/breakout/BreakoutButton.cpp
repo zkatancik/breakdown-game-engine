@@ -5,8 +5,10 @@
 #include "base/CenterTextComponent.hpp"
 #include "base/InputManager.hpp"
 
-BreakoutButton::BreakoutButton(Level& level, float x, float y, float w, float h, Color color,
-                                     const std::string& text, std::function<void(void)> selectHook)
+BreakoutButton::BreakoutButton(Level& level, float x, float y, float w, float h,
+                               Color color, const std::string& text,
+                               std::function<void(void)> selectHook,
+                               int fontSize)
     : GameObject(level, x, y, w, h, BaseButtonTag) {
   // Load sprite sheet for the buttons
   buttonRenderer = std::make_shared<TextureRenderComponent>(*this);
@@ -44,7 +46,7 @@ BreakoutButton::BreakoutButton(Level& level, float x, float y, float w, float h,
 
   setRenderComponent(textRenderer);
 
-  textComponent = std::make_shared<TextComponent>(*this, text, mFontSize,
+  textComponent = std::make_shared<TextComponent>(*this, text, fontSize,
                                                   mButtonFont, textRenderer);
   addGenericComponent(textComponent);
 
