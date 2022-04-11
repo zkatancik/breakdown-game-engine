@@ -59,7 +59,7 @@ void loadLevel(BreakoutLevelData *levelData, int level) {
           data.block_Type = BreakoutBlockType::PlainBlock;
           data.blockNumber = ch;
           levelData->levelGrid[lineCounter - 3][colCounter] = BreakoutLevelItem::BLOCKPURPLE;
-        } else if (ch == ' ') {
+        } else if (ch == '.') {
           data.block_Type = BreakoutBlockType::NoBlock;
           levelData->levelGrid[lineCounter - 3][colCounter] = BreakoutLevelItem::NOBLOCK;
         } else if (ch == 'w') {
