@@ -29,9 +29,7 @@ class GraveRunnerLevelEditor : public GraveRunnerLevel {
   GraveRunnerLevelData mLevelData;
   GraveRunnerLevelItem currentlySelected{GraveRunnerLevelItem::NONE};
 
-  static std::string getGraverunnerBlockPath(const std::string &name) {
-    return ("Graverunner/graveyardtiles/png/Tiles/Tile" + name + ".png");
-  }
+  static std::string getGraverunnerBlockPath(GraveRunnerLevelItem item);
 
   std::vector<GraveRunnerLevelItem> itemVector = {
       GraveRunnerLevelItem::TILE1,        GraveRunnerLevelItem::TILE2,

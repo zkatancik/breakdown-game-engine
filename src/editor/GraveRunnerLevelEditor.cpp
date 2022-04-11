@@ -1,4 +1,5 @@
 #include "editor/GraveRunnerLevelEditor.hpp"
+#include "graverunner/LevelData.hpp"
 #include "graverunner/Tag.hpp"
 
 void GraveRunnerLevelEditor::initialize() {
@@ -52,9 +53,9 @@ void GraveRunnerLevelEditor::initialize() {
       currentlySelected = item;
       // mGridRenderComponent.setCurrentlySelectedPath(pair.second);
     };
-    std::string blockName(1, (char)item);
     auto button = std::make_shared<LevelEditButton>(
-        *this, x, y, 74, 42, 5.f, 5.f, getGraverunnerBlockPath(blockName), mSoundPath, lambda);
+        *this, x, y, 74, 42, 5.f, 5.f, getGraverunnerBlockPath(item),
+        mSoundPath, lambda);
     addObject(button);
     x = x + 79;
     count++;
@@ -72,5 +73,41 @@ void GraveRunnerLevelEditor::initialize() {
     levelGrid->setRenderComponent(mGridRenderComponent);
     setGridRenderComponent(mGridRenderComponent);
     addObject(levelGrid);
+  }
+}
+
+std::string GraveRunnerLevelEditor::getGraverunnerBlockPath(
+    GraveRunnerLevelItem item) {
+  switch (item) {
+    case GraveRunnerLevelItem::NONE:
+      return "";
+    case GraveRunnerLevelItem::NOBLOCK:
+      return "";
+    case GraveRunnerLevelItem::TILE1:
+      return "Graverunner/graveyardtiles/png/Tiles/Tile1.png";
+    case GraveRunnerLevelItem::TILE2:
+      return "Graverunner/graveyardtiles/png/Tiles/Tile2.png";
+    case GraveRunnerLevelItem::TILE3:
+      return "Graverunner/graveyardtiles/png/Tiles/Tile3.png";
+    case GraveRunnerLevelItem::TILEX:
+      return "Graverunner/graveyardtiles/png/Tiles/TileX.png";
+    case GraveRunnerLevelItem::TILEY:
+      return "Graverunner/graveyardtiles/png/Tiles/TileY.png";
+    case GraveRunnerLevelItem::TILEZ:
+      return "Graverunner/graveyardtiles/png/Tiles/TileZ.png";
+    case GraveRunnerLevelItem::JACK:
+      return "Graverunner/jack/Idle1.png";
+    case GraveRunnerLevelItem::PATROLZOMBIE:
+      return "Graverunner/zombies/male/Idle1.png";
+    case GraveRunnerLevelItem::FOLLOWZOMBIE:
+      return "Graverunner/zombies/male/Idle1.png";
+    case GraveRunnerLevelItem::KEY:
+      return "Graverunner/key.png";
+    case GraveRunnerLevelItem::EXIT:
+      return "Graverunner/exit.png";
+    default:
+      std::cerr << "Failed to get Graverunner block path for item "
+                << static_cast<int>(item) << std::endl;
+      return "";
   }
 }
