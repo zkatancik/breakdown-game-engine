@@ -71,7 +71,7 @@ void GraveRunnerLevel::initialize() {
       blockSize.y * levelData.playerStartPosition.y, blockSize.x, blockSize.y);
   addObject(mJack);
 
-  // Place Enemies end points DYNAMICALLY
+  // Place Enemies end points
   for (size_t i = 0; i < levelData.enemyStartPositions.size(); i = i + 2) {
     std::vector<std::pair<float, float>> maleZombie1Path = {
         {levelData.enemyStartPositions[i + 1].x * blockSize.x,
@@ -84,7 +84,7 @@ void GraveRunnerLevel::initialize() {
     addObject(maleZombie);
   }
 
-  // Place Follower Enemies end points DYNAMICALLY
+  // Place Follower Enemies end points
   for (size_t i = 0; i < levelData.followerEnemyStartPositions.size();
        i = i + 2) {
     std::vector<std::pair<float, float>> maleZombie1Path = {
@@ -99,8 +99,6 @@ void GraveRunnerLevel::initialize() {
             blockSize.x, blockSize.y, maleZombie1Path, mJack);
     addObject(maleZombie);
   }
-
-  levelData = mLevelData;
 }
 
 bool GraveRunnerLevel::isLevelWon() const {

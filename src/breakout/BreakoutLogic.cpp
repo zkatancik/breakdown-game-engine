@@ -26,6 +26,8 @@ void BreakoutLogic::shutDown() {
   mLanguageMenu->finalize();
   mDifficultyMenu->finalize();
   mInstructionsMenu->finalize();
+  mLevelClearedMenu->finalize();
+  mLevelFailedMenu->finalize();
   for (const auto& l : mGameLevels) l->finalize();
   PhysicsManager::getInstance().shutDown();
 }
@@ -366,6 +368,7 @@ void BreakoutLogic::initializeLevelFailedMenu(int score) {
   auto goToMainMenuLevelLambda = [&] {
     mGameLevels[mCurrentlySelectedGameLevelIdx]->finalize();
     mCurrentlyActiveLevel = mStartMenu;
+    std::cout << mCurrentlySelectedGameLevelIdx << std::endl;
   };
 
   int width = mLevelFailedMenu->w();
