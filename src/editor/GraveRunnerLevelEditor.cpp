@@ -1,4 +1,5 @@
 #include "editor/GraveRunnerLevelEditor.hpp"
+
 #include "graverunner/LevelData.hpp"
 #include "graverunner/Tag.hpp"
 
@@ -33,7 +34,9 @@ void GraveRunnerLevelEditor::initialize() {
 
   addObject(toolbarBackground);
 
-  auto changeToErase = [&] { currentlySelected = GraveRunnerLevelItem::NOBLOCK; };
+  auto changeToErase = [&] {
+    currentlySelected = GraveRunnerLevelItem::NOBLOCK;
+  };
 
   auto eraseButton =
       std::make_shared<LevelEditButton>(*this, 35, 35, 74, 74, 5, 5,
@@ -54,24 +57,30 @@ void GraveRunnerLevelEditor::initialize() {
       // mGridRenderComponent.setCurrentlySelectedPath(pair.second);
     };
     auto button = std::make_shared<LevelEditButton>(
-        *this, x, y, 74, 42, 5.f, 5.f, getGraverunnerBlockPath(item),
-        mSoundPath, lambda);
+        *this, x, y, 74, 74, 5.f, 5.f, getGraverunnerBlockPath(item),
+        mSoundPath, lambda, true);
     addObject(button);
     x = x + 79;
     count++;
     if (count == 2) {
-      y = y + 47;
+      y = y + 79;
       x = 26;
       count = 0;
     }
 
     // Grid component here
-    auto levelGrid =
-        std::make_shared<GameObject>(*this, xOffset, 0, 20 * 64, 20 * 32, 44);
-    mGridRenderComponent = std::make_shared<GridRenderComponent>(
-        *this, *levelGrid, 64, 32, 20, 15);
-    levelGrid->setRenderComponent(mGridRenderComponent);
-    setGridRenderComponent(mGridRenderComponent);
+    auto gridCallback = [&, mLevelData = &mLevelData](int i, int j) {
+      if (currentlySelected != GraveRunnerLevelItem::NONE) {
+        Mix_PlayChannel(1, ResourceManager::getInstance().getChunk(mSoundPath),
+                        0);
+        updateCurrentLevel(mLevelData, Vector2D<int>(i, j), currentlySelected);
+        refreshLevelEditor();
+        currentlySelected = GraveRunnerLevelItem::NONE;
+      }
+    };
+
+    auto levelGrid = std::make_shared<GridObject>(*this, xOffset, 0, 20, 20, 64,
+                                                  64, gridCallback);
     addObject(levelGrid);
   }
 }
@@ -110,4 +119,25 @@ std::string GraveRunnerLevelEditor::getGraverunnerBlockPath(
                 << static_cast<int>(item) << std::endl;
       return "";
   }
+}
+
+void GraveRunnerLevelEditor::refreshLevelEditor() {
+  for (const auto& gameObject : getGameObjects()) {
+    // Remove any blocks remaining previously
+    if (gameObject->tag() == GraveRunnerLevelBoundaryTag ||
+        gameObject->tag() == GraveRunnerBulletTag)
+      removeObject(gameObject);
+  }
+  GraveRunnerLevel::initialize();
+  // Strip away unwanted things for rendering in level editor
+  for (const auto& gameObject : getGameObjectsToAdd()) {
+    // Remove any text components (lives, level, score, etc) + Ball + Paddle +
+    // Boundaries
+    if (gameObject->tag() == GraveRunnerLevelBoundaryTag ||
+        gameObject->tag() == GraveRunnerBulletTag)
+      // Add an x-offset to make space for buttons
+      gameObject->setX(gameObject->x() + float(xOffset));
+  }
+  // Read in the level data for our own usage
+  loadLevel(&mLevelData, getLevelNumber());
 }

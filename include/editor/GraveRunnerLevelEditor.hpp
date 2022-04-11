@@ -3,10 +3,11 @@
 #include <base/GridRenderComponent.hpp>
 
 #include "base/GameVariableComponent.hpp"
+#include "base/GridObject.hpp"
 #include "base/ResourceManager.hpp"
+#include "editor/LevelEditButton.hpp"
 #include "graverunner/GraveRunnerLevel.hpp"
 #include "graverunner/LevelData.hpp"
-#include "editor/LevelEditButton.hpp"
 
 class GraveRunnerLevelEditor : public GraveRunnerLevel {
  public:
@@ -17,6 +18,8 @@ class GraveRunnerLevelEditor : public GraveRunnerLevel {
       std::shared_ptr<GridRenderComponent> gridRenderComponent) {
     mGridRenderComponent = gridRenderComponent;
   }
+
+  void refreshLevelEditor();
 
   void initialize() override;
 
@@ -35,9 +38,8 @@ class GraveRunnerLevelEditor : public GraveRunnerLevel {
       GraveRunnerLevelItem::TILE1,        GraveRunnerLevelItem::TILE2,
       GraveRunnerLevelItem::TILE3,        GraveRunnerLevelItem::TILEX,
       GraveRunnerLevelItem::TILEY,        GraveRunnerLevelItem::TILEZ,
-      GraveRunnerLevelItem::CRATE,        GraveRunnerLevelItem::JACK,
-      GraveRunnerLevelItem::PATROLZOMBIE, GraveRunnerLevelItem::FOLLOWZOMBIE,
-      GraveRunnerLevelItem::WALL,         GraveRunnerLevelItem::KEY,
+      GraveRunnerLevelItem::JACK,         GraveRunnerLevelItem::PATROLZOMBIE,
+      GraveRunnerLevelItem::FOLLOWZOMBIE, GraveRunnerLevelItem::KEY,
       GraveRunnerLevelItem::EXIT};
 };
 
