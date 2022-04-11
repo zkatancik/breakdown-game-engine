@@ -92,7 +92,7 @@ void BreakoutLogic::createInstructionsLevel(int width, int height) {
   textRenderer->setRenderMode(TextureRenderComponent::RenderMode::QUERY);
   title->setRenderComponent(textRenderer);
   auto textComponent = std::make_shared<TextComponent>(
-      *title, "How to Play", 128, "2DBreakout/Fonts/Gageda.ttf",
+      *title, u8"How to Play", 128, "2DBreakout/fonts/Gageda.ttf",
       textRenderer);
   title->addGenericComponent(std::make_shared<CenterTextComponent>(
       *title, textRenderer, width, height));
@@ -105,7 +105,7 @@ void BreakoutLogic::createInstructionsLevel(int width, int height) {
   textRenderer1->setRenderMode(TextureRenderComponent::RenderMode::QUERY);
   instruction1->setRenderComponent(textRenderer1);
   auto textComponent1 = std::make_shared<TextComponent>(
-      *instruction1, "Arrow Keys - Left and Right", 40, "2DBreakout/Fonts/Gageda.ttf",
+      *instruction1, u8"Arrow Keys - Left and Right", 40, "2DBreakout/fonts/Gageda.ttf",
       textRenderer1);
   instruction1->addGenericComponent(std::make_shared<CenterTextComponent>(
       *instruction1, textRenderer1, width, height));
@@ -118,7 +118,7 @@ void BreakoutLogic::createInstructionsLevel(int width, int height) {
   textRenderer2->setRenderMode(TextureRenderComponent::RenderMode::QUERY);
   instruction2->setRenderComponent(textRenderer2);
   auto textComponent2 = std::make_shared<TextComponent>(
-      *instruction2, "Black walls do not break", 40, "2DBreakout/Fonts/Gageda.ttf",
+      *instruction2, u8"Black walls do not break", 40, "2DBreakout/fonts/Gageda.ttf",
       textRenderer2);
   instruction2->addGenericComponent(std::make_shared<CenterTextComponent>(
       *instruction2, textRenderer2, width, height));
@@ -132,7 +132,7 @@ void BreakoutLogic::createInstructionsLevel(int width, int height) {
   textRenderer3->setRenderMode(TextureRenderComponent::RenderMode::QUERY);
   instruction3->setRenderComponent(textRenderer3);
   auto textComponent3 = std::make_shared<TextComponent>(
-      *instruction3, "Grey block breaks on 3 hits", 40, "2DBreakout/Fonts/Gageda.ttf",
+      *instruction3, u8"Grey block takes 3 hits", 40, "2DBreakout/fonts/Gageda.ttf",
       textRenderer3);
   instruction3->addGenericComponent(std::make_shared<CenterTextComponent>(
       *instruction3, textRenderer3, width, height));

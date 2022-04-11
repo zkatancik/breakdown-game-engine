@@ -100,7 +100,7 @@ void GraveRunnerLogic::createInstructionsLevel(int width, int height) {
   textRenderer->setRenderMode(TextureRenderComponent::RenderMode::QUERY);
   title->setRenderComponent(textRenderer);
   auto textComponent = std::make_shared<TextComponent>(
-      *title, "How to Play", 128, "Graverunner/fonts/GADAQUALI.ttf",
+      *title, u8"How to Play", 128, "Graverunner/fonts/GADAQUALI.ttf",
       textRenderer);
   title->addGenericComponent(std::make_shared<CenterTextComponent>(
       *title, textRenderer, width, height));
@@ -113,7 +113,7 @@ void GraveRunnerLogic::createInstructionsLevel(int width, int height) {
   textRenderer1->setRenderMode(TextureRenderComponent::RenderMode::QUERY);
   instruction1->setRenderComponent(textRenderer1);
   auto textComponent1 = std::make_shared<TextComponent>(
-      *instruction1, "Arrow Keys - Jump, Left and Right", 60, "Graverunner/fonts/GADAQUALI.ttf",
+      *instruction1, u8"Arrow Keys - Jump, Left and Right", 60, "Graverunner/fonts/GADAQUALI.ttf",
       textRenderer1);
   textRenderer1->setOffSetX(-175);
   textRenderer1->setOffSetY(int(300));
@@ -125,7 +125,7 @@ void GraveRunnerLogic::createInstructionsLevel(int width, int height) {
   textRenderer2->setRenderMode(TextureRenderComponent::RenderMode::QUERY);
   instruction2->setRenderComponent(textRenderer2);
   auto textComponent2 = std::make_shared<TextComponent>(
-      *instruction2, "Down Arrow - Slide (Can kill enemy while sliding)", 60, "Graverunner/fonts/GADAQUALI.ttf",
+      *instruction2, u8"Down Arrow - Slide (Can kill enemy while sliding)", 60, "Graverunner/fonts/GADAQUALI.ttf",
       textRenderer2);
   textRenderer2->setOffSetX(-175);
   textRenderer2->setOffSetY(int(400));
@@ -137,7 +137,7 @@ void GraveRunnerLogic::createInstructionsLevel(int width, int height) {
   textRenderer3->setRenderMode(TextureRenderComponent::RenderMode::QUERY);
   instruction3->setRenderComponent(textRenderer3);
   auto textComponent3 = std::make_shared<TextComponent>(
-      *instruction3, "Space - Shoot", 60, "Graverunner/fonts/GADAQUALI.ttf",
+      *instruction3, u8"Space - Shoot", 60, "Graverunner/fonts/GADAQUALI.ttf",
       textRenderer3);
   textRenderer3->setOffSetX(-175);
   textRenderer3->setOffSetY(int(500));
