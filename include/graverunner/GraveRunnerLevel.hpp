@@ -22,6 +22,8 @@ class GraveRunnerLevel : public Level {
     return mGridRenderComponent;
   }
 
+  inline int getLevelNumber() { return currentLevelNumber; };
+
   /**
    * @brief Is this level in a "win" state?
    */
