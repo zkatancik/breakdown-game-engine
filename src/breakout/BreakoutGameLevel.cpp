@@ -11,7 +11,6 @@ const int HARD_BALL_X = 400;
 const int HARD_BALL_Y = 400;
 
 void BreakoutGameLevel::initialize() {
-  finalize();
   BreakoutLevelData levelData;
   loadLevel(&levelData, mLevelNumber);
 

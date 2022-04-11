@@ -2,7 +2,6 @@
 #include "base/GridObject.hpp"
 
 void BreakoutGameLevelEditor::initialize() {
-  refreshLevelEditor();
 
   auto toolbarBackground = std::make_shared<GameObject>(
       *this, 0, 0, xOffset, mScreenHeight, hash("ToolbarTag"));
@@ -54,6 +53,7 @@ void BreakoutGameLevelEditor::initialize() {
       if (currentlySelected != BreakoutLevelItem::NONE) {
         Mix_PlayChannel(1, ResourceManager::getInstance().getChunk(mSoundPath), 0);
         updateCurrentLevel(mLevelData, Vector2D<int>(i, j), currentlySelected);
+        refreshLevelEditor();
         currentlySelected = BreakoutLevelItem::NONE;
       }
     };
@@ -62,11 +62,16 @@ void BreakoutGameLevelEditor::initialize() {
         std::make_shared<GridObject>(*this, xOffset, 0, 20, 20, 64, 32, gridCallback);
     addObject(levelGrid);
   }
+  refreshLevelEditor();
 }
 void BreakoutGameLevelEditor::refreshLevelEditor() {
   for (const auto& gameObject : getGameObjects()) {
     // Remove any blocks remaining previously
-    if (gameObject->tag() == BreakoutBlockTag)
+    if (gameObject->tag() == BreakoutBlockTag || gameObject->tag() == BaseTextTag ||
+    gameObject->tag() == BreakoutBallTag ||
+    gameObject->tag() == BreakoutPaddleTag ||
+    gameObject->tag() == BreakoutBottomWallTag ||
+    gameObject->tag() == BreakoutReflectingWallTag)
       removeObject(gameObject);
   }
   BreakoutGameLevel::initialize();
@@ -78,10 +83,10 @@ void BreakoutGameLevelEditor::refreshLevelEditor() {
     gameObject->tag() == BreakoutBallTag ||
     gameObject->tag() == BreakoutPaddleTag ||
     gameObject->tag() == BreakoutBottomWallTag ||
-    gameObject->tag() == BreakoutReflectingWallTag)
-      removeObject(gameObject);
-    // Add an x-offset to make space for buttons
-    gameObject->setX(gameObject->x() + float(xOffset));
+    gameObject->tag() == BreakoutReflectingWallTag ||
+    gameObject->tag() == BreakoutBlockTag)
+      // Add an x-offset to make space for buttons
+      gameObject->setX(gameObject->x() + float(xOffset));
   }
   // Read in the level data for our own usage
   loadLevel(&mLevelData, getLevelNumber());

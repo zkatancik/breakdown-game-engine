@@ -7,7 +7,10 @@ void EditorLogic::startUp(SDL_Renderer *gRender, int width, int height) {
   createBreakoutLevelEditors(width, height);
   mCurrentlyActiveLevel = mStartMenu;
 }
-void EditorLogic::update() { mCurrentlyActiveLevel->update(); }
+void EditorLogic::update() {
+  mCurrentlyActiveLevel->update();
+  framerateModerator();
+}
 
 void EditorLogic::render(SDL_Renderer *renderer) {
   mCurrentlyActiveLevel->render(renderer);
@@ -61,9 +64,9 @@ void EditorLogic::createAndInitBreakoutLevelSelector(int width, int height) {
           auto returnButton = std::make_shared<BreakoutButton>(
               *mBreakoutLevelEditors[i], 200, 600, 2 * width / 3, 50,
               BreakoutButton::Color::RED, "Return",
-              [&]() {
-                mBreakoutLevelEditors[i]->finalize();
+              [&, i]() {
                 mCurrentlyActiveLevel = mStartMenu;
+//                mBreakoutLevelEditors[i]->finalize();
               },
               40);
           mBreakoutLevelEditors[i]->addObject(returnButton);
