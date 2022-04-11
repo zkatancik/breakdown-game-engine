@@ -1,14 +1,14 @@
 #ifndef EDITOR_LOGIC_HPP
 #define EDITOR_LOGIC_HPP
-#include "base/SDLProgramLogic.hpp"
+#include "base/Level.hpp"
 #include "base/PhysicsManager.hpp"
+#include "base/SDLProgramLogic.hpp"
+#include "base/TextMessageObject.hpp"
+#include "breakout/BreakoutButton.hpp"
+#include "breakout/BreakoutGameLevelEditor.hpp"
 #include "editor/EditorManager.hpp"
 #include "editor/EditorUIManager.hpp"
-#include "breakout/BreakoutButton.hpp"
 #include "graverunner/GraveRunnerButton.hpp"
-#include "breakout/BreakoutGameLevelEditor.hpp"
-#include "base/TextMessageObject.hpp"
-#include "base/Level.hpp"
 
 /**
  * @brief Contains Subsystem management for the editor
@@ -16,8 +16,8 @@
 class EditorLogic : public SDLProgramLogic {
  public:
   EditorLogic() = default;
-  EditorLogic(EditorLogic const&) = delete; // Avoid copy constructor.
-  void operator=(EditorLogic const&) = delete; // Don't allow copy assignment.
+  EditorLogic(EditorLogic const&) = delete;     // Avoid copy constructor.
+  void operator=(EditorLogic const&) = delete;  // Don't allow copy assignment.
 
   void startUp(SDL_Renderer* gRender, int width, int height) override;
 
@@ -27,15 +27,21 @@ class EditorLogic : public SDLProgramLogic {
 
   void render(SDL_Renderer* renderer) override;
 
-  bool quit() override {return mQuite;}
+  bool quit() override { return mQuite; }
+
  private:
   bool mQuite{false};
-  std::shared_ptr<Level> mCurrentlyActiveLevel{nullptr}; //< The level that's being shown to the user
-  std::shared_ptr<Level> mStartMenu{nullptr}; // < First menu the user sees. Lets the user choose between GraveRunner or
-                                              // Breakout
-  std::shared_ptr<Level> mBreakOutLevelSelector{nullptr}; //< Menu that selects the level number for Breakout
-  std::shared_ptr<Level> mGraveRunnerLevelSelector{nullptr}; //< Menu that selects the level number for GraveRunner
-  std::vector<std::shared_ptr<BreakoutGameLevelEditor>> mBreakoutLevelEditors{nullptr, nullptr, nullptr, nullptr}; //< Level editors
+  std::shared_ptr<Level> mCurrentlyActiveLevel{
+      nullptr};  //< The level that's being shown to the user
+  std::shared_ptr<Level> mStartMenu{
+      nullptr};  // < First menu the user sees. Lets the user choose between
+                 // GraveRunner or Breakout
+  std::shared_ptr<Level> mBreakOutLevelSelector{
+      nullptr};  //< Menu that selects the level number for Breakout
+  std::shared_ptr<Level> mGraveRunnerLevelSelector{
+      nullptr};  //< Menu that selects the level number for GraveRunner
+  std::vector<std::shared_ptr<BreakoutGameLevelEditor>> mBreakoutLevelEditors{
+      nullptr, nullptr, nullptr, nullptr};  //< Level editors
 
   /**
    * Creates and initializes the start menu of the level editor.
@@ -50,7 +56,6 @@ class EditorLogic : public SDLProgramLogic {
   void createAndInitGraveRunnerSelector(int width, int height);
 
   void createBreakoutLevelEditors(int width, int height);
-
 };
 
 #endif

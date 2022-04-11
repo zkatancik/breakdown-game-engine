@@ -17,13 +17,13 @@ class BreakoutButton : public GameObject {
   enum Color { RED, GREEN };
 
   BreakoutButton(Level& level, float x, float y, float w, float h, Color color,
-                    const std::string& text, std::function<void(void)> selectHook);
+                 const std::string& text, std::function<void(void)> selectHook,
+                 int fontSize = 64);
   std::shared_ptr<TextureRenderComponent> getTextureRenderer() const {
     return buttonRenderer;
   }
 
  private:
-  int mFontSize{64};
   const std::string mButtonFont = "2DBreakout/Fonts/Gageda.ttf";
   std::shared_ptr<TextureRenderComponent> buttonRenderer;
   std::shared_ptr<TextureRenderComponent> textRenderer;

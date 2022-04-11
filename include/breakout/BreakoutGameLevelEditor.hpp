@@ -30,11 +30,12 @@ class BreakoutGameLevelEditor : public BreakoutGameLevel {
   void initialize() override;
 
  private:
-  std::weak_ptr<GridRenderComponent> mGridRenderComponent;
+  std::shared_ptr<GridRenderComponent> mGridRenderComponent;
   int mScreenHeight;
   std::string mSoundPath = "2DBreakout/SFX/ButtonClick_SFX.wav";
 
   BreakoutLevelData mLevelData;
+  BreakoutLevelItem currentlySelected{BreakoutLevelItem::NONE};
 
   std::map<BreakoutLevelItem, std::string> itemMap = {
       {BreakoutLevelItem::PLAINBLOCK,
