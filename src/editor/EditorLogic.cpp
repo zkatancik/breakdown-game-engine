@@ -59,7 +59,7 @@ void EditorLogic::createAndInitBreakoutLevelSelector(int width, int height) {
           mBreakoutLevelEditors[i]->finalize();
           mBreakoutLevelEditors[i]->initialize();
           auto returnButton = std::make_shared<BreakoutButton>(
-              *mBreakoutLevelEditors[i], 200, 650, 2 * width / 3, 50,
+              *mBreakoutLevelEditors[i], 200, 600, 2 * width / 3, 50,
               BreakoutButton::Color::RED, "Return",
               [&]() {
                 mBreakoutLevelEditors[i]->finalize();
