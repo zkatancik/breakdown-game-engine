@@ -13,10 +13,7 @@ class BreakoutGameLevel : public Level {
   enum GameDifficulty { Easy = 0, Medium, Hard };
 
   BreakoutGameLevel(int w, int h, GameDifficulty difficulty, int levelNumber, bool isE) : Level(w, h),
-  gameDifficulty_(difficulty), mLevelNumber(levelNumber), isEditor(isE)
-  {
-    std::cout << "BreakoutGameLevel Constructor->IsEditor:" << std::to_string(isEditor) << "\n";
-  };
+  gameDifficulty_(difficulty), mLevelNumber(levelNumber), isEditor(isE){};
 
   void setDifficulty(GameDifficulty difficulty) {gameDifficulty_ = difficulty;};
 

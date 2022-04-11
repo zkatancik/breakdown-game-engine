@@ -45,9 +45,6 @@ void BreakoutGameLevel::initialize() {
   addObject(ballObject);
 
   // dynamic y placement of blocks
-
-  std::cout << "BreakoutGameLevel->IsEditor:" << std::to_string(isEditor) << "\n";
-
   int y = isEditor ? 0 : 96;
   int count = 1;
   int color = 3;

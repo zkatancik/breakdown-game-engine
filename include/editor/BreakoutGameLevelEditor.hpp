@@ -20,9 +20,7 @@ class BreakoutGameLevelEditor : public BreakoutGameLevel {
       : mScreenHeight(h),
         BreakoutGameLevel(w - xOffset, h,
                           BreakoutGameLevel::GameDifficulty::Easy,
-                          levelNumber, true){
-                            std::cout << "BreakoutGameLevelEditor Constructor->IsEditor:" << std::to_string(true) << "\n";
-                          };
+                          levelNumber, true){};
 
   inline void setGridRenderComponent(
       std::shared_ptr<GridRenderComponent> gridRenderComponent) {
