@@ -18,7 +18,8 @@ class LevelEditButton : public GameObject {
  public:
   LevelEditButton(Level& level, float x, float y, float w, float h,
                   float xOffSet, float yOffSet, std::string path,
-                  std::string soundPath, std::function<void(void)> selectHook);
+                  std::string soundPath, std::function<void(void)> selectHook,
+                  bool customWidth = false);
 
   std::shared_ptr<RectangleRenderComponent> getButtonRenderer() const {
     return buttonRenderer;

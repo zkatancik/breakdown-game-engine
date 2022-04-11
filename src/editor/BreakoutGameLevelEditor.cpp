@@ -1,8 +1,8 @@
 #include "editor/BreakoutGameLevelEditor.hpp"
+
 #include "base/GridObject.hpp"
 
 void BreakoutGameLevelEditor::initialize() {
-
   auto toolbarBackground = std::make_shared<GameObject>(
       *this, 0, 0, xOffset, mScreenHeight, hash("ToolbarTag"));
   auto backgroundRenderer =
@@ -38,7 +38,8 @@ void BreakoutGameLevelEditor::initialize() {
     };
     std::string blockName(1, (char)item);
     auto button = std::make_shared<LevelEditButton>(
-        *this, x, y, 74, 42, 5.f, 5.f, getBreakoutBlockPath(blockName), mSoundPath, lambda);
+        *this, x, y, 74, 42, 5.f, 5.f, getBreakoutBlockPath(blockName),
+        mSoundPath, lambda);
     addObject(button);
     x = x + 79;
     count++;
@@ -49,17 +50,18 @@ void BreakoutGameLevelEditor::initialize() {
     }
 
     // Grid component here
-    auto gridCallback = [&, mLevelData=&mLevelData] (int i, int j) {
+    auto gridCallback = [&, mLevelData = &mLevelData](int i, int j) {
       if (currentlySelected != BreakoutLevelItem::NONE) {
-        Mix_PlayChannel(1, ResourceManager::getInstance().getChunk(mSoundPath), 0);
+        Mix_PlayChannel(1, ResourceManager::getInstance().getChunk(mSoundPath),
+                        0);
         updateCurrentLevel(mLevelData, Vector2D<int>(i, j), currentlySelected);
         refreshLevelEditor();
         currentlySelected = BreakoutLevelItem::NONE;
       }
     };
 
-    auto levelGrid =
-        std::make_shared<GridObject>(*this, xOffset, 0, 20, 20, 64, 32, gridCallback);
+    auto levelGrid = std::make_shared<GridObject>(*this, xOffset, 0, 20, 15, 64,
+                                                  32, gridCallback);
     addObject(levelGrid);
   }
   refreshLevelEditor();
@@ -67,11 +69,12 @@ void BreakoutGameLevelEditor::initialize() {
 void BreakoutGameLevelEditor::refreshLevelEditor() {
   for (const auto& gameObject : getGameObjects()) {
     // Remove any blocks remaining previously
-    if (gameObject->tag() == BreakoutBlockTag || gameObject->tag() == BaseTextTag ||
-    gameObject->tag() == BreakoutBallTag ||
-    gameObject->tag() == BreakoutPaddleTag ||
-    gameObject->tag() == BreakoutBottomWallTag ||
-    gameObject->tag() == BreakoutReflectingWallTag)
+    if (gameObject->tag() == BreakoutBlockTag ||
+        gameObject->tag() == BaseTextTag ||
+        gameObject->tag() == BreakoutBallTag ||
+        gameObject->tag() == BreakoutPaddleTag ||
+        gameObject->tag() == BreakoutBottomWallTag ||
+        gameObject->tag() == BreakoutReflectingWallTag)
       removeObject(gameObject);
   }
   BreakoutGameLevel::initialize();
@@ -80,11 +83,11 @@ void BreakoutGameLevelEditor::refreshLevelEditor() {
     // Remove any text components (lives, level, score, etc) + Ball + Paddle +
     // Boundaries
     if (gameObject->tag() == BaseTextTag ||
-    gameObject->tag() == BreakoutBallTag ||
-    gameObject->tag() == BreakoutPaddleTag ||
-    gameObject->tag() == BreakoutBottomWallTag ||
-    gameObject->tag() == BreakoutReflectingWallTag ||
-    gameObject->tag() == BreakoutBlockTag)
+        gameObject->tag() == BreakoutBallTag ||
+        gameObject->tag() == BreakoutPaddleTag ||
+        gameObject->tag() == BreakoutBottomWallTag ||
+        gameObject->tag() == BreakoutReflectingWallTag ||
+        gameObject->tag() == BreakoutBlockTag)
       // Add an x-offset to make space for buttons
       gameObject->setX(gameObject->x() + float(xOffset));
   }

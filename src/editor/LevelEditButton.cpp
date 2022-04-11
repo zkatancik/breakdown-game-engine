@@ -3,7 +3,8 @@
 LevelEditButton::LevelEditButton(Level& level, float x, float y, float w,
                                  float h, float xOffSet, float yOffSet,
                                  std::string path, std::string soundPath,
-                                 std::function<void(void)> selectHook)
+                                 std::function<void(void)> selectHook,
+                                 bool customWidth)
     : GameObject(level, x, y, w, h, BaseButtonTag) {
   buttonRenderer = std::make_shared<RectangleRenderComponent>(255, 0, 0, *this);
   buttonRenderer->setFlip(true);
@@ -20,7 +21,14 @@ LevelEditButton::LevelEditButton(Level& level, float x, float y, float w,
   itemRenderer = std::make_shared<TextureRenderComponent>(
       *this, std::vector({buttonRenderer}));
 
-  itemRenderer->setRenderMode(TextureRenderComponent::RenderMode::QUERY);
+  if (!customWidth) {
+    itemRenderer->setRenderMode(TextureRenderComponent::RenderMode::QUERY);
+  } else {
+    itemRenderer->setRenderMode(
+        TextureRenderComponent::RenderMode::CUSTOM_WIDTH);
+    itemRenderer->setCustomH(h - 10);
+    itemRenderer->setCustomW(w - 10);
+  }
 
   setRenderComponent(itemRenderer);
 
