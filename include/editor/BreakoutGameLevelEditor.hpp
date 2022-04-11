@@ -20,7 +20,7 @@ class BreakoutGameLevelEditor : public BreakoutGameLevel {
       : mScreenHeight(h),
         BreakoutGameLevel(w - xOffset, h,
                           BreakoutGameLevel::GameDifficulty::Easy,
-                          levelNumber){};
+                          levelNumber, true){};
 
   inline void setGridRenderComponent(
       std::shared_ptr<GridRenderComponent> gridRenderComponent) {
@@ -37,13 +37,19 @@ class BreakoutGameLevelEditor : public BreakoutGameLevel {
   BreakoutLevelData mLevelData;
   BreakoutLevelItem currentlySelected{BreakoutLevelItem::NONE};
 
-  std::map<BreakoutLevelItem, std::string> itemMap = {
-      {BreakoutLevelItem::PLAINBLOCK,
-       "2DBreakout/Graphics/element_blue_rectangle.png"},
-      {BreakoutLevelItem::WALL,
-       "2DBreakout/Graphics/element_wall_rectangle.png"},
-      {BreakoutLevelItem::HARDBLOCK,
-       "2DBreakout/Graphics/element_grey_rectangle.png"}};
+  static std::string getBreakoutBlockPath(const std::string &name)
+  {
+    return ("2DBreakout/Graphics/element_rectangle_" + name + ".png");
+  }
+
+  std::vector<BreakoutLevelItem> itemVector = {
+      BreakoutLevelItem::BLOCKBLUE,
+      BreakoutLevelItem::BLOCKRED,
+      BreakoutLevelItem::BLOCKYELLOW,
+      BreakoutLevelItem::BLOCKGREEN,
+      BreakoutLevelItem::BLOCKPURPLE,
+      BreakoutLevelItem::WALL,
+      BreakoutLevelItem::HARDBLOCK};
 };
 
 #endif

@@ -45,21 +45,21 @@ void BreakoutGameLevel::initialize() {
   addObject(ballObject);
 
   // dynamic y placement of blocks
-  int y = 100;
+  int y = isEditor ? 0 : 96;
   int count = 1;
   int color = 3;
   for (int i = 0; i < rowsOfBlocks; i++) {
-    int x = (w() - (blocksPerRow * 64)) / 2;
+    int x = isEditor ? 0 : ((w() - (blocksPerRow * 64)) / 2);
     for (int j = 0; j < blocksPerRow; j++) {
       auto b = levelData.blocks[(i * blocksPerRow) + j];
       if (b.block_Type != BreakoutBlockType::NoBlock) {
         std::shared_ptr<BreakoutBlock> block;
         if (b.block_Type == BreakoutBlockType::PlainBlock) {
-          block = std::make_shared<BreakoutBlock>(*this, x, y, color, b, 1);
+          block = std::make_shared<BreakoutBlock>(*this, x, y, b, 1);
         } else if (b.block_Type == BreakoutBlockType::HardBlock) {
-          block = std::make_shared<BreakoutBlock>(*this, x, y, 5, b, 3);
+          block = std::make_shared<BreakoutBlock>(*this, x, y, b, 3);
         } else if (b.block_Type == BreakoutBlockType::Wall) {
-          block = std::make_shared<BreakoutBlock>(*this, x, y, 6, b, 1);
+          block = std::make_shared<BreakoutBlock>(*this, x, y, b, 1);
         }
         auto blockHealthComponent =
             block->getGenericComponent<HealthComponent>();

@@ -27,33 +27,13 @@ enum BreakoutBlockType {
 enum BreakoutLevelItem {
   NONE,
   NOBLOCK = '.',
-  PLAINBLOCK = 'b',
-  // TILE1 = '1',
-  // TILE2 = '2',
-  // TILE3 = '3',
-  // TILEX = 'X',
-  // TILEY = 'Y',
-  // TILEZ = 'Z',
-  // BONES1,
-  // BONES2,
-  // BONES3,
-  // ARROWSIGN,
-  // BUSH1,
-  // BUSH2,
-  // CRATE,
-  // DEADBUSH,
-  // SIGN,
-  // SKELETON,
-  // TOMBSTONE1,
-  // TOMEBSTONE2,
-  // TREE,
-  // JACK = 'P',
-  // PATROLZOMBIE = 'E',
-  // FOLLOWZOMBIE = 'F',
+  BLOCKBLUE = '1',
+  BLOCKRED = '2',
+  BLOCKYELLOW = '3',
+  BLOCKGREEN = '4',
+  BLOCKPURPLE = '5',
   WALL = 'w',
   HARDBLOCK = 'h',
-  // KEY = 'K',
-  EXIT = 'g',
 };
 
 /**
@@ -62,6 +42,7 @@ enum BreakoutLevelItem {
  */
 struct BreakoutBlockData {
   BreakoutBlockType block_Type{PlainBlock};
+  std::string blockNumber;
 };
 
 /**

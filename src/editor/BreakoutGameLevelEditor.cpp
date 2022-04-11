@@ -49,13 +49,15 @@ void BreakoutGameLevelEditor::initialize() {
   int x = 26;
   int y = 114;
   int count = 0;
-  for (const auto& pair : itemMap) {
+
+  for (const auto& item : itemVector) {
     auto lambda = [&] {
-      currentlySelected = pair.first;
-      mGridRenderComponent->setCurrentlySelectedPath(pair.second);
+      currentlySelected = item;
+      // mGridRenderComponent.setCurrentlySelectedPath(pair.second);
     };
+    std::string blockName(1, (char)item);
     auto button = std::make_shared<LevelEditButton>(
-        *this, x, y, 74, 42, 5, 5, pair.second, mSoundPath, lambda);
+        *this, x, y, 74, 42, 5.f, 5.f, getBreakoutBlockPath(blockName), mSoundPath, lambda);
     addObject(button);
     x = x + 79;
     count++;
