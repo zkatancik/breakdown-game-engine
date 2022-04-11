@@ -72,7 +72,7 @@ void BreakoutLogic::update() {
 void BreakoutLogic::loadAllLevels(int width, int height) {
   for (unsigned int i = 0; i < mGameLevels.size(); i++) {
     mGameLevels[i] =
-        std::make_shared<BreakoutGameLevel>(width, height, mDifficulty, i + 1);
+        std::make_shared<BreakoutGameLevel>(width, height, mDifficulty, i + 1, false);
   }
 }
 
