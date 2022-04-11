@@ -133,8 +133,7 @@ void updateCurrentLevel(GraveRunnerLevelData *levelData,
     //std::cout << "EM:[After - updateCurrentLevel]:" << std::endl;
 
     // Update the Level File
-
-    //ResourceManager::getInstance().updateLevelFile(levelData, gridPosition, item);
+    updateLevelFile(*levelData, gridPosition, item);
   }
 }
 
