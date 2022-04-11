@@ -38,7 +38,7 @@ void BreakoutGameLevelEditor::initialize() {
   auto changeToErase = [&] { currentlySelected = BreakoutLevelItem::NOBLOCK; };
 
   auto eraseButton =
-      std::make_shared<LevelEditButton>(*this, 35, 35, 74, 74, 5.f, 5.f,
+      std::make_shared<LevelEditButton>(*this, 35, 35, 74, 74, 5, 5,
                                         "2DBreakout/Graphics/"
                                         "erase.png",
                                         mSoundPath, changeToErase);
@@ -52,10 +52,10 @@ void BreakoutGameLevelEditor::initialize() {
   for (const auto& pair : itemMap) {
     auto lambda = [&] {
       currentlySelected = pair.first;
-      // mGridRenderComponent.setCurrentlySelectedPath(pair.second);
+      mGridRenderComponent->setCurrentlySelectedPath(pair.second);
     };
     auto button = std::make_shared<LevelEditButton>(
-        *this, x, y, 74, 42, 5.f, 5.f, pair.second, mSoundPath, lambda);
+        *this, x, y, 74, 42, 5, 5, pair.second, mSoundPath, lambda);
     addObject(button);
     x = x + 79;
     count++;
@@ -68,8 +68,8 @@ void BreakoutGameLevelEditor::initialize() {
     // Grid component here
     auto levelGrid =
         std::make_shared<GameObject>(*this, xOffset, 0, 20 * 64, 20 * 32, 44);
-    mGridRenderComponent =
-        std::make_shared<GridRenderComponent>(*levelGrid, 64, 32, 21, 15);
+    mGridRenderComponent = std::make_shared<GridRenderComponent>(
+        *this, *levelGrid, 64, 32, 20, 15);
     levelGrid->setRenderComponent(mGridRenderComponent);
     setGridRenderComponent(mGridRenderComponent);
     addObject(levelGrid);
