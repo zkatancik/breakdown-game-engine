@@ -21,7 +21,7 @@ class GraveRunnerLevelEditor : public GraveRunnerLevel {
   void initialize() override;
 
  private:
-  static const int xOffset = 200;
+  const int xOffset = 200;
   std::shared_ptr<GridRenderComponent> mGridRenderComponent;
   int mScreenHeight;
   std::string mSoundPath = "Graverunner/2DPlatformer_SFX/ButtonClick_SFX.wav";

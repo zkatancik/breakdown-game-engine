@@ -68,10 +68,10 @@ void GraveRunnerLevelEditor::initialize() {
     // Grid component here
     auto levelGrid =
         std::make_shared<GameObject>(*this, xOffset, 0, 20 * 64, 20 * 32, 44);
-    mGridRenderComponent = std::make_shared<GridRenderComponent>(
-        *this, *levelGrid, 64, 32, 20, 15);
-    levelGrid->setRenderComponent(mGridRenderComponent);
-    setGridRenderComponent(mGridRenderComponent);
+//    mGridRenderComponent = std::make_shared<GridRenderComponent>(
+//        *this, *levelGrid, 64, 32, 20, 15);
+//    levelGrid->setRenderComponent(mGridRenderComponent);
+//    setGridRenderComponent(mGridRenderComponent);
     addObject(levelGrid);
   }
 }
