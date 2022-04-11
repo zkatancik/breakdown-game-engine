@@ -9,7 +9,7 @@
 /**
  * @brief The types of blocks possible.
  */
-enum GraveRunnerBlockType {
+enum class GraveRunnerBlockType {
   // Colored Block
   PlainBlock = 0,
   // Hole or No block
@@ -26,7 +26,7 @@ enum GraveRunnerBlockType {
  * @brief The types of items present in a level.
  * - All the items you see in the LevelFile.
  */
-enum GraveRunnerLevelItem {
+enum class GraveRunnerLevelItem {
   NONE,
   NOBLOCK = '.',
   TILE1 = '1',
@@ -61,7 +61,7 @@ enum GraveRunnerLevelItem {
  * Can add color and more to be read from level file.
  */
 struct GraveRunnerBlockData {
-  GraveRunnerBlockType block_Type{PlainBlock};
+  GraveRunnerBlockType block_Type{GraveRunnerBlockType::PlainBlock};
   std::string blockNumber;
 };
 

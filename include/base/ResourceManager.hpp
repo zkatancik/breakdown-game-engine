@@ -303,9 +303,13 @@ class ResourceManager {
       {u8"Enter your name:", {{Language::SPANISH, u8"Introduzca su nombre:"}}},
       {u8"NEXT LEVEL", {{Language::SPANISH, u8"SIGUIENTE NIVEL"}}},
       {u8"LEVEL EDITOR", {{Language::SPANISH, u8"EDITOR DE NIVELES"}}},
-      {u8"GAME OVER", {{Language::SPANISH, u8"JUEGO TERMINADO"}}},
+      {u8"GAME OVER!", {{Language::SPANISH, u8"JUEGO TERMINADO!"}}},
       {u8"GraveRunner", {{Language::SPANISH, u8"GraveRunner"}}},
       {u8"YOUR SCORE: ", {{Language::SPANISH, u8"TU PUNTUACIÓN: "}}},
+      {u8"HOW TO PLAY", {{Language::SPANISH, u8"CÓMO JUGAR"}}},
+      {u8"Select Level:", {{Language::SPANISH, u8"Elegir Nivel:"}}},
+      {u8"Breakout", {{Language::SPANISH, u8"Breakout"}}},
+      {u8"Select Game:", {{Language::SPANISH, u8"Elegir Juego:"}}},
   };
 };
 #endif

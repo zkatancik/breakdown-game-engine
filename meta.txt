@@ -6,7 +6,7 @@
 
 
 -- Did you implement any extentions? If so, which ones, who implemented each, and how can they be tried out?
-
+None
 
 
 -- Did you use any external resources? If so, cite them below.
@@ -17,9 +17,11 @@
 -math library: TinyMath.hpp (Lab2)
 -cxxTest-4.4 (various)
 -Collisions and Gameobjects (Lab6)
+TODO- Zack where did you get the new assets for tower defense?
 
 -- Did you use any code or resources from previous assignments? If so, list below.
 Merged the breakout project into the existing architecture.
+TODO- note we brought in Graverunner too
 
 
 -- Did you collaborate with any other students/TAs/Professors? If so, list below.
@@ -28,13 +30,15 @@ No
 
 -- Describe your approach to implementing the lab.
 
+Marcin - Mostly worked on porting over the GraveRunner functionality into the new infrastructure after Matin did the initial setup.
+This included both the game itself and its level editor.
 
 
 -- How many hours did it take you to complete this lab?
 Roshan - 
 Zack - 
 Matin - 
-Marcin - 
+Marcin - 20
 
 
 -- (Optional) What was your favorite part of the lab?

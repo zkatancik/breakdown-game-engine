@@ -9,7 +9,7 @@ namespace filesystem = std::filesystem;
 /**
  * @brief The types of blocks possible.
  */
-enum BreakoutBlockType {
+enum class BreakoutBlockType {
   // Colored Block
   PlainBlock = 0,
   // Hole or No block
@@ -24,7 +24,7 @@ enum BreakoutBlockType {
  * @brief The types of items present in a level.
  * - All the items you see in the LevelFile.
  */
-enum BreakoutLevelItem {
+enum class BreakoutLevelItem {
   NONE,
   NOBLOCK = '.',
   BLOCKBLUE = '1',
@@ -41,7 +41,7 @@ enum BreakoutLevelItem {
  * Can add color and more to be read from level file.
  */
 struct BreakoutBlockData {
-  BreakoutBlockType block_Type{PlainBlock};
+  BreakoutBlockType block_Type{BreakoutBlockType::PlainBlock};
   std::string blockNumber;
 };
 

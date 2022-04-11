@@ -55,6 +55,7 @@ void GraveRunnerLevel::initialize() {
           obj = std::make_shared<KeyBlock>(*this, x, y, blockSize);
         } else if (b.block_Type == GraveRunnerBlockType::Exit) {
           obj = std::make_shared<ExitBlock>(*this, x, y, blockSize);
+          initialNumExits++;
         }
         addObject(obj);
       }
@@ -65,12 +66,12 @@ void GraveRunnerLevel::initialize() {
   }
 
   // Place Jack
-  std::shared_ptr<Jack> jack = std::make_shared<Jack>(
+  mJack = std::make_shared<Jack>(
       *this, blockSize.x * levelData.playerStartPosition.x,
       blockSize.y * levelData.playerStartPosition.y, blockSize.x, blockSize.y);
-  addObject(jack);
+  addObject(mJack);
 
-  // Place Enemies end points DYNAMICALLY
+  // Place Enemies end points
   for (size_t i = 0; i < levelData.enemyStartPositions.size(); i = i + 2) {
     std::vector<std::pair<float, float>> maleZombie1Path = {
         {levelData.enemyStartPositions[i + 1].x * blockSize.x,
@@ -79,11 +80,11 @@ void GraveRunnerLevel::initialize() {
     std::shared_ptr<PatrolZombie> maleZombie =
         std::make_shared<PatrolZombie>(*this, blockSize.x * levelData.enemyStartPositions[i].x,
                         blockSize.y * levelData.enemyStartPositions[i].y,
-                        blockSize.x, blockSize.y, maleZombie1Path, jack);
+                        blockSize.x, blockSize.y, maleZombie1Path, mJack);
     addObject(maleZombie);
   }
 
-  // Place Follower Enemies end points DYNAMICALLY
+  // Place Follower Enemies end points
   for (size_t i = 0; i < levelData.followerEnemyStartPositions.size();
        i = i + 2) {
     std::vector<std::pair<float, float>> maleZombie1Path = {
@@ -95,9 +96,23 @@ void GraveRunnerLevel::initialize() {
             *this,
             blockSize.x * levelData.followerEnemyStartPositions[i].x,
             blockSize.y * levelData.followerEnemyStartPositions[i].y,
-            blockSize.x, blockSize.y, maleZombie1Path, jack);
+            blockSize.x, blockSize.y, maleZombie1Path, mJack);
     addObject(maleZombie);
   }
+}
 
-  levelData = mLevelData;
+bool GraveRunnerLevel::isLevelWon() const {
+  int curNumExits = 0;
+  bool blocksPresent = false;
+  for (const auto& gameobj : getGameObjects()) {
+    if (gameobj.get()->tag() == GraveRunnerExitTag) {
+      curNumExits++;
+    }
+    blocksPresent = true;
+  }
+  return blocksPresent && curNumExits < initialNumExits;
+}
+
+bool GraveRunnerLevel::isLevelInProgress() const {
+  return mJack.get()->isAlive() && !isLevelWon();
 }

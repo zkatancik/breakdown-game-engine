@@ -6,6 +6,7 @@
 #include "base/TextMessageObject.hpp"
 #include "breakout/BreakoutButton.hpp"
 #include "editor/BreakoutGameLevelEditor.hpp"
+#include "editor/GraveRunnerLevelEditor.hpp"
 #include "editor/EditorManager.hpp"
 #include "editor/EditorUIManager.hpp"
 #include "graverunner/GraveRunnerButton.hpp"
@@ -42,6 +43,8 @@ class EditorLogic : public SDLProgramLogic {
       nullptr};  //< Menu that selects the level number for GraveRunner
   std::vector<std::shared_ptr<BreakoutGameLevelEditor>> mBreakoutLevelEditors{
       nullptr, nullptr, nullptr, nullptr};  //< Level editors
+  std::vector<std::shared_ptr<GraveRunnerLevelEditor>> mGraveRunnerLevelEditors{
+      nullptr, nullptr, nullptr};  //< Level editors
 
   /**
    * Creates and initializes the start menu of the level editor.
@@ -56,6 +59,8 @@ class EditorLogic : public SDLProgramLogic {
   void createAndInitGraveRunnerSelector(int width, int height);
 
   void createBreakoutLevelEditors(int width, int height);
+
+  void createGraveRunnerLevelEditors(int width, int height);
 };
 
 #endif

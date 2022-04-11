@@ -9,6 +9,8 @@ void GraveRunnerLogic::startUp(SDL_Renderer* gRender, int width, int height) {
   createStartMenuLevel(width, height);
   createChangeLanguageLevel(width, height);
   createInstructionsLevel(width, height);
+  mLevelClearedMenu = std::make_shared<Level>(width, height);
+  mLevelFailedMenu = std::make_shared<Level>(width, height);
   loadAllLevels(width, height);
   mCurrentlyActiveLevel = mStartMenu;
 
@@ -25,18 +27,36 @@ void GraveRunnerLogic::shutDown() {
   mStartMenu->finalize();
   mLanguageMenu->finalize();
   mInstructionsMenu->finalize();
+  mLevelClearedMenu->finalize();
+  mLevelFailedMenu->finalize();
   for (const auto& l : mGameLevels) l->finalize();
-
   PhysicsManager::getInstance().shutDown();
 }
 
 void GraveRunnerLogic::update() {
   mCurrentlyActiveLevel->update();
+
+  if (isGameActive()) {
+    auto currGameLevel = std::weak_ptr<GraveRunnerLevel>(
+        mGameLevels[mCurrentlySelectedGameLevelIdx]);
+    if (!currGameLevel.lock()->isLevelInProgress()) {
+      if (currGameLevel.lock()->isLevelWon()) {
+        initializeLevelClearedMenu();
+        mCurrentlyActiveLevel = mLevelClearedMenu;
+      } 
+      else {
+        initializeLevelFailedMenu();
+        mCurrentlyActiveLevel = mLevelFailedMenu;
+      }
+      currGameLevel.lock()->finalize();
+    }
+  }
+
   if (InputManager::getInstance().isKeyPressed(SDLK_x)) {
     if (isGameActive()) {
       mGameLevels[mCurrentlySelectedGameLevelIdx]->finalize();
       mCurrentlySelectedGameLevelIdx =
-          mCurrentlySelectedGameLevelIdx == 3
+          mCurrentlySelectedGameLevelIdx == 2
               ? 0
               : (mCurrentlySelectedGameLevelIdx + 1);
       mCurrentlyActiveLevel = mGameLevels[mCurrentlySelectedGameLevelIdx];
@@ -199,7 +219,7 @@ void GraveRunnerLogic::createStartMenuLevel(int width, int height) {
   // game itself.
   auto startGameLevelButtonHook = [&]() {
     mGameLevels[mCurrentlySelectedGameLevelIdx]->initialize();
-    mCurrentlyActiveLevel = mGameLevels[0];
+    mCurrentlyActiveLevel = mGameLevels[mCurrentlySelectedGameLevelIdx];
   };
 
   auto background =
@@ -267,4 +287,66 @@ void GraveRunnerLogic::createStartMenuLevel(int width, int height) {
 
   // Add mouse pointer
   mStartMenu->addObject(std::make_shared<Mouse>(*mStartMenu));
+}
+
+void GraveRunnerLogic::createTextMessageForLevel(
+    const std::shared_ptr<Level>& level, const std::string& message, float x,
+    float y, int fontSize) {
+  auto messageObject =
+      std::make_shared<GameObject>(*level, x, y, 1, 1, BaseTextTag);
+  auto textRenderer = std::make_shared<TextureRenderComponent>(*messageObject);
+
+  textRenderer->setRenderMode(TextureRenderComponent::RenderMode::QUERY);
+  messageObject->setRenderComponent(textRenderer);
+  auto textComponent = std::make_shared<TextComponent>(
+      *messageObject, message, fontSize, "Graverunner/fonts/GADAQUALI.ttf",
+      textRenderer);
+  messageObject->addGenericComponent(textComponent);
+  messageObject->addGenericComponent(std::make_shared<CenterTextComponent>(
+      *messageObject, textRenderer, x, y));
+  level->addObject(messageObject);
+}
+
+void GraveRunnerLogic::initializeLevelClearedMenu() {
+  mLevelClearedMenu->finalize();
+  // Lambda for going to next level
+  auto goToNextLevelLambda = [&] {
+    mGameLevels[mCurrentlySelectedGameLevelIdx]->finalize();
+    mCurrentlySelectedGameLevelIdx = mCurrentlySelectedGameLevelIdx == 2
+                                         ? 0
+                                         : (mCurrentlySelectedGameLevelIdx + 1);
+    mCurrentlyActiveLevel = mGameLevels[mCurrentlySelectedGameLevelIdx];
+    mCurrentlyActiveLevel->initialize();
+  };
+  int width = mLevelClearedMenu->w();
+  int height = mLevelClearedMenu->h();
+  mLevelClearedMenu->addObject(std::make_shared<GraveRunnerButton>(
+      *mLevelClearedMenu, width, 2 * height / 3, width / 4, 139,
+      u8"NEXT LEVEL", goToNextLevelLambda));
+
+  createTextMessageForLevel(mLevelClearedMenu, "LEVEL CLEARED!", width,
+                            height / 3, 128);
+
+  mLevelClearedMenu->addObject(std::make_shared<Mouse>(*mLevelClearedMenu));
+}
+
+void GraveRunnerLogic::initializeLevelFailedMenu() {
+  mLevelFailedMenu->finalize();
+  // Lambda for going back to start menu
+  auto goToMainMenuLevelLambda = [&] {
+    mGameLevels[mCurrentlySelectedGameLevelIdx]->finalize();
+    mCurrentlyActiveLevel = mStartMenu;
+    std::cout << mCurrentlySelectedGameLevelIdx << std::endl;
+  };
+
+  int width = mLevelFailedMenu->w();
+  int height = mLevelFailedMenu->h();
+  mLevelFailedMenu->addObject(std::make_shared<GraveRunnerButton>(
+      *mLevelFailedMenu, width, 2 * height / 3, width / 4, 139, u8"RETURN",
+      goToMainMenuLevelLambda));
+
+  createTextMessageForLevel(mLevelFailedMenu, "GAME OVER!", width, height / 3,
+                            128);
+
+  mLevelFailedMenu->addObject(std::make_shared<Mouse>(*mLevelFailedMenu));
 }
