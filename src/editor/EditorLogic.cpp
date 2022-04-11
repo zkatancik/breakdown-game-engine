@@ -106,6 +106,12 @@ void EditorLogic::createAndInitGraveRunnerSelector(int width, int height) {
         });
     mGraveRunnerLevelSelector->addObject(graverunnerButton);
   }
+
+  // Back button
+  auto returnButton = std::make_shared<GraveRunnerButton>(
+      *mGraveRunnerLevelSelector, width * 1.0 - 25, height * 0.7, 2 * width / 3,
+      139, "Return", [&]() { mCurrentlyActiveLevel = mStartMenu; });
+  mGraveRunnerLevelSelector->addObject(returnButton);
 }
 
 void EditorLogic::createBreakoutLevelEditors(int width, int height) {
