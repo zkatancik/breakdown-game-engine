@@ -3,7 +3,7 @@
 
 void GraveRunnerLevelEditor::initialize() {
   // Let the game initialize itself as it would in a normal game
-  GraveRunnerLevelEditor::initialize();
+  GraveRunnerLevel::initialize();
   // Update so that gameObjects are added to the list
   update();
   // Strip away unwanted things for rendering in level editor
