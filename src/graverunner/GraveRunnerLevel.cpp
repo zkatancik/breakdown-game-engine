@@ -65,10 +65,10 @@ void GraveRunnerLevel::initialize() {
   }
 
   // Place Jack
-  std::shared_ptr<Jack> jack = std::make_shared<Jack>(
+  mJack = std::make_shared<Jack>(
       *this, blockSize.x * levelData.playerStartPosition.x,
       blockSize.y * levelData.playerStartPosition.y, blockSize.x, blockSize.y);
-  addObject(jack);
+  addObject(mJack);
 
   // Place Enemies end points DYNAMICALLY
   for (size_t i = 0; i < levelData.enemyStartPositions.size(); i = i + 2) {
@@ -79,7 +79,7 @@ void GraveRunnerLevel::initialize() {
     std::shared_ptr<PatrolZombie> maleZombie =
         std::make_shared<PatrolZombie>(*this, blockSize.x * levelData.enemyStartPositions[i].x,
                         blockSize.y * levelData.enemyStartPositions[i].y,
-                        blockSize.x, blockSize.y, maleZombie1Path, jack);
+                        blockSize.x, blockSize.y, maleZombie1Path, mJack);
     addObject(maleZombie);
   }
 
@@ -95,7 +95,7 @@ void GraveRunnerLevel::initialize() {
             *this,
             blockSize.x * levelData.followerEnemyStartPositions[i].x,
             blockSize.y * levelData.followerEnemyStartPositions[i].y,
-            blockSize.x, blockSize.y, maleZombie1Path, jack);
+            blockSize.x, blockSize.y, maleZombie1Path, mJack);
     addObject(maleZombie);
   }
 

@@ -25,6 +25,10 @@ class GraveRunnerLevel : public Level {
  private:
   std::shared_ptr<GridRenderComponent> mGridRenderComponent;
 
+  // An internal pointer to Jack- note, he is still added as a gameobject so this
+  // should generally be used read-only (e.g. to check if game over)
+  std::shared_ptr<Jack> mJack;
+
   const std::string BACKGROUND_IMAGE = "graveyardtiles/png/BG.jpg";
 
   int currentLevelNumber{1};
