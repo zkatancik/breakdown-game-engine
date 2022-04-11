@@ -1,4 +1,4 @@
-#include "breakout/BreakoutGameLevelEditor.hpp"
+#include "editor/BreakoutGameLevelEditor.hpp"
 
 void BreakoutGameLevelEditor::initialize() {
   // Let the game initialize itself as it would in a normal game

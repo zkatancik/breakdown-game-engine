@@ -5,7 +5,7 @@
 #include "base/SDLProgramLogic.hpp"
 #include "base/TextMessageObject.hpp"
 #include "breakout/BreakoutButton.hpp"
-#include "breakout/BreakoutGameLevelEditor.hpp"
+#include "editor/BreakoutGameLevelEditor.hpp"
 #include "editor/EditorManager.hpp"
 #include "editor/EditorUIManager.hpp"
 #include "graverunner/GraveRunnerButton.hpp"
