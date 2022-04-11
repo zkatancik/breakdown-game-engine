@@ -289,9 +289,9 @@ void GraveRunnerLogic::createStartMenuLevel(int width, int height) {
   mStartMenu->addObject(std::make_shared<Mouse>(*mStartMenu));
 }
 
-void createTextMessageForLevel(const std::shared_ptr<Level>& level,
-                               const std::string& message, float x, float y,
-                               int fontSize = 64) {
+void GraveRunnerLogic::createTextMessageForLevel(
+    const std::shared_ptr<Level>& level, const std::string& message, float x,
+    float y, int fontSize) {
   auto messageObject =
       std::make_shared<GameObject>(*level, x, y, 1, 1, BaseTextTag);
   auto textRenderer = std::make_shared<TextureRenderComponent>(*messageObject);

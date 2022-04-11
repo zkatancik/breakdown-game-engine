@@ -60,6 +60,10 @@ class GraveRunnerLogic : public SDLProgramLogic {
 
   void initializeLevelFailedMenu();
 
+  void createTextMessageForLevel(const std::shared_ptr<Level>& level,
+                                 const std::string& message, float x, float y,
+                                 int fontSize = 64);
+
   inline bool isGameActive() {
     return (mCurrentlyActiveLevel ==
             std::dynamic_pointer_cast<Level>(
