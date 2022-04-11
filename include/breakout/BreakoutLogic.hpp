@@ -36,6 +36,7 @@ class BreakoutLogic : public SDLProgramLogic {
   std::shared_ptr<Level> mStartMenu{nullptr};
   std::shared_ptr<Level> mLanguageMenu{nullptr};
   std::shared_ptr<Level> mDifficultyMenu{nullptr};
+  std::shared_ptr<Level> mInstructionsMenu{nullptr};
   std::shared_ptr<Level> mLevelClearedMenu{nullptr};
   std::shared_ptr<Level> mLevelFailedMenu{nullptr};
   std::vector<std::shared_ptr<BreakoutGameLevel>> mGameLevels{nullptr, nullptr,
@@ -51,6 +52,8 @@ class BreakoutLogic : public SDLProgramLogic {
   void createChangeDifficultyLevel(int width, int height);
 
   void createChangeLanguageLevel(int width, int height);
+
+  void createInstructionsLevel(int width, int height);
 
   void initializeLevelClearedMenu(int score);
 

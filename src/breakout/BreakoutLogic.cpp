@@ -7,6 +7,7 @@ void BreakoutLogic::startUp(SDL_Renderer* gRender, int width, int height) {
   createStartMenuLevel(width, height);
   createChangeDifficultyLevel(width, height);
   createChangeLanguageLevel(width, height);
+  createInstructionsLevel(width, height);
   mLevelClearedMenu = std::make_shared<Level>(width, height);
   mLevelFailedMenu = std::make_shared<Level>(width, height);
   loadAllLevels(width, height);
@@ -24,6 +25,7 @@ void BreakoutLogic::shutDown() {
   mStartMenu->finalize();
   mLanguageMenu->finalize();
   mDifficultyMenu->finalize();
+  mInstructionsMenu->finalize();
   for (const auto& l : mGameLevels) l->finalize();
   PhysicsManager::getInstance().shutDown();
 }
@@ -74,6 +76,80 @@ void BreakoutLogic::loadAllLevels(int width, int height) {
     mGameLevels[i] =
         std::make_shared<BreakoutGameLevel>(width, height, mDifficulty, i + 1, false);
   }
+}
+
+void BreakoutLogic::createInstructionsLevel(int width, int height) {
+  if (mInstructionsMenu != nullptr) return;
+  mInstructionsMenu = std::make_shared<Level>(width, height);
+
+  /******************************************************************************************************************/
+  
+  // Add Instructions
+  auto title = std::make_shared<GameObject>(*mInstructionsMenu, 10, 10, 50, 50, 22);
+  auto textRenderer = std::make_shared<TextureRenderComponent>(*title);
+  textRenderer->setRenderMode(TextureRenderComponent::RenderMode::QUERY);
+  title->setRenderComponent(textRenderer);
+  auto textComponent = std::make_shared<TextComponent>(
+      *title, "How to Play", 128, "2DBreakout/fonts/Gageda.ttf",
+      textRenderer);
+  title->addGenericComponent(std::make_shared<CenterTextComponent>(
+      *title, textRenderer, width, height));
+  textRenderer->setOffSetY(int(10));
+  title->addGenericComponent(textComponent);
+  mInstructionsMenu->addObject(title);
+
+  auto instruction1 = std::make_shared<GameObject>(*mInstructionsMenu, 10, 10, 50, 50, 22);
+  auto textRenderer1 = std::make_shared<TextureRenderComponent>(*title);
+  textRenderer1->setRenderMode(TextureRenderComponent::RenderMode::QUERY);
+  instruction1->setRenderComponent(textRenderer1);
+  auto textComponent1 = std::make_shared<TextComponent>(
+      *instruction1, "Arrow Keys - Left and Right", 40, "2DBreakout/fonts/Gageda.ttf",
+      textRenderer1);
+  instruction1->addGenericComponent(std::make_shared<CenterTextComponent>(
+      *instruction1, textRenderer1, width, height));
+  textRenderer1->setOffSetY(int(200));
+  instruction1->addGenericComponent(textComponent1);
+  mInstructionsMenu->addObject(instruction1);
+
+  auto instruction2 = std::make_shared<GameObject>(*mInstructionsMenu, 10, 10, 50, 50, 22);
+  auto textRenderer2 = std::make_shared<TextureRenderComponent>(*title);
+  textRenderer2->setRenderMode(TextureRenderComponent::RenderMode::QUERY);
+  instruction2->setRenderComponent(textRenderer2);
+  auto textComponent2 = std::make_shared<TextComponent>(
+      *instruction2, "Black walls do not break", 40, "2DBreakout/fonts/Gageda.ttf",
+      textRenderer2);
+  instruction2->addGenericComponent(std::make_shared<CenterTextComponent>(
+      *instruction2, textRenderer2, width, height));
+  //textRenderer2->setOffSetX(-175);
+  textRenderer2->setOffSetY(int(300));
+  instruction2->addGenericComponent(textComponent2);
+  mInstructionsMenu->addObject(instruction2);
+
+  auto instruction3 = std::make_shared<GameObject>(*mInstructionsMenu, 10, 10, 50, 50, 22);
+  auto textRenderer3 = std::make_shared<TextureRenderComponent>(*title);
+  textRenderer3->setRenderMode(TextureRenderComponent::RenderMode::QUERY);
+  instruction3->setRenderComponent(textRenderer3);
+  auto textComponent3 = std::make_shared<TextComponent>(
+      *instruction3, "Grey block breaks on 3 hits", 40, "2DBreakout/fonts/Gageda.ttf",
+      textRenderer3);
+  instruction3->addGenericComponent(std::make_shared<CenterTextComponent>(
+      *instruction3, textRenderer3, width, height));
+  //textRenderer3->setOffSetX(-175);
+  textRenderer3->setOffSetY(int(400));
+  instruction3->addGenericComponent(textComponent3);
+  mInstructionsMenu->addObject(instruction3);
+
+  /******************************************************************************************************************/
+  // Lambda for returning to main menu
+  auto changeToStartMenu = [&] { mCurrentlyActiveLevel = mStartMenu; };
+
+  // Add the return button
+  mInstructionsMenu->addObject(std::make_shared<BreakoutButton>(
+      *mInstructionsMenu, width, 2 * height / 3 + 50, width / 4, 139,
+      BreakoutButton::Color::RED, u8"RETURN", changeToStartMenu));
+
+  /******************************************************************************************************************/
+  mInstructionsMenu->addObject(std::make_shared<Mouse>(*mInstructionsMenu));
 }
 
 void BreakoutLogic::createChangeDifficultyLevel(int width, int height) {
@@ -192,7 +268,7 @@ void BreakoutLogic::createStartMenuLevel(int width, int height) {
 
   // Add the Start game button
   std::shared_ptr<BreakoutButton> startButton = std::make_shared<BreakoutButton>(
-      *mStartMenu, width, height / 6, width / 4, 139, BreakoutButton::Color::GREEN,
+      *mStartMenu, width, height / 6 - 100, width / 4, 139, BreakoutButton::Color::GREEN,
       u8"START", startGameLevelButtonHook);
 
   mStartMenu->addObject(startButton);
@@ -206,7 +282,7 @@ void BreakoutLogic::createStartMenuLevel(int width, int height) {
 
   // Add the select difficulty button
   mStartMenu->addObject(std::make_shared<BreakoutButton>(
-      *mStartMenu, width, height / 6 + 200, 2 * width / 3, 139,
+      *mStartMenu, width, height / 6 + 50, 2 * width / 3, 139,
       BreakoutButton::Color::GREEN, u8"SELECT DIFFICULTY", changeDifficultyButtonHook));
 
   /******************************************************************************************************************/
@@ -219,10 +295,23 @@ void BreakoutLogic::createStartMenuLevel(int width, int height) {
 
   // Add the change language button to the start menu
   mStartMenu->addObject(std::make_shared<BreakoutButton>(
-      *mStartMenu, width, height / 6 + 400, 2 * width / 3, 139,
+      *mStartMenu, width, height / 6 + 250, 2 * width / 3, 139,
       BreakoutButton::Color::GREEN, u8"CHANGE LANGUAGE", changeLanguageButtonHook));
 
   /******************************************************************************************************************/
+
+  // Lambda for creating the Instructions menu
+  auto instructionsButtonHook = [&] {
+    mCurrentlyActiveLevel = mInstructionsMenu;
+  };
+
+  // Add the instructions button to the start menu
+  mStartMenu->addObject(std::make_shared<BreakoutButton>(
+      *mStartMenu, width, height / 6 + 450, 2 * width / 3, 139,
+      BreakoutButton::Color::GREEN, u8"HOW TO PLAY", instructionsButtonHook));
+
+  /******************************************************************************************************************/
+
   // Add mouse pointer
   mStartMenu->addObject(std::make_shared<Mouse>(*mStartMenu));
 }
