@@ -148,7 +148,7 @@ void updateLevelFile(GraveRunnerLevelData ld, Vector2D<int> gridPosition, GraveR
 
   std::cout << "RS:[updateLevelFile]:" << std::endl;
 
-  const filesystem::path resPath = getResourcePath("levels");
+  const filesystem::path resPath = getResourcePath("Graverunner/levels");
   std::string resourceFilename =
       (resPath / ("level" + std::to_string(ld.levelNumber) + ".txt")).string();
 

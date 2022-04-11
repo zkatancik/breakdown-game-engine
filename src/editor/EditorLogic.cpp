@@ -66,9 +66,8 @@ void EditorLogic::createAndInitBreakoutLevelSelector(int width, int height) {
           auto returnButton = std::make_shared<BreakoutButton>(
               *mBreakoutLevelEditors[i], 200, 600, 2 * width / 3, 50,
               BreakoutButton::Color::RED, "Return",
-              [&, i]() {
+              [&]() {
                 mCurrentlyActiveLevel = mStartMenu;
-                //                mBreakoutLevelEditors[i]->finalize();
               },
               40);
           mBreakoutLevelEditors[i]->addObject(returnButton);
@@ -101,7 +100,6 @@ void EditorLogic::createAndInitGraveRunnerSelector(int width, int height) {
           auto returnButton = std::make_shared<GraveRunnerButton>(
               *mGraveRunnerLevelSelector, 200, 640, 2 * width / 3, 40, "Return",
               [&]() {
-                mGraveRunnerLevelEditors[i]->finalize();
                 mCurrentlyActiveLevel = mStartMenu;
               });
           mGraveRunnerLevelEditors[i]->addObject(returnButton);
