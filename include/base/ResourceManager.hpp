@@ -289,6 +289,7 @@ class ResourceManager {
       {u8"MEDIUM", {{Language::SPANISH, u8"MEDIO"}}},
       {u8"HARD", {{Language::SPANISH, u8"DURO"}}},
       {u8"RETURN", {{Language::SPANISH, u8"REGRESO"}}},
+      {u8"Return", {{Language::SPANISH, u8"Regreso"}}},
       {u8"ENGLISH", {{Language::SPANISH, u8"INGLÉS"}}},
       {u8"SPANISH", {{Language::SPANISH, u8"ESPAÑOL"}}},
       {u8"Level: ", {{Language::SPANISH, u8"Nivel"}}},

@@ -17,6 +17,10 @@ void TextureRenderComponent::render(SDL_Renderer *renderer) const {
   for (const auto &rect : prevRects) {
     rect->render(renderer);
   }
+
+  if (texture_ == nullptr) {
+    return;
+  }
   assert(texture_ != nullptr);
   const GameObject &gameObject = getGameObject();
   SDL_Rect fillRect = {int(gameObject.x()) + xOffset_,
