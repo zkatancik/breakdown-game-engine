@@ -1,1 +1,19 @@
 Put any instructions needed to play your game and access required features and extensions here.
+To make the breakout game, simply run
+```bash
+    make breakout
+```
+
+or
+
+```bash
+    make breakout_d
+```.
+
+Other recpies include:
+- ```graverunner``` and ```graverunner_d``` : Builds platformer game in release and debug mode
+- ```editor``` and ```editor_d```: Builds editor in release and debug mode
+- ```test``` and ```test_d```: Builds tests in release and debug mode
+
+Keep in mind framerate is capped in all GUI executables, but the values are not shown.
+
