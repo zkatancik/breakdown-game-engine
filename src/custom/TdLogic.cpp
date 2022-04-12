@@ -17,7 +17,7 @@ void TdLogic::startUp(SDL_Renderer* gRender, int width, int height) {
   // Music Volume adjustment
   Mix_VolumeMusic(MIX_MAX_VOLUME / 6);
   Mix_PlayMusic(ResourceManager::getInstance().getMusic(
-                    "Graverunner/2DPlatformer_SFX/ClassicsIV-Spooky.wav"),
+                    "TD2D/Audio/Tracks/bloonstd4.mp3"),
                 -1);
   Mix_Volume(0, MIX_MAX_VOLUME);
   Mix_Volume(1, MIX_MAX_VOLUME / 6);
