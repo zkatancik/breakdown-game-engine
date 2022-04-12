@@ -20,8 +20,7 @@ None
 TODO- Zack where did you get the new assets for tower defense?
 
 -- Did you use any code or resources from previous assignments? If so, list below.
-Merged the breakout project into the existing architecture.
-TODO- note we brought in Graverunner too
+Merged the breakout and graverunner projects into the current repo.
 
 
 -- Did you collaborate with any other students/TAs/Professors? If so, list below.
@@ -29,6 +28,10 @@ No
 
 
 -- Describe your approach to implementing the lab.
+Matin - Completely revamped how we organized levels and UI, making everything use the GameObject and Level architecture
+and allow for reusable components across both games. This change allowed us to easily and modularly add buttons, UI elements,
+and gameObjects in both the games and the editor. After the breakout game worked with the new design, others helped transfering
+it into other deliverables of the project. I then helped each team member with bug fixes.
 
 Marcin - Mostly worked on porting over the GraveRunner functionality into the new infrastructure after Matin did the initial setup.
 This included both the game itself and its level editor.
@@ -37,7 +40,7 @@ This included both the game itself and its level editor.
 -- How many hours did it take you to complete this lab?
 Roshan - 
 Zack - 
-Matin - 
+Matin - 60
 Marcin - 20
 
 
