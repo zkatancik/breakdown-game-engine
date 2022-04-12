@@ -52,6 +52,19 @@ endif
 BASE_SOURCE_FILES=$(shell sh -c '/usr/bin/find src/base -name "*.cpp" 2>/dev/null')
 BASE_HEADER_FILES=$(shell sh -c '/usr/bin/find include/base -name "*.cpp" 2>/dev/null')
 
+## td files
+TD_EXE_SRC_FILES=$(shell sh -c '/usr/bin/find src/custom -name "main*.cpp" 2>/dev/null')
+TD_SOURCE_FILES=$(filter-out $(TD_EXE_SRC_FILES),$(shell sh -c '/usr/bin/find src/custom $(EXTERN_SOURCES) -name "*.cpp" 2>/dev/null'))
+TD_HEADER_FILES=$(shell sh -c '/usr/bin/find include/custom src/custom -name "*.hpp" 2>/dev/null')
+TD_SOURCE_FILES+=$(BASE_SOURCE_FILES)
+TD_HEADER_FILES+=$(BASE_INCLUDE_FILES)
+TD_OBJ_FILES_RELEASE=$(TD_SOURCE_FILES:%.cpp=build/obj/%.o)
+TD_OBJ_FILES_DEBUG=$(TD_SOURCE_FILES:%.cpp=build/obj/%_d.o)
+TD_EXECUTABLE_RELEASE=$(patsubst src/%.cpp,bin/%,$(TD_EXE_SRC_FILES))
+TD_EXECUTABLES_DEBUG=$(patsubst src/%.cpp,bin/%_d,$(TD_EXE_SRC_FILES))
+DEFAULT_EXE=$(word 1,$(TD_EXECUTABLE_RELEASE))
+DEFAULT_EXE_DEBUG=$(word 1,$(TD_EXECUTABLES_DEBUG))
+
 ## graverunner files
 GRAVERUNNER_EXE_SRC_FILES=$(shell sh -c '/usr/bin/find src/graverunner -name "main*.cpp" 2>/dev/null')
 GRAVERUNNER_SOURCE_FILES=$(filter-out $(GRAVERUNNER_EXE_SRC_FILES),$(shell sh -c '/usr/bin/find src/graverunner $(EXTERN_SOURCES) -name "*.cpp" 2>/dev/null'))
@@ -114,12 +127,12 @@ LDFLAGS_DEBUG:=$(LDFLAGS_BASE)
 
 ## rules
 
-all: doc graverunner graverunner_d breakout breakout_d editor editor_d tests tests_d
+all: doc graverunner graverunner_d breakout breakout_d editor editor_d tests tests_d custom custom_d
 
-everything: doc graverunner graverunner_d breakout breakout_d editor editor_d tests tests_d
+everything: doc graverunner graverunner_d breakout breakout_d editor editor_d tests tests_d custom custom_d
 
 
-doc: $(GRAVERUNNER_HEADER_FILES) $(GRAVERUNNER_SOURCE_FILES) Makefile
+doc: $(GRAVERUNNER_HEADER_FILES) $(GRAVERUNNER_SOURCE_FILES) $(BREAKOUT_HEADER_FILES) $(BREAKOUT_SOURCE_FILES) $(TD_HEADER_FILES) $(TD_SOURCE_FILES) Makefile
 	$(DOXYGEN)
 
 
@@ -127,10 +140,13 @@ breakout: $(BREAKOUT_EXECUTABLE_RELEASE)
 
 breakout_d: $(BREAKOUT_EXECUTABLES_DEBUG)
 
-
 graverunner: $(GRAVERUNNER_EXECUTABLE_RELEASE)
 
 graverunner_d: $(GRAVERUNNER_EXECUTABLES_DEBUG)
+
+custom: $(TD_EXECUTABLE_RELEASE)
+
+custom_d: $(TD_EXECUTABLES_DEBUG)
 
 editor: $(EDITOR_EXECUTABLE_RELEASE)
 
@@ -154,6 +170,22 @@ run-tests: bin/test
 run-tests_d: bin/test_d
 	bin/test_d
 
+
+$(TD_EXECUTABLE_RELEASE): bin/%: build/obj/src/%.o $(TD_OBJ_FILES_RELEASE)
+	mkdir -p $(dir $@)
+	g++  $^ $(LDFLAGS_RELEASE) -o $@
+
+$(TD_EXECUTABLES_DEBUG): bin/%: build/obj/src/%.o $(TD_OBJ_FILES_DEBUG)
+	mkdir -p $(dir $@)
+	g++  $^ $(LDFLAGS_DEBUG) -o $@
+
+build/obj/%.o: %.cpp $(TD_HEADER_FILES) Makefile
+	mkdir -p $(dir $@)
+	g++ -c $< $(CXXFLAGS_RELEASE) -o $@
+
+build/obj/%_d.o: %.cpp $(TD_HEADER_FILES) Makefile
+	mkdir -p $(dir $@)
+	g++ -c $< $(CXXFLAGS_DEBUG) -o $@
 
 
 $(GRAVERUNNER_EXECUTABLE_RELEASE): bin/%: build/obj/src/%.o $(GRAVERUNNER_OBJ_FILES_RELEASE)
