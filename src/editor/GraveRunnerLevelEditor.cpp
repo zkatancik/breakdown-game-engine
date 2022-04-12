@@ -131,7 +131,8 @@ void GraveRunnerLevelEditor::refreshLevelEditor() {
     gameObject->tag() == GraveRunnerExitTag ||
     gameObject->tag() == GraveRunnerKeyTag ||
     gameObject->tag() == GraveRunnerNormalBlockTag ||
-    gameObject->tag() == BaseTextTag
+    gameObject->tag() == BaseTextTag ||
+    gameObject->tag() == GraveRunnerBGTag
     )
       // Add an x-offset to make space for buttons
       gameObject->setX(gameObject->x() + float(xOffset));

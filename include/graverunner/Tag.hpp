@@ -8,4 +8,5 @@ const static int GraveRunnerKeyTag = hash("GraveRunnerKeyTag");
 const static int GraveRunnerExitTag = hash("GraveRunnerExitTag");
 const static int GraveRunnerBulletTag = hash(" GraveRunnerBulletTag");
 const static int GraveRunnerLevelBoundaryTag = hash("GraveRunnerLevelBoundaryTag");
+const static int GraveRunnerBGTag = hash("GraveRunnerBGTag");
 #endif

@@ -26,7 +26,7 @@ void GraveRunnerLevel::initialize() {
   initialNumExits = 0;
 
   auto background =
-      std::make_shared<GameObject>(*this, 0, 0, 1280, 768, 44);
+      std::make_shared<GameObject>(*this, 0, 0, 1280, 768, GraveRunnerBGTag);
   auto bg_renderer = std::make_shared<TextureRenderComponent>(*background);
 
   bg_renderer->setRenderMode(TextureRenderComponent::RenderMode::WHOLE_WIDTH);
