@@ -8,7 +8,7 @@
 int main(int argc, char** argv) {
   auto logic = std::make_shared<TdLogic>("Tower Defense By TowerUp");
   // Create an instance of an object for a SDLGraphicsProgram
-  SDLGraphicsProgram mySDLGraphicsProgram(logic, 1280, 768);
+  SDLGraphicsProgram mySDLGraphicsProgram(logic, 1480, 868);
   // Run our program forever
   mySDLGraphicsProgram.loop();
   // When our program ends, it will exit scope, the
