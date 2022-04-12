@@ -130,8 +130,6 @@ void updateCurrentLevel(GraveRunnerLevelData *levelData,
   if (item != GraveRunnerLevelItem::NONE) {
     levelData->levelGrid[gridPosition.x][gridPosition.y] = item;
 
-    //std::cout << "EM:[After - updateCurrentLevel]:" << std::endl;
-
     // Update the Level File
     updateLevelFile(*levelData, gridPosition, item);
   }
@@ -145,9 +143,6 @@ void updateCurrentLevel(GraveRunnerLevelData *levelData,
  * @param item the item to add at above position
  */
 void updateLevelFile(GraveRunnerLevelData ld, Vector2D<int> gridPosition, GraveRunnerLevelItem item) {
-
-  std::cout << "RS:[updateLevelFile]:" << std::endl;
-
   const filesystem::path resPath = getResourcePath("Graverunner/levels");
   std::string resourceFilename =
       (resPath / ("level" + std::to_string(ld.levelNumber) + ".txt")).string();
@@ -157,8 +152,6 @@ void updateLevelFile(GraveRunnerLevelData ld, Vector2D<int> gridPosition, GraveR
 
   int lineCounter = 0;
   int colNumber = 0;
-
-  //std::cout << "RS:updateLevelFile:" << std::endl;
 
   if (myfile->is_open()) {
 

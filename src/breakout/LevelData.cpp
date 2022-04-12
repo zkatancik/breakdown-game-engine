@@ -78,8 +78,6 @@ void loadLevel(BreakoutLevelData *levelData, int level) {
       }
 
       lineCounter++;
-      //std::cout << "\n";
-
     }
 
     myfile.close();
@@ -94,9 +92,6 @@ void updateCurrentLevel(BreakoutLevelData *levelData,
   // Update the Level
   if (item != BreakoutLevelItem::NONE) {
     levelData->levelGrid[gridPosition.x][gridPosition.y] = item;
-
-    //std::cout << "EM:[After - updateCurrentLevel]:" << std::endl;
-
     // Update the Level File
     updateLevelFile(*levelData, gridPosition, item);
   }
@@ -110,9 +105,6 @@ void updateCurrentLevel(BreakoutLevelData *levelData,
  * @param item the item to add at above position
  */
 void updateLevelFile(BreakoutLevelData ld, Vector2D<int> gridPosition, BreakoutLevelItem item) {
-
-  std::cout << "RS:[updateLevelFile]:" << std::endl;
-
   const filesystem::path resPath = getResourcePath("2DBreakout/Levels");
   std::string resourceFilename =
       (resPath / ("Level" + std::to_string(ld.levelNumber) + ".txt")).string();
@@ -121,8 +113,6 @@ void updateLevelFile(BreakoutLevelData ld, Vector2D<int> gridPosition, BreakoutL
   std::fstream *myfile = ResourceManager::getInstance().openFile(resourceFilename, std::fstream::out | std::fstream::trunc);
 
   int lineCounter = 0;
-
-  //std::cout << "RS:updateLevelFile:" << std::endl;
 
   if (myfile->is_open()) {
 
@@ -151,8 +141,6 @@ void updateLevelFile(BreakoutLevelData ld, Vector2D<int> gridPosition, BreakoutL
 
     ResourceManager::getInstance().closeFile(resourceFilename);
   } else {
-
-    // Create a new file.
     std::cout << "Unable to open file \n";
     std::cout << "Creating a new file \n";
 

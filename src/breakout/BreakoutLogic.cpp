@@ -370,7 +370,6 @@ void BreakoutLogic::initializeLevelFailedMenu(int score) {
   auto goToMainMenuLevelLambda = [&] {
     mGameLevels[mCurrentlySelectedGameLevelIdx]->finalize();
     mCurrentlyActiveLevel = mStartMenu;
-    std::cout << mCurrentlySelectedGameLevelIdx << std::endl;
   };
 
   int width = mLevelFailedMenu->w();

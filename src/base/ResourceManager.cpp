@@ -258,27 +258,6 @@ void ResourceManager::closeAllfiles() {
   while (!fstream_.empty()) closeFileWithId(fstream_.begin()->first);
 }
 
-// std::cout << "LevelGRID:" << "\n";
-// for (std::vector<LevelItem> row: levelData->levelGrid)
-// {
-//     for (LevelItem val: row) {
-//         std::cout << val << " ";
-//     }
-//     std::cout << std::endl;
-// }
-
-//    closeFile(resourceFilename);
-//  } else {
-//    std::cout << "Unable to open file \n";
-//  }
-//}
-
-// void ResourceManager::updateLevelFile(LevelData ld,
-//                                       Vector2D<int> gridPosition, LevelItem
-//                                       item) {
-//
-// }
-
 std::string ResourceManager::getTranslation(const std::string &message,
                                             Language language) {
   // Strip away symbols
