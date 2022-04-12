@@ -48,7 +48,7 @@ void BreakoutLogic::update() {
       currGameLevel.lock()->finalize();
     }
   }
-  if (InputManager::getInstance().isKeyPressed(SDLK_x)) {
+  if (InputManager::getInstance().isKeyPressed(SDLK_n)) {
     if (isGameActive()) {
       mGameLevels[mCurrentlySelectedGameLevelIdx]->finalize();
       mCurrentlySelectedGameLevelIdx =

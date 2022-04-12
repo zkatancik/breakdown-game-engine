@@ -53,7 +53,7 @@ void GraveRunnerLogic::update() {
     }
   }
 
-  if (InputManager::getInstance().isKeyPressed(SDLK_x)) {
+  if (InputManager::getInstance().isKeyPressed(SDLK_n)) {
     if (isGameActive()) {
       mGameLevels[mCurrentlySelectedGameLevelIdx]->finalize();
       mCurrentlySelectedGameLevelIdx =
@@ -64,6 +64,14 @@ void GraveRunnerLogic::update() {
       mCurrentlyActiveLevel->initialize();
     }
   }
+  // Reset the level
+  if (InputManager::getInstance().isKeyPressed(SDLK_r)) {
+    if (isGameActive()) {
+      mCurrentlyActiveLevel->finalize();
+      mCurrentlyActiveLevel->initialize();
+    }
+  }
+
   if (InputManager::getInstance().isKeyPressed(SDLK_q)) {
     mQuit = true;
   }
