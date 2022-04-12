@@ -39,9 +39,11 @@ This included both the game itself and its level editor.
 Zack - Rewrote all UI components to be game objects, including buttons, menus, etc. Worked extensively
 on game editors front-end to match rest of the component based architecture.
 
+Roshan - Rewrote level file design, generation and updation via level editor. Added Instructions menus. 
+Dynamic selection of block textures from the resources. Wrote backend for the level editor.
 
 -- How many hours did it take you to complete this lab?
-Roshan - 
+Roshan - 40
 Zack - 40
 Matin - 60
 Marcin - 20
