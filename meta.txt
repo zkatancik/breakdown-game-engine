@@ -17,7 +17,6 @@ None
 -math library: TinyMath.hpp (Lab2)
 -cxxTest-4.4 (various)
 -Collisions and Gameobjects (Lab6)
-TODO- Zack where did you get the new assets for tower defense?
 
 -- Did you use any code or resources from previous assignments? If so, list below.
 Merged the breakout and graverunner projects into the current repo.
