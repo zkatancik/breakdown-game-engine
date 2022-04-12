@@ -36,10 +36,13 @@ it into other deliverables of the project. I then helped each team member with b
 Marcin - Mostly worked on porting over the GraveRunner functionality into the new infrastructure after Matin did the initial setup.
 This included both the game itself and its level editor.
 
+Zack - Rewrote all UI components to be game objects, including buttons, menus, etc. Worked extensively
+on game editors front-end to match rest of the component based architecture.
+
 
 -- How many hours did it take you to complete this lab?
 Roshan - 
-Zack - 
+Zack - 40
 Matin - 60
 Marcin - 20
 
