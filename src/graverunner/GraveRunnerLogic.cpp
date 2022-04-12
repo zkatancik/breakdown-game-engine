@@ -221,6 +221,7 @@ void GraveRunnerLogic::createStartMenuLevel(int width, int height) {
   // // Lambda for creating a game level and setting the active level to be the
   // game itself.
   auto startGameLevelButtonHook = [&]() {
+    mGameLevels[mCurrentlySelectedGameLevelIdx]->finalize();
     mGameLevels[mCurrentlySelectedGameLevelIdx]->initialize();
     mCurrentlyActiveLevel = mGameLevels[mCurrentlySelectedGameLevelIdx];
   };

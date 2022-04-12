@@ -23,6 +23,7 @@ void GraveRunnerLevel::initialize() {
   auto levelIndicator = createLevelIndicatorObject();
   addObject(levelIndicator);
   addObject(keysIndicator);
+  initialNumExits = 0;
 
   // Place Level Boundaries (need solid physics component to be considered for
   // collision) Left-most boundary
