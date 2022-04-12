@@ -25,16 +25,16 @@ void GraveRunnerLevel::initialize() {
   addObject(keysIndicator);
   initialNumExits = 0;
 
-  auto background =
-      std::make_shared<GameObject>(*this, 0, 0, 1280, 768, GraveRunnerBGTag);
-  auto bg_renderer = std::make_shared<TextureRenderComponent>(*background);
+  // auto background =
+  //     std::make_shared<GameObject>(*this, 0, 0, 1280, 768, GraveRunnerBGTag);
+  // auto bg_renderer = std::make_shared<TextureRenderComponent>(*background);
 
-  bg_renderer->setRenderMode(TextureRenderComponent::RenderMode::WHOLE_WIDTH);
-  background->setRenderComponent(bg_renderer);
-  bg_renderer->setTexture(ResourceManager::getInstance().getTexture(
-      "Graverunner/graveyardtiles/png/BG.jpg"));
+  // bg_renderer->setRenderMode(TextureRenderComponent::RenderMode::WHOLE_WIDTH);
+  // background->setRenderComponent(bg_renderer);
+  // bg_renderer->setTexture(ResourceManager::getInstance().getTexture(
+  //     "Graverunner/graveyardtiles/png/BG.jpg"));
 
-  addObject(background);
+  // addObject(background);
 
   // Place Level Boundaries (need solid physics component to be considered for
   // collision) Left-most boundary

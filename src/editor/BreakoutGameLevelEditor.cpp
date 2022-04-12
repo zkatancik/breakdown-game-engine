@@ -56,7 +56,7 @@ void BreakoutGameLevelEditor::initialize() {
                         0);
         updateCurrentLevel(mLevelData, Vector2D<int>(i, j), currentlySelected);
         refreshLevelEditor();
-        currentlySelected = BreakoutLevelItem::NONE;
+        //currentlySelected = BreakoutLevelItem::NONE;
       }
     };
 
