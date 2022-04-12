@@ -101,31 +101,31 @@ void GraveRunnerLevel::initialize() {
 
   // Place Enemies end points
   for (size_t i = 0; i < levelData.enemyStartPositions.size(); i = i + 2) {
-    std::vector<std::pair<float, float>> maleZombie1Path = {
+    std::vector<std::pair<float, float>> maleZombiePath = {
         {levelData.enemyStartPositions[i + 1].x * blockSize.x,
          levelData.enemyStartPositions[i + 1].y * blockSize.y}};
 
     std::shared_ptr<PatrolZombie> maleZombie =
         std::make_shared<PatrolZombie>(*this, blockSize.x * levelData.enemyStartPositions[i].x,
                         blockSize.y * levelData.enemyStartPositions[i].y,
-                        blockSize.x, blockSize.y, maleZombie1Path, jack);
+                        blockSize.x, blockSize.y, maleZombiePath, jack);
     addObject(maleZombie);
   }
 
   // Place Follower Enemies end points
   for (size_t i = 0; i < levelData.followerEnemyStartPositions.size();
        i = i + 2) {
-    std::vector<std::pair<float, float>> maleZombie1Path = {
+    std::vector<std::pair<float, float>> zombiePath = {
         {levelData.followerEnemyStartPositions[i + 1].x * blockSize.x,
          levelData.followerEnemyStartPositions[i + 1].y * blockSize.y}};
 
-    std::shared_ptr<FollowerZombie> maleZombie =
+    std::shared_ptr<FollowerZombie> followerZombie =
         std::make_shared<FollowerZombie>(
             *this,
             blockSize.x * levelData.followerEnemyStartPositions[i].x,
             blockSize.y * levelData.followerEnemyStartPositions[i].y,
-            blockSize.x, blockSize.y, maleZombie1Path, jack);
-    addObject(maleZombie);
+            blockSize.x, blockSize.y, zombiePath, jack);
+    addObject(followerZombie);
   }
 }
 
