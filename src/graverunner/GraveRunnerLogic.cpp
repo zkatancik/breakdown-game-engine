@@ -164,6 +164,7 @@ void GraveRunnerLogic::createChangeLanguageLevel(int width, int height) {
   auto changeLanguageToEnglish = [&] {
     mLanguageMenu->changeLanguage(Language::ENGLISH);
     mStartMenu->changeLanguage(Language::ENGLISH);
+    mInstructionsMenu->changeLanguage(Language::ENGLISH);
     for (auto& l : mGameLevels) {
       l->changeLanguage(Language::ENGLISH);
     }
@@ -189,6 +190,7 @@ void GraveRunnerLogic::createChangeLanguageLevel(int width, int height) {
   auto changeLanguageToSpanish = [&] {
     mLanguageMenu->changeLanguage(Language::SPANISH);
     mStartMenu->changeLanguage(Language::SPANISH);
+    mInstructionsMenu->changeLanguage(Language::SPANISH);
     for (auto& l : mGameLevels) {
       l->changeLanguage(Language::SPANISH);
     }

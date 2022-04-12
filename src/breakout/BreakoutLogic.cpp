@@ -219,6 +219,7 @@ void BreakoutLogic::createChangeLanguageLevel(int width, int height) {
     mLanguageMenu->changeLanguage(Language::ENGLISH);
     mStartMenu->changeLanguage(Language::ENGLISH);
     mDifficultyMenu->changeLanguage(Language::ENGLISH);
+    mInstructionsMenu->changeLanguage(Language::ENGLISH);
     for (auto& l : mGameLevels) {
       l->changeLanguage(Language::ENGLISH);
     }
@@ -234,6 +235,7 @@ void BreakoutLogic::createChangeLanguageLevel(int width, int height) {
     mLanguageMenu->changeLanguage(Language::SPANISH);
     mStartMenu->changeLanguage(Language::SPANISH);
     mDifficultyMenu->changeLanguage(Language::SPANISH);
+    mInstructionsMenu->changeLanguage(Language::SPANISH);
     for (auto& l : mGameLevels) {
       l->changeLanguage(Language::SPANISH);
     }
