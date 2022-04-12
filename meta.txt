@@ -20,6 +20,8 @@ None
 
 -- Did you use any code or resources from previous assignments? If so, list below.
 Merged the breakout and graverunner projects into the current repo.
+https://unityassetcollection.com/tower-defense-2d-free-download/ 
+https://craftpix.net/product/tower-defense-2d-game-kit/ for the Tower Defense Assets
 
 
 -- Did you collaborate with any other students/TAs/Professors? If so, list below.
