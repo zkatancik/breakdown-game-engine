@@ -43,6 +43,7 @@ class BreakoutLogic : public SDLProgramLogic {
                                                               nullptr, nullptr};
   std::shared_ptr<Level> mCurrentlyActiveLevel{
       nullptr};  //< The level that is currently being shown
+  static const int NUM_LEVELS = 4;
   int mCurrentlySelectedGameLevelIdx{0};  //< The index of the game level that
                                           //will start/currently being played.
   BreakoutGameLevel::GameDifficulty mDifficulty{BreakoutGameLevel::Easy};

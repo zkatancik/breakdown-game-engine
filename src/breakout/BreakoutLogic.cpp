@@ -52,7 +52,7 @@ void BreakoutLogic::update() {
     if (isGameActive()) {
       mGameLevels[mCurrentlySelectedGameLevelIdx]->finalize();
       mCurrentlySelectedGameLevelIdx =
-          mCurrentlySelectedGameLevelIdx == 3
+          mCurrentlySelectedGameLevelIdx == (NUM_LEVELS - 1)
               ? 0
               : (mCurrentlySelectedGameLevelIdx + 1);
       mCurrentlyActiveLevel = mGameLevels[mCurrentlySelectedGameLevelIdx];
@@ -343,9 +343,10 @@ void BreakoutLogic::initializeLevelClearedMenu(int score) {
   // Lambda for changing the language to English
   auto goToNextLevelLambda = [&] {
     mGameLevels[mCurrentlySelectedGameLevelIdx]->finalize();
-    mCurrentlySelectedGameLevelIdx = mCurrentlySelectedGameLevelIdx == 3
-                                         ? 0
-                                         : (mCurrentlySelectedGameLevelIdx + 1);
+    mCurrentlySelectedGameLevelIdx =
+        mCurrentlySelectedGameLevelIdx == (NUM_LEVELS - 1)
+            ? 0
+            : (mCurrentlySelectedGameLevelIdx + 1);
     mCurrentlyActiveLevel = mGameLevels[mCurrentlySelectedGameLevelIdx];
     mCurrentlyActiveLevel->initialize();
   };

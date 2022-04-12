@@ -45,8 +45,10 @@ class GraveRunnerLogic : public SDLProgramLogic {
                                                              nullptr};
   std::shared_ptr<Level> mCurrentlyActiveLevel{
       nullptr};  //< The level that is currently being shown
+  
+  const static int NUM_LEVELS{3};
   int mCurrentlySelectedGameLevelIdx{0};  //< The index of the game level that
-                                          // will start/currently being played.
+                                          // will start/is currently being played.
 
   void loadAllLevels(int width, int height);
 

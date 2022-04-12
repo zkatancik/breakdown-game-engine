@@ -57,7 +57,7 @@ void GraveRunnerLogic::update() {
     if (isGameActive()) {
       mGameLevels[mCurrentlySelectedGameLevelIdx]->finalize();
       mCurrentlySelectedGameLevelIdx =
-          mCurrentlySelectedGameLevelIdx == 2
+          mCurrentlySelectedGameLevelIdx == (NUM_LEVELS - 1)
               ? 0
               : (mCurrentlySelectedGameLevelIdx + 1);
       mCurrentlyActiveLevel = mGameLevels[mCurrentlySelectedGameLevelIdx];
@@ -324,9 +324,10 @@ void GraveRunnerLogic::initializeLevelClearedMenu() {
   // Lambda for going to next level
   auto goToNextLevelLambda = [&] {
     mGameLevels[mCurrentlySelectedGameLevelIdx]->finalize();
-    mCurrentlySelectedGameLevelIdx = mCurrentlySelectedGameLevelIdx == 2
-                                         ? 0
-                                         : (mCurrentlySelectedGameLevelIdx + 1);
+    mCurrentlySelectedGameLevelIdx =
+        mCurrentlySelectedGameLevelIdx == (NUM_LEVELS - 1)
+            ? 0
+            : (mCurrentlySelectedGameLevelIdx + 1);
     mCurrentlyActiveLevel = mGameLevels[mCurrentlySelectedGameLevelIdx];
     mCurrentlyActiveLevel->initialize();
   };
