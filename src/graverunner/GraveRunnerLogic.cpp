@@ -330,8 +330,21 @@ void GraveRunnerLogic::initializeLevelClearedMenu() {
     mCurrentlyActiveLevel = mGameLevels[mCurrentlySelectedGameLevelIdx];
     mCurrentlyActiveLevel->initialize();
   };
+
   int width = mLevelClearedMenu->w();
   int height = mLevelClearedMenu->h();
+  
+  auto background =
+      std::make_shared<GameObject>(*mLevelClearedMenu, 0, 0, width, height, 44);
+  auto bg_renderer = std::make_shared<TextureRenderComponent>(*background);
+
+  bg_renderer->setRenderMode(TextureRenderComponent::RenderMode::WHOLE_WIDTH);
+  background->setRenderComponent(bg_renderer);
+  bg_renderer->setTexture(ResourceManager::getInstance().getTexture(
+      "Graverunner/graveyardtiles/menubg.jpg"));
+
+  mLevelClearedMenu->addObject(background);
+
   mLevelClearedMenu->addObject(std::make_shared<GraveRunnerButton>(
       *mLevelClearedMenu, width, 2 * height / 3, width / 4, 139,
       u8"NEXT LEVEL", goToNextLevelLambda));
@@ -353,6 +366,18 @@ void GraveRunnerLogic::initializeLevelFailedMenu() {
 
   int width = mLevelFailedMenu->w();
   int height = mLevelFailedMenu->h();
+
+  auto background =
+      std::make_shared<GameObject>(*mLevelFailedMenu, 0, 0, width, height, 44);
+  auto bg_renderer = std::make_shared<TextureRenderComponent>(*background);
+
+  bg_renderer->setRenderMode(TextureRenderComponent::RenderMode::WHOLE_WIDTH);
+  background->setRenderComponent(bg_renderer);
+  bg_renderer->setTexture(ResourceManager::getInstance().getTexture(
+      "Graverunner/graveyardtiles/menubg.jpg"));
+
+  mLevelFailedMenu->addObject(background);
+
   mLevelFailedMenu->addObject(std::make_shared<GraveRunnerButton>(
       *mLevelFailedMenu, width, 2 * height / 3, width / 4, 139, u8"RETURN",
       goToMainMenuLevelLambda));
