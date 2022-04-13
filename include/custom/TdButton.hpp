@@ -15,7 +15,8 @@
 class TdButton : public GameObject {
  public:
   TdButton(Level& level, float x, float y, float w, float h,
-           const std::string& text, std::function<void(void)> selectHook);
+           const std::string& text, std::function<void(void)> selectHook,
+           int fontSize = 64);
 
   std::shared_ptr<TextureRenderComponent> getTextureRenderer() const {
     return buttonRenderer;
@@ -23,7 +24,7 @@ class TdButton : public GameObject {
 
  private:
   int mFontSize{64};
-  const std::string mButtonFont = "Graverunner/fonts/GADAQUALI.ttf";
+  const std::string mButtonFont = "TD2D/Fonts/ds-coptic.ttf";
   std::shared_ptr<TextureRenderComponent> buttonRenderer;
   std::shared_ptr<TextureRenderComponent> textRenderer;
   std::shared_ptr<TextComponent> textComponent;
