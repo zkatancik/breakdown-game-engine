@@ -64,6 +64,9 @@ void loadLevel(TdLevelData *levelData, int level) {
           data.blockNumber = ch;
           levelData->levelGrid[lineCounter - 4][colCounter] =
               TdLevelItem::PATHBLOCK;
+        } else {
+          std::cerr << "Error- Tried to parse unsupported block character: "
+                    << ch << std::endl;
         }
         levelData->blocks.push_back(data);
         colCounter++;
