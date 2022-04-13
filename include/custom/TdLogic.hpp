@@ -38,7 +38,7 @@ class TdLogic : public SDLProgramLogic {
   std::shared_ptr<Level> mInstructionsMenu{nullptr};
   std::shared_ptr<Level> mLevelClearedMenu{nullptr};
   std::shared_ptr<Level> mLevelFailedMenu{nullptr};
-  std::vector<std::shared_ptr<TdLevel>> mGameLevels{nullptr, nullptr, nullptr};
+  std::vector<std::shared_ptr<TdLevel>> mGameLevels{nullptr};
   std::shared_ptr<Level> mCurrentlyActiveLevel{
       nullptr};  //< The level that is currently being shown
   int mCurrentlySelectedGameLevelIdx{0};  //< The index of the game level that

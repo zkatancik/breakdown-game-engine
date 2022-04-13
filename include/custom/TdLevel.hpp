@@ -5,8 +5,6 @@
 
 #include "custom/LevelData.hpp"
 
-class Jack;
-
 class TdLevel : public Level {
  public:
   TdLevel(int w, int h, int levelNum)
@@ -27,20 +25,11 @@ class TdLevel : public Level {
   bool isLevelInProgress() const;
 
  private:
-  // An internal pointer to Jack- note, he is still added as a gameobject so
-  // this should generally be used read-only (e.g. to check if game over)
-  std::weak_ptr<Jack> mJack;
-
-  // The number of exits found when loading this level
-  int initialNumExits{0};
-
-  const std::string BACKGROUND_IMAGE = "graveyardtiles/png/BG.jpg";
-
-  int currentLevelNumber{1};
+  int currentLevelNumber{0};
 
   std::shared_ptr<GameObject> createLevelIndicatorObject();
 
-  std::shared_ptr<GameObject> createKeyIndicatorObject();
+  std::shared_ptr<GameObject> createScoreIndicatorObject();
 };
 
 #endif

@@ -36,28 +36,28 @@ void TdLogic::shutDown() {
 void TdLogic::update() {
   mCurrentlyActiveLevel->update();
 
-  // if (isGameActive()) {
-  //   auto currGameLevel =
-  //       std::weak_ptr<TdLevel>(mGameLevels[mCurrentlySelectedGameLevelIdx]);
-  //   if (!currGameLevel.lock()->isLevelInProgress()) {
-  //     if (currGameLevel.lock()->isLevelWon()) {
-  //       initializeLevelClearedMenu();
-  //       mCurrentlyActiveLevel = mLevelClearedMenu;
-  //     } else {
-  //       initializeLevelFailedMenu();
-  //       mCurrentlyActiveLevel = mLevelFailedMenu;
-  //     }
-  //     currGameLevel.lock()->finalize();
-  //   }
-  // }
+  if (isGameActive()) {
+    auto currGameLevel =
+        std::weak_ptr<TdLevel>(mGameLevels[mCurrentlySelectedGameLevelIdx]);
+    if (!currGameLevel.lock()->isLevelInProgress()) {
+      if (currGameLevel.lock()->isLevelWon()) {
+        initializeLevelClearedMenu();
+        mCurrentlyActiveLevel = mLevelClearedMenu;
+      } else {
+        initializeLevelFailedMenu();
+        mCurrentlyActiveLevel = mLevelFailedMenu;
+      }
+      currGameLevel.lock()->finalize();
+    }
+  }
 
   if (InputManager::getInstance().isKeyPressed(SDLK_n)) {
     if (isGameActive()) {
       mGameLevels[mCurrentlySelectedGameLevelIdx]->finalize();
-      mCurrentlySelectedGameLevelIdx =
+      /*mCurrentlySelectedGameLevelIdx =
           mCurrentlySelectedGameLevelIdx == 2
               ? 0
-              : (mCurrentlySelectedGameLevelIdx + 1);
+              : (mCurrentlySelectedGameLevelIdx + 1);*/
       mCurrentlyActiveLevel = mGameLevels[mCurrentlySelectedGameLevelIdx];
       mCurrentlyActiveLevel->initialize();
     }
@@ -77,16 +77,14 @@ void TdLogic::update() {
 }
 
 void TdLogic::loadAllLevels(int width, int height) {
-  // for (unsigned int i = 0; i < mGameLevels.size(); i++) {
-  //   mGameLevels[i] = std::make_shared<TdLevel>(width, height, i + 1);
-  // }
+  mGameLevels[0] = std::make_shared<TdLevel>(width, height, 1);
 }
 
 void TdLogic::createInstructionsLevel(int width, int height) {
   if (mInstructionsMenu != nullptr) return;
   mInstructionsMenu = std::make_shared<Level>(width, height);
 
-  /******************************************************************************************************************/
+//   /******************************************************************************************************************/
 
   auto background =
       std::make_shared<GameObject>(*mInstructionsMenu, 0, 0, width, height, 44);
