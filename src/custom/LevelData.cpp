@@ -31,14 +31,10 @@ void loadLevel(TdLevelData *levelData, int level) {
         continue;
       } else if (lineCounter == 1) {
         levelData->colCount = std::stoi(line);
-
-        // // specify the default value to fill the vector elements
-        // levelData->levelGrid.resize(
-        //     levelData->rowCount,
-        //     std::vector<TdLevelItem>(levelData->colCount,
-        //     TdLevelItem::NONE));
-        // ;
-
+        // Resize and fill with default level items
+        levelData->levelGrid.resize(
+            levelData->rowCount,
+            std::vector<TdLevelItem>(levelData->colCount, TdLevelItem::NONE));
         lineCounter++;
         continue;
       } else if (lineCounter == 2) {
@@ -50,12 +46,11 @@ void loadLevel(TdLevelData *levelData, int level) {
         lineCounter++;
         continue;
       }
+      // Done reading metadata, parse & add level items
 
       levelData->blockSize = Vector2D<int>(std::stoi(x), std::stoi(y));
-
-      // Traverse the string
       colCounter = 0;
-
+      // Traverse the string
       for (auto &ch : line) {
         auto data = TdBlockData();
         if (ch == '.') {
@@ -78,7 +73,7 @@ void loadLevel(TdLevelData *levelData, int level) {
 
     ResourceManager::getInstance().closeFile(resourceFilename);
   } else {
-    std::cout << "Unable to open level file at " << resourceFilename
+    std::cerr << "Unable to open level file at " << resourceFilename
               << std::endl;
   }
 }
