@@ -27,10 +27,11 @@ enum class TdLevelItem {
 
 /**
  * @brief Represents data of a single Block.
- * Can add color and more to be read from level file.
+ * Can get additional granularity (e.g. for rendering) by storing info from the
+ * level file into the various fields.
  */
 struct TdBlockData {
-  TdBlockType block_Type{TdBlockType::Plain};
+  TdBlockType blockType{TdBlockType::Plain};
   std::string blockNumber;
 };
 

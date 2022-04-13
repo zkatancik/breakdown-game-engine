@@ -61,7 +61,12 @@ class TdBlock : public GameObject {
  private:
   void init(int xCoord, int yCoord, TdBlockData bd, Vector2D<int> bs);
 
-  static SDL_Texture *getBlockTexture(TdBlockType type);
+  /**
+   * @brief Helper to get the proper texture for this block.
+   *
+   * @return SDL_Texture* the texture this block should use
+   */
+  SDL_Texture *getBlockTexture();
 
   SDL_Texture *texture_ = nullptr;
   SDL_Rect Dest;

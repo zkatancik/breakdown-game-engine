@@ -41,9 +41,9 @@ void TdLevel::initialize() {
     for (int j = 0; j < blocksPerRow; j++) {
       auto b = levelData.blocks[(i * blocksPerRow) + j];
       std::shared_ptr<GameObject> obj;
-      if (b.block_Type == TdBlockType::Plain) {
+      if (b.blockType == TdBlockType::Plain) {
         obj = std::make_shared<TdBlock>(*this, x, y, b, blockSize);
-      } else if (b.block_Type == TdBlockType::Path) {
+      } else if (b.blockType == TdBlockType::Path) {
         obj = std::make_shared<TdBlock>(*this, x, y, b, blockSize);
       }
       addObject(obj);

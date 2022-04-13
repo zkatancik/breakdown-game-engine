@@ -54,12 +54,13 @@ void loadLevel(TdLevelData *levelData, int level) {
       for (auto &ch : line) {
         auto data = TdBlockData();
         if (ch == '.') {
-          data.block_Type = TdBlockType::Plain;
+          data.blockType = TdBlockType::Plain;
           data.blockNumber = ch;
           levelData->levelGrid[lineCounter - 4][colCounter] =
               TdLevelItem::PLAINBLOCK;
-        } else if (ch == '1') {
-          data.block_Type = TdBlockType::Path;
+        } else if (ch == '1' || ch == '2' || ch == '3' || ch == '4' ||
+                   ch == '5' || ch == '6') {
+          data.blockType = TdBlockType::Path;
           data.blockNumber = ch;
           levelData->levelGrid[lineCounter - 4][colCounter] =
               TdLevelItem::PATHBLOCK;

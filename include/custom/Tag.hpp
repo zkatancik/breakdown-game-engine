@@ -3,5 +3,5 @@
 #include "base/Tag.hpp"
 // const static int GraveRunnerJackTag = hash("GraveRunnerJackTag");
 const static int TdBGTag = hash("TdBackground");
-const static int TdPlainBlockTag = hash("TdPlainBlock");
+const static int TdBlockTag = hash("TdBlock");
 #endif
