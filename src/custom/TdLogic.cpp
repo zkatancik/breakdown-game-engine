@@ -251,7 +251,7 @@ void TdLogic::createStartMenuLevel(int width, int height) {
   textRenderer->setRenderMode(TextureRenderComponent::RenderMode::QUERY);
   title->setRenderComponent(textRenderer);
   auto textComponent = std::make_shared<TextComponent>(
-      *title, "Td", 128, "Graverunner/fonts/GADAQUALI.ttf", textRenderer);
+      *title, "TowerDefense", 128, "Graverunner/fonts/GADAQUALI.ttf", textRenderer);
 
   title->addGenericComponent(std::make_shared<CenterTextComponent>(
       *title, textRenderer, width, height));
