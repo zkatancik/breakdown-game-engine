@@ -27,7 +27,7 @@ class TdBlock : public GameObject {
    * @param bd Blockdata read from LevelData
    * @param bs block size
    */
-  // TdBlock(Level &level, float x, float y, TdBlockData bd, Vector2D<int> bs);
+  TdBlock(Level &level, float x, float y, TdBlockData bd, Vector2D<int> bs);
 
   /**
    * @brief Default destructor, don't forget to call shutdown()
@@ -59,18 +59,13 @@ class TdBlock : public GameObject {
   // inline TdBlockData getBlockData() const { return blockData; };
 
  private:
-  // void init(int xCoord, int yCoord, TdBlockData bd, Vector2D<int> bs);
+  void init(int xCoord, int yCoord, TdBlockData bd, Vector2D<int> bs);
 
-  // static SDL_Texture *getBlockTexture(const std::string &name) {
-  //   return ResourceManager::getInstance().getTexture(
-  //       (std::filesystem::path("Graverunner/graveyardtiles/png/Tiles/") /
-  //        ("Tile" + name + ".png"))
-  //           .string());
-  // }
+  static SDL_Texture *getBlockTexture(TdBlockType type);
 
   SDL_Texture *texture_ = nullptr;
   SDL_Rect Dest;
 
-  // TdBlockData blockData;
+  TdBlockData blockData;
 };
 #endif
