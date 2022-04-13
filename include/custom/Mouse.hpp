@@ -1,9 +1,9 @@
 #ifndef MOUSE_HPP
 #define MOUSE_HPP
 
-#include "base/SDL_DEBUG.hpp"
 #include "base/GameObject.hpp"
 #include "base/ResourceManager.hpp"
+#include "base/SDL_DEBUG.hpp"
 #include "base/Tag.hpp"
 #include "base/TextureRenderComponent.hpp"
 
@@ -12,13 +12,13 @@
  */
 class Mouse : public GameObject {
  public:
-  Mouse(Level& level) : GameObject(level, 1, 1, 35, 61, BaseMouseTag) {
+  Mouse(Level& level) : GameObject(level, 1, 1, 48, 48, BaseMouseTag) {
     auto renderComponent = std::make_shared<TextureRenderComponent>(*this);
-    renderComponent->setTexture(ResourceManager::getInstance().getTexture("Graverunner/mouse/mouse.png"));
+    renderComponent->setTexture(ResourceManager::getInstance().getTexture(
+        "TD2D/Sprites/GUI/Cursors/Cursor.png"));
     setRenderComponent(renderComponent);
     SDL_ShowCursor(false);
   }
-
 
   void update() override {
     int x, y;
