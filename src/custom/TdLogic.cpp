@@ -90,14 +90,17 @@ void TdLogic::createInstructionsLevel(int width, int height) {
 
   auto background =
       std::make_shared<GameObject>(*mInstructionsMenu, 0, 0, width, height, 44);
-  auto bg_renderer = std::make_shared<TextureRenderComponent>(*background);
+  auto bgRenderer = std::make_shared<TextureRenderComponent>(*background);
 
-  bg_renderer->setRenderMode(TextureRenderComponent::RenderMode::WHOLE_WIDTH);
-  background->setRenderComponent(bg_renderer);
-  bg_renderer->setTexture(ResourceManager::getInstance().getTexture(
-      "Graverunner/graveyardtiles/menubg.jpg"));
+  bgRenderer->setRenderMode(TextureRenderComponent::RenderMode::CUSTOM_WIDTH);
+  background->setRenderComponent(bgRenderer);
+  bgRenderer->setCustomH(868);
+  bgRenderer->setCustomW(1480);
+  bgRenderer->setTexture(ResourceManager::getInstance().getTexture(
+      "TD2D/Sprites/GUI/Menu/menubg.jpg"));
 
   mInstructionsMenu->addObject(background);
+
   /******************************************************************************************************************/
 
   // Add Instructions
@@ -107,7 +110,7 @@ void TdLogic::createInstructionsLevel(int width, int height) {
   textRenderer->setRenderMode(TextureRenderComponent::RenderMode::QUERY);
   title->setRenderComponent(textRenderer);
   auto textComponent = std::make_shared<TextComponent>(
-      *title, u8"How to Play", 128, "Graverunner/fonts/GADAQUALI.ttf",
+      *title, u8"How to Play", 128, "TD2D/Fonts/madera-tygra.ttf",
       textRenderer);
   title->addGenericComponent(std::make_shared<CenterTextComponent>(
       *title, textRenderer, width, height));
@@ -122,7 +125,7 @@ void TdLogic::createInstructionsLevel(int width, int height) {
   instruction1->setRenderComponent(textRenderer1);
   auto textComponent1 = std::make_shared<TextComponent>(
       *instruction1, u8"Arrow Keys - Jump, Left and Right", 60,
-      "Graverunner/fonts/GADAQUALI.ttf", textRenderer1);
+      "TD2D/Fonts/madera-tygra.ttf", textRenderer1);
   textRenderer1->setOffSetX(-175);
   textRenderer1->setOffSetY(int(300));
   instruction1->addGenericComponent(textComponent1);
@@ -135,7 +138,7 @@ void TdLogic::createInstructionsLevel(int width, int height) {
   instruction2->setRenderComponent(textRenderer2);
   auto textComponent2 = std::make_shared<TextComponent>(
       *instruction2, u8"Down Arrow - Slide (Can kill enemy while sliding)", 60,
-      "Graverunner/fonts/GADAQUALI.ttf", textRenderer2);
+      "TD2D/Fonts/madera-tygra.ttf", textRenderer2);
   textRenderer2->setOffSetX(-175);
   textRenderer2->setOffSetY(int(400));
   instruction2->addGenericComponent(textComponent2);
@@ -147,7 +150,7 @@ void TdLogic::createInstructionsLevel(int width, int height) {
   textRenderer3->setRenderMode(TextureRenderComponent::RenderMode::QUERY);
   instruction3->setRenderComponent(textRenderer3);
   auto textComponent3 = std::make_shared<TextComponent>(
-      *instruction3, u8"Space - Shoot", 60, "Graverunner/fonts/GADAQUALI.ttf",
+      *instruction3, u8"Space - Shoot", 60, "TD2D/Fonts/madera-tygra.ttf",
       textRenderer3);
   textRenderer3->setOffSetX(-175);
   textRenderer3->setOffSetY(int(500));
@@ -182,12 +185,14 @@ void TdLogic::createChangeLanguageLevel(int width, int height) {
 
   auto background =
       std::make_shared<GameObject>(*mLanguageMenu, 0, 0, width, height, 44);
-  auto bg_renderer = std::make_shared<TextureRenderComponent>(*background);
+  auto bgRenderer = std::make_shared<TextureRenderComponent>(*background);
 
-  bg_renderer->setRenderMode(TextureRenderComponent::RenderMode::WHOLE_WIDTH);
-  background->setRenderComponent(bg_renderer);
-  bg_renderer->setTexture(ResourceManager::getInstance().getTexture(
-      "Graverunner/graveyardtiles/menubg.jpg"));
+  bgRenderer->setRenderMode(TextureRenderComponent::RenderMode::CUSTOM_WIDTH);
+  background->setRenderComponent(bgRenderer);
+  bgRenderer->setCustomH(868);
+  bgRenderer->setCustomW(1480);
+  bgRenderer->setTexture(ResourceManager::getInstance().getTexture(
+      "TD2D/Sprites/GUI/Menu/menubg.jpg"));
 
   mLanguageMenu->addObject(background);
 
@@ -238,12 +243,14 @@ void TdLogic::createStartMenuLevel(int width, int height) {
 
   auto background =
       std::make_shared<GameObject>(*mStartMenu, 0, 0, width, height, 44);
-  auto bg_renderer = std::make_shared<TextureRenderComponent>(*background);
+  auto bgRenderer = std::make_shared<TextureRenderComponent>(*background);
 
-  bg_renderer->setRenderMode(TextureRenderComponent::RenderMode::WHOLE_WIDTH);
-  background->setRenderComponent(bg_renderer);
-  bg_renderer->setTexture(ResourceManager::getInstance().getTexture(
-      "Graverunner/graveyardtiles/menubg.jpg"));
+  bgRenderer->setRenderMode(TextureRenderComponent::RenderMode::CUSTOM_WIDTH);
+  background->setRenderComponent(bgRenderer);
+  bgRenderer->setCustomH(868);
+  bgRenderer->setCustomW(1480);
+  bgRenderer->setTexture(ResourceManager::getInstance().getTexture(
+      "TD2D/Sprites/GUI/Menu/menubg.jpg"));
 
   mStartMenu->addObject(background);
 
@@ -252,8 +259,10 @@ void TdLogic::createStartMenuLevel(int width, int height) {
 
   textRenderer->setRenderMode(TextureRenderComponent::RenderMode::QUERY);
   title->setRenderComponent(textRenderer);
+  std::vector<int> color = {93, 35, 238, 0};
   auto textComponent = std::make_shared<TextComponent>(
-      *title, "Td", 128, "Graverunner/fonts/GADAQUALI.ttf", textRenderer);
+      *title, "Tower Hour", 128, "TD2D/Fonts/madera-tygra.ttf", textRenderer,
+      ENGLISH, color);
 
   title->addGenericComponent(std::make_shared<CenterTextComponent>(
       *title, textRenderer, width, height));
@@ -281,7 +290,7 @@ void TdLogic::createStartMenuLevel(int width, int height) {
 
   // Add the change language button to the start menu
   mStartMenu->addObject(std::make_shared<TdButton>(
-      *mStartMenu, width, height / 2, 784, 295, u8"CHANGE LANGUAGE",
+      *mStartMenu, width, (height / 2) + 50, 784, 295, u8"CHANGE LANGUAGE",
       changeLanguageButtonHook));
 
   /******************************************************************************************************************/
@@ -293,8 +302,8 @@ void TdLogic::createStartMenuLevel(int width, int height) {
 
   // Add the change language button to the start menu
   mStartMenu->addObject(
-      std::make_shared<TdButton>(*mStartMenu, width, height / 2 + 125, 784, 295,
-                                 u8"HOW TO PLAY", instructionsButtonHook));
+      std::make_shared<TdButton>(*mStartMenu, width, (height / 2) + 250, 784,
+                                 295, u8"HOW TO PLAY", instructionsButtonHook));
 
   /******************************************************************************************************************/
 
@@ -337,12 +346,14 @@ void TdLogic::initializeLevelClearedMenu() {
 
   auto background =
       std::make_shared<GameObject>(*mLevelClearedMenu, 0, 0, width, height, 44);
-  auto bg_renderer = std::make_shared<TextureRenderComponent>(*background);
+  auto bgRenderer = std::make_shared<TextureRenderComponent>(*background);
 
-  bg_renderer->setRenderMode(TextureRenderComponent::RenderMode::WHOLE_WIDTH);
-  background->setRenderComponent(bg_renderer);
-  bg_renderer->setTexture(ResourceManager::getInstance().getTexture(
-      "Graverunner/graveyardtiles/menubg.jpg"));
+  bgRenderer->setRenderMode(TextureRenderComponent::RenderMode::CUSTOM_WIDTH);
+  background->setRenderComponent(bgRenderer);
+  bgRenderer->setCustomH(868);
+  bgRenderer->setCustomW(1480);
+  bgRenderer->setTexture(ResourceManager::getInstance().getTexture(
+      "TD2D/Sprites/GUI/Menu/menubg.jpg"));
 
   mLevelClearedMenu->addObject(background);
 
@@ -370,12 +381,14 @@ void TdLogic::initializeLevelFailedMenu() {
 
   auto background =
       std::make_shared<GameObject>(*mLevelFailedMenu, 0, 0, width, height, 44);
-  auto bg_renderer = std::make_shared<TextureRenderComponent>(*background);
+  auto bgRenderer = std::make_shared<TextureRenderComponent>(*background);
 
-  bg_renderer->setRenderMode(TextureRenderComponent::RenderMode::WHOLE_WIDTH);
-  background->setRenderComponent(bg_renderer);
-  bg_renderer->setTexture(ResourceManager::getInstance().getTexture(
-      "Graverunner/graveyardtiles/menubg.jpg"));
+  bgRenderer->setRenderMode(TextureRenderComponent::RenderMode::CUSTOM_WIDTH);
+  background->setRenderComponent(bgRenderer);
+  bgRenderer->setCustomH(868);
+  bgRenderer->setCustomW(1480);
+  bgRenderer->setTexture(ResourceManager::getInstance().getTexture(
+      "TD2D/Sprites/GUI/Menu/menubg.jpg"));
 
   mLevelFailedMenu->addObject(background);
 
