@@ -62,8 +62,11 @@ void TdLevel::initialize() {
         std::shared_ptr<GameObject> placeableObj;
 
         if (placeableBlocks.levelItemType == TdLevelItem::PLACETOWER) {
-          placeableObj = std::make_shared<TdBlock>(*this, x, y, placeableBlocks,
-                                                   blockSize);
+          placeableObj = std::make_shared<TdBlock>(*this, x, y, placeableBlocks, blockSize);
+        } else if (placeableBlocks.levelItemType == TdLevelItem::START) {
+          placeableObj = std::make_shared<TdBlock>(*this, x, y, placeableBlocks, blockSize);
+        } else if (placeableBlocks.levelItemType == TdLevelItem::END) {
+          placeableObj = std::make_shared<TdBlock>(*this, x, y, placeableBlocks, blockSize);
         }
 
         addObject(placeableObj);

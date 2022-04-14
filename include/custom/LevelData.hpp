@@ -27,7 +27,9 @@ enum class TdLevelItem {
   PLAINBLOCK,
   PATHBLOCK,
   PLACETOWER,
-  ROCKTHROWER
+  ROCKTHROWER,
+  START,
+  END
 };
 
 /**
@@ -57,7 +59,9 @@ struct TdLevelData {
   // Holds the towers and other placables blocks.
   std::vector<std::vector<TdBlockData>> placableBlockGrid;
 
-  // std::vector<TdBlockData> blocks;
+  Vector2D<int> startPosition;
+  Vector2D<int> endPosition;
+
   int rowCount;
   int colCount;
   Vector2D<int> blockSize;

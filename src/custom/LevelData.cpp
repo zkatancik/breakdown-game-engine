@@ -104,6 +104,26 @@ void loadLevel(TdLevelData *levelData, int level) {
           towerPlacableData.isTowerPlacable = true;
           towerPlacableData.blockNumber = ch;
 
+        } else if (tmch == 'S') {
+          // Enemy start position
+          data.isTowerPlacable = false;
+          
+          towerPlacableData.levelItemType = TdLevelItem::START;
+          towerPlacableData.isTowerPlacable = false;
+          towerPlacableData.blockNumber = ch;
+
+          levelData->startPosition = Vector2D<int>(colCounter, lineCounter - 4);
+
+        } else if (tmch == 'E') {
+          // Enemy end position
+          data.isTowerPlacable = false;
+          
+          towerPlacableData.levelItemType = TdLevelItem::END;
+          towerPlacableData.isTowerPlacable = false;
+          towerPlacableData.blockNumber = ch;
+
+          levelData->endPosition = Vector2D<int>(colCounter, lineCounter - 4);
+
         }
 
         levelData->levelGrid[lineCounter - 4][colCounter] = data;
