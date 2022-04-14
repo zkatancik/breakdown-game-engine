@@ -71,7 +71,6 @@ void loadLevel(TdLevelData *levelData, int level) {
 
       // Traverse the string
       for (auto idx = 0; idx < line.size() ; idx++) {
-        
         ch = line[idx];
         tmch = towerMapline[idx];
 
@@ -86,6 +85,9 @@ void loadLevel(TdLevelData *levelData, int level) {
                    ch == '5' || ch == '6') {
           data.levelItemType = TdLevelItem::PATHBLOCK;
           data.blockNumber = ch;
+        } else if (ch == 'T') {
+          data.levelItemType = TdLevelItem::ROCKTHROWER;
+          data.blockNumber = ch;
         } else {
           std::cerr << "Error- Failed to parse character \"" << ch
                     << "\" in level file at (" << lineCounter << ","
@@ -95,7 +97,7 @@ void loadLevel(TdLevelData *levelData, int level) {
         // Read Tower Map.
         if (tmch == 'X') {
           data.isTowerPlacable = false;
-          
+
           towerPlacableData.levelItemType = TdLevelItem::NOBLOCK;
           towerPlacableData.isTowerPlacable = false;
           towerPlacableData.blockNumber = ch;
