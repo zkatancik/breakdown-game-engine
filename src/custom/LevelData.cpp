@@ -86,7 +86,10 @@ void loadLevel(TdLevelData *levelData, int level) {
                    ch == '5' || ch == '6') {
           data.levelItemType = TdLevelItem::PATHBLOCK;
           data.blockNumber = ch;
-          
+        } else {
+          std::cerr << "Error- Failed to parse character \"" << ch
+                    << "\" in level file at (" << lineCounter << ","
+                    << colCounter << ")" << std::endl;
         }
 
         // Read Tower Map.
@@ -124,6 +127,10 @@ void loadLevel(TdLevelData *levelData, int level) {
 
           levelData->endPosition = Vector2D<int>(colCounter, lineCounter - 4);
 
+        } else {
+          std::cerr << "Error- Failed to parse character \"" << tmch
+                    << "\" in tower map file at (" << lineCounter << ","
+                    << colCounter << ")" << std::endl;
         }
 
         levelData->levelGrid[lineCounter - 4][colCounter] = data;
@@ -136,8 +143,9 @@ void loadLevel(TdLevelData *levelData, int level) {
     }
 
     ResourceManager::getInstance().closeFile(resourceFilename);
+    ResourceManager::getInstance().closeFile(towerMapFilename);
   } else {
-    std::cerr << "Unable to open level file at " << resourceFilename
-              << std::endl;
+    std::cerr << "Unable to open level file and/or tower map file at "
+              << resourceFilename << " and " << towerMapFilename << std::endl;
   }
 }

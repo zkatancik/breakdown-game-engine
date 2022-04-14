@@ -53,6 +53,9 @@ void TdLevel::initialize() {
           obj = std::make_shared<TdBlock>(*this, x, y, b, blockSize);
         } else if (b.levelItemType == TdLevelItem::PATHBLOCK) {
           obj = std::make_shared<TdBlock>(*this, x, y, b, blockSize);
+        } else {
+          std::cerr << "Error- Failed to add level item from row " << i
+                    << ", col " << j << " in level file" << std::endl;
         }
 
         addObject(obj);
@@ -68,6 +71,9 @@ void TdLevel::initialize() {
           placeableObj = std::make_shared<TdBlock>(*this, x, y, placeableBlocks, blockSize);
         } else if (placeableBlocks.levelItemType == TdLevelItem::END) {
           placeableObj = std::make_shared<TdBlock>(*this, x, y, placeableBlocks, blockSize);
+        } else {
+          std::cerr << "Error- Failed to add level item from row " << i
+                    << ", col " << j << " in tower map file" << std::endl;
         }
 
         addObject(placeableObj);
