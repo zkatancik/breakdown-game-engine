@@ -35,11 +35,18 @@ class TdLevel : public Level {
   int mScreenHeight{0};
   int mScreenWidth{0};
   std::string mSoundPath = "Graverunner/2DPlatformer_SFX/ButtonClick_SFX.wav";
+  TdLevelItem currentlySelected{TdLevelItem::NONE};
+  TdLevelData mLevelData;
 
   void createSidebarControls();
   void createBottomBarControls();
+  void createGrid();
   std::shared_ptr<GameObject> createLevelIndicatorObject();
   std::shared_ptr<GameObject> createScoreIndicatorObject();
+  std::string getTdBlockPath(TdLevelItem item);
+
+  std::vector<TdLevelItem> itemVector = {TdLevelItem::PLACETOWER,
+                                         TdLevelItem::ROCKTHROWER};
 };
 
 #endif

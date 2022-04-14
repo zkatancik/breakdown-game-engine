@@ -8,8 +8,8 @@
 
 /**
  * @brief The types of blocks possible.
- * 
- * - USE TdLevelItem instead. The enum is confusing and 
+ *
+ * - USE TdLevelItem instead. The enum is confusing and
  * a repetition of whatever in TdLevelItem.
  */
 // enum class TdBlockType {
@@ -26,7 +26,8 @@ enum class TdLevelItem {
   NOBLOCK,
   PLAINBLOCK,
   PATHBLOCK,
-  PLACETOWER
+  PLACETOWER,
+  ROCKTHROWER
 };
 
 /**
@@ -56,7 +57,7 @@ struct TdLevelData {
   // Holds the towers and other placables blocks.
   std::vector<std::vector<TdBlockData>> placableBlockGrid;
 
-  //std::vector<TdBlockData> blocks;
+  // std::vector<TdBlockData> blocks;
   int rowCount;
   int colCount;
   Vector2D<int> blockSize;

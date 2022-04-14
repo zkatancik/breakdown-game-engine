@@ -3,19 +3,20 @@
 #include <box2d/b2_body.h>
 
 #include "base/GameVariableComponent.hpp"
+#include "base/GridObject.hpp"
 #include "base/PerformHookOnCollideComponent.hpp"
 #include "custom/LevelData.hpp"
+#include "custom/LevelEditButton.hpp"
 #include "custom/Mouse.hpp"
 #include "custom/Tag.hpp"
 #include "custom/TdBlock.hpp"
 
 void TdLevel::initialize() {
-  TdLevelData levelData;
-  loadLevel(&levelData, currentLevelNumber);
+  loadLevel(&mLevelData, currentLevelNumber);
 
-  int rowsOfBlocks = levelData.rowCount;
-  int blocksPerRow = levelData.colCount;
-  Vector2D<int> blockSize = levelData.blockSize;
+  int rowsOfBlocks = mLevelData.rowCount;
+  int blocksPerRow = mLevelData.colCount;
+  Vector2D<int> blockSize = mLevelData.blockSize;
 
   // Create indicators
   auto keysIndicator = createScoreIndicatorObject();
@@ -40,8 +41,8 @@ void TdLevel::initialize() {
   for (int i = 0; i < rowsOfBlocks; i++) {
     int x = 0;
     for (int j = 0; j < blocksPerRow; j++) {
-      auto b = levelData.levelGrid[i][j];
-      auto placeableBlocks = levelData.placableBlockGrid[i][j];
+      auto b = mLevelData.levelGrid[i][j];
+      auto placeableBlocks = mLevelData.placableBlockGrid[i][j];
 
       // Level File.
       if (b.levelItemType != TdLevelItem::NOBLOCK) {
@@ -76,6 +77,7 @@ void TdLevel::initialize() {
 
   createSidebarControls();
   createBottomBarControls();
+  createGrid();
   addObject(std::make_shared<Mouse>(*this));
 }
 
@@ -103,6 +105,38 @@ void TdLevel::createSidebarControls() {
       "TD2D/Sprites/GUI/Menu/sidebar.png"));
 
   addObject(toolbarBackground);
+
+  auto changeToErase = [&] { currentlySelected = TdLevelItem::PLACETOWER; };
+
+  auto eraseButton = std::make_shared<LevelEditButton>(
+      *this, (mScreenWidth - xOffset) + 109, 35, 74, 74, 5, 5,
+      "2DBreakout/Graphics/"
+      "erase.png",
+      mSoundPath, changeToErase);
+
+  addObject(eraseButton);
+
+  int x = (mScreenWidth - xOffset) + 20;
+  int y = 193;
+  int count = 0;
+
+  for (const auto& item : itemVector) {
+    auto lambda = [&] {
+      currentlySelected = item;
+      // mGridRenderComponent.setCurrentlySelectedPath(pair.second);
+    };
+    auto button = std::make_shared<LevelEditButton>(*this, x, y, 74, 74, 5.f,
+                                                    5.f, getTdBlockPath(item),
+                                                    mSoundPath, lambda, true);
+    addObject(button);
+    x = x + 89;
+    count++;
+    if (count == 2) {
+      y = y + 79;
+      x = (mScreenWidth - xOffset) + 20;
+      count = 0;
+    }
+  }
 }
 
 void TdLevel::createBottomBarControls() {
@@ -119,6 +153,20 @@ void TdLevel::createBottomBarControls() {
       "TD2D/Sprites/GUI/Menu/bottombar.png"));
 
   addObject(toolbarBackground);
+}
+
+void TdLevel::createGrid() {
+  auto gridCallback = [&, mLevelData = &mLevelData](int i, int j) {
+    if (currentlySelected != TdLevelItem::NONE) {
+      Mix_PlayChannel(1, ResourceManager::getInstance().getChunk(mSoundPath),
+                      0);
+      // updateCurrentLevel(mLevelData, Vector2D<int>(i, j), currentlySelected);
+    }
+  };
+
+  auto levelGrid = std::make_shared<GridObject>(*this, xOffset, 0, 20, 20, 64,
+                                                64, gridCallback);
+  addObject(levelGrid);
 }
 
 std::shared_ptr<GameObject> TdLevel::createLevelIndicatorObject() {
@@ -162,4 +210,21 @@ std::shared_ptr<GameObject> TdLevel::createScoreIndicatorObject() {
             std::to_string(gameVariableComponentWeak.lock()->getVariable()));
       });
   return scoreIndicator;
+}
+
+std::string TdLevel::getTdBlockPath(TdLevelItem item) {
+  switch (item) {
+    case TdLevelItem::NONE:
+      return "";
+    case TdLevelItem::NOBLOCK:
+      return "";
+    case TdLevelItem::PLACETOWER:
+      return "TD2D/Sprites/Towers/BuildingPlace.png";
+    case TdLevelItem::ROCKTHROWER:
+      return "TD2D/Sprites/Towers/cpix_towers/3.png";
+    default:
+      std::cerr << "Failed to get Graverunner block path for item "
+                << static_cast<int>(item) << std::endl;
+      return "";
+  }
 }
