@@ -81,10 +81,10 @@ void TdLevel::initialize() {
 
   // Place Enemies end points
   std::shared_ptr<NonHostileEnemy> enemy =
-      std::make_shared<NonHostileEnemy>(*this, blockSize.x * levelData.startPosition.x,
-                      blockSize.y * levelData.startPosition.y,
+      std::make_shared<NonHostileEnemy>(*this, blockSize.x * mLevelData.startPosition.x,
+                      blockSize.y * mLevelData.startPosition.y,
                       blockSize.x, blockSize.y, "1/1_enemies_1_run_", TdLevelItem::SCORPIONS,
-                      levelData.endPosition);
+                      mLevelData.endPosition);
   addObject(enemy);
 
   createSidebarControls();
