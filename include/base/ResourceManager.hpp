@@ -320,7 +320,7 @@ class ResourceManager {
       {u8"GraveRunner", {{Language::SPANISH, u8"GraveRunner"}}},
       {u8"Select Game:", {{Language::SPANISH, u8"Elegir Juego:"}}},
       {u8"Keys Collected: ", {{Language::SPANISH, u8"Teclas recogidas: "}}},
-      {u8"TowerDefense", {{Language::SPANISH, u8"TowerDefense"}}},
+      {u8"Tower Hour", {{Language::SPANISH, u8"Tower Hour"}}},
   };
 };
 #endif
