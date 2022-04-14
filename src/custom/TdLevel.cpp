@@ -7,6 +7,7 @@
 #include "custom/LevelData.hpp"
 #include "custom/Tag.hpp"
 #include "custom/TdBlock.hpp"
+#include "custom/NonHostileEnemy.hpp"
 
 void TdLevel::initialize() {
   TdLevelData levelData;
@@ -76,6 +77,15 @@ void TdLevel::initialize() {
     count++;
     y = y + blockSize.y;
   }
+
+  // Place Enemies end points
+  std::shared_ptr<NonHostileEnemy> enemy =
+      std::make_shared<NonHostileEnemy>(*this, blockSize.x * levelData.startPosition.x,
+                      blockSize.y * levelData.startPosition.y,
+                      blockSize.x, blockSize.y, "1/1_enemies_1_run_", TdLevelItem::SCORPIONS,
+                      levelData.endPosition);
+  addObject(enemy);
+
 }
 
 bool TdLevel::isLevelWon() const {
