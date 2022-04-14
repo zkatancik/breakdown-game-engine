@@ -5,6 +5,7 @@
 #include "base/GameVariableComponent.hpp"
 #include "base/PerformHookOnCollideComponent.hpp"
 #include "custom/LevelData.hpp"
+#include "custom/Mouse.hpp"
 #include "custom/Tag.hpp"
 #include "custom/TdBlock.hpp"
 
@@ -30,7 +31,7 @@ void TdLevel::initialize() {
   bg_renderer->setRenderMode(TextureRenderComponent::RenderMode::WHOLE_WIDTH);
   background->setRenderComponent(bg_renderer);
   bg_renderer->setTexture(ResourceManager::getInstance().getTexture(
-       "TD2D/Sprites/Maps/Backgrounds/TileMap1.png"));
+      "TD2D/Sprites/Maps/Backgrounds/TileMap1.png"));
   addObject(background);
 
   // Place the game tiles
@@ -39,7 +40,6 @@ void TdLevel::initialize() {
   for (int i = 0; i < rowsOfBlocks; i++) {
     int x = 0;
     for (int j = 0; j < blocksPerRow; j++) {
-      
       auto b = levelData.levelGrid[i][j];
       auto placeableBlocks = levelData.placableBlockGrid[i][j];
 
@@ -61,7 +61,8 @@ void TdLevel::initialize() {
         std::shared_ptr<GameObject> placeableObj;
 
         if (placeableBlocks.levelItemType == TdLevelItem::PLACETOWER) {
-          placeableObj = std::make_shared<TdBlock>(*this, x, y, placeableBlocks, blockSize);
+          placeableObj = std::make_shared<TdBlock>(*this, x, y, placeableBlocks,
+                                                   blockSize);
         }
 
         addObject(placeableObj);
@@ -72,23 +73,58 @@ void TdLevel::initialize() {
     count++;
     y = y + blockSize.y;
   }
+
+  createSidebarControls();
+  createBottomBarControls();
+  addObject(std::make_shared<Mouse>(*this));
 }
 
 bool TdLevel::isLevelWon() const {
-  //TODO- add real win condition
+  // TODO- add real win condition
   return false;
 }
 
 bool TdLevel::isLevelInProgress() const {
-  //TODO- add real inprogress condition
+  // TODO- add real inprogress condition
   return true;
+}
+
+void TdLevel::createSidebarControls() {
+  auto toolbarBackground =
+      std::make_shared<GameObject>(*this, mScreenWidth - xOffset, 0, xOffset,
+                                   mScreenHeight, hash("ToolbarTag"));
+  auto backgroundRenderer =
+      std::make_shared<TextureRenderComponent>(*toolbarBackground);
+
+  backgroundRenderer->setRenderMode(
+      TextureRenderComponent::RenderMode::WHOLE_WIDTH);
+  toolbarBackground->setRenderComponent(backgroundRenderer);
+  backgroundRenderer->setTexture(ResourceManager::getInstance().getTexture(
+      "TD2D/Sprites/GUI/Menu/sidebar.png"));
+
+  addObject(toolbarBackground);
+}
+
+void TdLevel::createBottomBarControls() {
+  auto toolbarBackground = std::make_shared<GameObject>(
+      *this, 0, mScreenHeight - yOffset, mScreenWidth - xOffset, yOffset,
+      hash("ToolbarTag"));
+  auto backgroundRenderer =
+      std::make_shared<TextureRenderComponent>(*toolbarBackground);
+
+  backgroundRenderer->setRenderMode(
+      TextureRenderComponent::RenderMode::WHOLE_WIDTH);
+  toolbarBackground->setRenderComponent(backgroundRenderer);
+  backgroundRenderer->setTexture(ResourceManager::getInstance().getTexture(
+      "TD2D/Sprites/GUI/Menu/bottombar.png"));
+
+  addObject(toolbarBackground);
 }
 
 std::shared_ptr<GameObject> TdLevel::createLevelIndicatorObject() {
   auto levelIndicator =
       std::make_shared<GameObject>(*this, 10, 10, 50, 50, BaseTextTag);
-  auto textRenderer =
-  std::make_shared<TextureRenderComponent>(*levelIndicator);
+  auto textRenderer = std::make_shared<TextureRenderComponent>(*levelIndicator);
 
   textRenderer->setRenderMode(TextureRenderComponent::RenderMode::QUERY);
   levelIndicator->setRenderComponent(textRenderer);
@@ -108,7 +144,7 @@ std::shared_ptr<GameObject> TdLevel::createScoreIndicatorObject() {
   textRenderer->setRenderMode(TextureRenderComponent::RenderMode::QUERY);
   scoreIndicator->setRenderComponent(textRenderer);
   std::string levelMessage = "Score: 0";
-  //TODO- use a font from TD2D (and/or move one from another game)
+  // TODO- use a font from TD2D (and/or move one from another game)
   auto textComponent = std::make_shared<TextComponent>(
       *scoreIndicator, levelMessage, 32, "Graverunner/fonts/GADAQUALI.ttf",
       textRenderer);
