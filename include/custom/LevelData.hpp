@@ -8,8 +8,8 @@
 
 /**
  * @brief The types of blocks possible.
- * 
- * - USE TdLevelItem instead. The enum is confusing and 
+ *
+ * - USE TdLevelItem instead. The enum is confusing and
  * a repetition of whatever in TdLevelItem.
  */
 // enum class TdBlockType {
@@ -27,8 +27,9 @@ enum class TdLevelItem {
   PLAINBLOCK,
   PATHBLOCK,
   PLACETOWER,
+  ROCKTHROWER,
   START,
-  END,
+  END
 };
 
 /**

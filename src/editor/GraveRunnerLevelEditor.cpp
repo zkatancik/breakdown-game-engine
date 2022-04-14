@@ -52,14 +52,13 @@ void GraveRunnerLevelEditor::initialize() {
     }
 
     // Grid component here
-
     auto gridCallback = [&, mLevelData = &mLevelData](int i, int j) {
       if (currentlySelected != GraveRunnerLevelItem::NONE) {
         Mix_PlayChannel(1, ResourceManager::getInstance().getChunk(mSoundPath),
                         0);
         updateCurrentLevel(mLevelData, Vector2D<int>(i, j), currentlySelected);
         refreshLevelEditor();
-        //currentlySelected = GraveRunnerLevelItem::NONE;
+        // currentlySelected = GraveRunnerLevelItem::NONE;
       }
     };
 
@@ -110,13 +109,13 @@ void GraveRunnerLevelEditor::refreshLevelEditor() {
   for (const auto& gameObject : getGameObjects()) {
     // Remove any blocks remaining previously
     if (gameObject->tag() == GraveRunnerLevelBoundaryTag ||
-    gameObject->tag() == GraveRunnerBulletTag ||
-    gameObject->tag() == GraveRunnerJackTag ||
-    gameObject->tag() == GraveRunnerZombieTag ||
-    gameObject->tag() == GraveRunnerExitTag ||
-    gameObject->tag() == GraveRunnerKeyTag ||
-    gameObject->tag() == GraveRunnerNormalBlockTag ||
-    gameObject->tag() == BaseTextTag)
+        gameObject->tag() == GraveRunnerBulletTag ||
+        gameObject->tag() == GraveRunnerJackTag ||
+        gameObject->tag() == GraveRunnerZombieTag ||
+        gameObject->tag() == GraveRunnerExitTag ||
+        gameObject->tag() == GraveRunnerKeyTag ||
+        gameObject->tag() == GraveRunnerNormalBlockTag ||
+        gameObject->tag() == BaseTextTag)
       removeObject(gameObject);
   }
   GraveRunnerLevel::initialize();
@@ -125,15 +124,14 @@ void GraveRunnerLevelEditor::refreshLevelEditor() {
     // Remove any text components (lives, level, score, etc) + Ball + Paddle +
     // Boundaries
     if (gameObject->tag() == GraveRunnerLevelBoundaryTag ||
-    gameObject->tag() == GraveRunnerBulletTag ||
-    gameObject->tag() == GraveRunnerJackTag ||
-    gameObject->tag() == GraveRunnerZombieTag ||
-    gameObject->tag() == GraveRunnerExitTag ||
-    gameObject->tag() == GraveRunnerKeyTag ||
-    gameObject->tag() == GraveRunnerNormalBlockTag ||
-    gameObject->tag() == BaseTextTag ||
-    gameObject->tag() == GraveRunnerBGTag
-    )
+        gameObject->tag() == GraveRunnerBulletTag ||
+        gameObject->tag() == GraveRunnerJackTag ||
+        gameObject->tag() == GraveRunnerZombieTag ||
+        gameObject->tag() == GraveRunnerExitTag ||
+        gameObject->tag() == GraveRunnerKeyTag ||
+        gameObject->tag() == GraveRunnerNormalBlockTag ||
+        gameObject->tag() == BaseTextTag ||
+        gameObject->tag() == GraveRunnerBGTag)
       // Add an x-offset to make space for buttons
       gameObject->setX(gameObject->x() + float(xOffset));
   }
