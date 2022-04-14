@@ -43,6 +43,14 @@ SDL_Texture* TdBlock::getBlockTexture() {
       filename = "BuildingPlace.png";
       return ResourceManager::getInstance().getTexture(
         (std::filesystem::path("TD2D/Sprites/Towers/") / filename).string());
+    case TdLevelItem::START:
+      filename = "SpawnPointGizmo.png";
+      return ResourceManager::getInstance().getTexture(
+        (std::filesystem::path("TD2D/Sprites/Gizmos/") / filename).string());
+    case TdLevelItem::END:
+      filename = "CapturePointGizmo.png";
+      return ResourceManager::getInstance().getTexture(
+        (std::filesystem::path("TD2D/Sprites/Gizmos/") / filename).string());
     default:
       std::cerr << "Error- getBlockTexture of unsupported block type!"
                 << std::endl;
