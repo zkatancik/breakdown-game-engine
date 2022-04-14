@@ -1,6 +1,7 @@
 #ifndef TD_HPP
 #define TD_HPP
-#include <base/GridRenderComponent.hpp>
+#include <base/GridObject.hpp>
+#include <base/GridRenderPreviewComponent.hpp>
 #include <base/Level.hpp>
 
 #include "custom/LevelData.hpp"
@@ -34,9 +35,11 @@ class TdLevel : public Level {
   int currentLevelNumber{0};
   int mScreenHeight{0};
   int mScreenWidth{0};
+
   std::string mSoundPath = "Graverunner/2DPlatformer_SFX/ButtonClick_SFX.wav";
   TdLevelItem currentlySelected{TdLevelItem::NONE};
   TdLevelData mLevelData;
+  std::shared_ptr<GridObject> mGridObject;
 
   void createSidebarControls();
   void createBottomBarControls();
