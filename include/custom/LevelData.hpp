@@ -8,11 +8,14 @@
 
 /**
  * @brief The types of blocks possible.
+ * 
+ * - USE TdLevelItem instead. The enum is confusing and 
+ * a repetition of whatever in TdLevelItem.
  */
-enum class TdBlockType {
-  Plain = 0,
-  Path
-};
+// enum class TdBlockType {
+//   Plain = 0,
+//   Path
+// };
 
 /**
  * @brief The types of items present in a level.
@@ -22,7 +25,8 @@ enum class TdLevelItem {
   NONE,
   NOBLOCK,
   PLAINBLOCK,
-  PATHBLOCK
+  PATHBLOCK,
+  PLACETOWER
 };
 
 /**
@@ -31,8 +35,10 @@ enum class TdLevelItem {
  * level file into the various fields.
  */
 struct TdBlockData {
-  TdBlockType blockType{TdBlockType::Plain};
+  TdLevelItem levelItemType{TdLevelItem::NONE};
   std::string blockNumber;
+  // If X then false, if O then true.
+  bool isTowerPlacable;
 };
 
 /**
@@ -43,9 +49,14 @@ struct TdBlockData {
 struct TdLevelData {
   int levelNumber{0};
 
-  std::vector<std::vector<TdLevelItem>> levelGrid;
+  // Takes care of the BG tiles.
+  std::vector<std::vector<TdBlockData>> levelGrid;
 
-  std::vector<TdBlockData> blocks;
+  // Will be modified in runtime.
+  // Holds the towers and other placables blocks.
+  std::vector<std::vector<TdBlockData>> placableBlockGrid;
+
+  //std::vector<TdBlockData> blocks;
   int rowCount;
   int colCount;
   Vector2D<int> blockSize;

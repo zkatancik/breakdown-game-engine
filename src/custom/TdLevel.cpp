@@ -39,14 +39,34 @@ void TdLevel::initialize() {
   for (int i = 0; i < rowsOfBlocks; i++) {
     int x = 0;
     for (int j = 0; j < blocksPerRow; j++) {
-      auto b = levelData.blocks[(i * blocksPerRow) + j];
-      std::shared_ptr<GameObject> obj;
-      if (b.blockType == TdBlockType::Plain) {
-        obj = std::make_shared<TdBlock>(*this, x, y, b, blockSize);
-      } else if (b.blockType == TdBlockType::Path) {
-        obj = std::make_shared<TdBlock>(*this, x, y, b, blockSize);
+      
+      auto b = levelData.levelGrid[i][j];
+      auto placeableBlocks = levelData.placableBlockGrid[i][j];
+
+      // Level File.
+      if (b.levelItemType != TdLevelItem::NOBLOCK) {
+        std::shared_ptr<GameObject> obj;
+
+        if (b.levelItemType == TdLevelItem::PLAINBLOCK) {
+          obj = std::make_shared<TdBlock>(*this, x, y, b, blockSize);
+        } else if (b.levelItemType == TdLevelItem::PATHBLOCK) {
+          obj = std::make_shared<TdBlock>(*this, x, y, b, blockSize);
+        }
+
+        addObject(obj);
       }
-      addObject(obj);
+
+      // Tower Map items (Placeablegrid).
+      if (placeableBlocks.levelItemType != TdLevelItem::NOBLOCK) {
+        std::shared_ptr<GameObject> placeableObj;
+
+        if (placeableBlocks.levelItemType == TdLevelItem::PLACETOWER) {
+          placeableObj = std::make_shared<TdBlock>(*this, x, y, placeableBlocks, blockSize);
+        }
+
+        addObject(placeableObj);
+      }
+
       x = x + blockSize.x;
     }
     count++;

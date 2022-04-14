@@ -30,18 +30,22 @@ void TdBlock::init(int xCoord, int yCoord, TdBlockData bd, Vector2D<int> bs) {
 
 SDL_Texture* TdBlock::getBlockTexture() {
   std::string filename = "";
-  switch (blockData.blockType) {
-    case TdBlockType::Plain:
+  switch (blockData.levelItemType) {
+    case TdLevelItem::PLAINBLOCK:
       filename = "Empty.png";
-      break;
-    case TdBlockType::Path:
+      return ResourceManager::getInstance().getTexture(
+        (std::filesystem::path("TD2D/Sprites/Tiles/") / filename).string());
+    case TdLevelItem::PATHBLOCK:
       filename = "Road" + blockData.blockNumber + ".png";
-      break;
+      return ResourceManager::getInstance().getTexture(
+        (std::filesystem::path("TD2D/Sprites/Tiles/") / filename).string());
+    case TdLevelItem::PLACETOWER:
+      filename = "BuildingPlace.png";
+      return ResourceManager::getInstance().getTexture(
+        (std::filesystem::path("TD2D/Sprites/Towers/") / filename).string());
     default:
       std::cerr << "Error- getBlockTexture of unsupported block type!"
                 << std::endl;
       return nullptr;
   }
-  return ResourceManager::getInstance().getTexture(
-      (std::filesystem::path("TD2D/Sprites/Tiles/") / filename).string());
 }
