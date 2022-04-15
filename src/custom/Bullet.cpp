@@ -21,7 +21,7 @@ Bullet::Bullet(Level& level, float x, float y, float w, float h, float vx,
   setPhysicsComponent(std::make_shared<PhysicsComponent>(
       *this, b2BodyType::b2_dynamicBody, false));
   addGenericComponent(
-      std::make_shared<JmpConstantVelocityComponent>(*this, vx, vy));
+      std::make_shared<ConstantVelocityComponent>(*this, vx, vy));
 }
 
 void Bullet::update() { GameObject::update(); }

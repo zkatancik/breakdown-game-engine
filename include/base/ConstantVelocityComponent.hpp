@@ -9,9 +9,9 @@
 
 //! \brief Component for keeping the GameObject's velocity constant across
 //! frames
-class JmpConstantVelocityComponent : public GenericComponent {
+class ConstantVelocityComponent : public GenericComponent {
  public:
-  JmpConstantVelocityComponent(GameObject &gameObject, float Vx, float Vy)
+  ConstantVelocityComponent(GameObject &gameObject, float Vx, float Vy)
       : GenericComponent(gameObject), mVx(Vx), mVy(Vy) {}
 
   void update(Level &level) override {
