@@ -4,6 +4,7 @@
 #include <cmath>
 #include <utility>
 #include <vector>
+#include <algorithm>
 
 #include "base/GenericComponent.hpp"
 #include "base/TinyMath.hpp"
@@ -11,14 +12,21 @@
 //! \brief A component that causes its game object to patrol back and forth.
 class MoveTowardsComponent : public GenericComponent {
  public:
-  MoveTowardsComponent(GameObject& gameObject, Vector2D<int> targetPosition, float speed);
+  MoveTowardsComponent(GameObject& gameObject, std::vector<std::vector<bool>> pathGrid,
+    Vector2D<int> targetPosition, float speed);
 
   virtual void update(Level& level);
 
   bool GetDirection();
 
  private:
+  
+  bool InBounds(int x, int y);
+
+  std::vector<std::vector<bool>> pathGrid;
   Vector2D<int> targetPosition;
+  std::vector<Vector2D<int>> prevGridPositions;
+  Vector2D<int> nextGridPosition;
   size_t currIter;
   float speed;
 };
