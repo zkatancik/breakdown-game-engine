@@ -3,14 +3,15 @@
 #include <box2d/b2_body.h>
 
 #include "base/RemoveOnCollideComponent.hpp"
+#include "base/PerformHookOnCollideComponent.hpp"
 #include "base/ResourceManager.hpp"
 #include "base/TextureRenderComponent.hpp"
 
 using namespace std;
 
 TdBlock::TdBlock(Level& level, float x, float y, TdBlockData bd,
-                 Vector2D<int> bs)
-    : GameObject(level, x, y, bs.x, bs.y, TdBlockTag) {
+                 Vector2D<int> bs, int tag)
+    : GameObject(level, x, y, bs.x, bs.y, tag) {
   init(x, y, bd, bs);
 }
 
@@ -26,6 +27,14 @@ void TdBlock::init(int xCoord, int yCoord, TdBlockData bd, Vector2D<int> bs) {
   auto render = std::make_shared<TextureRenderComponent>(*this);
   render->setTexture(texture_);
   setRenderComponent(render);
+
+  if (blockData.levelItemType == TdLevelItem::END) {
+    std::cerr << "adding hooks" << std::endl;
+    addGenericComponent(std::make_shared<PerformHookOnCollideComponent>(
+        *this, TdEnemyTag, [&](Level&, const std::shared_ptr<GameObject>&) {
+          std::cerr << "killed enemy!" << std::endl;
+        }));
+    }
 }
 
 SDL_Texture* TdBlock::getBlockTexture() {

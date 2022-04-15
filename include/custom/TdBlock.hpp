@@ -26,8 +26,10 @@ class TdBlock : public GameObject {
    * @param y the location of the Block to render's y screen position in pixels
    * @param bd Blockdata read from LevelData
    * @param bs block size
+   * @param tag override default block tag with this one
    */
-  TdBlock(Level &level, float x, float y, TdBlockData bd, Vector2D<int> bs);
+  TdBlock(Level &level, float x, float y, TdBlockData bd, Vector2D<int> bs,
+          int tag = TdBlockTag);
 
   /**
    * @brief Default destructor, don't forget to call shutdown()

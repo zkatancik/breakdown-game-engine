@@ -76,7 +76,7 @@ void TdLevel::initialize() {
                                                    blockSize);
         } else if (placeableBlocks.levelItemType == TdLevelItem::END) {
           placeableObj = std::make_shared<TdBlock>(*this, x, y, placeableBlocks,
-                                                   blockSize);
+                                                   blockSize, TdEndBlockTag);
         } else {
           std::cerr << "Error- Failed to add level item from row " << i
                     << ", col " << j << " in tower map file" << std::endl;
