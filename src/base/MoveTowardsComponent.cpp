@@ -21,29 +21,8 @@ MoveTowardsComponent::update(Level & level)
   float xCurr = gameObject.x() + 32;
   float yCurr = gameObject.y() + 32;
 
-  // TdLevelItem::PATHBLOCK
-  // std::cout << "Path Grid -> Move Towards Grid:\n";
-  // for (size_t i = 0; i < pathGrid.size(); i++)
-  // {
-  //   for (size_t j = 0; j < pathGrid[0].size(); j++)
-  //   {
-  //       std::cout << std::to_string(pathGrid[i][j]) << " ";
-  //   }
-  //   std::cout << "\n";
-  // }
-  
-  // std::cout << "xyCurr:(" << std::to_string(xCurr) 
-  //   << ","
-  //   << std::to_string(yCurr)
-  //   << ")" << "\n";
-
   int xCurrOnGrid = round(yCurr) / 64; 
   int yCurrOnGrid = round(xCurr) / 64;
-
-  // std::cout << "xyCurrOnGrid:(" << std::to_string(xCurrOnGrid) 
-  //   << ","
-  //   << std::to_string(yCurrOnGrid)
-  //   << ")" << "\n";
 
   // Cue Path planning.
   if ((prevGridPositions.size() == 0) 
@@ -78,49 +57,24 @@ MoveTowardsComponent::update(Level & level)
       nextGridPosition.y = yCurrOnGrid;
     }
   }
-  // std::cout << "To go xyCurrOnGrid:(" << std::to_string(nextGridPosition.x) 
-  //   << ","
-  //   << std::to_string(nextGridPosition.y)
-  //   << ")" << "\n";
-
   int x2F = (nextGridPosition.y * 64) + 32;
   int y2F = (nextGridPosition.x * 64) + 32;
-
-  // std::cout << "To go xyCurr:(" << std::to_string(x2F) 
-  //   << ","
-  //   << std::to_string(y2F)
-  //   << ")" << "\n";
 
   float deltaX = x2F - xCurr;
   float deltaY = y2F - yCurr;
   pc->setVx(speed * (deltaX / (std::sqrt(deltaX * deltaX + deltaY * deltaY))));
   pc->setVy(speed * (deltaY / (std::sqrt(deltaX * deltaX + deltaY * deltaY))));
 
-  // std::cout << "Bef prev:(" << std::to_string(prevGridPosition.x) 
-  //   << ","
-  //   << std::to_string(prevGridPosition.y)
-  //   << ")" << "\n";
-
   if (!(std::find(prevGridPositions.begin(), prevGridPositions.end(), Vector2D<int>((xCurrOnGrid), yCurrOnGrid)) != prevGridPositions.end()))
   {
     prevGridPositions.push_back(Vector2D<int>(xCurrOnGrid, yCurrOnGrid));
   }
-  
-  // std::cout << "After prev:(" << std::to_string(prevGridPosition.x) 
-  //   << ","
-  //   << std::to_string(prevGridPosition.y)
-  //   << ")" << "\n";
-
-  // if (std::abs(xCurr - x2) < speed / 60. && std::abs(yCurr - y2) < speed / 60.) {
-  //   currIter = currIter != Xs.size() - 1 ? currIter + 1 : 0;
-  // }
 }
 
 bool MoveTowardsComponent::GetDirection() {
   GameObject & gameObject = getGameObject();
   std::shared_ptr<PhysicsComponent> pc = gameObject.physicsComponent();
   return pc->vx() > 0;
-  //return true;
 }
 
 bool MoveTowardsComponent::InBounds(int x, int y) {
