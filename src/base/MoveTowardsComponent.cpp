@@ -3,10 +3,11 @@
 #include <cmath>
 
 MoveTowardsComponent::MoveTowardsComponent(GameObject & gameObject, std::vector<std::vector<bool>> pg,
-   Vector2D<int> tp, float speed):
+   Vector2D<int> tp, Vector2D<int> bs, float speed):
   GenericComponent(gameObject),
   pathGrid(pg),
   targetPosition(tp),
+  blockSize(bs),
   currIter(0),
   speed(speed)
 {
@@ -18,17 +19,17 @@ MoveTowardsComponent::update(Level & level)
 {
   GameObject & gameObject = getGameObject();
   std::shared_ptr<PhysicsComponent> pc = gameObject.physicsComponent();
-  float xCurr = gameObject.x() + 32;
-  float yCurr = gameObject.y() + 32;
+  float xCurr = gameObject.x() + (blockSize.x / 2);
+  float yCurr = gameObject.y() + (blockSize.y / 2);
 
-  int xCurrOnGrid = round(yCurr) / 64; 
-  int yCurrOnGrid = round(xCurr) / 64;
+  int xCurrOnGrid = round(yCurr) / blockSize.x; 
+  int yCurrOnGrid = round(xCurr) / blockSize.y;
 
   // Cue Path planning.
   if ((prevGridPositions.size() == 0) 
-      || (((nextGridPosition.y * 64) + 32 - 1.5 <= xCurr && xCurr <= (nextGridPosition.y * 64) + 32 + 1.5) 
+      || (((nextGridPosition.y * blockSize.x) + (blockSize.x / 2) - epsilon <= xCurr && xCurr <= (nextGridPosition.y * blockSize.x) + (blockSize.x / 2) + epsilon) 
           && 
-          ((nextGridPosition.x * 64) + 32 - 1.5 <= yCurr && yCurr <= (nextGridPosition.x * 64) + 32 + 1.5)))
+          ((nextGridPosition.x * blockSize.y) + (blockSize.y / 2) - epsilon <= yCurr && yCurr <= (nextGridPosition.x * blockSize.y) + (blockSize.y / 2) + epsilon)))
   {
     if (InBounds(xCurrOnGrid,yCurrOnGrid + 1)
       && !(std::find(prevGridPositions.begin(), prevGridPositions.end(), Vector2D<int>(xCurrOnGrid, (yCurrOnGrid + 1))) != prevGridPositions.end())
@@ -57,8 +58,8 @@ MoveTowardsComponent::update(Level & level)
       nextGridPosition.y = yCurrOnGrid;
     }
   }
-  int x2F = (nextGridPosition.y * 64) + 32;
-  int y2F = (nextGridPosition.x * 64) + 32;
+  int x2F = (nextGridPosition.y * blockSize.x) + (blockSize.x / 2);
+  int y2F = (nextGridPosition.x * blockSize.y) + (blockSize.y / 2);
 
   float deltaX = x2F - xCurr;
   float deltaY = y2F - yCurr;

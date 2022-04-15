@@ -13,7 +13,7 @@
 class MoveTowardsComponent : public GenericComponent {
  public:
   MoveTowardsComponent(GameObject& gameObject, std::vector<std::vector<bool>> pathGrid,
-    Vector2D<int> targetPosition, float speed);
+    Vector2D<int> targetPosition, Vector2D<int> blockSize, float speed);
 
   virtual void update(Level& level);
 
@@ -23,10 +23,13 @@ class MoveTowardsComponent : public GenericComponent {
   
   bool InBounds(int x, int y);
 
+  const float epsilon = 1.5;
+
   std::vector<std::vector<bool>> pathGrid;
   Vector2D<int> targetPosition;
   std::vector<Vector2D<int>> prevGridPositions;
   Vector2D<int> nextGridPosition;
+  Vector2D<int> blockSize;
   size_t currIter;
   float speed;
 };

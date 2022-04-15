@@ -24,8 +24,7 @@ NonHostileEnemy::NonHostileEnemy(Level& level, float tl_x, float tl_y, float w,
       }
     }
   }
-  
 
-  mMoveTowards = std::make_shared<MoveTowardsComponent>(*this, pathGrid, targetPosition, CustomEnemy::xVelocity);
+  mMoveTowards = std::make_shared<MoveTowardsComponent>(*this, pathGrid, targetPosition, Vector2D<int>(w, h), CustomEnemy::xVelocity);
   addGenericComponent(mMoveTowards);
 }
