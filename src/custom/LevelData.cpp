@@ -9,7 +9,7 @@
 void loadLevel(TdLevelData *levelData, int level) {
   levelData->levelGrid.clear();
   levelData->placableBlockGrid.clear();
-  //levelData->blocks.clear();
+  // levelData->blocks.clear();
   levelData->levelNumber = level;
 
   const filesystem::path resPath = getResourcePath("TD2D/Levels");
@@ -18,7 +18,8 @@ void loadLevel(TdLevelData *levelData, int level) {
           .string();
 
   std::string towerMapFilename =
-      (resPath / ("level" + std::to_string(levelData->levelNumber) + "-TowerMap.txt"))
+      (resPath /
+       ("level" + std::to_string(levelData->levelNumber) + "-TowerMap.txt"))
           .string();
 
   std::string line;
@@ -29,13 +30,13 @@ void loadLevel(TdLevelData *levelData, int level) {
       towerMapFilename, std::ios_base::in);
 
   if (myfile->is_open() && towerMapfile->is_open()) {
-    
     int lineCounter = 0;
     int colCounter = 0;
     std::string x;
     std::string y;
 
-    while (std::getline(*myfile, line) && std::getline(*towerMapfile, towerMapline)) {
+    while (std::getline(*myfile, line) &&
+           std::getline(*towerMapfile, towerMapline)) {
       if (lineCounter == 0) {
         levelData->rowCount = std::stoi(line);
         lineCounter++;
@@ -44,12 +45,10 @@ void loadLevel(TdLevelData *levelData, int level) {
         levelData->colCount = std::stoi(line);
         // Resize and fill with default level items
         levelData->levelGrid.resize(
-            levelData->rowCount,
-            std::vector<TdBlockData>(levelData->colCount));
+            levelData->rowCount, std::vector<TdBlockData>(levelData->colCount));
 
         levelData->placableBlockGrid.resize(
-            levelData->rowCount,
-            std::vector<TdBlockData>(levelData->colCount));
+            levelData->rowCount, std::vector<TdBlockData>(levelData->colCount));
 
         lineCounter++;
         continue;
@@ -70,7 +69,7 @@ void loadLevel(TdLevelData *levelData, int level) {
       char tmch = 0;
 
       // Traverse the string
-      for (auto idx = 0; idx < line.size() ; idx++) {
+      for (auto idx = 0; idx < line.size(); idx++) {
         ch = line[idx];
         tmch = towerMapline[idx];
 
@@ -112,7 +111,7 @@ void loadLevel(TdLevelData *levelData, int level) {
         } else if (tmch == 'S') {
           // Enemy start position
           data.isTowerPlacable = false;
-          
+
           towerPlacableData.levelItemType = TdLevelItem::START;
           towerPlacableData.isTowerPlacable = false;
           towerPlacableData.blockNumber = ch;
@@ -122,7 +121,7 @@ void loadLevel(TdLevelData *levelData, int level) {
         } else if (tmch == 'E') {
           // Enemy end position
           data.isTowerPlacable = false;
-          
+
           towerPlacableData.levelItemType = TdLevelItem::END;
           towerPlacableData.isTowerPlacable = false;
           towerPlacableData.blockNumber = ch;
@@ -136,7 +135,8 @@ void loadLevel(TdLevelData *levelData, int level) {
         }
 
         levelData->levelGrid[lineCounter - 4][colCounter] = data;
-        levelData->placableBlockGrid[lineCounter - 4][colCounter] = towerPlacableData;
+        levelData->placableBlockGrid[lineCounter - 4][colCounter] =
+            towerPlacableData;
 
         colCounter++;
       }
@@ -151,3 +151,66 @@ void loadLevel(TdLevelData *levelData, int level) {
               << resourceFilename << " and " << towerMapFilename << std::endl;
   }
 }
+
+// void updateCurrentLevel(TdLevelData *levelData, Vector2D<int> gridPosition,
+//                         TdLevelItem item) {
+//   // Update the Level
+//   if (item != TdLevelItem::NONE) {
+//     levelData->levelGrid[gridPosition.x][gridPosition.y] = item;
+
+//     // Update the Level File
+//     updateLevelFile(*levelData, gridPosition, item);
+//   }
+// }
+
+// /**
+//  * @brief Update the item in the current level.
+//  *
+//  * @param levelNumber  the levelNumber.txt to be updated
+//  * @param gridPosition the position at which to update item
+//  * @param item the item to add at above position
+//  */
+// void updateLevelFile(TdLevelData ld, Vector2D<int> gridPosition,
+//                      TdLevelItem item) {
+//   const filesystem::path resPath = getResourcePath("TD2D/levels");
+//   std::string resourceFilename =
+//       (resPath / ("level" + std::to_string(ld.levelNumber) +
+//       ".txt")).string();
+
+//   std::string line;
+//   std::fstream *myfile = ResourceManager::getInstance().openFile(
+//       resourceFilename, std::fstream::out | std::fstream::trunc);
+
+//   int lineCounter = 0;
+//   int colNumber = 0;
+
+//   if (myfile->is_open()) {
+//     *myfile << std::to_string(ld.rowCount) << std::endl;
+
+//     *myfile << std::to_string(ld.colCount) << std::endl;
+
+//     *myfile << std::to_string(ld.blockSize.x) << std::endl;
+
+//     *myfile << std::to_string(ld.blockSize.y) << std::endl;
+
+//     int i = 0;
+//     int j = 0;
+//     for (i = 0; i < ld.rowCount; i++) {
+//       for (j = 0; j < ld.colCount; j++) {
+//         *myfile << (char)ld.levelGrid[i][j];
+//       }
+
+//       if (i != ld.rowCount - 1) {
+//         *myfile << std::endl;
+//       }
+
+//       lineCounter++;
+//     }
+
+//     ResourceManager::getInstance().closeFile(resourceFilename);
+//   } else {
+//     // Create a new file.
+//     std::cout << "Unable to open file \n";
+//     std::cout << "Creating a new file \n";
+//   }
+// }

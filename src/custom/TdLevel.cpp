@@ -8,9 +8,9 @@
 #include "custom/LevelData.hpp"
 #include "custom/LevelEditButton.hpp"
 #include "custom/Mouse.hpp"
+#include "custom/NonHostileEnemy.hpp"
 #include "custom/Tag.hpp"
 #include "custom/TdBlock.hpp"
-#include "custom/NonHostileEnemy.hpp"
 #include "custom/RockThrowerTower.hpp"
 
 void TdLevel::initialize() {
@@ -69,11 +69,14 @@ void TdLevel::initialize() {
         std::shared_ptr<GameObject> placeableObj;
 
         if (placeableBlocks.levelItemType == TdLevelItem::PLACETOWER) {
-          placeableObj = std::make_shared<TdBlock>(*this, x, y, placeableBlocks, blockSize);
+          placeableObj = std::make_shared<TdBlock>(*this, x, y, placeableBlocks,
+                                                   blockSize);
         } else if (placeableBlocks.levelItemType == TdLevelItem::START) {
-          placeableObj = std::make_shared<TdBlock>(*this, x, y, placeableBlocks, blockSize);
+          placeableObj = std::make_shared<TdBlock>(*this, x, y, placeableBlocks,
+                                                   blockSize);
         } else if (placeableBlocks.levelItemType == TdLevelItem::END) {
-          placeableObj = std::make_shared<TdBlock>(*this, x, y, placeableBlocks, blockSize);
+          placeableObj = std::make_shared<TdBlock>(*this, x, y, placeableBlocks,
+                                                   blockSize);
         } else {
           std::cerr << "Error- Failed to add level item from row " << i
                     << ", col " << j << " in tower map file" << std::endl;
@@ -89,11 +92,10 @@ void TdLevel::initialize() {
   }
 
   // Place Enemies end points
-  std::shared_ptr<NonHostileEnemy> enemy =
-      std::make_shared<NonHostileEnemy>(*this, blockSize.x * mLevelData.startPosition.x,
-                      blockSize.y * mLevelData.startPosition.y,
-                      blockSize.x, blockSize.y, "1/1_enemies_1_run_", TdLevelItem::SCORPIONS,
-                      mLevelData.endPosition);
+  std::shared_ptr<NonHostileEnemy> enemy = std::make_shared<NonHostileEnemy>(
+      *this, blockSize.x * mLevelData.startPosition.x,
+      blockSize.y * mLevelData.startPosition.y, blockSize.x, blockSize.y,
+      "4/4_enemies_1_run_", TdLevelItem::SCORPIONS, mLevelData.endPosition, mLevelData.levelGrid);
   addObject(enemy);
 
   createSidebarControls();
@@ -127,7 +129,10 @@ void TdLevel::createSidebarControls() {
 
   addObject(toolbarBackground);
 
-  auto changeToErase = [&] { currentlySelected = TdLevelItem::PLACETOWER; };
+  auto changeToErase = [&] {
+    currentlySelected = TdLevelItem::NOBLOCK;
+    mGridObject->setCurrentlySelected("ERASE");
+  };
 
   auto eraseButton = std::make_shared<LevelEditButton>(
       *this, (mScreenWidth - xOffset) + 109, 35, 74, 74, 5, 5,
@@ -144,7 +149,7 @@ void TdLevel::createSidebarControls() {
   for (const auto& item : itemVector) {
     auto lambda = [&] {
       currentlySelected = item;
-      // mGridRenderComponent.setCurrentlySelectedPath(pair.second);
+      mGridObject->setCurrentlySelected(getTdBlockPath(item));
     };
     auto button = std::make_shared<LevelEditButton>(*this, x, y, 74, 74, 5.f,
                                                     5.f, getTdBlockPath(item),
@@ -185,9 +190,10 @@ void TdLevel::createGrid() {
     }
   };
 
-  auto levelGrid = std::make_shared<GridObject>(*this, xOffset, 0, 20, 20, 64,
-                                                64, gridCallback);
-  addObject(levelGrid);
+  mGridObject =
+      std::make_shared<GridObject>(*this, 0, 0, 20, 12, 64, 64, gridCallback,
+                                   getTdBlockPath(currentlySelected));
+  addObject(mGridObject);
 }
 
 std::shared_ptr<GameObject> TdLevel::createLevelIndicatorObject() {
@@ -236,7 +242,7 @@ std::shared_ptr<GameObject> TdLevel::createScoreIndicatorObject() {
 std::string TdLevel::getTdBlockPath(TdLevelItem item) {
   switch (item) {
     case TdLevelItem::NONE:
-      return "";
+      return "TD2D/Sprites/Tiles/Empty.png";
     case TdLevelItem::NOBLOCK:
       return "";
     case TdLevelItem::PLACETOWER:

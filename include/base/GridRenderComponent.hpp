@@ -16,9 +16,9 @@
 
 class GridRenderComponent : public RenderComponent {
  public:
-  GridRenderComponent(GameObject& gameObject, std::vector<std::vector<SDL_Rect>>& gridRects)
-      : RenderComponent(gameObject),
-      mGridRects(gridRects) {};
+  GridRenderComponent(GameObject& gameObject,
+                      std::vector<std::vector<SDL_Rect>>& gridRects)
+      : RenderComponent(gameObject), mGridRects(gridRects){};
 
   virtual void render(SDL_Renderer* renderer) const override {
     SDL_Rect mousePos;
