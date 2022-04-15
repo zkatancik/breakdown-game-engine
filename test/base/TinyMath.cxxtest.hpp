@@ -631,6 +631,25 @@ class TinyMathTestSuite : public CxxTest::TestSuite {
     }
   }
 
+  void testVector2DSquaredDistance() {
+    {
+      Vector2D<int> u{5, 5};
+      Vector2D<int> v{5, 5};
+      TS_ASSERT_EQUALS(u.squaredDistance(v), 0);
+      TS_ASSERT_EQUALS(v.squaredDistance(u), 0);
+    }
+    {
+      Vector2D<float> u{5.3f, 10.1f};
+      Vector2D<float> v{5.0f, -1.5f};
+      const float expectedXDif = (5.3f - 5.0f);
+      const float expectedYDif = (10.1f - (-1.5f));
+      const float expected =
+          (expectedXDif * expectedXDif) + (expectedYDif * expectedYDif);
+      TS_ASSERT_DELTA(u.squaredDistance(v), expected, EPSILON);
+      TS_ASSERT_DELTA(v.squaredDistance(u), expected, EPSILON);
+    }
+  }
+
   void testVector2DDotProduct() {
     {
       Vector2D<int> u{5, 5};
