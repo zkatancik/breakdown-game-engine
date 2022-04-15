@@ -1,15 +1,20 @@
 #include "custom/PeriodicRockThrowComponent.hpp"
+
+#include <SDL2/SDL_timer.h>
+
 #include "base/Level.hpp"
 #include "base/TinyMath.hpp"
+#include "custom/Bullet.hpp"
 #include "custom/Tag.hpp"
-#include <SDL2/SDL_timer.h>
 
 PeriodicRockThrowComponent::PeriodicRockThrowComponent(GameObject& gameObject,
                                                        float radius,
+                                                       float speed,
                                                        Uint32 cooldown)
-    : mCooldownDelay(cooldown),
+    : mRadius(radius),
+      mSpeed(speed),
+      mCooldownDelay(cooldown),
       mNextThrowTime(0),
-      mRadius(radius),
       GenericComponent(gameObject) {}
 
 void PeriodicRockThrowComponent::update(Level& level) {
@@ -19,7 +24,8 @@ void PeriodicRockThrowComponent::update(Level& level) {
   }
   // Tower ready to fire again
   // Get target
-  const Vector2D<float> towerPos = {getGameObject().x(), getGameObject().y()};
+  const auto& gameObject = getGameObject();
+  const Vector2D<float> towerPos = {gameObject.x(), gameObject.y()};
   float minSquaredDist = mRadius * mRadius;
   std::shared_ptr<GameObject> closestEnemy = nullptr;
   for (const auto& gameobj : level.getGameObjects()) {
@@ -40,6 +46,16 @@ void PeriodicRockThrowComponent::update(Level& level) {
     // No targets in range
     return;
   }
-  std::cerr << "bang!" << std::endl;
+  const Vector2D<float> closestEnemyPos = {closestEnemy.get()->x(),
+                                           closestEnemy.get()->y()};
+  const Vector2D<float> bulletVelocity =
+      (Normalize(closestEnemyPos - towerPos)) * mSpeed;
+  auto bullet = std::make_shared<Bullet>(
+      level, gameObject.x() + 0.3 * (gameObject.w()) / 2,
+      gameObject.y() + gameObject.h() / 3, gameObject.w() / 3,
+      gameObject.h() / 3, bulletVelocity.x, bulletVelocity.y);
+  level.addObject(bullet);
+
+  // Need to cool down before next time it fires
   mNextThrowTime = SDL_GetTicks() + mCooldownDelay;
 }

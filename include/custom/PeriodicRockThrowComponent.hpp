@@ -2,6 +2,8 @@
 #define PERIODIC_ROCK_THROW_COMPONENT_HPP
 
 #include <SDL2/SDL_types.h>
+
+#include "base/GameObject.hpp"
 #include "base/GenericComponent.hpp"
 
 /**
@@ -10,15 +12,16 @@
  */
 class PeriodicRockThrowComponent : public GenericComponent {
  public:
-  PeriodicRockThrowComponent(GameObject &gameObject, float radius,
+  PeriodicRockThrowComponent(GameObject &gameObject, float radius, float speed,
                              Uint32 cooldown);
 
   void update(Level &level) override;
 
  private:
-  Uint32 mCooldownDelay;
+  const Uint32 mCooldownDelay;
   Uint32 mNextThrowTime;
-  float mRadius;
+  const float mRadius;
+  const float mSpeed;
 };
 
 #endif
