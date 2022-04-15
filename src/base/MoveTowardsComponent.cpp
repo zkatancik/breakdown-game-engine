@@ -37,8 +37,8 @@ MoveTowardsComponent::update(Level & level)
     << std::to_string(yCurr)
     << ")" << "\n";
 
-  int xCurrOnGrid = yCurr / 64; 
-  int yCurrOnGrid = xCurr / 64;
+  int xCurrOnGrid = round(yCurr) / 64; 
+  int yCurrOnGrid = round(xCurr) / 64;
 
   std::cout << "xyCurrOnGrid:(" << std::to_string(xCurrOnGrid) 
     << ","
