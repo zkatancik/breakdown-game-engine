@@ -320,6 +320,13 @@ struct Vector2D {
     x -= v.x, y -= v.y;
     return (*this);
   }
+
+  // Squared Distance
+  T squaredDistance(const Vector2D<T>& v) const {
+    T xDif = (x - v.x);
+    T yDif = (y - v.y);
+    return (xDif * xDif) + (yDif * yDif);
+  }
 };
 
 template <typename T>
