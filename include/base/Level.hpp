@@ -31,7 +31,6 @@
 
   void changeLanguage(Language language); //!< Change the language of all Game objects with Text Components
 
- protected:
   const std::vector<std::shared_ptr<GameObject>> &getGameObjects() const;
   const std::vector<std::shared_ptr<GameObject>> &getGameObjectsToAdd() const;
   const std::vector<std::shared_ptr<GameObject>> &getGameObjectsToRemove() const;
