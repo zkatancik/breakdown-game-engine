@@ -4,7 +4,7 @@
 
 #include "base/Level.hpp"
 #include "base/TinyMath.hpp"
-#include "custom/Bullet.hpp"
+#include "custom/Rock.hpp"
 #include "custom/Tag.hpp"
 
 PeriodicRockThrowComponent::PeriodicRockThrowComponent(GameObject& gameObject,
@@ -48,13 +48,13 @@ void PeriodicRockThrowComponent::update(Level& level) {
   }
   const Vector2D<float> closestEnemyPos = {closestEnemy.get()->x(),
                                            closestEnemy.get()->y()};
-  const Vector2D<float> bulletVelocity =
+  const Vector2D<float> rockVelocity =
       (Normalize(closestEnemyPos - towerPos)) * mSpeed;
-  auto bullet = std::make_shared<Bullet>(
+  auto rock = std::make_shared<Rock>(
       level, gameObject.x() + 0.3 * (gameObject.w()) / 2,
       gameObject.y() + gameObject.h() / 3, gameObject.w() / 3,
-      gameObject.h() / 3, bulletVelocity.x, bulletVelocity.y);
-  level.addObject(bullet);
+      gameObject.h() / 3, rockVelocity.x, rockVelocity.y);
+  level.addObject(rock);
 
   // Need to cool down before next time it fires
   mNextThrowTime = SDL_GetTicks() + mCooldownDelay;

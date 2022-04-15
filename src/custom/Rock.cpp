@@ -1,4 +1,4 @@
-#include "custom/Bullet.hpp"
+#include "custom/Rock.hpp"
 
 #include <box2d/b2_body.h>
 
@@ -9,12 +9,12 @@
 #include "base/TextureRenderComponent.hpp"
 #include "custom/Tag.hpp"
 
-Bullet::Bullet(Level& level, float x, float y, float w, float h, float vx,
-               float vy)
+Rock::Rock(Level& level, float x, float y, float w, float h, float vx, float vy)
     : GameObject(level, x, y, w, h, TdBulletTag) {
   auto renderer = std::make_shared<TextureRenderComponent>(*this);
   renderer->setTexture(ResourceManager::getInstance().getTexture(
-      "Graverunner/graveyardtiles/png/Tiles/Bone2.png"));
+      "TD2D/Sprites/Bullets/Bullets.png"));
+  renderer->setCrop({209, 152, 38, 24});
   setRenderComponent(renderer);
   addGenericComponent(
       std::make_shared<RemoveOnCollideComponent>(*this, TdEnemyTag));
@@ -24,4 +24,4 @@ Bullet::Bullet(Level& level, float x, float y, float w, float h, float vx,
       std::make_shared<ConstantVelocityComponent>(*this, vx, vy));
 }
 
-void Bullet::update() { GameObject::update(); }
+void Rock::update() { GameObject::update(); }
