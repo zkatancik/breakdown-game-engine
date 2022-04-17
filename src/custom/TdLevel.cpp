@@ -134,13 +134,15 @@ void TdLevel::initialize() {
 }
 
 bool TdLevel::isLevelWon() const {
-  // TODO- add real win condition
-  return false;
+  auto waveNumberVariable = mCurrentWaveNumberIndicator.lock()->getGenericComponent<GameVariableComponent<int>>();
+  auto healthVariable = mHealthIndicator.lock()->getGenericComponent<GameVariableComponent<int>>();
+  return (waveNumberVariable->getVariable() - 1 == mLevelData.enemyWaves.size() && healthVariable->getVariable() > 0);
 }
 
 bool TdLevel::isLevelInProgress() const {
-  // TODO- add real inprogress condition
-  return true;
+  auto waveNumberVariable = mCurrentWaveNumberIndicator.lock()->getGenericComponent<GameVariableComponent<int>>();
+  auto healthVariable = mHealthIndicator.lock()->getGenericComponent<GameVariableComponent<int>>();
+  return (waveNumberVariable->getVariable() - 1 < mLevelData.enemyWaves.size() && healthVariable->getVariable() > 0);
 }
 
 void TdLevel::createSidebarControls() {
@@ -209,10 +211,12 @@ void TdLevel::createBottomBarControls() {
 
   addObject(toolbarBackground);
   auto startWaveLambda = [&] () {
-    int currentWaveNumber = mCurrentWaveNumberIndicator.lock()->getGenericComponent<GameVariableComponent<int>>()->getVariable() - 1;
-    for (auto enemyInfo : mLevelData.enemyWaves[currentWaveNumber]) {
-      for (int i = 0; i < enemyInfo.second; i++) {
-        spawnEnemy(enemyInfo.first, i * 3 + 1);
+    if (mNumEnemiesLeft == 0) {
+      int currentWaveNumber = mCurrentWaveNumberIndicator.lock()->getGenericComponent<GameVariableComponent<int>>()->getVariable() - 1;
+      for (auto enemyInfo : mLevelData.enemyWaves[currentWaveNumber]) {
+        for (int i = 0; i < enemyInfo.second; i++) {
+          spawnEnemy(enemyInfo.first, i * 3 + 1);
+        }
       }
     }
   };
@@ -344,6 +348,12 @@ void TdLevel::spawnEnemy(TdLevelItem enemyType, int delay) {
         ->getGenericComponent<GameVariableComponent<int>>();
     scoreVarComponent->setVariable(scoreVarComponent->getVariable() + 10);
     coinsVarComponent->setVariable(coinsVarComponent->getVariable() + 5);
+    mNumEnemiesLeft--;
+    // Increment the wave number if there are no enemies remaining
+    if (mNumEnemiesLeft == 0) {
+      auto waveNumberVariable = mCurrentWaveNumberIndicator.lock()->getGenericComponent<GameVariableComponent<int>>();
+      waveNumberVariable->setVariable(waveNumberVariable->getVariable() + 1);
+    }
   };
   // Actual constructor
   std::shared_ptr<NonHostileEnemy> enemy = std::make_shared<NonHostileEnemy>(
@@ -362,4 +372,5 @@ void TdLevel::spawnEnemy(TdLevelItem enemyType, int delay) {
       *enemy, TdEndBlockTag, decreaseScoreAndLivesIndicatorLambda));
   enemy->addGenericComponent(std::make_shared<DelayedSpawnComponent>(*enemy, delay));
   addObject(enemy);
+  mNumEnemiesLeft++;
 }
