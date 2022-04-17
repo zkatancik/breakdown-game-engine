@@ -321,6 +321,8 @@ class ResourceManager {
       {u8"Select Game:", {{Language::SPANISH, u8"Elegir Juego:"}}},
       {u8"Keys Collected: ", {{Language::SPANISH, u8"Teclas recogidas: "}}},
       {u8"Tower Hour", {{Language::SPANISH, u8"Tower Hour"}}},
+      {u8"Health: ", {{Language::SPANISH, u8"Salud: "}}},
+      {u8"Coins: ", {{Language::SPANISH, u8"Monedas: "}}},
   };
 };
 #endif
