@@ -55,35 +55,31 @@ GridObject::GridObject(Level& level, float xPos, float yPos, int numX, int numY,
     : GameObject(level, xPos, yPos, numX * xsz, numY * ysz, BaseGridTag) {
   for (int ii = 0; ii < numX; ++ii) {
     gridRects.push_back(std::vector<SDL_Rect>());
-    gridObjs.push_back(std::vector<std::shared_ptr<GameObject>>());
     for (int jj = 0; jj < numY; ++jj) {
       SDL_Rect drawRect = {int(x() + ii * xsz), int(y() + jj * ysz), int(xsz),
                            int(ysz)};
       gridRects[ii].push_back(drawRect);
 
-      std::shared_ptr<GameObject> rectObj = std::make_shared<GameObject>(
-          level, int(x() + ii * xsz), int(y() + jj * ysz), int(xsz), int(ysz),
-          88);
-      auto itemRenderer = std::make_shared<TextureRenderComponent>(*rectObj);
-      itemRenderer->setRenderMode(
-          TextureRenderComponent::RenderMode::CUSTOM_WIDTH);
-      itemRenderer->setCustomW(64);
-      itemRenderer->setCustomH(64);
-      rectObj->setRenderComponent(itemRenderer);
-      level.addObject(rectObj);
 
-      gridObjs[ii].push_back(rectObj);
+//      auto itemRenderer = std::make_shared<TextureRenderComponent>(*rectObj);
+//      itemRenderer->setRenderMode(
+//          TextureRenderComponent::RenderMode::CUSTOM_WIDTH);
+//      itemRenderer->setCustomW(64);
+//      itemRenderer->setCustomH(64);
+//      rectObj->setRenderComponent(itemRenderer);
+//      level.addObject(rectObj);
+//
+//      gridObjs[ii].push_back(rectObj);
       // }
     }
   }
   auto gridComponent =
       std::make_shared<GridComponent>(*this, gridRects, gridCallBack);
   addGenericComponent(gridComponent);
-  mGridRenderComponent = std::make_shared<GridRenderPreviewComponent>(
-      *this, gridRects, gridObjs, currentlySelected);
+  mGridRenderComponent = std::make_shared<GridRenderPreviewComponent>(*this, gridRects, currentlySelected);
   setRenderComponent(mGridRenderComponent);
 }
 
 void GridObject::setCurrentlySelected(std::string currentlySelected) {
   mGridRenderComponent->setCurrentlySelected(currentlySelected);
-};
+}

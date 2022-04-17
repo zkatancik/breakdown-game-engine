@@ -16,7 +16,6 @@ class GridObject : public GameObject {
 
  private:
   std::vector<std::vector<SDL_Rect>> gridRects;
-  std::vector<std::vector<std::shared_ptr<GameObject>>> gridObjs;
   std::shared_ptr<GridRenderPreviewComponent> mGridRenderComponent;
 };
 

@@ -11,7 +11,10 @@ void InputManager::startUp() {}
 
 void InputManager::shutDown() {}
 
-void InputManager::resetForFrame() { mKeysPressed.clear(); mMouseKeysPressed.clear(); }
+void InputManager::resetForFrame() {
+  mKeysPressed.clear();
+  mMouseKeysPressed.clear();
+}
 
 void InputManager::handleEvent(const SDL_Event& e) {
   if (e.type == SDL_KEYDOWN) {

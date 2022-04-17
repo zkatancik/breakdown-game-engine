@@ -26,8 +26,8 @@ class GridRenderComponent : public RenderComponent {
     mousePos.h = 1;
     SDL_GetMouseState(&mousePos.x, &mousePos.y);
     SDL_SetRenderDrawColor(renderer, 0x33, 0x33, 0x33, 0xFF);
-    for (int ii = 0; ii < mGridRects.size(); ++ii) {
-      for (int jj = 0; jj < mGridRects[ii].size(); ++jj) {
+    for (size_t ii = 0; ii < mGridRects.size(); ++ii) {
+      for (size_t jj = 0; jj < mGridRects[ii].size(); ++jj) {
         SDL_Rect drawRect = mGridRects[ii][jj];
         if (SDL_HasIntersection(&drawRect, &mousePos)) {
           SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0xFF);
