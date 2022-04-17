@@ -7,6 +7,7 @@
 #include <SDL.h>
 #include <memory>
 #include <vector>
+#include <algorithm>
 
 class Level;
 
@@ -48,6 +49,13 @@ class GameObject: public std::enable_shared_from_this<GameObject> {
   inline void addGenericComponent(std::shared_ptr<GenericComponent> comp) { mGenericComponents.push_back(comp); }
   inline void setPhysicsComponent(std::shared_ptr<PhysicsComponent> comp) { mPhysicsComponent = comp; }
   inline void setRenderComponent(std::shared_ptr<RenderComponent> comp) { mRenderComponent = comp; }
+  inline void removeGenericComponent(std::shared_ptr<GenericComponent> comp) {
+    auto it = std::find(mGenericComponents.begin(), mGenericComponents.end(), comp);
+    if (it != mGenericComponents.end())
+      mGenericComponents.erase(it);
+  }
+  inline void clearGenericComponents(){mGenericComponents.clear();}
+
 
   inline std::vector<std::shared_ptr<GenericComponent>> genericComponents() { return mGenericComponents; }
   inline std::shared_ptr<PhysicsComponent> physicsComponent() { return mPhysicsComponent; }

@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <map>
 
 #include "base/TinyMath.hpp"
 
@@ -66,8 +67,12 @@ struct TdLevelData {
   std::vector<std::vector<TdBlockData>> levelGrid;
 
   // Will be modified in runtime.
-  // Holds the towers and other placables blocks.
+  // Holds the towers and other placable blocks.
   std::vector<std::vector<TdBlockData>> placableBlockGrid;
+
+  // A vector of enemy waves.
+  // Saves each wave in a sparse format
+  std::vector<std::map<TdLevelItem, int>> enemyWaves;
 
   Vector2D<int> startPosition;
   Vector2D<int> endPosition;

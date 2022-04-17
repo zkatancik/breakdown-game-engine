@@ -37,10 +37,6 @@ class CustomEnemy : public GameObject {
    */
   ~CustomEnemy();
 
-  void update() override;
-
-  bool checkDirection();
-
 #ifdef _TEST
   inline const int getXStep() const { return xVelocity; }
 #endif
@@ -49,9 +45,8 @@ class CustomEnemy : public GameObject {
 
   TdLevelItem enemyItem_{TdLevelItem::NONE};
 
-  std::string spritePath_;
+
 
   std::shared_ptr<TextureRenderComponent> renderer_;
-  std::shared_ptr<CyclicCounterComponent> counter_;
 };
 #endif

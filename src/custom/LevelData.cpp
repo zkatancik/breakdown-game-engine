@@ -6,10 +6,17 @@
 #include "base/ResPath.hpp"
 #include "base/ResourceManager.hpp"
 
+
+TdLevelItem getEnemy(const std::string& enemyTypeStr) {
+  if (enemyTypeStr == "HS")
+    return TdLevelItem::SCORPIONS;
+  else
+    return TdLevelItem::NONE;
+}
+
 void loadLevel(TdLevelData *levelData, int level) {
   levelData->levelGrid.clear();
   levelData->placableBlockGrid.clear();
-  // levelData->blocks.clear();
   levelData->levelNumber = level;
 
   const filesystem::path resPath = getResourcePath("TD2D/Levels");
@@ -149,6 +156,42 @@ void loadLevel(TdLevelData *levelData, int level) {
   } else {
     std::cerr << "Unable to open level file and/or tower map file at "
               << resourceFilename << " and " << towerMapFilename << std::endl;
+  }
+  // Load in enemy waves from file
+
+  std::string enemiesFilename =
+      (resPath /
+      ("level" + std::to_string(levelData->levelNumber) + "-enemies.txt"))
+      .string();
+
+  std::string enemyMapLine;
+  std::fstream *enemyFile = ResourceManager::getInstance().openFile(
+      enemiesFilename, std::ios_base::in);
+
+  if (enemyFile->is_open()) {
+    while (std::getline(*enemyFile, enemyMapLine)) {
+      // A map representing each wave
+      std::map<TdLevelItem, int> waveInfo;
+      // Extract map entries
+      // Code from https://stackoverflow.com/questions/14265581/parse-split-a-string-in-c-using-string-delimiter-standard-c
+      size_t pos = 0;
+      std::string mapElement;
+      while ((pos = enemyMapLine.find(',')) != std::string::npos) {
+        mapElement = enemyMapLine.substr(0, pos);
+        // Find the enemy type and number of enemies in the wave
+        size_t colonPos = mapElement.find(':');
+        std::string enemyTypeStr = mapElement.substr(0, colonPos);
+        int numEnemies = std::stoi(mapElement.substr(colonPos + 1, std::string::npos));
+        // Find the appropriate Enum for enemyType String
+        waveInfo.insert(std::make_pair(getEnemy(enemyTypeStr), numEnemies));
+        enemyMapLine.erase(0, pos + 1);
+      }
+      levelData->enemyWaves.push_back(waveInfo);
+    }
+    ResourceManager::getInstance().closeFile(enemiesFilename);
+  }
+  else {
+    std::cerr << "Failed to open enemies file at " << enemiesFilename << std::endl;
   }
 }
 

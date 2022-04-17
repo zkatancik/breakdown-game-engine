@@ -1,7 +1,5 @@
 #include "custom/TdLevel.hpp"
 
-#include <box2d/b2_body.h>
-
 #include "base/GameVariableComponent.hpp"
 #include "base/GridObject.hpp"
 #include "base/PerformHookOnCollideComponent.hpp"
@@ -12,35 +10,42 @@
 #include "custom/Tag.hpp"
 #include "custom/TdBlock.hpp"
 #include "custom/RockThrowerTower.hpp"
+#include "custom/LevelTimer.hpp"
+#include "custom/TdButton.hpp"
+#include "base/DelayedSpawnComponent.hpp"
 
 void TdLevel::initialize() {
+  // Load level file
   loadLevel(&mLevelData, currentLevelNumber);
 
   int rowsOfBlocks = mLevelData.rowCount;
   int blocksPerRow = mLevelData.colCount;
   Vector2D<int> blockSize = mLevelData.blockSize;
-
-  // Create indicators
-  auto scoreIndicator = createIndicatorObject("Score", 0);
-  auto coinsIndicator = createIndicatorObject("Coins", 0);
-  auto healthIndicator = createIndicatorObject("Health", 100);
+  /********************************************************************************************************************/
+  // Create indicators and Game variables
+  // Score Indicator
+  auto scoreIndicator = createIndicatorObject("Score", 0, 10, 50);
+  mScoreIndicator = std::weak_ptr(scoreIndicator);
+  // Coins indicator
+  auto coinsIndicator = createIndicatorObject("Coins", 0, 10, 80);
+  mCoinIndicator = std::weak_ptr(coinsIndicator);
+  // Health indicator
+  auto healthIndicator = createIndicatorObject("Health", 100, 10, 120);
+  mHealthIndicator = std::weak_ptr(healthIndicator);
+  // Level indicator
   auto levelIndicator = createLevelIndicatorObject();
-  addObject(levelIndicator);
-  addObject(scoreIndicator);
-  addObject(coinsIndicator);
-  addObject(healthIndicator);
-
+  /********************************************************************************************************************/
+  // Add background
   auto background =
       std::make_shared<GameObject>(*this, 0, 0, 1280, 768, TdBGTag);
   auto bg_renderer = std::make_shared<TextureRenderComponent>(*background);
-
   // All-green background
   bg_renderer->setRenderMode(TextureRenderComponent::RenderMode::WHOLE_WIDTH);
   background->setRenderComponent(bg_renderer);
   bg_renderer->setTexture(ResourceManager::getInstance().getTexture(
       "TD2D/Sprites/Maps/Backgrounds/TileMap1.png"));
   addObject(background);
-
+  /********************************************************************************************************************/
   // Place the game tiles
   int y = 0;
   int count = 0;
@@ -109,34 +114,16 @@ void TdLevel::initialize() {
     count++;
     y = y + blockSize.y;
   }
-
-  // Place Enemies end points
-  std::shared_ptr<NonHostileEnemy> enemy = std::make_shared<NonHostileEnemy>(
-      *this, blockSize.x * mLevelData.startPosition.x,
-      blockSize.y * mLevelData.startPosition.y, blockSize.x, blockSize.y,
-      "4/4_enemies_1_run_", TdLevelItem::SCORPIONS, mLevelData.endPosition,
-      mLevelData.levelGrid);
-  addObject(enemy);
-  enemy->addGenericComponent(
-      std::make_shared<RemoveOnCollideComponent>(*enemy, TdBulletTag));
-  auto increaseScoreAndCoinsIndicatorLambda =
-      [&, scoreIndicator = std::weak_ptr<GameObject>(scoreIndicator),
-       coinsIndicator = std::weak_ptr<GameObject>(coinsIndicator)](
-          Level& level, std::shared_ptr<GameObject> obj) {
-        auto scoreVarComponent =
-            scoreIndicator.lock()
-                ->getGenericComponent<GameVariableComponent<int>>();
-        auto coinsVarComponent =
-            coinsIndicator.lock()
-                ->getGenericComponent<GameVariableComponent<int>>();
-        scoreVarComponent->setVariable(scoreVarComponent->getVariable() + 10);
-        coinsVarComponent->setVariable(coinsVarComponent->getVariable() + 5);
-      };
-  enemy->addGenericComponent(std::make_shared<PerformHookOnCollideComponent>(
-      *enemy, TdEndBlockTag, increaseScoreAndCoinsIndicatorLambda));
-
+  /********************************************************************************************************************/
+  // Create controls
   createSidebarControls();
   createBottomBarControls();
+  /********************************************************************************************************************/
+  // Add indicators, grid and Mouse
+  addObject(levelIndicator);
+  addObject(scoreIndicator);
+  addObject(coinsIndicator);
+  addObject(healthIndicator);
   createGrid();
   addObject(std::make_shared<Mouse>(*this));
 }
@@ -168,7 +155,7 @@ void TdLevel::createSidebarControls() {
 
   auto changeToErase = [&] {
     currentlySelected = TdLevelItem::NOBLOCK;
-    mGridObject->setCurrentlySelected("ERASE");
+    mGridObject.lock()->setCurrentlySelected("ERASE");
   };
 
   auto eraseButton = std::make_shared<LevelEditButton>(
@@ -186,7 +173,7 @@ void TdLevel::createSidebarControls() {
   for (const auto& item : itemVector) {
     auto lambda = [&] {
       currentlySelected = item;
-      mGridObject->setCurrentlySelected(getTdBlockPath(item));
+      mGridObject.lock()->setCurrentlySelected(getTdBlockPath(item));
     };
     auto button = std::make_shared<LevelEditButton>(*this, x, y, 74, 74, 5.f,
                                                     5.f, getTdBlockPath(item),
@@ -216,6 +203,19 @@ void TdLevel::createBottomBarControls() {
       "TD2D/Sprites/GUI/Menu/bottombar.png"));
 
   addObject(toolbarBackground);
+  auto startWaveLambda = [&] () {
+    for (auto enemyInfo : mLevelData.enemyWaves[0]) {
+      for (int i = 0; i < enemyInfo.second; i++) {
+        placeEnemy(enemyInfo.first, i * 3);
+      }
+    }
+  };
+  // Add the start wave button
+  auto startWaveButton = std::make_shared<TdButton>(*this, 10, mScreenHeight - yOffset, 64, 32, "Start Wave!",
+                                                    startWaveLambda,
+                                                    64);
+  addObject(startWaveButton);
+
 }
 
 void TdLevel::createGrid() {
@@ -227,10 +227,11 @@ void TdLevel::createGrid() {
     }
   };
 
-  mGridObject =
+  auto gridObject =
       std::make_shared<GridObject>(*this, 0, 0, 20, 12, 64, 64, gridCallback,
                                    getTdBlockPath(currentlySelected));
-  addObject(mGridObject);
+  mGridObject = std::weak_ptr(gridObject);
+  addObject(gridObject);
 }
 
 std::shared_ptr<GameObject> TdLevel::createLevelIndicatorObject() {
@@ -249,9 +250,9 @@ std::shared_ptr<GameObject> TdLevel::createLevelIndicatorObject() {
 }
 
 std::shared_ptr<GameObject> TdLevel::createIndicatorObject(std::string label,
-                                                           int initialVal) {
+                                                           int initialVal, int x, int y) {
   auto scoreIndicator =
-      std::make_shared<GameObject>(*this, 10, 50, 50, 50, BaseTextTag);
+      std::make_shared<GameObject>(*this, x, y, 50, 50, BaseTextTag);
   auto textRenderer = std::make_shared<TextureRenderComponent>(*scoreIndicator);
 
   textRenderer->setRenderMode(TextureRenderComponent::RenderMode::QUERY);
@@ -292,4 +293,29 @@ std::string TdLevel::getTdBlockPath(TdLevelItem item) {
                 << static_cast<int>(item) << std::endl;
       return "";
   }
+}
+void TdLevel::placeEnemy(TdLevelItem enemyType, int delay) {
+  std::shared_ptr<NonHostileEnemy> enemy = std::make_shared<NonHostileEnemy>(
+      *this, mLevelData.blockSize.x * mLevelData.startPosition.x,
+      mLevelData.blockSize.y * mLevelData.startPosition.y, mLevelData.blockSize.x, mLevelData.blockSize.y,
+      "4/4_enemies_1_run_", enemyType, mLevelData.endPosition,
+      mLevelData.levelGrid);
+  enemy->addGenericComponent(
+      std::make_shared<RemoveOnCollideComponent>(*enemy, TdBulletTag));
+  auto increaseScoreAndCoinsIndicatorLambda =
+      [&](Level& level, std::shared_ptr<GameObject> obj) {
+    auto scoreVarComponent =
+        mScoreIndicator.lock()
+        ->getGenericComponent<GameVariableComponent<int>>();
+    auto coinsVarComponent =
+        mCoinIndicator.lock()
+        ->getGenericComponent<GameVariableComponent<int>>();
+    scoreVarComponent->setVariable(scoreVarComponent->getVariable() + 10);
+    coinsVarComponent->setVariable(coinsVarComponent->getVariable() + 5);
+    addObject(enemy);
+  };
+  enemy->addGenericComponent(std::make_shared<PerformHookOnCollideComponent>(
+      *enemy, TdEndBlockTag, increaseScoreAndCoinsIndicatorLambda));
+  enemy->addGenericComponent(std::make_shared<DelayedSpawnComponent>(*enemy, delay));
+  addObject(enemy);
 }
