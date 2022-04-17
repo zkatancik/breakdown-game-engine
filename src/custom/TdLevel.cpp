@@ -16,6 +16,7 @@
 
 void TdLevel::initialize() {
   // Load level file
+  mNumEnemiesLeft = 0;
   loadLevel(&mLevelData, mLevelNumber);
 
   int rowsOfBlocks = mLevelData.rowCount;
