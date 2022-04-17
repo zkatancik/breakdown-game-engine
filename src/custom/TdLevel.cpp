@@ -226,28 +226,44 @@ void TdLevel::createBottomBarControls() {
 
 void TdLevel::createGrid() {
   auto gridCallback = [&, mLevelData = &mLevelData](int i, int j) {
-    if (currentlySelected != TdLevelItem::NONE) {
-      if (currentlySelected == TdLevelItem::ROCKTHROWER) {
-        auto tower = std::make_shared<RockThrowerTower>(*this, i * mLevelData->blockSize.x,
-                                                        j * mLevelData->blockSize.y, mLevelData->blockSize);
-        for (auto g : getGameObjects()) {
-          if (tower->isOverlapping(*g) && g->tag() == TdBlockTag) {
-            auto blockGameObject = std::dynamic_pointer_cast<TdBlock>(g).get();
-            if (blockGameObject->getBlockData().levelItemType == TdLevelItem::PLACETOWER) {
-              Mix_PlayChannel(1, ResourceManager::getInstance().getChunk(mSoundPath),
-                              0);
-              auto coinIndicatorVariable = mCoinIndicator.lock()->getGenericComponent<GameVariableComponent<int>>();
-              if (coinIndicatorVariable->getVariable() >= 10) {
-                removeObject(g);
-                addObject(tower);
-                coinIndicatorVariable->setVariable(coinIndicatorVariable->getVariable() - 10);
-              }
+    if (currentlySelected == TdLevelItem::ROCKTHROWER) {
+      auto tower = std::make_shared<RockThrowerTower>(*this, i * mLevelData->blockSize.x,
+                                                      j * mLevelData->blockSize.y, mLevelData->blockSize);
+      for (auto g : getGameObjects()) {
+        if (tower->isOverlapping(*g) && g->tag() == TdBlockTag) {
+          auto blockGameObject = std::dynamic_pointer_cast<TdBlock>(g).get();
+          if (blockGameObject->getBlockData().levelItemType == TdLevelItem::PLACETOWER) {
+            Mix_PlayChannel(1, ResourceManager::getInstance().getChunk(mSoundPath),
+                            0);
+            auto coinIndicatorVariable = mCoinIndicator.lock()->getGenericComponent<GameVariableComponent<int>>();
+            if (coinIndicatorVariable->getVariable() >= 10) {
+              removeObject(g);
+              addObject(tower);
+              coinIndicatorVariable->setVariable(coinIndicatorVariable->getVariable() - 10);
             }
           }
         }
       }
-      // updateCurrentLevel(mLevelData, Vector2D<int>(i, j), currentlySelected);
     }
+    else if (currentlySelected == TdLevelItem::PLACETOWER) {
+      TdBlockData data;
+      data.levelItemType = TdLevelItem::PLACETOWER;
+      data.blockNumber = i;
+      data.isTowerPlacable = true;
+      auto placeTower = std::make_shared<TdBlock>(*this, i * mLevelData->blockSize.x,
+                                                  j * mLevelData->blockSize.y, data, mLevelData->blockSize);
+      for (auto g : getGameObjects()) {
+        if (placeTower->isOverlapping(*g) && g->tag() == TdRockThrowerTowerTag) {
+          Mix_PlayChannel(1, ResourceManager::getInstance().getChunk(mSoundPath),
+                          0);
+          auto coinIndicatorVariable = mCoinIndicator.lock()->getGenericComponent<GameVariableComponent<int>>();
+          coinIndicatorVariable->setVariable(coinIndicatorVariable->getVariable() + 5);
+          removeObject(g);
+          addObject(placeTower);
+            }
+          }
+        }
+      // updateCurrentLevel(mLevelData, Vector2D<int>(i, j), currentlySelected);
   };
 
   auto gridObject =
@@ -336,15 +352,11 @@ void TdLevel::spawnEnemy(TdLevelItem enemyType, int delay) {
       "4/4_enemies_1_run_", enemyType, mLevelData.endPosition,
       mLevelData.levelGrid, increaseScoreAndCoinsIndicatorLambda);
   // Decrease score and lives when reaching the end of the line
-  auto decreaseScoreAndLivesIndicatorLambda = [&](Level& level, std::shared_ptr<GameObject> gameObject) {
+  auto decreaseScoreAndLivesIndicatorLambda = [=](Level& level, std::shared_ptr<GameObject> gameObject) {
     auto scoreVarComponent =
         mScoreIndicator.lock()
         ->getGenericComponent<GameVariableComponent<int>>();
-    auto healthVarComponent =
-        mHealthIndicator.lock()
-        ->getGenericComponent<GameVariableComponent<int>>();
     scoreVarComponent->setVariable(scoreVarComponent->getVariable() - 5);
-    healthVarComponent->setVariable(healthVarComponent->getVariable() - 1);
   };
   enemy->addGenericComponent(std::make_shared<PerformHookOnCollideComponent>(
       *enemy, TdEndBlockTag, decreaseScoreAndLivesIndicatorLambda));
