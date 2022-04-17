@@ -160,19 +160,6 @@ void TdLevel::createSidebarControls() {
 
   addObject(toolbarBackground);
 
-  auto changeToErase = [&] {
-    currentlySelected = TdLevelItem::NOBLOCK;
-    mGridObject.lock()->setCurrentlySelected("ERASE");
-  };
-
-  auto eraseButton = std::make_shared<LevelEditButton>(
-      *this, (w() - xOffset) + 109, 35, 74, 74, 5, 5,
-      "2DBreakout/Graphics/"
-      "erase.png",
-      mSoundPath, changeToErase);
-
-  addObject(eraseButton);
-
   int x = (w() - xOffset) + 20;
   int y = 193;
   int count = 0;
