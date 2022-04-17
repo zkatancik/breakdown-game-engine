@@ -90,12 +90,8 @@ struct TdLevelData {
  */
 void loadLevel(TdLevelData *levelData, int levelNum);
 
-/* TODO- add these back as needed
-void updateCurrentLevel(TdLevelData *levelData,
-                        Vector2D<int> gridPosition, TdLevelItem item);
+void updateCurrentLevel(TdLevelData *levelData, Vector2D<int> gridPosition, TdLevelItem item);
 
-void updateLevelFile(TdLevelData ld, Vector2D<int> gridPosition,
-                     TdLevelItem item);
-*/
+void updateLevelFile(TdLevelData ld, Vector2D<int> gridPosition, TdLevelItem item);
 
 #endif

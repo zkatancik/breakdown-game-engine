@@ -195,65 +195,69 @@ void loadLevel(TdLevelData *levelData, int level) {
   }
 }
 
-// void updateCurrentLevel(TdLevelData *levelData, Vector2D<int> gridPosition,
-//                         TdLevelItem item) {
-//   // Update the Level
-//   if (item != TdLevelItem::NONE) {
-//     levelData->levelGrid[gridPosition.x][gridPosition.y] = item;
+void updateCurrentLevel(TdLevelData *levelData, 
+                        Vector2D<int> gridPosition,
+                        TdLevelItem item) {
+  // Update the Level
+  if (item != TdLevelItem::NONE) {
+    levelData->levelGrid[gridPosition.x][gridPosition.y] = item;
 
-//     // Update the Level File
-//     updateLevelFile(*levelData, gridPosition, item);
-//   }
-// }
+    // Update the Level File
+    updateLevelFile(*levelData, gridPosition, item);
+  }
+}
 
-// /**
-//  * @brief Update the item in the current level.
-//  *
-//  * @param levelNumber  the levelNumber.txt to be updated
-//  * @param gridPosition the position at which to update item
-//  * @param item the item to add at above position
-//  */
-// void updateLevelFile(TdLevelData ld, Vector2D<int> gridPosition,
-//                      TdLevelItem item) {
-//   const filesystem::path resPath = getResourcePath("TD2D/levels");
-//   std::string resourceFilename =
-//       (resPath / ("level" + std::to_string(ld.levelNumber) +
-//       ".txt")).string();
+/**
+ * @brief Update the item in the current level.
+ *
+ * @param levelNumber  the levelNumber.txt to be updated
+ * @param gridPosition the position at which to update item
+ * @param item the item to add at above position
+ */
+void updateLevelFile(TdLevelData ld, Vector2D<int> gridPosition, TdLevelItem item) {
+  const filesystem::path resPath = getResourcePath("TD2D/levels");
+  std::string resourceFilename =
+      (resPath / ("level" + std::to_string(ld.levelNumber) + ".txt")).string();
 
-//   std::string line;
-//   std::fstream *myfile = ResourceManager::getInstance().openFile(
-//       resourceFilename, std::fstream::out | std::fstream::trunc);
+  std::string line;
+  std::fstream *myfile = ResourceManager::getInstance().openFile(resourceFilename, std::fstream::out | std::fstream::trunc);
 
-//   int lineCounter = 0;
-//   int colNumber = 0;
+  int lineCounter = 0;
+  int colNumber = 0;
 
-//   if (myfile->is_open()) {
-//     *myfile << std::to_string(ld.rowCount) << std::endl;
+  if (myfile->is_open()) {
 
-//     *myfile << std::to_string(ld.colCount) << std::endl;
+    *myfile << std::to_string(ld.rowCount) << std::endl;
 
-//     *myfile << std::to_string(ld.blockSize.x) << std::endl;
+    *myfile << std::to_string(ld.colCount) << std::endl;
 
-//     *myfile << std::to_string(ld.blockSize.y) << std::endl;
+    *myfile << std::to_string(ld.blockSize.x) << std::endl;
 
-//     int i = 0;
-//     int j = 0;
-//     for (i = 0; i < ld.rowCount; i++) {
-//       for (j = 0; j < ld.colCount; j++) {
-//         *myfile << (char)ld.levelGrid[i][j];
-//       }
+    *myfile << std::to_string(ld.blockSize.y) << std::endl;
 
-//       if (i != ld.rowCount - 1) {
-//         *myfile << std::endl;
-//       }
+    int i = 0;
+    int j = 0;
+    for (i = 0; i < ld.rowCount; i++)
+    {
+      for (j = 0; j < ld.colCount; j++)
+      {
+        *myfile << (char)ld.levelGrid[i][j];
+      }
 
-//       lineCounter++;
-//     }
+      if (i != ld.rowCount - 1)
+      {
+        *myfile << std::endl;
+      }
 
-//     ResourceManager::getInstance().closeFile(resourceFilename);
-//   } else {
-//     // Create a new file.
-//     std::cout << "Unable to open file \n";
-//     std::cout << "Creating a new file \n";
-//   }
-// }
+      lineCounter++;
+    }
+
+    ResourceManager::getInstance().closeFile(resourceFilename);
+  } else {
+
+    // Create a new file.
+    std::cout << "Unable to open file \n";
+    std::cout << "Creating a new file \n";
+
+  }
+}

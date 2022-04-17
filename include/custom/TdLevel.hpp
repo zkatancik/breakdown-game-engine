@@ -33,7 +33,7 @@ class TdLevel : public Level {
   int mLevelNumber{0};
   int mNumEnemiesLeft{0};
 
-  std::string mSoundPath = "Graverunner/2DPlatformer_SFX/ButtonClick_SFX.wav";
+  std::string mSoundPath = "TD2D/Audio/Common/Click2.mp3";
   TdLevelItem currentlySelected{TdLevelItem::NONE};
   TdLevelData mLevelData;
   std::weak_ptr<GridObject> mGridObject;
