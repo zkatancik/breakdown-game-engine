@@ -28,13 +28,17 @@ void TdBlock::init(int xCoord, int yCoord, TdBlockData bd, Vector2D<int> bs) {
   render->setTexture(texture_);
   setRenderComponent(render);
 
+  // Add physics to blocks- static sensor
+  setPhysicsComponent(std::make_shared<PhysicsComponent>(
+      *this, b2BodyType::b2_staticBody, true));
+
   if (blockData.levelItemType == TdLevelItem::END) {
     std::cerr << "adding hooks" << std::endl;
     addGenericComponent(std::make_shared<PerformHookOnCollideComponent>(
         *this, TdEnemyTag, [&](Level&, const std::shared_ptr<GameObject>&) {
           std::cerr << "killed enemy!" << std::endl;
         }));
-    }
+  }
 }
 
 SDL_Texture* TdBlock::getBlockTexture() {
