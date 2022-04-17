@@ -10,32 +10,44 @@ PhysicsComponent::PhysicsComponent(GameObject& gameObject, b2BodyType type,
                                    float friction)
     : Component(gameObject) {
   if (PhysicsManager::getInstance().hasStarted()) {
-    b2BodyDef bodyDef;
-    bodyDef.type = type;
-    bodyDef.position.x = (gameObject.x() + 0.5f * gameObject.w()) *
+    mBodyDef = b2BodyDef();
+    mBodyDef.type = type;
+    mBodyDef.position.x = (gameObject.x() + 0.5f * gameObject.w()) *
                          PhysicsManager::GAME_TO_PHYSICS_SCALE;
-    bodyDef.position.y = (gameObject.y() + 0.5f * gameObject.h()) *
+    mBodyDef.position.y = (gameObject.y() + 0.5f * gameObject.h()) *
                          PhysicsManager::GAME_TO_PHYSICS_SCALE;
-    bodyDef.linearDamping = linearDamping;
-    bodyDef.fixedRotation = true;
-    bodyDef.userData.pointer = reinterpret_cast<uintptr_t>(&gameObject);
-    mBody = PhysicsManager::getInstance().getWorld()->CreateBody(&bodyDef);
+    mBodyDef.linearDamping = linearDamping;
+    mBodyDef.fixedRotation = true;
+    mBodyDef.userData.pointer = reinterpret_cast<uintptr_t>(&gameObject);
+    mBody = PhysicsManager::getInstance().getWorld()->CreateBody(&mBodyDef);
 
-    b2PolygonShape polygonShape;
-    polygonShape.SetAsBox(
+    mPolygonShape = b2PolygonShape();
+    mPolygonShape.SetAsBox(
         0.495 * gameObject.w() * PhysicsManager::GAME_TO_PHYSICS_SCALE,
         0.495 * gameObject.h() *
             PhysicsManager::GAME_TO_PHYSICS_SCALE);  // a 4x2 rectangle
 
-    b2FixtureDef fixtureDef;
-    fixtureDef.shape = &polygonShape;
-    fixtureDef.restitution = restitution;
-    fixtureDef.friction = friction;
-    fixtureDef.isSensor = isSensor;
-    fixtureDef.density =
+    mFixtureDef = b2FixtureDef();
+    mFixtureDef.shape = &mPolygonShape;
+    mFixtureDef.restitution = restitution;
+    mFixtureDef.friction = friction;
+    mFixtureDef.isSensor = isSensor;
+    mFixtureDef.density =
         (type == b2_dynamicBody || type == b2_kinematicBody) ? density : 0.0;
 
-    mBody->CreateFixture(&fixtureDef);
+    mBody->CreateFixture(&mFixtureDef);
+  }
+}
+
+PhysicsComponent::PhysicsComponent(GameObject &gameObject,
+                                   b2BodyDef bodyDef,
+                                   b2FixtureDef fixtureDef,
+                                   b2PolygonShape polygonShape) : Component(gameObject), mBodyDef(bodyDef),
+                                   mFixtureDef(fixtureDef), mPolygonShape(polygonShape) {
+  if (PhysicsManager::getInstance().hasStarted()) {
+    mBody = PhysicsManager::getInstance().getWorld()->CreateBody(&mBodyDef);
+    mFixtureDef.shape = &mPolygonShape;
+    mBody->CreateFixture(&mFixtureDef);
   }
 }
 

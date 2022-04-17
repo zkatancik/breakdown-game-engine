@@ -14,8 +14,12 @@ DelayedSpawnComponent::DelayedSpawnComponent(GameObject &gameObject, int sec) : 
   gameObject.setRenderComponent(nullptr);
   // Remove the physics component to prevent PhysicsManager from updating it
   // Save the component for later
-  mPhysicsComponent = gameObject.physicsComponent();
-  gameObject.setPhysicsComponent(nullptr);
+  if (gameObject.physicsComponent()) {
+    mBodyDef = gameObject.physicsComponent()->getBodyDef();
+    gameObject.setPhysicsComponent(nullptr);
+    hasPhysicsComponent = true;
+  }
+
   // Add the counter as the only generic component that will be updated by the level
   gameObject.addGenericComponent(mCounter);
 }
@@ -36,10 +40,10 @@ void DelayedSpawnComponent::update(Level &level) {
     go.setRenderComponent(nullptr);
   }
   if (go.physicsComponent() != nullptr) {
-    mPhysicsComponent = go.physicsComponent();
+    mBodyDef = go.physicsComponent()->getBodyDef();
+    hasPhysicsComponent = true;
     go.setPhysicsComponent(nullptr);
   }
-  std::cout << mCounter->getCounter() << std::endl;
   if (mCounter->getCounter() == 0 && !mHasSpawned) {
     // Remove yourself
     auto self = go.genericComponents()[0];
@@ -52,8 +56,9 @@ void DelayedSpawnComponent::update(Level &level) {
     go.setRenderComponent(mRenderComponent);
     mRenderComponent = nullptr;
     // Add physics component back
-    go.setPhysicsComponent(mPhysicsComponent);
-    mPhysicsComponent = nullptr;
+    if (hasPhysicsComponent)
+      go.setPhysicsComponent(std::make_shared<PhysicsComponent>(go, std::get<0>(mBodyDef),
+          std::get<1>(mBodyDef), std::get<2>(mBodyDef)));
     mHasSpawned = true;
   }
 }

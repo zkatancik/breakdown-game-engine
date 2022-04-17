@@ -3,6 +3,7 @@
 
 #include "base/Component.hpp"
 #include "box2d/box2d.h"
+#include <tuple>
 
 class Level;
 
@@ -14,7 +15,14 @@ class PhysicsComponent : public Component {
   PhysicsComponent(GameObject &gameObject, b2BodyType type, bool isSensor,
                    float linearDamping = 2.0f, float density = 1.0,
                    float restitution = 0.0, float friction = 0.0);
+
+  PhysicsComponent(GameObject &gameObject, b2BodyDef bodyDef, b2FixtureDef fixtureDef, b2PolygonShape polygonShape);
+
   virtual ~PhysicsComponent();
+
+  inline std::tuple<b2BodyDef, b2FixtureDef, b2PolygonShape> getBodyDef() {
+    return std::make_tuple(mBodyDef, mFixtureDef, mPolygonShape);
+  }
 
   void setVx(float vx);  //!< set x velocity
   void setVy(float vy);  //!< set y velocity
@@ -36,6 +44,9 @@ class PhysicsComponent : public Component {
   void postStep();  //!< Called after physics step.
 
  private:
+  b2BodyDef mBodyDef;
+  b2FixtureDef mFixtureDef;
+  b2PolygonShape mPolygonShape;
   b2Body *mBody{nullptr};
 };
 

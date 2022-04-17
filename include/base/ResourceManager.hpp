@@ -323,7 +323,7 @@ class ResourceManager {
       {u8"Tower Hour", {{Language::SPANISH, u8"Tower Hour"}}},
       {u8"Health: ", {{Language::SPANISH, u8"Salud: "}}},
       {u8"Coins: ", {{Language::SPANISH, u8"Monedas: "}}},
-      {u8":", {{Language::SPANISH, u8":"}}}
+      {u8"Start Wave!", {{Language::SPANISH, u8"Onda de Inicio!"}}}
   };
 };
 #endif

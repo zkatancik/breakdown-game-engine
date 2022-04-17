@@ -206,14 +206,14 @@ void TdLevel::createBottomBarControls() {
   auto startWaveLambda = [&] () {
     for (auto enemyInfo : mLevelData.enemyWaves[0]) {
       for (int i = 0; i < enemyInfo.second; i++) {
-        placeEnemy(enemyInfo.first, i * 3);
+        placeEnemy(enemyInfo.first, i * 3 + 1);
       }
     }
   };
   // Add the start wave button
-  auto startWaveButton = std::make_shared<TdButton>(*this, 10, mScreenHeight - yOffset, 64, 32, "Start Wave!",
+  auto startWaveButton = std::make_shared<TdButton>(*this, 320, mScreenHeight - yOffset, 24, 16, "Start Wave!",
                                                     startWaveLambda,
-                                                    64);
+                                                    16);
   addObject(startWaveButton);
 
 }

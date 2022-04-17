@@ -15,7 +15,8 @@ class DelayedSpawnComponent : public GenericComponent {
   bool mHasSpawned{false};
   std::vector<std::shared_ptr<GenericComponent>> mGenericComponents;
   std::shared_ptr<RenderComponent> mRenderComponent;
-  std::shared_ptr<PhysicsComponent> mPhysicsComponent;
+  std::tuple<b2BodyDef, b2FixtureDef, b2PolygonShape> mBodyDef;
+  bool hasPhysicsComponent{false};
   std::shared_ptr<CounterComponent> mCounter;
 };
 #endif
