@@ -50,22 +50,21 @@ void GraveRunnerLevelEditor::initialize() {
       x = 26;
       count = 0;
     }
-
-    // Grid component here
-    auto gridCallback = [&, mLevelData = &mLevelData](int i, int j) {
-      if (currentlySelected != GraveRunnerLevelItem::NONE) {
-        Mix_PlayChannel(1, ResourceManager::getInstance().getChunk(mSoundPath),
-                        0);
-        updateCurrentLevel(mLevelData, Vector2D<int>(i, j), currentlySelected);
-        refreshLevelEditor();
-        // currentlySelected = GraveRunnerLevelItem::NONE;
-      }
-    };
-
-    auto levelGrid = std::make_shared<GridObject>(*this, xOffset, 0, 20, 20, 64,
-                                                  64, gridCallback);
-    addObject(levelGrid);
   }
+  // Grid component here
+  auto gridCallback = [&, mLevelData = &mLevelData](int i, int j) {
+    if (currentlySelected != GraveRunnerLevelItem::NONE) {
+      Mix_PlayChannel(1, ResourceManager::getInstance().getChunk(mSoundPath),
+                      0);
+      updateCurrentLevel(mLevelData, Vector2D<int>(i, j), currentlySelected);
+      refreshLevelEditor();
+      // currentlySelected = GraveRunnerLevelItem::NONE;
+    }
+  };
+
+  auto levelGrid = std::make_shared<GridObject>(*this, xOffset, 0, 20, 20, 64,
+                                                64, gridCallback);
+  addObject(levelGrid);
   refreshLevelEditor();
 }
 

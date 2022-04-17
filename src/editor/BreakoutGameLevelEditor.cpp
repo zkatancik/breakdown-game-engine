@@ -48,22 +48,21 @@ void BreakoutGameLevelEditor::initialize() {
       x = 26;
       count = 0;
     }
-
-    // Grid component here
-    auto gridCallback = [&, mLevelData = &mLevelData](int i, int j) {
-      if (currentlySelected != BreakoutLevelItem::NONE) {
-        Mix_PlayChannel(1, ResourceManager::getInstance().getChunk(mSoundPath),
-                        0);
-        updateCurrentLevel(mLevelData, Vector2D<int>(i, j), currentlySelected);
-        refreshLevelEditor();
-        //currentlySelected = BreakoutLevelItem::NONE;
-      }
-    };
-
-    auto levelGrid = std::make_shared<GridObject>(*this, xOffset, 0, 20, 15, 64,
-                                                  32, gridCallback);
-    addObject(levelGrid);
   }
+  // Grid component here
+  auto gridCallback = [&, mLevelData = &mLevelData](int i, int j) {
+    if (currentlySelected != BreakoutLevelItem::NONE) {
+      Mix_PlayChannel(1, ResourceManager::getInstance().getChunk(mSoundPath),
+                      0);
+      updateCurrentLevel(mLevelData, Vector2D<int>(i, j), currentlySelected);
+      refreshLevelEditor();
+      //currentlySelected = BreakoutLevelItem::NONE;
+    }
+  };
+
+  auto levelGrid = std::make_shared<GridObject>(*this, xOffset, 0, 20, 15, 64,
+                                                32, gridCallback);
+  addObject(levelGrid);
   refreshLevelEditor();
 }
 void BreakoutGameLevelEditor::refreshLevelEditor() {
