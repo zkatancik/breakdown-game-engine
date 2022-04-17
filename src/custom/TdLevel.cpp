@@ -21,10 +21,14 @@ void TdLevel::initialize() {
   Vector2D<int> blockSize = mLevelData.blockSize;
 
   // Create indicators
-  auto keysIndicator = createScoreIndicatorObject();
+  auto scoreIndicator = createIndicatorObject("Score", 0);
+  auto coinsIndicator = createIndicatorObject("Coins", 0);
+  auto healthIndicator = createIndicatorObject("Health", 100);
   auto levelIndicator = createLevelIndicatorObject();
   addObject(levelIndicator);
-  addObject(keysIndicator);
+  addObject(scoreIndicator);
+  addObject(coinsIndicator);
+  addObject(healthIndicator);
 
   auto background =
       std::make_shared<GameObject>(*this, 0, 0, 1280, 768, TdBGTag);
@@ -80,11 +84,18 @@ void TdLevel::initialize() {
           placeableObj->addGenericComponent(
               std::make_shared<PerformHookOnCollideComponent>(
                   *placeableObj, TdEnemyTag,
-                  [&](Level&, const std::shared_ptr<GameObject>&) {
-                    std::cerr << "killed enemy!" << std::endl;
+                  [&, healthIndicator =
+                          std::weak_ptr<GameObject>(healthIndicator)](
+                      Level&, const std::shared_ptr<GameObject>&) {
+                    auto healthVarComponent =
+                        healthIndicator.lock()
+                            ->getGenericComponent<GameVariableComponent<int>>();
+                    healthVarComponent->setVariable(
+                        healthVarComponent->getVariable() - 20);
                   }));
           placeableObj->addGenericComponent(
-              std::make_shared<RemoveOnCollideComponent>(*placeableObj, TdEnemyTag));
+              std::make_shared<RemoveOnCollideComponent>(*placeableObj,
+                                                         TdEnemyTag));
         } else {
           std::cerr << "Error- Failed to add level item from row " << i
                     << ", col " << j << " in tower map file" << std::endl;
@@ -103,8 +114,26 @@ void TdLevel::initialize() {
   std::shared_ptr<NonHostileEnemy> enemy = std::make_shared<NonHostileEnemy>(
       *this, blockSize.x * mLevelData.startPosition.x,
       blockSize.y * mLevelData.startPosition.y, blockSize.x, blockSize.y,
-      "4/4_enemies_1_run_", TdLevelItem::SCORPIONS, mLevelData.endPosition, mLevelData.levelGrid);
+      "4/4_enemies_1_run_", TdLevelItem::SCORPIONS, mLevelData.endPosition,
+      mLevelData.levelGrid);
   addObject(enemy);
+  enemy->addGenericComponent(
+      std::make_shared<RemoveOnCollideComponent>(*enemy, TdBulletTag));
+  auto increaseScoreAndCoinsIndicatorLambda =
+      [&, scoreIndicator = std::weak_ptr<GameObject>(scoreIndicator),
+       coinsIndicator = std::weak_ptr<GameObject>(coinsIndicator)](
+          Level& level, std::shared_ptr<GameObject> obj) {
+        auto scoreVarComponent =
+            scoreIndicator.lock()
+                ->getGenericComponent<GameVariableComponent<int>>();
+        auto coinsVarComponent =
+            coinsIndicator.lock()
+                ->getGenericComponent<GameVariableComponent<int>>();
+        scoreVarComponent->setVariable(scoreVarComponent->getVariable() + 10);
+        coinsVarComponent->setVariable(coinsVarComponent->getVariable() + 5);
+      };
+  enemy->addGenericComponent(std::make_shared<PerformHookOnCollideComponent>(
+      *enemy, TdEndBlockTag, increaseScoreAndCoinsIndicatorLambda));
 
   createSidebarControls();
   createBottomBarControls();
@@ -219,29 +248,30 @@ std::shared_ptr<GameObject> TdLevel::createLevelIndicatorObject() {
   return levelIndicator;
 }
 
-std::shared_ptr<GameObject> TdLevel::createScoreIndicatorObject() {
+std::shared_ptr<GameObject> TdLevel::createIndicatorObject(std::string label,
+                                                           int initialVal) {
   auto scoreIndicator =
       std::make_shared<GameObject>(*this, 10, 50, 50, 50, BaseTextTag);
   auto textRenderer = std::make_shared<TextureRenderComponent>(*scoreIndicator);
 
   textRenderer->setRenderMode(TextureRenderComponent::RenderMode::QUERY);
   scoreIndicator->setRenderComponent(textRenderer);
-  std::string levelMessage = "Score: 0";
+  std::string levelMessage = label + ": " + std::to_string(initialVal);
   // TODO- use a font from TD2D (and/or move one from another game)
   auto textComponent = std::make_shared<TextComponent>(
       *scoreIndicator, levelMessage, 32, "Graverunner/fonts/GADAQUALI.ttf",
       textRenderer);
   scoreIndicator->addGenericComponent(textComponent);
   auto gameVariableComponent =
-      std::make_shared<GameVariableComponent<int>>(*scoreIndicator, 0);
+      std::make_shared<GameVariableComponent<int>>(*scoreIndicator, initialVal);
   scoreIndicator->addGenericComponent(gameVariableComponent);
   std::weak_ptr<GameVariableComponent<int>> gameVariableComponentWeak(
       gameVariableComponent);
   std::weak_ptr<TextComponent> textComponentWeak(textComponent);
   gameVariableComponent->setUpdateCallBack(
-      [gameVariableComponentWeak, textComponentWeak] {
+      [gameVariableComponentWeak, textComponentWeak, label] {
         textComponentWeak.lock()->SetMText(
-            "Score: " +
+            label + ": " +
             std::to_string(gameVariableComponentWeak.lock()->getVariable()));
       });
   return scoreIndicator;
