@@ -77,6 +77,14 @@ void TdLevel::initialize() {
         } else if (placeableBlocks.levelItemType == TdLevelItem::END) {
           placeableObj = std::make_shared<TdBlock>(*this, x, y, placeableBlocks,
                                                    blockSize, TdEndBlockTag);
+          placeableObj->addGenericComponent(
+              std::make_shared<PerformHookOnCollideComponent>(
+                  *placeableObj, TdEnemyTag,
+                  [&](Level&, const std::shared_ptr<GameObject>&) {
+                    std::cerr << "killed enemy!" << std::endl;
+                  }));
+          placeableObj->addGenericComponent(
+              std::make_shared<RemoveOnCollideComponent>(*placeableObj, TdEnemyTag));
         } else {
           std::cerr << "Error- Failed to add level item from row " << i
                     << ", col " << j << " in tower map file" << std::endl;
