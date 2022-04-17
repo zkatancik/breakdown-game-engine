@@ -27,7 +27,7 @@ void TdLevel::initialize() {
   auto scoreIndicator = createIndicatorObject("Score", 0, 10, 50);
   mScoreIndicator = std::weak_ptr(scoreIndicator);
   // Coins indicator
-  auto coinsIndicator = createIndicatorObject("Coins", 0, 10, 80);
+  auto coinsIndicator = createIndicatorObject("Coins", 20, 10, 80);
   mCoinIndicator = std::weak_ptr(coinsIndicator);
   // Health indicator
   auto healthIndicator = createIndicatorObject("Health", 100, 10, 120);
@@ -35,6 +35,7 @@ void TdLevel::initialize() {
   // Wave number indicator
   auto waveNumberIndicator = createIndicatorObject("Wave Number", 1, 10, 160);
   mCurrentWaveNumberIndicator = std::weak_ptr(waveNumberIndicator);
+
   // Level indicator
   auto levelIndicator = createLevelIndicatorObject();
   /********************************************************************************************************************/
@@ -226,16 +227,22 @@ void TdLevel::createBottomBarControls() {
 void TdLevel::createGrid() {
   auto gridCallback = [&, mLevelData = &mLevelData](int i, int j) {
     if (currentlySelected != TdLevelItem::NONE) {
-      auto tower = std::make_shared<RockThrowerTower>(*this, i * mLevelData->blockSize.x,
-                                                      j * mLevelData->blockSize.y, mLevelData->blockSize);
-      for (auto g : getGameObjects()) {
-        if (tower->isOverlapping(*g) && g->tag() == TdBlockTag) {
-          auto blockGameObject = std::dynamic_pointer_cast<TdBlock>(g).get();
-          if (blockGameObject->getBlockData().levelItemType == TdLevelItem::PLACETOWER) {
-            Mix_PlayChannel(1, ResourceManager::getInstance().getChunk(mSoundPath),
-                            0);
-            removeObject(g);
-            addObject(tower);
+      if (currentlySelected == TdLevelItem::ROCKTHROWER) {
+        auto tower = std::make_shared<RockThrowerTower>(*this, i * mLevelData->blockSize.x,
+                                                        j * mLevelData->blockSize.y, mLevelData->blockSize);
+        for (auto g : getGameObjects()) {
+          if (tower->isOverlapping(*g) && g->tag() == TdBlockTag) {
+            auto blockGameObject = std::dynamic_pointer_cast<TdBlock>(g).get();
+            if (blockGameObject->getBlockData().levelItemType == TdLevelItem::PLACETOWER) {
+              Mix_PlayChannel(1, ResourceManager::getInstance().getChunk(mSoundPath),
+                              0);
+              auto coinIndicatorVariable = mCoinIndicator.lock()->getGenericComponent<GameVariableComponent<int>>();
+              if (coinIndicatorVariable->getVariable() >= 10) {
+                removeObject(g);
+                addObject(tower);
+                coinIndicatorVariable->setVariable(coinIndicatorVariable->getVariable() - 10);
+              }
+            }
           }
         }
       }
@@ -328,7 +335,6 @@ void TdLevel::spawnEnemy(TdLevelItem enemyType, int delay) {
         ->getGenericComponent<GameVariableComponent<int>>();
     scoreVarComponent->setVariable(scoreVarComponent->getVariable() + 10);
     coinsVarComponent->setVariable(coinsVarComponent->getVariable() + 5);
-    addObject(enemy);
   };
   enemy->addGenericComponent(std::make_shared<PerformHookOnCollideComponent>(
       *enemy, TdEndBlockTag, increaseScoreAndCoinsIndicatorLambda));

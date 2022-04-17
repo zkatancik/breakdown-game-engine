@@ -16,8 +16,6 @@ Rock::Rock(Level& level, float x, float y, float w, float h, float vx, float vy)
       "TD2D/Sprites/Bullets/Bullets.png"));
   renderer->setCrop({209, 152, 38, 24});
   setRenderComponent(renderer);
-  addGenericComponent(
-      std::make_shared<RemoveOnCollideComponent>(*this, TdEnemyTag));
   setPhysicsComponent(std::make_shared<PhysicsComponent>(
       *this, b2BodyType::b2_dynamicBody, false));
   addGenericComponent(

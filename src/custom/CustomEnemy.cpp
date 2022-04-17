@@ -4,6 +4,7 @@
 #include "base/ResourceManager.hpp"
 #include "base/RemoveOnCollideComponent.hpp"
 #include "base/PhysicsManager.hpp"
+#include "base/HealthComponent.hpp"
 
 
 /**
@@ -54,6 +55,11 @@ CustomEnemy::CustomEnemy(Level& level, float tl_x, float tl_y, float w, float h,
   addGenericComponent(std::make_shared<RemoveOnCollideComponent>(*this, TdBulletTag));
 
   addGenericComponent(std::make_shared<CustomEnemyUpdateSpriteSheetComponent>(*this, spritePath, renderer_));
+
+  // Health component for the enemy
+  auto healthComponent = std::make_shared<HealthComponent>(*this, 5);
+  healthComponent->addHealthModifier(TdBulletTag, -1);
+  addGenericComponent(healthComponent);
 }
 
 CustomEnemy::~CustomEnemy() {
