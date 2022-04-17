@@ -318,15 +318,8 @@ std::string TdLevel::getTdBlockPath(TdLevelItem item) {
   }
 }
 void TdLevel::spawnEnemy(TdLevelItem enemyType, int delay) {
-  std::shared_ptr<NonHostileEnemy> enemy = std::make_shared<NonHostileEnemy>(
-      *this, mLevelData.blockSize.x * mLevelData.startPosition.x,
-      mLevelData.blockSize.y * mLevelData.startPosition.y, mLevelData.blockSize.x, mLevelData.blockSize.y,
-      "4/4_enemies_1_run_", enemyType, mLevelData.endPosition,
-      mLevelData.levelGrid);
-  enemy->addGenericComponent(
-      std::make_shared<RemoveOnCollideComponent>(*enemy, TdBulletTag));
-  auto increaseScoreAndCoinsIndicatorLambda =
-      [&](Level& level, std::shared_ptr<GameObject> obj) {
+  // Function to increase coin and score upon death
+  auto increaseScoreAndCoinsIndicatorLambda = [&]() {
     auto scoreVarComponent =
         mScoreIndicator.lock()
         ->getGenericComponent<GameVariableComponent<int>>();
@@ -336,8 +329,25 @@ void TdLevel::spawnEnemy(TdLevelItem enemyType, int delay) {
     scoreVarComponent->setVariable(scoreVarComponent->getVariable() + 10);
     coinsVarComponent->setVariable(coinsVarComponent->getVariable() + 5);
   };
+  // Actual constructor
+  std::shared_ptr<NonHostileEnemy> enemy = std::make_shared<NonHostileEnemy>(
+      *this, mLevelData.blockSize.x * mLevelData.startPosition.x,
+      mLevelData.blockSize.y * mLevelData.startPosition.y, mLevelData.blockSize.x, mLevelData.blockSize.y,
+      "4/4_enemies_1_run_", enemyType, mLevelData.endPosition,
+      mLevelData.levelGrid, increaseScoreAndCoinsIndicatorLambda);
+  // Decrease score and lives when reaching the end of the line
+  auto decreaseScoreAndLivesIndicatorLambda = [&](Level& level, std::shared_ptr<GameObject> gameObject) {
+    auto scoreVarComponent =
+        mScoreIndicator.lock()
+        ->getGenericComponent<GameVariableComponent<int>>();
+    auto healthVarComponent =
+        mHealthIndicator.lock()
+        ->getGenericComponent<GameVariableComponent<int>>();
+    scoreVarComponent->setVariable(scoreVarComponent->getVariable() - 5);
+    healthVarComponent->setVariable(healthVarComponent->getVariable() - 1);
+  };
   enemy->addGenericComponent(std::make_shared<PerformHookOnCollideComponent>(
-      *enemy, TdEndBlockTag, increaseScoreAndCoinsIndicatorLambda));
+      *enemy, TdEndBlockTag, decreaseScoreAndLivesIndicatorLambda));
   enemy->addGenericComponent(std::make_shared<DelayedSpawnComponent>(*enemy, delay));
   addObject(enemy);
 }

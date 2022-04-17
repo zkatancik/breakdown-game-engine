@@ -41,7 +41,8 @@ class CustomEnemyUpdateSpriteSheetComponent : public GenericComponent {
 };
 
 CustomEnemy::CustomEnemy(Level& level, float tl_x, float tl_y, float w, float h,
-                      std::string spritePath, TdLevelItem enemyItem)
+                         std::string spritePath, TdLevelItem enemyItem, int health,
+                         const std::function<void(void)>& callBackAtDeath)
     : GameObject(level, tl_x, tl_y, w, h, TdEnemyTag) {
 
   enemyItem_ = enemyItem;
@@ -57,9 +58,11 @@ CustomEnemy::CustomEnemy(Level& level, float tl_x, float tl_y, float w, float h,
   addGenericComponent(std::make_shared<CustomEnemyUpdateSpriteSheetComponent>(*this, spritePath, renderer_));
 
   // Health component for the enemy
-  auto healthComponent = std::make_shared<HealthComponent>(*this, 5);
+  auto healthComponent = std::make_shared<HealthComponent>(*this, health);
+  healthComponent->setCallbackAtDeath(callBackAtDeath);
   healthComponent->addHealthModifier(TdBulletTag, -1);
   addGenericComponent(healthComponent);
+  addGenericComponent(std::make_shared<RemoveOnCollideComponent>(*this, TdBulletTag));
 }
 
 CustomEnemy::~CustomEnemy() {

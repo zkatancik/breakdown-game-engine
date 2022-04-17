@@ -30,7 +30,8 @@ class CustomEnemy : public GameObject {
    * @param checkpoints checkpoints where this enemy patrols
    */
   explicit CustomEnemy(Level& level, float tl_x, float tl_y, float w, float h,
-                     std::string spritePath, TdLevelItem enemyItem);
+                     std::string spritePath, TdLevelItem enemyItem, int health,
+                     const std::function<void(void)>& callBackAtDeath);
 
   /**
    * @brief Destroy this Base CustomEnemy object

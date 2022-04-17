@@ -22,7 +22,7 @@ class NonHostileEnemy : public CustomEnemy {
   explicit NonHostileEnemy(Level& level, float tl_x, float tl_y, float w, float h,
                std::string spritePath, TdLevelItem enemyItem,
                Vector2D<int> targetPosition,
-              const std::vector<std::vector<TdBlockData>>& levelGrid);
+              const std::vector<std::vector<TdBlockData>>& levelGrid, const std::function<void(void)>& callbackAtDeath);
 
 #ifdef _TEST
   inline const int getXStep() const { return xVelocity; }
