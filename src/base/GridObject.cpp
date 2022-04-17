@@ -39,7 +39,7 @@ class GridComponent : public GenericComponent {
         InputManager::getInstance().isMouseKeyPressed(SDL_BUTTON_LEFT);
     if (isLeftMousePressed && mouseGridLocation.first != -1 &&
         mouseGridLocation.second != -1) {
-      mCallBack(mouseGridLocation.first, mouseGridLocation.second);
+      mCallBack(mouseGridLocation.second, mouseGridLocation.first);
     }
   }
 

@@ -13,13 +13,11 @@ class TdLevel : public Level {
  public:
   TdLevel(int w, int h, int levelNum)
       : Level(w, h),
-        currentLevelNumber(levelNum),
-        mScreenHeight(h),
-        mScreenWidth(w){};
+        mLevelNumber(levelNum){};
 
   void initialize() override;
 
-  inline int getLevelNumber() { return currentLevelNumber; };
+  inline int getLevelNumber() { return mLevelNumber; };
 
   /**
    * @brief Is this level in a "win" state?
@@ -32,9 +30,8 @@ class TdLevel : public Level {
   bool isLevelInProgress() const;
 
  private:
-  int currentLevelNumber{0};
-  int mScreenHeight{0};
-  int mScreenWidth{0};
+  int mLevelNumber{0};
+  int mNumEnemiesLeft{0};
 
   std::string mSoundPath = "Graverunner/2DPlatformer_SFX/ButtonClick_SFX.wav";
   TdLevelItem currentlySelected{TdLevelItem::NONE};
@@ -43,6 +40,7 @@ class TdLevel : public Level {
   std::weak_ptr<GameObject> mScoreIndicator;
   std::weak_ptr<GameObject> mCoinIndicator;
   std::weak_ptr<GameObject> mHealthIndicator;
+  std::weak_ptr<GameObject> mCurrentWaveNumberIndicator;
 
   void createSidebarControls();
   void createBottomBarControls();
@@ -50,7 +48,7 @@ class TdLevel : public Level {
   std::shared_ptr<GameObject> createLevelIndicatorObject();
   std::shared_ptr<GameObject> createIndicatorObject(std::string label,
                                                     int initialVal, int x, int y);
-  void placeEnemy(TdLevelItem enemyType, int delay);
+  void spawnEnemy(TdLevelItem enemyType, int delay);
 
   std::string getTdBlockPath(TdLevelItem item);
 

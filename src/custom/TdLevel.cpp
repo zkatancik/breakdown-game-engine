@@ -16,7 +16,7 @@
 
 void TdLevel::initialize() {
   // Load level file
-  loadLevel(&mLevelData, currentLevelNumber);
+  loadLevel(&mLevelData, mLevelNumber);
 
   int rowsOfBlocks = mLevelData.rowCount;
   int blocksPerRow = mLevelData.colCount;
@@ -32,6 +32,9 @@ void TdLevel::initialize() {
   // Health indicator
   auto healthIndicator = createIndicatorObject("Health", 100, 10, 120);
   mHealthIndicator = std::weak_ptr(healthIndicator);
+  // Wave number indicator
+  auto waveNumberIndicator = createIndicatorObject("Wave Number", 1, 10, 160);
+  mCurrentWaveNumberIndicator = std::weak_ptr(waveNumberIndicator);
   // Level indicator
   auto levelIndicator = createLevelIndicatorObject();
   /********************************************************************************************************************/
@@ -124,6 +127,7 @@ void TdLevel::initialize() {
   addObject(scoreIndicator);
   addObject(coinsIndicator);
   addObject(healthIndicator);
+  addObject(waveNumberIndicator);
   createGrid();
   addObject(std::make_shared<Mouse>(*this));
 }
@@ -140,8 +144,8 @@ bool TdLevel::isLevelInProgress() const {
 
 void TdLevel::createSidebarControls() {
   auto toolbarBackground =
-      std::make_shared<GameObject>(*this, mScreenWidth - xOffset, 0, xOffset,
-                                   mScreenHeight, hash("ToolbarTag"));
+      std::make_shared<GameObject>(*this, w() - xOffset, 0, xOffset,
+                                   h(), hash("ToolbarTag"));
   auto backgroundRenderer =
       std::make_shared<TextureRenderComponent>(*toolbarBackground);
 
@@ -159,14 +163,14 @@ void TdLevel::createSidebarControls() {
   };
 
   auto eraseButton = std::make_shared<LevelEditButton>(
-      *this, (mScreenWidth - xOffset) + 109, 35, 74, 74, 5, 5,
+      *this, (w() - xOffset) + 109, 35, 74, 74, 5, 5,
       "2DBreakout/Graphics/"
       "erase.png",
       mSoundPath, changeToErase);
 
   addObject(eraseButton);
 
-  int x = (mScreenWidth - xOffset) + 20;
+  int x = (w() - xOffset) + 20;
   int y = 193;
   int count = 0;
 
@@ -183,7 +187,7 @@ void TdLevel::createSidebarControls() {
     count++;
     if (count == 2) {
       y = y + 79;
-      x = (mScreenWidth - xOffset) + 20;
+      x = (w() - xOffset) + 20;
       count = 0;
     }
   }
@@ -191,7 +195,7 @@ void TdLevel::createSidebarControls() {
 
 void TdLevel::createBottomBarControls() {
   auto toolbarBackground = std::make_shared<GameObject>(
-      *this, 0, mScreenHeight - yOffset, mScreenWidth - xOffset, yOffset,
+      *this, 0, h() - yOffset, w() - xOffset, yOffset,
       hash("ToolbarTag"));
   auto backgroundRenderer =
       std::make_shared<TextureRenderComponent>(*toolbarBackground);
@@ -204,14 +208,15 @@ void TdLevel::createBottomBarControls() {
 
   addObject(toolbarBackground);
   auto startWaveLambda = [&] () {
-    for (auto enemyInfo : mLevelData.enemyWaves[0]) {
+    int currentWaveNumber = mCurrentWaveNumberIndicator.lock()->getGenericComponent<GameVariableComponent<int>>()->getVariable() - 1;
+    for (auto enemyInfo : mLevelData.enemyWaves[currentWaveNumber]) {
       for (int i = 0; i < enemyInfo.second; i++) {
-        placeEnemy(enemyInfo.first, i * 3 + 1);
+        spawnEnemy(enemyInfo.first, i * 3 + 1);
       }
     }
   };
   // Add the start wave button
-  auto startWaveButton = std::make_shared<TdButton>(*this, 320, mScreenHeight - yOffset, 24, 16, "Start Wave!",
+  auto startWaveButton = std::make_shared<TdButton>(*this, 320, h() - yOffset, 24, 16, "Start Wave!",
                                                     startWaveLambda,
                                                     16);
   addObject(startWaveButton);
@@ -221,8 +226,19 @@ void TdLevel::createBottomBarControls() {
 void TdLevel::createGrid() {
   auto gridCallback = [&, mLevelData = &mLevelData](int i, int j) {
     if (currentlySelected != TdLevelItem::NONE) {
-      Mix_PlayChannel(1, ResourceManager::getInstance().getChunk(mSoundPath),
-                      0);
+      auto tower = std::make_shared<RockThrowerTower>(*this, i * mLevelData->blockSize.x,
+                                                      j * mLevelData->blockSize.y, mLevelData->blockSize);
+      for (auto g : getGameObjects()) {
+        if (tower->isOverlapping(*g) && g->tag() == TdBlockTag) {
+          auto blockGameObject = std::dynamic_pointer_cast<TdBlock>(g).get();
+          if (blockGameObject->getBlockData().levelItemType == TdLevelItem::PLACETOWER) {
+            Mix_PlayChannel(1, ResourceManager::getInstance().getChunk(mSoundPath),
+                            0);
+            removeObject(g);
+            addObject(tower);
+          }
+        }
+      }
       // updateCurrentLevel(mLevelData, Vector2D<int>(i, j), currentlySelected);
     }
   };
@@ -241,7 +257,7 @@ std::shared_ptr<GameObject> TdLevel::createLevelIndicatorObject() {
 
   textRenderer->setRenderMode(TextureRenderComponent::RenderMode::QUERY);
   levelIndicator->setRenderComponent(textRenderer);
-  std::string levelMessage = "Level: " + std::to_string(currentLevelNumber);
+  std::string levelMessage = "Level: " + std::to_string(mLevelNumber);
   auto textComponent = std::make_shared<TextComponent>(
       *levelIndicator, levelMessage, 32, "Graverunner/fonts/GADAQUALI.ttf",
       textRenderer);
@@ -294,7 +310,7 @@ std::string TdLevel::getTdBlockPath(TdLevelItem item) {
       return "";
   }
 }
-void TdLevel::placeEnemy(TdLevelItem enemyType, int delay) {
+void TdLevel::spawnEnemy(TdLevelItem enemyType, int delay) {
   std::shared_ptr<NonHostileEnemy> enemy = std::make_shared<NonHostileEnemy>(
       *this, mLevelData.blockSize.x * mLevelData.startPosition.x,
       mLevelData.blockSize.y * mLevelData.startPosition.y, mLevelData.blockSize.x, mLevelData.blockSize.y,

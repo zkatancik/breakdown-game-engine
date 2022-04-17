@@ -37,28 +37,11 @@ class TdBlock : public GameObject {
   ~TdBlock() = default;
 
   /**
-   * @brief Get the center of the Block.
-   *
-   * @return Vector2D<int> location of the center as a position vector (world
-   * space)
-   */
-  inline Vector2D<int> getCenter() const {
-    return {Dest.x + Dest.w / 2, Dest.y + Dest.h / 2};
-  };
-
-  /**
-   * @brief Get the dimensions of the Block.
-   *
-   * @return Vector2D<int> width and height (respectively) of this Block
-   */
-  inline Vector2D<int> getDims() const { return {Dest.w, Dest.h}; };
-
-  /**
    * @brief Get configuration data about this Block.
    *
    * @return blockData about this Block
    */
-  // inline TdBlockData getBlockData() const { return blockData; };
+   inline TdBlockData getBlockData() const { return blockData; };
 
  private:
   void init(int xCoord, int yCoord, TdBlockData bd, Vector2D<int> bs);
