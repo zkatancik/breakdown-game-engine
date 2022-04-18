@@ -1,5 +1,5 @@
-#ifndef CUSTOM_LEVEL_EDITOR_HPP
-#define CUSTOM_LEVEL_EDITOR_HPP
+#ifndef TD_LEVEL_EDITOR_HPP
+#define TD_LEVEL_EDITOR_HPP
 #include <base/GridRenderComponent.hpp>
 
 #include "base/GameVariableComponent.hpp"
@@ -35,7 +35,12 @@ class TdLevelEditor : public TdLevel {
   static std::string getTdBlockPath(TdLevelItem item);
 
   std::vector<TdLevelItem> itemVector = {
-      TdLevelItem::PLACETOWER,        TdLevelItem::ROCKTHROWER,
+      TdLevelItem::END,        TdLevelItem::MOONOGRE,
+      TdLevelItem::ETCAT,        TdLevelItem::NOBLOCK,
+      TdLevelItem::ETSHURIKEN,        TdLevelItem::NONE,
+      TdLevelItem::HELMETOGRE,         TdLevelItem::OGRE,
+      TdLevelItem::HELMETOGRESWORDSMAN, TdLevelItem::PATHBLOCK,
+      TdLevelItem::HELMETSWORDSMAN, TdLevelItem::PLACETOWER,
       TdLevelItem::PLAINBLOCK};
 };
 
