@@ -40,7 +40,17 @@ SDL_Texture* TdBlock::getBlockTexture() {
       filename = "Empty.png";
       return ResourceManager::getInstance().getTexture(
         (std::filesystem::path("TD2D/Sprites/Tiles/") / filename).string());
-    case TdLevelItem::PATHBLOCK:
+    case TdLevelItem::PATHBLOCK0:
+    case TdLevelItem::PATHBLOCK1:
+    case TdLevelItem::PATHBLOCK2:
+    case TdLevelItem::PATHBLOCK3:
+    case TdLevelItem::PATHBLOCK4:
+    case TdLevelItem::PATHBLOCK5:
+    case TdLevelItem::PATHBLOCK6:
+    case TdLevelItem::PATHBLOCK7:
+    case TdLevelItem::PATHBLOCK8:
+    case TdLevelItem::PATHBLOCK9:
+    case TdLevelItem::PATHBLOCKA:
       filename = "Road" + blockData.blockNumber + ".png";
       return ResourceManager::getInstance().getTexture(
         (std::filesystem::path("TD2D/Sprites/Tiles/") / filename).string());

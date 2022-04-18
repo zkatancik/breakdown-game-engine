@@ -15,7 +15,7 @@ NonHostileEnemy::NonHostileEnemy(Level& level, float tl_x, float tl_y, float w,
   {
     for (size_t j = 0; j < levelGrid[0].size(); j++)
     {
-      if (levelGrid[i][j].levelItemType == TdLevelItem::PATHBLOCK)
+      if (3 <= (int)levelGrid[i][j].levelItemType && (int)levelGrid[i][j].levelItemType <= 13)
       {
         pathGrid[i][j] = true;
       } else {

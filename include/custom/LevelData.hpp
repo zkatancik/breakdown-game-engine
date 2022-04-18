@@ -26,7 +26,17 @@ enum class TdLevelItem {
   NONE,
   NOBLOCK,
   PLAINBLOCK,
-  PATHBLOCK,
+  PATHBLOCK0,
+  PATHBLOCK1,
+  PATHBLOCK2,
+  PATHBLOCK3,
+  PATHBLOCK4,
+  PATHBLOCK5,
+  PATHBLOCK6,
+  PATHBLOCK7,
+  PATHBLOCK8,
+  PATHBLOCK9,
+  PATHBLOCKA,
   PLACETOWER,
   ROCKTHROWER,
   START,
@@ -81,6 +91,8 @@ struct TdLevelData {
   int colCount;
   Vector2D<int> blockSize;
 };
+
+std::string getItemChar(TdLevelItem item);
 
 /**
  * @brief Load Level file based on the level passed to the function.

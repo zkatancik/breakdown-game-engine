@@ -35,12 +35,20 @@ class TdLevelEditor : public TdLevel {
   static std::string getTdBlockPath(TdLevelItem item);
 
   std::vector<TdLevelItem> itemVector = {
-      TdLevelItem::END,        TdLevelItem::MOONOGRE,
-      TdLevelItem::ETCAT,        TdLevelItem::NOBLOCK,
-      TdLevelItem::ETSHURIKEN,        TdLevelItem::NONE,
-      TdLevelItem::HELMETOGRE,         TdLevelItem::OGRE,
-      TdLevelItem::HELMETOGRESWORDSMAN, TdLevelItem::PATHBLOCK,
-      TdLevelItem::HELMETSWORDSMAN, TdLevelItem::PLACETOWER,
+      TdLevelItem::END,
+      TdLevelItem::START,
+      TdLevelItem::PATHBLOCK0,
+      TdLevelItem::PATHBLOCK1,
+      TdLevelItem::PATHBLOCK2,
+      TdLevelItem::PATHBLOCK3,
+      TdLevelItem::PATHBLOCK4,
+      TdLevelItem::PATHBLOCK5,
+      TdLevelItem::PATHBLOCK6,
+      TdLevelItem::PATHBLOCK7,
+      TdLevelItem::PATHBLOCK8,
+      TdLevelItem::PATHBLOCK9,
+      TdLevelItem::PATHBLOCKA,
+      TdLevelItem::PLACETOWER,
       TdLevelItem::PLAINBLOCK};
 };
 

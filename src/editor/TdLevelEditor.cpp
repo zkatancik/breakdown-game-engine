@@ -72,32 +72,36 @@ void TdLevelEditor::initialize() {
 std::string TdLevelEditor::getTdBlockPath(
     TdLevelItem item) {
   switch (item) {
-    case TdLevelItem::NONE:
-      return "";
-    case TdLevelItem::NOBLOCK:
-      return "";
-    // case TdLevelItem::TILE1:
-    //   return "Graverunner/graveyardtiles/png/Tiles/Tile1.png";
-    // case TdLevelItem::TILE2:
-    //   return "Graverunner/graveyardtiles/png/Tiles/Tile2.png";
-    // case TdLevelItem::TILE3:
-    //   return "Graverunner/graveyardtiles/png/Tiles/Tile3.png";
-    // case TdLevelItem::TILEX:
-    //   return "Graverunner/graveyardtiles/png/Tiles/TileX.png";
-    // case TdLevelItem::TILEY:
-    //   return "Graverunner/graveyardtiles/png/Tiles/TileY.png";
-    // case TdLevelItem::TILEZ:
-    //   return "Graverunner/graveyardtiles/png/Tiles/TileZ.png";
-    // case TdLevelItem::JACK:
-    //   return "Graverunner/jack/Idle1.png";
-    // case TdLevelItem::PATROLZOMBIE:
-    //   return "Graverunner/zombies/male/Idle1.png";
-    // case TdLevelItem::FOLLOWZOMBIE:
-    //   return "Graverunner/zombies/male/Idle1.png";
-    // case TdLevelItem::KEY:
-    //   return "Graverunner/key.png";
-    // case TdLevelItem::EXIT:
-    //   return "Graverunner/exit.png";
+    case TdLevelItem::PLAINBLOCK:
+      return "TD2D/Sprites/Tiles/Empty.png";
+    case TdLevelItem::PATHBLOCK0:
+      return "TD2D/Sprites/Tiles/Road0.png";
+    case TdLevelItem::PATHBLOCK1:
+      return "TD2D/Sprites/Tiles/Road1.png";
+    case TdLevelItem::PATHBLOCK2:
+      return "TD2D/Sprites/Tiles/Road2.png";
+    case TdLevelItem::PATHBLOCK3:
+      return "TD2D/Sprites/Tiles/Road3.png";
+    case TdLevelItem::PATHBLOCK4:
+      return "TD2D/Sprites/Tiles/Road4.png";
+    case TdLevelItem::PATHBLOCK5:
+      return "TD2D/Sprites/Tiles/Road5.png";
+    case TdLevelItem::PATHBLOCK6:
+      return "TD2D/Sprites/Tiles/Road6.png";
+    case TdLevelItem::PATHBLOCK7:
+      return "TD2D/Sprites/Tiles/Road7.png";
+    case TdLevelItem::PATHBLOCK8:
+      return "TD2D/Sprites/Tiles/Road8.png";
+    case TdLevelItem::PATHBLOCK9:
+      return "TD2D/Sprites/Tiles/Road9.png";
+    case TdLevelItem::PATHBLOCKA:
+      return "TD2D/Sprites/Tiles/RoadA.png";
+    case TdLevelItem::PLACETOWER:
+      return "TD2D/Sprites/Towers/BuildingPlace.png";
+    case TdLevelItem::START:
+      return "TD2D/Sprites/Gizmos/SpawnPointGizmo.png";
+    case TdLevelItem::END:
+      return "TD2D/Sprites/Gizmos/CapturePointGizmo.png";
     default:
       std::cerr << "Failed to get Tower Defense block path for item "
                 << static_cast<int>(item) << std::endl;
@@ -108,13 +112,12 @@ std::string TdLevelEditor::getTdBlockPath(
 void TdLevelEditor::refreshLevelEditor() {
   for (const auto& gameObject : getGameObjects()) {
     // Remove any blocks remaining previously
-    if (/*gameObject->tag() == TdLevelBoundaryTag ||*/
-        // gameObject->tag() == TdBulletTag ||
-        // gameObject->tag() == TdJackTag ||
-        // gameObject->tag() == TdZombieTag ||
-        // gameObject->tag() == TdExitTag ||
-        // gameObject->tag() == TdKeyTag ||
-        // gameObject->tag() == TdNormalBlockTag ||
+    if (gameObject->tag() == TdEnemyTag ||
+        gameObject->tag() == TdBulletTag ||
+        gameObject->tag() == TdRockThrowerTowerTag ||
+        gameObject->tag() == TdEndBlockTag ||
+        gameObject->tag() == TdBlockTag ||
+        gameObject->tag() == TdBGTag ||
         gameObject->tag() == BaseTextTag)
       removeObject(gameObject);
   }
@@ -123,14 +126,12 @@ void TdLevelEditor::refreshLevelEditor() {
   for (const auto& gameObject : getGameObjectsToAdd()) {
     // Remove any text components (lives, level, score, etc) + Ball + Paddle +
     // Boundaries
-    if (/*gameObject->tag() == TdLevelBoundaryTag ||
+    if (gameObject->tag() == TdEnemyTag ||
         gameObject->tag() == TdBulletTag ||
-        gameObject->tag() == TdJackTag ||
-        gameObject->tag() == TdZombieTag ||
-        gameObject->tag() == TdExitTag ||
-        gameObject->tag() == TdKeyTag ||
-        gameObject->tag() == TdNormalBlockTag ||
-        gameObject->tag() == TdBGTag ||*/
+        gameObject->tag() == TdRockThrowerTowerTag ||
+        gameObject->tag() == TdEndBlockTag ||
+        gameObject->tag() == TdBlockTag ||
+        gameObject->tag() == TdBGTag ||
         gameObject->tag() == BaseTextTag)
       // Add an x-offset to make space for buttons
       gameObject->setX(gameObject->x() + float(xOffset));

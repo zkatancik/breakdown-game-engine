@@ -66,7 +66,17 @@ void TdLevel::initialize() {
 
         if (b.levelItemType == TdLevelItem::PLAINBLOCK) {
           obj = std::make_shared<TdBlock>(*this, x, y, b, blockSize);
-        } else if (b.levelItemType == TdLevelItem::PATHBLOCK) {
+        } else if (b.levelItemType == TdLevelItem::PATHBLOCK0
+        || b.levelItemType == TdLevelItem::PATHBLOCK1
+        || b.levelItemType == TdLevelItem::PATHBLOCK2
+        || b.levelItemType == TdLevelItem::PATHBLOCK3
+        || b.levelItemType == TdLevelItem::PATHBLOCK4
+        || b.levelItemType == TdLevelItem::PATHBLOCK5
+        || b.levelItemType == TdLevelItem::PATHBLOCK6
+        || b.levelItemType == TdLevelItem::PATHBLOCK7
+        || b.levelItemType == TdLevelItem::PATHBLOCK8
+        || b.levelItemType == TdLevelItem::PATHBLOCK9
+        || b.levelItemType == TdLevelItem::PATHBLOCKA) {
           obj = std::make_shared<TdBlock>(*this, x, y, b, blockSize);
         } else if (b.levelItemType == TdLevelItem::ROCKTHROWER) {
           obj = std::make_shared<RockThrowerTower>(*this, x, y, blockSize);

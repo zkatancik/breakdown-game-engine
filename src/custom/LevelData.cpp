@@ -104,9 +104,38 @@ void loadLevel(TdLevelData *levelData, int level) {
         if (ch == '.') {
           data.levelItemType = TdLevelItem::PLAINBLOCK;
           data.blockNumber = ch;
-        } else if (ch == '1' || ch == '2' || ch == '3' || ch == '4' ||
-                   ch == '5' || ch == '6') {
-          data.levelItemType = TdLevelItem::PATHBLOCK;
+        } else if (ch == '0') {
+          data.levelItemType = TdLevelItem::PATHBLOCK0;
+          data.blockNumber = ch;
+        } else if (ch == '1') {
+          data.levelItemType = TdLevelItem::PATHBLOCK1;
+          data.blockNumber = ch;
+        } else if (ch == '2') {
+          data.levelItemType = TdLevelItem::PATHBLOCK2;
+          data.blockNumber = ch;
+        } else if (ch == '3') {
+          data.levelItemType = TdLevelItem::PATHBLOCK3;
+          data.blockNumber = ch;
+        } else if (ch == '4') {
+          data.levelItemType = TdLevelItem::PATHBLOCK4;
+          data.blockNumber = ch;
+        } else if (ch == '5') {
+          data.levelItemType = TdLevelItem::PATHBLOCK5;
+          data.blockNumber = ch;
+        } else if (ch == '6') {
+          data.levelItemType = TdLevelItem::PATHBLOCK6;
+          data.blockNumber = ch;
+        } else if (ch == '7') {
+          data.levelItemType = TdLevelItem::PATHBLOCK7;
+          data.blockNumber = ch;
+        } else if (ch == '8') {
+          data.levelItemType = TdLevelItem::PATHBLOCK8;
+          data.blockNumber = ch;
+        } else if (ch == '9') {
+          data.levelItemType = TdLevelItem::PATHBLOCK9;
+          data.blockNumber = ch;
+        } else if (ch == 'A') {
+          data.levelItemType = TdLevelItem::PATHBLOCKA;
           data.blockNumber = ch;
         } else if (ch == 'T') {
           data.levelItemType = TdLevelItem::ROCKTHROWER;
@@ -212,16 +241,112 @@ void loadLevel(TdLevelData *levelData, int level) {
   }
 }
 
+std::string getItemChar(
+    TdLevelItem item) {
+  switch (item) {
+    // case TdLevelItem::NONE:
+    //   return "";
+    case TdLevelItem::NOBLOCK:
+      return "X";
+    case TdLevelItem::PLAINBLOCK:
+      return ".";
+    case TdLevelItem::PATHBLOCK0:
+      return "0";
+    case TdLevelItem::PATHBLOCK1:
+      return "1";
+    case TdLevelItem::PATHBLOCK2:
+      return "2";
+    case TdLevelItem::PATHBLOCK3:
+      return "3";
+    case TdLevelItem::PATHBLOCK4:
+      return "4";
+    case TdLevelItem::PATHBLOCK5:
+      return "5";
+    case TdLevelItem::PATHBLOCK6:
+      return "6";
+    case TdLevelItem::PATHBLOCK7:
+      return "7";
+    case TdLevelItem::PATHBLOCK8:
+      return "8";
+    case TdLevelItem::PATHBLOCK9:
+      return "9";
+    case TdLevelItem::PATHBLOCKA:
+      return "A";
+    case TdLevelItem::PLACETOWER:
+      return "O";
+    case TdLevelItem::ROCKTHROWER:
+      return "T";
+    case TdLevelItem::END:
+      return "E";
+    case TdLevelItem::START:
+    case TdLevelItem::SCORPIONS:
+      return "S";
+    case TdLevelItem::WIZARD:
+      return "W";
+    case TdLevelItem::OGRE:
+      return "O";
+    case TdLevelItem::HELMETSWORDSMAN:
+      return "HS";
+    case TdLevelItem::HELMETOGRE:
+      return "HO";
+    case TdLevelItem::SWORDCAT:
+      return "SC";
+    case TdLevelItem::ETCAT:
+      return "ETC";
+    case TdLevelItem::MOONOGRE:
+      return "MO";
+    case TdLevelItem::ETSHURIKEN:
+      return "ETS";
+    case TdLevelItem::HELMETOGRESWORDSMAN:
+      return "HOS";
+    default:
+      std::cerr << "Failed to get Tower Defense block key for item "
+                << static_cast<int>(item) << std::endl;
+      return "";
+  }
+}
+
 void updateCurrentLevel(TdLevelData *levelData, 
                         Vector2D<int> gridPosition,
                         TdLevelItem item) {
   // Update the Level
-  // if (item != TdLevelItem::NONE) {
-  //   levelData->levelGrid[gridPosition.x][gridPosition.y] = item;
-
-  //   // Update the Level File
-  //   updateLevelFile(*levelData, gridPosition, item);
-  // }
+  if (item != TdLevelItem::NONE) {
+    if (item == TdLevelItem::PLAINBLOCK
+        || item == TdLevelItem::PATHBLOCK0
+        || item == TdLevelItem::PATHBLOCK1
+        || item == TdLevelItem::PATHBLOCK2
+        || item == TdLevelItem::PATHBLOCK3
+        || item == TdLevelItem::PATHBLOCK4
+        || item == TdLevelItem::PATHBLOCK5
+        || item == TdLevelItem::PATHBLOCK6
+        || item == TdLevelItem::PATHBLOCK7
+        || item == TdLevelItem::PATHBLOCK8
+        || item == TdLevelItem::PATHBLOCK9
+        || item == TdLevelItem::PATHBLOCKA) {
+      auto data = TdBlockData();
+      data.levelItemType = item;
+      data.blockNumber = getItemChar(item);
+      data.isTowerPlacable = levelData->placableBlockGrid[gridPosition.x][gridPosition.y].isTowerPlacable;
+      levelData->levelGrid[gridPosition.x][gridPosition.y] = data;
+      // Update the Level File
+      updateLevelFile(*levelData, gridPosition, item);
+    } else if (item == TdLevelItem::PLACETOWER
+        || item == TdLevelItem::START
+        || item == TdLevelItem::NOBLOCK
+        || item == TdLevelItem::END) {
+      auto towerPlacableData = TdBlockData();
+      towerPlacableData.blockNumber = getItemChar(item);
+      towerPlacableData.isTowerPlacable = false;
+      if (item == TdLevelItem::PLACETOWER)
+      {
+        towerPlacableData.isTowerPlacable = true;
+      }
+      towerPlacableData.levelItemType = item;
+      levelData->placableBlockGrid[gridPosition.x][gridPosition.y] = towerPlacableData;
+      // Update the Level File
+      updateLevelFile(*levelData, gridPosition, item);
+    }
+  }
 }
 
 /**
@@ -232,49 +357,65 @@ void updateCurrentLevel(TdLevelData *levelData,
  * @param item the item to add at above position
  */
 void updateLevelFile(TdLevelData ld, Vector2D<int> gridPosition, TdLevelItem item) {
-  // const filesystem::path resPath = getResourcePath("TD2D/levels");
-  // std::string resourceFilename =
-  //     (resPath / ("level" + std::to_string(ld.levelNumber) + ".txt")).string();
+  const filesystem::path resPath = getResourcePath("TD2D/levels");
+  std::string resourceFilename =
+      (resPath / ("level" + std::to_string(ld.levelNumber) + ".txt")).string();
+  
+  std::string towerMapFilename =
+      (resPath / ("level" + std::to_string(ld.levelNumber) + "-TowerMap.txt")).string();
+  
+  std::string line;
+  std::fstream *myfile = ResourceManager::getInstance().openFile(resourceFilename, std::fstream::out | std::fstream::trunc);
+  std::fstream *towerMapfile = ResourceManager::getInstance().openFile(towerMapFilename, std::fstream::out | std::fstream::trunc);
 
-  // std::string line;
-  // std::fstream *myfile = ResourceManager::getInstance().openFile(resourceFilename, std::fstream::out | std::fstream::trunc);
+  int lineCounter = 0;
+  int colNumber = 0;
 
-  // int lineCounter = 0;
-  // int colNumber = 0;
+  if (myfile->is_open() && towerMapfile->is_open()) {
 
-  // if (myfile->is_open()) {
+    *myfile << std::to_string(ld.rowCount) << std::endl;
+    *towerMapfile << std::to_string(ld.rowCount) << std::endl;
 
-  //   *myfile << std::to_string(ld.rowCount) << std::endl;
+    *myfile << std::to_string(ld.colCount) << std::endl;
+    *towerMapfile << std::to_string(ld.colCount) << std::endl;
 
-  //   *myfile << std::to_string(ld.colCount) << std::endl;
+    *myfile << std::to_string(ld.blockSize.x) << std::endl;
+    *towerMapfile << std::to_string(ld.blockSize.x) << std::endl;
 
-  //   *myfile << std::to_string(ld.blockSize.x) << std::endl;
+    *myfile << std::to_string(ld.blockSize.y) << std::endl;
+    *towerMapfile << std::to_string(ld.blockSize.y) << std::endl;
 
-  //   *myfile << std::to_string(ld.blockSize.y) << std::endl;
+    int i = 0;
+    int j = 0;
+    for (i = 0; i < ld.rowCount; i++)
+    {
+      for (j = 0; j < ld.colCount; j++)
+      {
+        if (getItemChar(ld.levelGrid[i][j].levelItemType) == "")
+        {
+          std::cout << "Why is" << std::to_string(i) << "," << std::to_string(j) << " None?\n";
+        }
 
-  //   int i = 0;
-  //   int j = 0;
-  //   for (i = 0; i < ld.rowCount; i++)
-  //   {
-  //     for (j = 0; j < ld.colCount; j++)
-  //     {
-  //       *myfile << (char)ld.levelGrid[i][j];
-  //     }
+        *myfile << getItemChar(ld.levelGrid[i][j].levelItemType);
+        *towerMapfile << getItemChar(ld.placableBlockGrid[i][j].levelItemType);
+      }
 
-  //     if (i != ld.rowCount - 1)
-  //     {
-  //       *myfile << std::endl;
-  //     }
+      if (i != ld.rowCount - 1)
+      {
+        *myfile << std::endl;
+        *towerMapfile << std::endl;
+      }
 
-  //     lineCounter++;
-  //   }
+      lineCounter++;
+    }
 
-  //   ResourceManager::getInstance().closeFile(resourceFilename);
-  // } else {
+    ResourceManager::getInstance().closeFile(resourceFilename);
+    ResourceManager::getInstance().closeFile(towerMapFilename);
+  } else {
 
-  //   // Create a new file.
-  //   std::cout << "Unable to open file \n";
-  //   std::cout << "Creating a new file \n";
+    // Create a new file.
+    std::cout << "Unable to open file \n";
+    std::cout << "Creating a new file \n";
 
-  // }
+  }
 }
