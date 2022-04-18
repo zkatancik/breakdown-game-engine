@@ -198,6 +198,7 @@ void TdLevel::createBottomBarControls() {
       "TD2D/Sprites/GUI/Menu/bottombar.png"));
 
   addObject(toolbarBackground);
+  
   auto startWaveLambda = [&] () {
     if (mNumEnemiesLeft == 0) {
       int currentWaveNumber = mCurrentWaveNumberIndicator.lock()->getGenericComponent<GameVariableComponent<int>>()->getVariable() - 1;
@@ -206,14 +207,15 @@ void TdLevel::createBottomBarControls() {
           spawnEnemy(enemyInfo.first, i * 3 + 1);
         }
       }
-    }
+      mStartWaveButton.get()->setIsVisibleOnScreen(false);
+    }    
   };
+
   // Add the start wave button
-  auto startWaveButton = std::make_shared<TdButton>(*this, 320, h() - sideBarYOffset, 24, 16, "Start Wave!",
+  mStartWaveButton = std::make_shared<TdButton>(*this, 320, h() - sideBarYOffset, 24, 16, "Start Wave!",
                                                     startWaveLambda,
                                                     16);
-  addObject(startWaveButton);
-
+  addObject(mStartWaveButton);
 }
 
 void TdLevel::createGrid() {
@@ -341,6 +343,7 @@ void TdLevel::spawnEnemy(TdLevelItem enemyType, int delay) {
     if (mNumEnemiesLeft == 0) {
       auto waveNumberVariable = mCurrentWaveNumberIndicator.lock()->getGenericComponent<GameVariableComponent<int>>();
       waveNumberVariable->setVariable(waveNumberVariable->getVariable() + 1);
+      mStartWaveButton.get()->setIsVisibleOnScreen(true);
     }
   };
   // Actual constructor

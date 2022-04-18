@@ -41,6 +41,8 @@ class GameObject: public std::enable_shared_from_this<GameObject> {
   inline void setW(float w) {mW = w;}
   inline void setH(float h) {mH = h;}
 
+  inline void setIsVisibleOnScreen(bool b) {isVisibleOnScreen = b;}
+
   inline float x() const { return mX; }
   inline float y() const { return mY; }
   inline float w() const { return mW; }
@@ -89,6 +91,8 @@ class GameObject: public std::enable_shared_from_this<GameObject> {
 
   float mX, mY, mW, mH;
   int mTag;
+
+  bool isVisibleOnScreen = true;
 
   std::vector<std::shared_ptr<GenericComponent>> mGenericComponents;
   std::shared_ptr<PhysicsComponent> mPhysicsComponent;

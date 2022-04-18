@@ -12,24 +12,30 @@ GameObject::~GameObject() {}
 
 void GameObject::update() {
   for (auto genericComponent : mGenericComponents) {
-    genericComponent->update(mLevel);
+    if (isVisibleOnScreen)
+    {
+      genericComponent->update(mLevel);
+    }
   }
 }
 
 void GameObject::collision(std::shared_ptr<GameObject> obj) {
   for (auto genericComponent : mGenericComponents) {
-    genericComponent->collision(mLevel, obj);
+    if (isVisibleOnScreen)
+    {
+      genericComponent->collision(mLevel, obj);
+    }
   }
 }
 
 void GameObject::postStep() {
-  if (mPhysicsComponent) {
+  if (mPhysicsComponent && isVisibleOnScreen) {
     mPhysicsComponent->postStep();
   }
 }
 
 void GameObject::render(SDL_Renderer* renderer) {
-  if (mRenderComponent) {
+  if (mRenderComponent && isVisibleOnScreen) {
     mRenderComponent->render(renderer);
   }
 }
