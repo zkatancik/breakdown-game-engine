@@ -24,18 +24,19 @@ void TdLevel::initialize() {
   Vector2D<int> blockSize = mLevelData.blockSize;
   /********************************************************************************************************************/
   // Create indicators and Game variables
-  // Score Indicator
-  auto scoreIndicator = createIndicatorObject("Score", 0, 10, 50);
-  mScoreIndicator = std::weak_ptr(scoreIndicator);
-  // Coins indicator
-  auto coinsIndicator = createIndicatorObject("Coins", 20, 10, 80);
-  mCoinIndicator = std::weak_ptr(coinsIndicator);
-  // Health indicator
-  auto healthIndicator = createIndicatorObject("Health", 100, 10, 120);
-  mHealthIndicator = std::weak_ptr(healthIndicator);
+
   // Wave number indicator
-  auto waveNumberIndicator = createIndicatorObject("Wave Number", 1, 10, 160);
+  auto waveNumberIndicator = createIndicatorObject("Wave Number", 1, 1300, 15);
   mCurrentWaveNumberIndicator = std::weak_ptr(waveNumberIndicator);
+  // Score Indicator
+  auto scoreIndicator = createIndicatorObject("Score", 0, 1300, 50);
+  mScoreIndicator = std::weak_ptr(scoreIndicator);
+  // Health indicator
+  auto healthIndicator = createIndicatorObject("Health", 100, 1300, 100);
+  mHealthIndicator = std::weak_ptr(healthIndicator);
+  // Coins indicator
+  auto coinsIndicator = createIndicatorObject("Coins", 20, 1300, 135);
+  mCoinIndicator = std::weak_ptr(coinsIndicator);
 
   // Level indicator
   auto levelIndicator = createLevelIndicatorObject();
