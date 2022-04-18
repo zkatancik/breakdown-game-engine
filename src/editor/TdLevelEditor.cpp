@@ -50,22 +50,27 @@ void TdLevelEditor::initialize() {
       x = 26;
       count = 0;
     }
-
-    // Grid component here
-    auto gridCallback = [&, mLevelData = &mLevelData](int i, int j) {
-      if (currentlySelected != TdLevelItem::NONE) {
-        Mix_PlayChannel(1, ResourceManager::getInstance().getChunk(mSoundPath),
-                        0);
-        updateCurrentLevel(mLevelData, Vector2D<int>(i, j), currentlySelected);
-        refreshLevelEditor();
-        // currentlySelected = GraveRunnerLevelItem::NONE;
-      }
-    };
-
-    auto levelGrid = std::make_shared<GridObject>(*this, xOffset, 0, 20, 20, 64,
-                                                  64, gridCallback);
-    addObject(levelGrid);
   }
+  // Grid component here
+  auto gridCallback = [&, mLevelData = &mLevelData](int i, int j) {
+    if (currentlySelected != TdLevelItem::NONE) {
+      Mix_PlayChannel(1, ResourceManager::getInstance().getChunk(mSoundPath),
+                      0);
+
+      std::cout << "Clicked -> (x,y) = (" << std::to_string(j)
+      << ","
+      << std::to_string(i) << ")\n";
+
+      updateCurrentLevel(mLevelData, Vector2D<int>(j, i), currentlySelected);
+      refreshLevelEditor();
+      // currentlySelected = GraveRunnerLevelItem::NONE;
+    }
+  };
+
+  auto levelGrid = std::make_shared<GridObject>(*this, xOffset, 0, 20, 20, 64,
+                                                64, gridCallback);
+  addObject(levelGrid);
+  
   refreshLevelEditor();
 }
 
@@ -112,13 +117,15 @@ std::string TdLevelEditor::getTdBlockPath(
 void TdLevelEditor::refreshLevelEditor() {
   for (const auto& gameObject : getGameObjects()) {
     // Remove any blocks remaining previously
-    if (gameObject->tag() == TdEnemyTag ||
+    if (
+        gameObject->tag() == TdEnemyTag ||
         gameObject->tag() == TdBulletTag ||
         gameObject->tag() == TdRockThrowerTowerTag ||
         gameObject->tag() == TdEndBlockTag ||
         gameObject->tag() == TdBlockTag ||
         gameObject->tag() == TdBGTag ||
-        gameObject->tag() == BaseTextTag)
+        gameObject->tag() == BaseTextTag
+      )
       removeObject(gameObject);
   }
   TdLevel::initialize();
@@ -126,13 +133,15 @@ void TdLevelEditor::refreshLevelEditor() {
   for (const auto& gameObject : getGameObjectsToAdd()) {
     // Remove any text components (lives, level, score, etc) + Ball + Paddle +
     // Boundaries
-    if (gameObject->tag() == TdEnemyTag ||
-        gameObject->tag() == TdBulletTag ||
+    if (
+        gameObject->tag() == TdEnemyTag ||
+        // gameObject->tag() == TdBulletTag ||
         gameObject->tag() == TdRockThrowerTowerTag ||
         gameObject->tag() == TdEndBlockTag ||
         gameObject->tag() == TdBlockTag ||
         gameObject->tag() == TdBGTag ||
-        gameObject->tag() == BaseTextTag)
+        gameObject->tag() == BaseTextTag
+      )
       // Add an x-offset to make space for buttons
       gameObject->setX(gameObject->x() + float(xOffset));
   }

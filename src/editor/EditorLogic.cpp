@@ -136,8 +136,8 @@ void EditorLogic::createAndInitTdSelector(int width, int height) {
           mTowerDefenseLevelEditors[i]->finalize();
           mTowerDefenseLevelEditors[i]->initialize();
           auto returnButton = std::make_shared<TdButton>(
-              *mTowerDefenceLevelSelector, 200, 640, 2 * width / 3, 40, u8"Return",
-              [&]() { mCurrentlyActiveLevel = mStartMenu; }, 32);
+              *mTowerDefenceLevelSelector, 200, 700, 2 * width / 4, 20, u8"Return",
+              [&]() { mCurrentlyActiveLevel = mStartMenu; }, 24);
           mTowerDefenseLevelEditors[i]->addObject(returnButton);
           mCurrentlyActiveLevel = mTowerDefenseLevelEditors[i];
         }, 32);
