@@ -30,7 +30,7 @@ class CustomEnemy : public GameObject {
    * @param checkpoints checkpoints where this enemy patrols
    */
   explicit CustomEnemy(Level& level, float tl_x, float tl_y, float w, float h,
-                     std::string spritePath, TdLevelItem enemyItem, int health,
+                     TdLevelItem enemyItem, int health,
                      const std::function<void(void)>& callBackAtDeath);
 
   /**
@@ -45,8 +45,6 @@ class CustomEnemy : public GameObject {
   const int xVelocity = 100;
 
   TdLevelItem enemyItem_{TdLevelItem::NONE};
-
-
 
   std::shared_ptr<TextureRenderComponent> renderer_;
 };

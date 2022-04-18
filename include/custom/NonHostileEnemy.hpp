@@ -20,8 +20,7 @@ class NonHostileEnemy : public CustomEnemy {
    * @param checkpoints checkpoints where the zombie patrols
    */
   explicit NonHostileEnemy(Level& level, float tl_x, float tl_y, float w, float h,
-               std::string spritePath, TdLevelItem enemyItem,
-               Vector2D<int> targetPosition,
+              TdLevelItem enemyItem, Vector2D<int> targetPosition,
               const std::vector<std::vector<TdBlockData>>& levelGrid, const std::function<void(void)>& callbackAtDeath);
 
 #ifdef _TEST

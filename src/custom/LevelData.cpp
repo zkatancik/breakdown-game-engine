@@ -6,10 +6,27 @@
 #include "base/ResPath.hpp"
 #include "base/ResourceManager.hpp"
 
-
 TdLevelItem getEnemy(const std::string& enemyTypeStr) {
-  if (enemyTypeStr == "HS")
+  if (enemyTypeStr == "S")
     return TdLevelItem::SCORPIONS;
+  else if (enemyTypeStr == "W")
+    return TdLevelItem::WIZARD;
+  else if (enemyTypeStr == "O")
+    return TdLevelItem::OGRE;
+  else if (enemyTypeStr == "HS")
+    return TdLevelItem::HELMETSWORDSMAN;
+  else if (enemyTypeStr == "HO")
+    return TdLevelItem::HELMETOGRE;
+  else if (enemyTypeStr == "SC")
+    return TdLevelItem::SWORDCAT;
+  else if (enemyTypeStr == "ETC")
+    return TdLevelItem::ETCAT;
+  else if (enemyTypeStr == "MO")
+    return TdLevelItem::MOONOGRE;
+  else if (enemyTypeStr == "ETS")
+    return TdLevelItem::ETSHURIKEN;
+  else if (enemyTypeStr == "HOS")
+    return TdLevelItem::HELMETOGRESWORDSMAN;
   else
     return TdLevelItem::NONE;
 }

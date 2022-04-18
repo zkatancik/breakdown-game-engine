@@ -347,8 +347,7 @@ void TdLevel::spawnEnemy(TdLevelItem enemyType, int delay) {
   std::shared_ptr<NonHostileEnemy> enemy = std::make_shared<NonHostileEnemy>(
       *this, mLevelData.blockSize.x * mLevelData.startPosition.x,
       mLevelData.blockSize.y * mLevelData.startPosition.y, mLevelData.blockSize.x, mLevelData.blockSize.y,
-      "4/4_enemies_1_run_", enemyType, mLevelData.endPosition,
-      mLevelData.levelGrid, increaseScoreAndCoinsIndicatorLambda);
+      enemyType, mLevelData.endPosition, mLevelData.levelGrid, increaseScoreAndCoinsIndicatorLambda);
   // Decrease score and lives when reaching the end of the line
   auto decreaseScoreAndLivesIndicatorLambda = [=](Level& level, std::shared_ptr<GameObject> gameObject) {
     auto scoreVarComponent =
