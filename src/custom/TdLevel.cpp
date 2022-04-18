@@ -16,6 +16,7 @@
 
 void TdLevel::initialize() {
   // Load level file
+  mNumEnemiesLeft = 0;
   loadLevel(&mLevelData, mLevelNumber);
 
   int rowsOfBlocks = mLevelData.rowCount;
@@ -159,19 +160,6 @@ void TdLevel::createSidebarControls() {
       "TD2D/Sprites/GUI/Menu/sidebar.png"));
 
   addObject(toolbarBackground);
-
-  auto changeToErase = [&] {
-    currentlySelected = TdLevelItem::NOBLOCK;
-    mGridObject.lock()->setCurrentlySelected("ERASE");
-  };
-
-  auto eraseButton = std::make_shared<LevelEditButton>(
-      *this, (w() - sideBarXOffset) + 109, 35, 74, 74, 5, 5,
-      "2DBreakout/Graphics/"
-      "erase.png",
-      mSoundPath, changeToErase);
-
-  addObject(eraseButton);
 
   int x = (w() - sideBarXOffset) + 20;
   int y = 193;
