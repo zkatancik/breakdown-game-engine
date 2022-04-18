@@ -130,7 +130,7 @@ void EditorLogic::createAndInitTdSelector(int width, int height) {
   mTowerDefenceLevelSelector->addObject(gameSelectMessage);
   // Level numbers button
   for (size_t i = 0; i < mTowerDefenseLevelEditors.size(); i++) {
-    auto graverunnerButton = std::make_shared<TdButton>(
+    auto tdButton = std::make_shared<TdButton>(
         *mTowerDefenceLevelSelector, width * 0.6 + i * (width * 0.4), height / 2,
         2 * width / 3, 139, std::to_string(i + 1), [=]() {
           mTowerDefenseLevelEditors[i]->finalize();
@@ -141,7 +141,7 @@ void EditorLogic::createAndInitTdSelector(int width, int height) {
           mTowerDefenseLevelEditors[i]->addObject(returnButton);
           mCurrentlyActiveLevel = mTowerDefenseLevelEditors[i];
         });
-    mTowerDefenceLevelSelector->addObject(graverunnerButton);
+    mTowerDefenceLevelSelector->addObject(tdButton);
   }
 
   // Back button

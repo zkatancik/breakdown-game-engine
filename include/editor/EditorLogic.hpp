@@ -10,8 +10,8 @@
 #include "editor/EditorManager.hpp"
 #include "editor/EditorUIManager.hpp"
 #include "graverunner/GraveRunnerButton.hpp"
-#include "custom/TdButton.hpp"
 #include "editor/TdLevelEditor.hpp"
+#include "custom/TdButton.hpp"
 
 /**
  * @brief Contains Subsystem management for the editor
