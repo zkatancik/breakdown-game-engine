@@ -28,7 +28,7 @@ TdButton::TdButton(Level& level, float x, float y, float w, float h,
   auto addedSoundWithSelectHook = [selectHook = std::move(selectHook)] {
     Mix_PlayChannel(
         1,
-        ResourceManager::getInstance().getChunk("2DTd/SFX/ButtonClick_SFX.wav"),
+        ResourceManager::getInstance().getChunk("TD2D/Audio/Common/Click1.mp3"),
         0);
     selectHook();
   };
