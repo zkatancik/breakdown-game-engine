@@ -147,7 +147,7 @@ bool TdLevel::isLevelInProgress() const {
 
 void TdLevel::createSidebarControls() {
   auto toolbarBackground =
-      std::make_shared<GameObject>(*this, w() - xOffset, 0, xOffset,
+      std::make_shared<GameObject>(*this, w() - xOffsetTD, 0, xOffsetTD,
                                    h(), hash("ToolbarTag"));
   auto backgroundRenderer =
       std::make_shared<TextureRenderComponent>(*toolbarBackground);
@@ -166,14 +166,14 @@ void TdLevel::createSidebarControls() {
   };
 
   auto eraseButton = std::make_shared<LevelEditButton>(
-      *this, (w() - xOffset) + 109, 35, 74, 74, 5, 5,
+      *this, (w() - xOffsetTD) + 109, 35, 74, 74, 5, 5,
       "2DBreakout/Graphics/"
       "erase.png",
       mSoundPath, changeToErase);
 
   addObject(eraseButton);
 
-  int x = (w() - xOffset) + 20;
+  int x = (w() - xOffsetTD) + 20;
   int y = 193;
   int count = 0;
 
@@ -190,7 +190,7 @@ void TdLevel::createSidebarControls() {
     count++;
     if (count == 2) {
       y = y + 79;
-      x = (w() - xOffset) + 20;
+      x = (w() - xOffsetTD) + 20;
       count = 0;
     }
   }
@@ -198,7 +198,7 @@ void TdLevel::createSidebarControls() {
 
 void TdLevel::createBottomBarControls() {
   auto toolbarBackground = std::make_shared<GameObject>(
-      *this, 0, h() - yOffset, w() - xOffset, yOffset,
+      *this, 0, h() - yOffsetTD, w() - xOffsetTD, yOffsetTD,
       hash("ToolbarTag"));
   auto backgroundRenderer =
       std::make_shared<TextureRenderComponent>(*toolbarBackground);
@@ -221,7 +221,7 @@ void TdLevel::createBottomBarControls() {
     }
   };
   // Add the start wave button
-  auto startWaveButton = std::make_shared<TdButton>(*this, 320, h() - yOffset, 24, 16, "Start Wave!",
+  auto startWaveButton = std::make_shared<TdButton>(*this, 320, h() - yOffsetTD, 24, 16, "Start Wave!",
                                                     startWaveLambda,
                                                     16);
   addObject(startWaveButton);

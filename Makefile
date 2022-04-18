@@ -94,7 +94,7 @@ DEFAULT_EXE_DEBUG=$(word 1,$(BREAKOUT_EXECUTABLES_DEBUG))
 
 ## editor files
 EDITOR_EXE_SRC_FILES=$(shell sh -c '/usr/bin/find src/editor -name "main*.cpp" 2>/dev/null')
-EDITOR_SOURCE_FILES=$(filter-out $(EDITOR_EXE_SRC_FILES) $(GRAVERUNNER_EXE_SRC_FILES) $(BREAKOUT_EXE_SRC_FILES),$(shell sh -c '/usr/bin/find src/editor src/graverunner src/breakout $(EXTERN_SOURCES) -name "*.cpp" 2>/dev/null'))
+EDITOR_SOURCE_FILES=$(filter-out $(EDITOR_EXE_SRC_FILES) $(GRAVERUNNER_EXE_SRC_FILES) $(BREAKOUT_EXE_SRC_FILES) $(TD_EXE_SRC_FILES),$(shell sh -c '/usr/bin/find src/editor src/graverunner src/breakout src/custom $(EXTERN_SOURCES) -name "*.cpp" 2>/dev/null'))
 EDITOR_HEADER_FILES=$(shell sh -c '/usr/bin/find include include/editor src/editor -name "*.hpp" 2>/dev/null')
 EDITOR_SOURCE_FILES+=$(BASE_SOURCE_FILES)
 EDITOR_HEADER_FILES+=$(BASE_INCLUDE_FILES)

@@ -241,7 +241,7 @@ void updateLevelFile(TdLevelData ld, Vector2D<int> gridPosition, TdLevelItem ite
     {
       for (j = 0; j < ld.colCount; j++)
       {
-        *myfile << (char)ld.levelGrid[i][j];
+        *myfile << static_cast<char>(ld.levelGrid[i][j]);
       }
 
       if (i != ld.rowCount - 1)

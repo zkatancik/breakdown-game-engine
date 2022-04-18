@@ -49,7 +49,7 @@ class EditorLogic : public SDLProgramLogic {
       nullptr, nullptr, nullptr, nullptr};  //< Level editors
   std::vector<std::shared_ptr<GraveRunnerLevelEditor>> mGraveRunnerLevelEditors{
       nullptr, nullptr, nullptr};  //< Level editors
-  std::vector<std::shared_ptr<TdLevelEditor>> mTowerDefenseLevelEditors{
+      std::vector<std::shared_ptr<TdLevelEditor>> mTowerDefenseLevelEditors{
       nullptr, nullptr, nullptr, nullptr};  //< Level editors
   /**
    * Creates and initializes the start menu of the level editor.

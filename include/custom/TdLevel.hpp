@@ -6,8 +6,6 @@
 
 #include "custom/LevelData.hpp"
 
-static const int xOffset = 200;
-static const int yOffset = 100;
 
 class TdLevel : public Level {
  public:
@@ -32,6 +30,8 @@ class TdLevel : public Level {
  private:
   int mLevelNumber{0};
   int mNumEnemiesLeft{0};
+  const int xOffsetTD = 200;
+  const int yOffsetTD = 100;
 
   std::string mSoundPath = "TD2D/Audio/Common/Click2.mp3";
   TdLevelItem currentlySelected{TdLevelItem::NONE};

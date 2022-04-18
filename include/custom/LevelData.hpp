@@ -1,5 +1,5 @@
-#ifndef TD_LEVELDATA_HPP
-#define TD_LEVELDATA_HPP
+#ifndef TD_LEVEL_DATA_HPP
+#define TD_LEVEL_DATA_HPP
 
 #include <iostream>
 #include <vector>
