@@ -4,7 +4,7 @@
 #include "base/GridObject.hpp"
 #include "base/PerformHookOnCollideComponent.hpp"
 #include "custom/LevelData.hpp"
-#include "custom/LevelEditButton.hpp"
+#include "custom/CustomLevelEditButton.hpp"
 #include "custom/Mouse.hpp"
 #include "custom/NonHostileEnemy.hpp"
 #include "custom/Tag.hpp"
@@ -170,7 +170,7 @@ void TdLevel::createSidebarControls() {
       currentlySelected = item;
       mGridObject.lock()->setCurrentlySelected(getTdBlockPath(item));
     };
-    auto button = std::make_shared<LevelEditButton>(*this, x, y, 74, 74, 5.f,
+    auto button = std::make_shared<CustomLevelEditButton>(*this, x, y, 74, 74, 5.f,
                                                     5.f, getTdBlockPath(item),
                                                     mSoundPath, lambda, true);
     addObject(button);

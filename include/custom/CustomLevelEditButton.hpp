@@ -1,5 +1,5 @@
-#ifndef LEVEL_EDIT_BUTTON_HPP
-#define LEVEL_EDIT_BUTTON_HPP
+#ifndef TD_LEVEL_EDIT_BUTTON_HPP
+#define TD_LEVEL_EDIT_BUTTON_HPP
 
 #include <base/Tag.hpp>
 
@@ -8,15 +8,15 @@
 #include "base/RectangleRenderComponent.hpp"
 #include "base/SelectableComponent.hpp"
 #include "base/TextComponent.hpp"
-#include "breakout/Mouse.hpp"
-#include "breakout/Tag.hpp"
+#include "custom/Mouse.hpp"
+#include "custom/Tag.hpp"
 
 /**
  * @brief A class representing a clickable UI Text Button.
  */
-class LevelEditButton : public GameObject {
+class CustomLevelEditButton : public GameObject {
  public:
-  LevelEditButton(Level& level, float x, float y, float w, float h,
+  CustomLevelEditButton(Level& level, float x, float y, float w, float h,
                   float xOffSet, float yOffSet, std::string path,
                   std::string soundPath, std::function<void(void)> selectHook,
                   bool customWidth = false);

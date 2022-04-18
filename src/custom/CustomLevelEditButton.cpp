@@ -1,6 +1,6 @@
-#include "editor/LevelEditButton.hpp"
+#include "custom/CustomLevelEditButton.hpp"
 
-LevelEditButton::LevelEditButton(Level& level, float x, float y, float w,
+CustomLevelEditButton::CustomLevelEditButton(Level& level, float x, float y, float w,
                                  float h, float xOffSet, float yOffSet,
                                  std::string path, std::string soundPath,
                                  std::function<void(void)> selectHook,
