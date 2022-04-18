@@ -54,7 +54,7 @@ void EditorLogic::createAndInitStartMenu(int width, int height) {
   auto tDefenseButton = std::make_shared<TdButton>(
       *mStartMenu, width, height / 2 + 180, 2 * width / 3, 139,
       u8"Tower Defense",
-      [&]() { mCurrentlyActiveLevel = mTowerDefenceLevelSelector; });
+      [&]() { mCurrentlyActiveLevel = mTowerDefenceLevelSelector; }, 32);
   mStartMenu->addObject(tDefenseButton);
 }
 
@@ -131,7 +131,7 @@ void EditorLogic::createAndInitTdSelector(int width, int height) {
   // Level numbers button
   for (size_t i = 0; i < mTowerDefenseLevelEditors.size(); i++) {
     auto tdButton = std::make_shared<TdButton>(
-        *mTowerDefenceLevelSelector, width * 0.6 + i * (width * 0.4), height / 2,
+        *mTowerDefenceLevelSelector, width * 0.4 + i * (width * 0.4), height / 2,
         2 * width / 3, 139, std::to_string(i + 1), [=]() {
           mTowerDefenseLevelEditors[i]->finalize();
           mTowerDefenseLevelEditors[i]->initialize();
@@ -140,14 +140,14 @@ void EditorLogic::createAndInitTdSelector(int width, int height) {
               [&]() { mCurrentlyActiveLevel = mStartMenu; });
           mTowerDefenseLevelEditors[i]->addObject(returnButton);
           mCurrentlyActiveLevel = mTowerDefenseLevelEditors[i];
-        });
+        }, 32);
     mTowerDefenceLevelSelector->addObject(tdButton);
   }
 
   // Back button
   auto returnButton = std::make_shared<TdButton>(
       *mTowerDefenceLevelSelector, width * 1.0 - 25, height * 0.7, 2 * width / 3,
-      139, u8"Return", [&]() { mCurrentlyActiveLevel = mStartMenu; });
+      139, u8"Return", [&]() { mCurrentlyActiveLevel = mStartMenu; }, 32);
   mTowerDefenceLevelSelector->addObject(returnButton);
 }
 

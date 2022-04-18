@@ -13,7 +13,7 @@ void TdLevelEditor::initialize() {
       TextureRenderComponent::RenderMode::WHOLE_WIDTH);
   toolbarBackground->setRenderComponent(backgroundRenderer);
   backgroundRenderer->setTexture(ResourceManager::getInstance().getTexture(
-      "2DBreakout/Graphics/editorToolbar.png"));
+      "TD2D/Sprites/GUI/Menu/sidebar.png"));
 
   addObject(toolbarBackground);
 
