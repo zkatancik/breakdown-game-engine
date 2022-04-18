@@ -1,19 +1,5 @@
 #include "custom/TdLevel.hpp"
 
-#include "base/GameVariableComponent.hpp"
-#include "base/GridObject.hpp"
-#include "base/PerformHookOnCollideComponent.hpp"
-#include "custom/LevelData.hpp"
-#include "custom/CustomLevelEditButton.hpp"
-#include "custom/Mouse.hpp"
-#include "custom/NonHostileEnemy.hpp"
-#include "custom/Tag.hpp"
-#include "custom/TdBlock.hpp"
-#include "custom/RockThrowerTower.hpp"
-#include "custom/LevelTimer.hpp"
-#include "custom/TdButton.hpp"
-#include "base/DelayedSpawnComponent.hpp"
-
 void TdLevel::initialize() {
   // Load level file
   mNumEnemiesLeft = 0;
