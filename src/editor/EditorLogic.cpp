@@ -4,8 +4,10 @@ void EditorLogic::startUp(SDL_Renderer *gRender, int width, int height) {
   createAndInitStartMenu(width, height);
   createAndInitBreakoutLevelSelector(width, height);
   createAndInitGraveRunnerSelector(width, height);
+  createAndInitTdSelector(width, height);
   createBreakoutLevelEditors(width, height);
   createGraveRunnerLevelEditors(width, height);
+  createTdLevelEditors(width, height);
   mCurrentlyActiveLevel = mStartMenu;
 }
 void EditorLogic::update() {
@@ -21,8 +23,10 @@ void EditorLogic::shutDown() {
   mStartMenu->finalize();
   mBreakOutLevelSelector->finalize();
   mGraveRunnerLevelSelector->finalize();
+  mTowerDefenceLevelSelector->finalize();
   for (auto l : mBreakoutLevelEditors) l->finalize();
   for (auto l : mGraveRunnerLevelEditors) l->finalize();
+  for (auto l : mTowerDefenseLevelEditors) l->finalize();
 }
 
 void EditorLogic::createAndInitStartMenu(int width, int height) {
@@ -86,6 +90,7 @@ void EditorLogic::createAndInitBreakoutLevelSelector(int width, int height) {
       [&]() { mCurrentlyActiveLevel = mStartMenu; });
   mBreakOutLevelSelector->addObject(returnButton);
 }
+
 void EditorLogic::createAndInitGraveRunnerSelector(int width, int height) {
   mGraveRunnerLevelSelector = std::make_shared<Level>(width, height);
   // Create the select level message
@@ -117,33 +122,33 @@ void EditorLogic::createAndInitGraveRunnerSelector(int width, int height) {
 }
 
 void EditorLogic::createAndInitTdSelector(int width, int height) {
-  mGraveRunnerLevelSelector = std::make_shared<Level>(width, height);
+  mTowerDefenceLevelSelector = std::make_shared<Level>(width, height);
   // Create the select level message
   auto gameSelectMessage = std::make_shared<TextMessageObject>(
-      *mGraveRunnerLevelSelector, "Select Level:", width / 2 - 150, height / 5,
+      *mTowerDefenceLevelSelector, "Select Level:", width / 2 - 150, height / 5,
       "Graverunner/fonts/GADAQUALI.ttf", 64);
-  mGraveRunnerLevelSelector->addObject(gameSelectMessage);
+  mTowerDefenceLevelSelector->addObject(gameSelectMessage);
   // Level numbers button
-  for (size_t i = 0; i < mGraveRunnerLevelEditors.size(); i++) {
-    auto graverunnerButton = std::make_shared<GraveRunnerButton>(
-        *mGraveRunnerLevelSelector, width * 0.6 + i * (width * 0.4), height / 2,
+  for (size_t i = 0; i < mTowerDefenseLevelEditors.size(); i++) {
+    auto graverunnerButton = std::make_shared<TdButton>(
+        *mTowerDefenceLevelSelector, width * 0.6 + i * (width * 0.4), height / 2,
         2 * width / 3, 139, std::to_string(i + 1), [=]() {
-          mGraveRunnerLevelEditors[i]->finalize();
-          mGraveRunnerLevelEditors[i]->initialize();
-          auto returnButton = std::make_shared<GraveRunnerButton>(
-              *mGraveRunnerLevelSelector, 200, 640, 2 * width / 3, 40, "Return",
+          mTowerDefenseLevelEditors[i]->finalize();
+          mTowerDefenseLevelEditors[i]->initialize();
+          auto returnButton = std::make_shared<TdButton>(
+              *mTowerDefenceLevelSelector, 200, 640, 2 * width / 3, 40, "Return",
               [&]() { mCurrentlyActiveLevel = mStartMenu; });
-          mGraveRunnerLevelEditors[i]->addObject(returnButton);
-          mCurrentlyActiveLevel = mGraveRunnerLevelEditors[i];
+          mTowerDefenseLevelEditors[i]->addObject(returnButton);
+          mCurrentlyActiveLevel = mTowerDefenseLevelEditors[i];
         });
-    mGraveRunnerLevelSelector->addObject(graverunnerButton);
+    mTowerDefenceLevelSelector->addObject(graverunnerButton);
   }
 
   // Back button
-  auto returnButton = std::make_shared<GraveRunnerButton>(
-      *mGraveRunnerLevelSelector, width * 1.0 - 25, height * 0.7, 2 * width / 3,
+  auto returnButton = std::make_shared<TdButton>(
+      *mTowerDefenceLevelSelector, width * 1.0 - 25, height * 0.7, 2 * width / 3,
       139, "Return", [&]() { mCurrentlyActiveLevel = mStartMenu; });
-  mGraveRunnerLevelSelector->addObject(returnButton);
+  mTowerDefenceLevelSelector->addObject(returnButton);
 }
 
 void EditorLogic::createBreakoutLevelEditors(int width, int height) {
@@ -157,5 +162,12 @@ void EditorLogic::createGraveRunnerLevelEditors(int width, int height) {
   for (size_t i = 0; i < mGraveRunnerLevelEditors.size(); i++) {
     mGraveRunnerLevelEditors[i] =
         std::make_shared<GraveRunnerLevelEditor>(width, height, i + 1);
+  }
+}
+
+void EditorLogic::createTdLevelEditors(int width, int height) {
+  for (size_t i = 0; i < mTowerDefenseLevelEditors.size(); i++) {
+    mTowerDefenseLevelEditors[i] =
+        std::make_shared<TdLevelEditor>(width, height, i + 1);
   }
 }

@@ -6,8 +6,8 @@
 
 #include "custom/LevelData.hpp"
 
-static const int xOffset = 200;
-static const int yOffset = 100;
+static const int sideBarXOffset = 200;
+static const int sideBarYOffset = 100;
 
 class TdLevel : public Level {
  public:

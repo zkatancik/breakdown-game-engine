@@ -1,5 +1,5 @@
-#ifndef GRAVERUNNER_LEVEL_EDITOR_HPP
-#define GRAVERUNNER_LEVEL_EDITOR_HPP
+#ifndef TD_LEVEL_EDITOR_HPP
+#define TD_LEVEL_EDITOR_HPP
 #include <base/GridRenderComponent.hpp>
 
 #include "base/GameVariableComponent.hpp"
@@ -35,12 +35,13 @@ class TdLevelEditor : public TdLevel {
   static std::string getTdBlockPath(TdLevelItem item);
 
   std::vector<TdLevelItem> itemVector = {
-      TdLevelItem::TILE1,        TdLevelItem::TILE2,
-      TdLevelItem::TILE3,        TdLevelItem::TILEX,
-      TdLevelItem::TILEY,        TdLevelItem::TILEZ,
-      TdLevelItem::JACK,         TdLevelItem::PATROLZOMBIE,
-      TdLevelItem::FOLLOWZOMBIE, TdLevelItem::KEY,
-      TdLevelItem::EXIT};
+      TdLevelItem::END,        TdLevelItem::MOONOGRE,
+      TdLevelItem::ETCAT,        TdLevelItem::NOBLOCK,
+      TdLevelItem::ETSHURIKEN,        TdLevelItem::NONE,
+      TdLevelItem::HELMETOGRE,         TdLevelItem::OGRE,
+      TdLevelItem::HELMETOGRESWORDSMAN, TdLevelItem::PATHBLOCK,
+      TdLevelItem::HELMETSWORDSMAN, TdLevelItem::PLACETOWER,
+      TdLevelItem::PLAINBLOCK};
 };
 
 #endif
