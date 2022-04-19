@@ -5,7 +5,7 @@
 - Matin Raayai Ardakani - matinraayai
 
 
--- Did you implement any extentions? If so, which ones, who implemented each, and how can they be tried out?
+-- Did you implement any extensions? If so, which ones, who implemented each, and how can they be tried out?
 None
 
 
@@ -34,8 +34,16 @@ and allow for reusable components across both games. This change allowed us to e
 and gameObjects in both the games and the editor. After the breakout game worked with the new design, others helped transfering
 it into other deliverables of the project. I then helped each team member with bug fixes.
 
-Marcin - Mostly worked on porting over the GraveRunner functionality into the new infrastructure after Matin did the initial setup.
+Marcin -
+(Milestone 1)
+Mostly worked on porting over the GraveRunner functionality into the new infrastructure after Matin did the initial setup.
 This included both the game itself and its level editor.
+(Milestone 2)
+Led the push to add the Rock Throwing Tower and support classes (E.g. Rock, RockThrower Component, etc.) including parsing level
+files, creating the new objects, defining the interactions between Rocks and Enemies. Also did some touchups to
+TdLevel/TdLogic-related code for handling the necessary new functionality (e.g. tracking score, lives, reducing enemy health, etc.).
+Ported over and fixed unit tests for previous games. Added unit tests for the Tower Defense game code. Added documentation
+throughout Tower Defense codebase.
 
 Zack - 
 (Milestone 1) Rewrote all UI components to be game objects, including buttons, menus, etc. Worked extensively
@@ -59,7 +67,7 @@ Updated instructions.
 Roshan - (M1) 40, (M2) 80
 Zack - (M1) 40, (M2) 20
 Matin - 60
-Marcin - 20
+Marcin - (M1) 20, (M2) 20
 
 
 -- (Optional) What was your favorite part of the lab?
