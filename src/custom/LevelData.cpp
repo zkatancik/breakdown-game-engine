@@ -398,13 +398,6 @@ void updateCurrentLevel(TdLevelData *levelData,
   }
 }
 
-/**
- * @brief Update the item in the current level.
- *
- * @param levelNumber  the levelNumber.txt to be updated
- * @param gridPosition the position at which to update item
- * @param item the item to add at above position
- */
 void updateLevelFile(TdLevelData ld, Vector2D<int> gridPosition, TdLevelItem item) {
   const filesystem::path resPath = getResourcePath("TD2D/levels");
   std::string resourceFilename =

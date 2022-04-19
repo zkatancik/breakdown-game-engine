@@ -12,6 +12,11 @@
  */
 class Mouse : public GameObject {
  public:
+  /**
+   * @brief Construct a new Mouse object
+   *
+   * @param level the level that this mouse belongs to
+   */
   Mouse(Level& level) : GameObject(level, 1, 1, 48, 48, BaseMouseTag) {
     auto renderComponent = std::make_shared<TextureRenderComponent>(*this);
     renderComponent->setTexture(ResourceManager::getInstance().getTexture(
@@ -20,6 +25,9 @@ class Mouse : public GameObject {
     SDL_ShowCursor(false);
   }
 
+  /**
+   * @brief Updates the state of this mouse with SDL
+   */
   void update() override {
     int x, y;
     SDL_GetMouseState(&x, &y);

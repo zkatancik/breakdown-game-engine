@@ -12,9 +12,24 @@
  */
 class PeriodicRockThrowComponent : public GenericComponent {
  public:
+  /**
+   * @brief Construct a new Periodic Rock Throw Component object
+   *
+   * @param gameObject the object this component belongs to
+   * @param radius the range (around the game object) that this component
+   * searches for targets
+   * @param speed the speed of the rocks thrown
+   * @param cooldown the minimum delay (SDL ticks) between firings
+   */
   PeriodicRockThrowComponent(GameObject &gameObject, float radius, float speed,
                              Uint32 cooldown);
 
+  /**
+   * @brief Updates this component, meaning checks for enemies within radius and
+   * fires at the closest one. No-op if time since last rock thrown > cooldown.
+   *
+   * @param level
+   */
   void update(Level &level) override;
 
  private:

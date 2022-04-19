@@ -9,6 +9,10 @@
 #include "base/TextureRenderComponent.hpp"
 #include "base/TinyMath.hpp"
 
+/**
+ * @brief A Tower which launches rocks at nearby enemies within a radius and
+ * with cooldown between firings.
+ */
 class RockThrowerTower : public GameObject {
  public:
   /**

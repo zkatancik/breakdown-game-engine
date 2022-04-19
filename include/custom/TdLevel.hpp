@@ -4,32 +4,49 @@
 #include <base/GridRenderPreviewComponent.hpp>
 #include <base/Level.hpp>
 
-#include "custom/LevelData.hpp"
+#include "base/DelayedSpawnComponent.hpp"
 #include "base/GameVariableComponent.hpp"
 #include "base/GridObject.hpp"
 #include "base/PerformHookOnCollideComponent.hpp"
-#include "custom/LevelData.hpp"
 #include "custom/CustomLevelEditButton.hpp"
+#include "custom/LevelData.hpp"
+#include "custom/LevelTimer.hpp"
 #include "custom/Mouse.hpp"
 #include "custom/NonHostileEnemy.hpp"
+#include "custom/RockThrowerTower.hpp"
 #include "custom/Tag.hpp"
 #include "custom/TdBlock.hpp"
-#include "custom/RockThrowerTower.hpp"
-#include "custom/LevelTimer.hpp"
 #include "custom/TdButton.hpp"
-#include "base/DelayedSpawnComponent.hpp"
 
 static const int sideBarXOffset = 200;
 static const int sideBarYOffset = 100;
 
+/**
+ * @brief A class representing a level, including all of its necessary data, of
+ * our Tower Defense game.
+ */
 class TdLevel : public Level {
  public:
-  TdLevel(int w, int h, int levelNum)
-      : Level(w, h),
-        mLevelNumber(levelNum){};
+  /**
+   * @brief Construct a new Td Level object
+   *
+   * @param w level width
+   * @param h level height
+   * @param levelNum level number
+   */
+  TdLevel(int w, int h, int levelNum) : Level(w, h), mLevelNumber(levelNum){};
 
+  /**
+   * @brief Setup this level, including loading it from a file, creating game
+   * objects, creating UI / UI objects, etc.
+   */
   void initialize() override;
 
+  /**
+   * @brief Get this level's number
+   *
+   * @return int level num
+   */
   inline int getLevelNumber() { return mLevelNumber; };
 
   /**
@@ -62,8 +79,9 @@ class TdLevel : public Level {
   void createGrid();
   std::shared_ptr<GameObject> createLevelIndicatorObject();
   std::shared_ptr<GameObject> createIndicatorObject(std::string label,
-                                                    int initialVal, int x, int y);
-                                                    
+                                                    int initialVal, int x,
+                                                    int y);
+
   void spawnEnemy(TdLevelItem enemyType, int delay, int enemyNumber);
 
   std::string getTdBlockPath(TdLevelItem item);

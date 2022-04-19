@@ -14,10 +14,27 @@
  */
 class TdButton : public GameObject {
  public:
+  /**
+   * @brief Construct a new Td Button object
+   *
+   * @param level the level that this button belongs to
+   * @param x x coordinate
+   * @param y y coordinate
+   * @param w width
+   * @param h height
+   * @param text string to display in button
+   * @param selectHook hook called when button is selected
+   * @param fontSize text size of the button label
+   */
   TdButton(Level& level, float x, float y, float w, float h,
            const std::string& text, std::function<void(void)> selectHook,
            int fontSize = 64);
 
+  /**
+   * @brief Get the Texture Renderer object
+   *
+   * @return std::shared_ptr<TextureRenderComponent>
+   */
   std::shared_ptr<TextureRenderComponent> getTextureRenderer() const {
     return buttonRenderer;
   }

@@ -1,6 +1,8 @@
 #ifndef TD_TAG
 #define TD_TAG
 #include "base/Tag.hpp"
+
+// The tags in our Tower Defense game.
 const static int TdBGTag = hash("TdBackground");
 const static int TdBlockTag = hash("TdBlock");
 const static int TdEndBlockTag = hash("TdEndBlock");

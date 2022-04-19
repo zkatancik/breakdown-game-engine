@@ -2,21 +2,10 @@
 #define TD_LEVEL_DATA_HPP
 
 #include <iostream>
-#include <vector>
 #include <map>
+#include <vector>
 
 #include "base/TinyMath.hpp"
-
-/**
- * @brief The types of blocks possible.
- *
- * - USE TdLevelItem instead. The enum is confusing and
- * a repetition of whatever in TdLevelItem.
- */
-// enum class TdBlockType {
-//   Plain = 0,
-//   Path
-// };
 
 /**
  * @brief The types of items present in a level.
@@ -54,7 +43,7 @@ enum class TdLevelItem {
 };
 
 /**
- * @brief Represents data of a single Block.
+ * @brief Represents data of a single Block in Tower Defense game.
  * Can get additional granularity (e.g. for rendering) by storing info from the
  * level file into the various fields.
  */
@@ -67,8 +56,12 @@ struct TdBlockData {
 
 /**
  * @brief Has the data read from Level file.
- *
- * TODO- write the file format here
+ * @note Format:
+ *   # rows of blocks
+ *   # columns of blocks
+ *   block width (pixels)
+ *   block height (pixels)
+ *   [array of blocks, each character maps to a specific type]
  */
 struct TdLevelData {
   int levelNumber{0};
@@ -88,6 +81,7 @@ struct TdLevelData {
   // Saves each path in a sparse format
   std::vector<std::vector<Vector2D<int>>> enemyPossiblePaths;
 
+  // Start and end positions of the path
   Vector2D<int> startPosition;
   Vector2D<int> endPosition;
 
@@ -96,18 +90,40 @@ struct TdLevelData {
   Vector2D<int> blockSize;
 };
 
+/**
+ * @brief Get the character that represents a particular item.
+ *
+ * @param item the item to get char of
+ * @return std::string the string/char representation
+ */
 std::string getItemChar(TdLevelItem item);
 
 /**
- * @brief Load Level file based on the level passed to the function.
+ * @brief Loads a numbered level file from filesystem into levelData.
  *
- * @param blockDataList levelData loaded from the file
- * @param level level number
+ * @param levelData [out] where to save the level
+ * @param levelNum the level number, for looking up files in filesys to parse
  */
-void loadLevel(TdLevelData *levelData, int levelNum);
+void loadLevel(TdLevelData* levelData, int levelNum);
 
-void updateCurrentLevel(TdLevelData *levelData, Vector2D<int> gridPosition, TdLevelItem item);
+/**
+ * @brief Update the item in the current level during level editing.
+ *
+ * @param levelData the level data to update
+ * @param gridPosition the position at which to update item
+ * @param item the item to add at above position
+ */
+void updateCurrentLevel(TdLevelData* levelData, Vector2D<int> gridPosition,
+                        TdLevelItem item);
 
-void updateLevelFile(TdLevelData ld, Vector2D<int> gridPosition, TdLevelItem item);
+/**
+ * @brief Update the item in the current level.
+ *
+ * @param ld the level data to update
+ * @param gridPosition the position at which to update item
+ * @param item the item to add at above position
+ */
+void updateLevelFile(TdLevelData ld, Vector2D<int> gridPosition,
+                     TdLevelItem item);
 
 #endif

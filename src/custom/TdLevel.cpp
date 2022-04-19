@@ -255,7 +255,6 @@ void TdLevel::createGrid() {
             }
           }
         }
-      // updateCurrentLevel(mLevelData, Vector2D<int>(i, j), currentlySelected);
   };
 
   auto gridObject =

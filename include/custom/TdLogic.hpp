@@ -14,19 +14,55 @@
  */
 class TdLogic : public SDLProgramLogic {
  public:
+  /**
+   * @brief Construct a new Td Logic object, defaulted to allow for manual
+   * startup control.
+   */
   TdLogic() = default;
+
+  /**
+   * @brief Construct a new Td Logic object, with a name. Does nothing besides
+   * set the window name.
+   *
+   * @param appName program name to display on window
+   */
   explicit TdLogic(std::string appName) : SDLProgramLogic(std::move(appName)){};
+
   TdLogic(TdLogic const&) = delete;         // Avoid copy constructor.
   void operator=(TdLogic const&) = delete;  // Don't allow copy assignment.
 
+  /**
+   * @brief Start the Tower Defense game.
+   *
+   * @param gRender renderer to use
+   * @param width window width
+   * @param height window height
+   */
   void startUp(SDL_Renderer* gRender, int width, int height) override;
 
+  /**
+   * @brief Shutdown Tower Defense game.
+   *
+   */
   void shutDown() override;
 
+  /**
+   * @brief Run a single update step of Tower Defense game.
+   */
   void update() override;
 
+  /**
+   * @brief Should the Tower Defense game be quit?
+   *
+   * @return true/false
+   */
   bool quit() override { return mQuit; }
 
+  /**
+   * @brief Render the Tower Defense game.
+   *
+   * @param renderer the renderer to use
+   */
   void render(SDL_Renderer* renderer) override {
     mCurrentlyActiveLevel->render(renderer);
   }
@@ -38,7 +74,8 @@ class TdLogic : public SDLProgramLogic {
   std::shared_ptr<Level> mInstructionsMenu{nullptr};
   std::shared_ptr<Level> mLevelClearedMenu{nullptr};
   std::shared_ptr<Level> mLevelFailedMenu{nullptr};
-  std::vector<std::shared_ptr<TdLevel>> mGameLevels{nullptr, nullptr, nullptr, nullptr};
+  std::vector<std::shared_ptr<TdLevel>> mGameLevels{nullptr, nullptr, nullptr,
+                                                    nullptr};
   std::shared_ptr<Level> mCurrentlyActiveLevel{
       nullptr};  //< The level that is currently being shown
   int mCurrentlySelectedGameLevelIdx{0};  //< The index of the game level that

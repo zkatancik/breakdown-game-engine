@@ -4,14 +4,14 @@
 #include "SDL.h"
 #include "base/ActionState.hpp"
 #include "base/CyclicCounterComponent.hpp"
+#include "base/FollowComponent.hpp"
 #include "base/GameObject.hpp"
 #include "base/PatrolComponent.hpp"
-#include "base/FollowComponent.hpp"
 #include "base/RemoveOnCollideComponent.hpp"
-#include "base/TextureRenderComponent.hpp"
-#include "custom/Tag.hpp"
-#include "custom/LevelData.hpp"
 #include "base/ResourceManager.hpp"
+#include "base/TextureRenderComponent.hpp"
+#include "custom/LevelData.hpp"
+#include "custom/Tag.hpp"
 
 /**
  * @brief A class representing the enemy.
@@ -19,7 +19,6 @@
  */
 class CustomEnemy : public GameObject {
  public:
-
   /**
    * @brief Initialize this CustomEnemy object, sets the location on screen.
    *
@@ -30,8 +29,8 @@ class CustomEnemy : public GameObject {
    * @param checkpoints checkpoints where this enemy patrols
    */
   explicit CustomEnemy(Level& level, float tl_x, float tl_y, float w, float h,
-                     TdLevelItem enemyItem, int health,
-                     const std::function<void(void)>& callBackAtDeath);
+                       TdLevelItem enemyItem, int health,
+                       const std::function<void(void)>& callBackAtDeath);
 
   /**
    * @brief Destroy this Base CustomEnemy object
