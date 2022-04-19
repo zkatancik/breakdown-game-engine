@@ -48,8 +48,7 @@ class TdLevelEditor : public TdLevel {
       TdLevelItem::PATHBLOCK8,
       TdLevelItem::PATHBLOCK9,
       TdLevelItem::PATHBLOCKA,
-      TdLevelItem::PLACETOWER,
-      TdLevelItem::PLAINBLOCK};
+      TdLevelItem::PLACETOWER};
 };
 
 #endif
