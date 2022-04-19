@@ -125,7 +125,7 @@ void TdLogic::createInstructionsLevel(int width, int height) {
   textRenderer1->setRenderMode(TextureRenderComponent::RenderMode::QUERY);
   instruction1->setRenderComponent(textRenderer1);
   auto textComponent1 = std::make_shared<TextComponent>(
-      *instruction1, u8"Arrow Keys - Jump, Left and Right", 60,
+      *instruction1, u8"Each level has three waves and each Tower costs ten coins.", 40,
       "TD2D/Fonts/madera-tygra.ttf", textRenderer1);
   textRenderer1->setOffSetX(-175);
   textRenderer1->setOffSetY(int(300));
@@ -138,7 +138,7 @@ void TdLogic::createInstructionsLevel(int width, int height) {
   textRenderer2->setRenderMode(TextureRenderComponent::RenderMode::QUERY);
   instruction2->setRenderComponent(textRenderer2);
   auto textComponent2 = std::make_shared<TextComponent>(
-      *instruction2, u8"Down Arrow - Slide (Can kill enemy while sliding)", 60,
+      *instruction2, u8"Killing an enemy gives five coins. Click and place tower in spot.", 40,
       "TD2D/Fonts/madera-tygra.ttf", textRenderer2);
   textRenderer2->setOffSetX(-175);
   textRenderer2->setOffSetY(int(400));
@@ -151,7 +151,7 @@ void TdLogic::createInstructionsLevel(int width, int height) {
   textRenderer3->setRenderMode(TextureRenderComponent::RenderMode::QUERY);
   instruction3->setRenderComponent(textRenderer3);
   auto textComponent3 = std::make_shared<TextComponent>(
-      *instruction3, u8"Space - Shoot", 60, "TD2D/Fonts/madera-tygra.ttf",
+      *instruction3, u8"'N' - next level, 'R' - Restart level", 40, "TD2D/Fonts/madera-tygra.ttf",
       textRenderer3);
   textRenderer3->setOffSetX(-175);
   textRenderer3->setOffSetY(int(500));
