@@ -123,12 +123,14 @@ void TdLevelEditor::refreshLevelEditor() {
       ) {
         // Add an x-offset to make space for buttons
         gameObject->setX(gameObject->x() + float(xOffset));
-      } else if (gameObject->tag() == TdEnemyTag ||
+      } else if (
+        gameObject->tag() == TdEnemyTag ||
         gameObject->tag() == TdBulletTag ||
         gameObject->tag() == TdStartWaveButtonTag ||
         gameObject->tag() == TdEditButtonTag ||
         gameObject->tag() == TdToolbarTag
       ) {
+        gameObject->setIsVisibleOnScreen(false);
         removeObject(gameObject);
       }
   }
