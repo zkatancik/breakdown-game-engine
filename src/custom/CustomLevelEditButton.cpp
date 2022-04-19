@@ -5,7 +5,7 @@ CustomLevelEditButton::CustomLevelEditButton(Level& level, float x, float y, flo
                                  std::string path, std::string soundPath,
                                  std::function<void(void)> selectHook,
                                  bool customWidth)
-    : GameObject(level, x, y, w, h, BaseButtonTag) {
+    : GameObject(level, x, y, w, h, TdEditButtonTag) {
   buttonRenderer = std::make_shared<RectangleRenderComponent>(255, 0, 0, *this);
   buttonRenderer->setFlip(true);
 

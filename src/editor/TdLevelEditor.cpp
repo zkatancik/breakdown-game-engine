@@ -56,7 +56,6 @@ void TdLevelEditor::initialize() {
     if (currentlySelected != TdLevelItem::NONE) {
       Mix_PlayChannel(1, ResourceManager::getInstance().getChunk(mSoundPath),
                       0);
-
       updateCurrentLevel(mLevelData, Vector2D<int>(j, i), currentlySelected);
       refreshLevelEditor();
     }
@@ -65,7 +64,6 @@ void TdLevelEditor::initialize() {
   auto levelGrid = std::make_shared<GridObject>(*this, xOffset, 0, 20, 20, 64,
                                                 64, gridCallback);
   addObject(levelGrid);
-  
   refreshLevelEditor();
 }
 
@@ -110,36 +108,32 @@ std::string TdLevelEditor::getTdBlockPath(
 }
 
 void TdLevelEditor::refreshLevelEditor() {
-  for (const auto& gameObject : getGameObjects()) {
-    // Remove any blocks remaining previously
-    if (
-        gameObject->tag() == TdEnemyTag ||
-        gameObject->tag() == TdBulletTag ||
-        gameObject->tag() == TdRockThrowerTowerTag ||
-        gameObject->tag() == TdEndBlockTag ||
-        gameObject->tag() == TdBlockTag ||
-        gameObject->tag() == TdBGTag ||
-        gameObject->tag() == BaseTextTag
-      )
-      removeObject(gameObject);
-  }
+
   TdLevel::initialize();
   // Strip away unwanted things for rendering in level editor
   for (const auto& gameObject : getGameObjectsToAdd()) {
     // Remove any text components (lives, level, score, etc) + Ball + Paddle +
     // Boundaries
     if (
-        gameObject->tag() == TdEnemyTag ||
-        // gameObject->tag() == TdBulletTag ||
         gameObject->tag() == TdRockThrowerTowerTag ||
         gameObject->tag() == TdEndBlockTag ||
         gameObject->tag() == TdBlockTag ||
         gameObject->tag() == TdBGTag ||
         gameObject->tag() == BaseTextTag
-      )
-      // Add an x-offset to make space for buttons
-      gameObject->setX(gameObject->x() + float(xOffset));
+      ) {
+        // Add an x-offset to make space for buttons
+        gameObject->setX(gameObject->x() + float(xOffset));
+      } else if (gameObject->tag() == TdEnemyTag ||
+        gameObject->tag() == TdBulletTag ||
+        gameObject->tag() == TdStartWaveButtonTag ||
+        gameObject->tag() == TdEditButtonTag ||
+        gameObject->tag() == TdToolbarTag
+      ) {
+        removeObject(gameObject);
+      }
   }
+
   // Read in the level data for our own usage
   loadLevel(&mLevelData, getLevelNumber());
+  
 }

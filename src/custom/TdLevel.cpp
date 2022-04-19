@@ -146,7 +146,7 @@ bool TdLevel::isLevelInProgress() const {
 void TdLevel::createSidebarControls() {
   auto toolbarBackground =
       std::make_shared<GameObject>(*this, w() - sideBarXOffset, 0, sideBarXOffset,
-                                   h(), hash("ToolbarTag"));
+                                   h(), TdToolbarTag);
   auto backgroundRenderer =
       std::make_shared<TextureRenderComponent>(*toolbarBackground);
 
@@ -184,7 +184,7 @@ void TdLevel::createSidebarControls() {
 void TdLevel::createBottomBarControls() {
   auto toolbarBackground = std::make_shared<GameObject>(
       *this, 0, h() - sideBarYOffset, w() - sideBarXOffset, sideBarYOffset,
-      hash("ToolbarTag"));
+      TdToolbarTag);
   auto backgroundRenderer =
       std::make_shared<TextureRenderComponent>(*toolbarBackground);
 
@@ -212,6 +212,7 @@ void TdLevel::createBottomBarControls() {
   mStartWaveButton = std::make_shared<TdButton>(*this, 320, h() - sideBarYOffset, 24, 16, "Start Wave!",
                                                     startWaveLambda,
                                                     16);
+  mStartWaveButton->setTag(TdStartWaveButtonTag);
   addObject(mStartWaveButton);
 }
 

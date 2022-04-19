@@ -35,6 +35,8 @@ class GameObject: public std::enable_shared_from_this<GameObject> {
 
   inline int tag() const { return mTag; }
 
+  inline void setTag(int t) { mTag = t; }
+
   inline void setX(float x) { mX = x; }
   inline void setY(float y) { mY = y; }
 

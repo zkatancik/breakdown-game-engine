@@ -58,7 +58,6 @@ void GraveRunnerLevelEditor::initialize() {
                       0);
       updateCurrentLevel(mLevelData, Vector2D<int>(i, j), currentlySelected);
       refreshLevelEditor();
-      // currentlySelected = GraveRunnerLevelItem::NONE;
     }
   };
 
