@@ -78,6 +78,9 @@ void TdLogic::update() {
 
 void TdLogic::loadAllLevels(int width, int height) {
   mGameLevels[0] = std::make_shared<TdLevel>(width, height, 1);
+  mGameLevels[1] = std::make_shared<TdLevel>(width, height, 2);
+  mGameLevels[2] = std::make_shared<TdLevel>(width, height, 3);
+  mGameLevels[3] = std::make_shared<TdLevel>(width, height, 4);
 }
 
 void TdLogic::createInstructionsLevel(int width, int height) {
