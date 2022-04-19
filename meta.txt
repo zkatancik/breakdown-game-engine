@@ -37,17 +37,27 @@ it into other deliverables of the project. I then helped each team member with b
 Marcin - Mostly worked on porting over the GraveRunner functionality into the new infrastructure after Matin did the initial setup.
 This included both the game itself and its level editor.
 
-Zack - (Milestone 1) Rewrote all UI components to be game objects, including buttons, menus, etc. Worked extensively
-on game editors front-end to match rest of the component based architecture. (Milestone 2) Did initial custom game setup getting a working game going from scratch, 
+Zack - 
+(Milestone 1) Rewrote all UI components to be game objects, including buttons, menus, etc. Worked extensively
+on game editors front-end to match rest of the component based architecture. 
+(Milestone 2) Did initial custom game setup getting a working game going from scratch, 
 reconfigured the menus to new game, added UI elements to the in-game experience, and worked on grid components for object placement like mouse over of 
 items when clicked.
 
-Roshan - Rewrote level file design, generation and updation via level editor. Added Instructions menus. 
+Roshan - 
+(Milestone 1): 
+Rewrote level file design, generation and updation via level editor. Added Instructions menus. 
 Dynamic selection of block textures from the resources. Wrote backend for the level editor.
+(Milestone 2):
+Added Enemy Path file so that we can have pre defined paths as well.
+Added Enemy tower path to have layers levels.
+Built full Level editor.
+Built 4 levels. Wrote Enemy spawner and enemy spawner file with config data on what to spawn.
+Updated instructions.
 
 -- How many hours did it take you to complete this lab?
-Roshan - 40
-Zack - (M1) 40, (M2), 20
+Roshan - (M1) 40, (M2) 80
+Zack - (M1) 40, (M2) 20
 Matin - 60
 Marcin - 20
 
