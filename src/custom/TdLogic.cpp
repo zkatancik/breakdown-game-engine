@@ -54,10 +54,10 @@ void TdLogic::update() {
   if (InputManager::getInstance().isKeyPressed(SDLK_n)) {
     if (isGameActive()) {
       mGameLevels[mCurrentlySelectedGameLevelIdx]->finalize();
-      /*mCurrentlySelectedGameLevelIdx =
-          mCurrentlySelectedGameLevelIdx == 2
+      mCurrentlySelectedGameLevelIdx =
+          mCurrentlySelectedGameLevelIdx == 3
               ? 0
-              : (mCurrentlySelectedGameLevelIdx + 1);*/
+              : (mCurrentlySelectedGameLevelIdx + 1);
       mCurrentlyActiveLevel = mGameLevels[mCurrentlySelectedGameLevelIdx];
       mCurrentlyActiveLevel->initialize();
     }
@@ -335,7 +335,7 @@ void TdLogic::initializeLevelClearedMenu() {
   // Lambda for going to next level
   auto goToNextLevelLambda = [&] {
     mGameLevels[mCurrentlySelectedGameLevelIdx]->finalize();
-    mCurrentlySelectedGameLevelIdx = mCurrentlySelectedGameLevelIdx == 2
+    mCurrentlySelectedGameLevelIdx = mCurrentlySelectedGameLevelIdx == 3
                                          ? 0
                                          : (mCurrentlySelectedGameLevelIdx + 1);
     mCurrentlyActiveLevel = mGameLevels[mCurrentlySelectedGameLevelIdx];
