@@ -1,7 +1,9 @@
 #ifndef PATROL_ZOMBIE_HPP
 #define PATROL_ZOMBIE_HPP
 
+#include "base/RandomWalkComponent.hpp"
 #include "base/MoveTowardsComponent.hpp"
+#include "base/PatrolComponent.hpp"
 #include "custom/CustomEnemy.hpp"
 
 /**
@@ -21,13 +23,17 @@ class NonHostileEnemy : public CustomEnemy {
    */
   explicit NonHostileEnemy(Level& level, float tl_x, float tl_y, float w, float h,
               TdLevelItem enemyItem, Vector2D<int> targetPosition,
-              const std::vector<std::vector<TdBlockData>>& levelGrid, const std::function<void(void)>& callbackAtDeath);
+              const std::vector<std::vector<TdBlockData>>& levelGrid,
+              std::vector<Vector2D<int>> possiblePath,
+              const std::function<void(void)>& callbackAtDeath);
 
 #ifdef _TEST
   inline const int getXStep() const { return xVelocity; }
 #endif
 
  private:
+  std::shared_ptr<RandomWalkComponent> mRandomWalk;
   std::shared_ptr<MoveTowardsComponent> mMoveTowards;
+  std::shared_ptr<PatrolComponent> mPatrol;
 };
 #endif

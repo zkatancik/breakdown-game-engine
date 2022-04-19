@@ -42,7 +42,7 @@ class CustomEnemy : public GameObject {
   inline const int getXStep() const { return xVelocity; }
 #endif
 
-  const int xVelocity = 170;
+  const int xVelocity = 100;
 
   TdLevelItem enemyItem_{TdLevelItem::NONE};
 

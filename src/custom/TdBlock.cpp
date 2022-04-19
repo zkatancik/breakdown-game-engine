@@ -30,7 +30,7 @@ void TdBlock::init(int xCoord, int yCoord, TdBlockData bd, Vector2D<int> bs) {
 
   // Add physics to blocks- static sensor
   setPhysicsComponent(std::make_shared<PhysicsComponent>(
-      *this, b2BodyType::b2_staticBody, true));
+      *this, b2BodyType::b2_dynamicBody, true));
 }
 
 SDL_Texture* TdBlock::getBlockTexture() {

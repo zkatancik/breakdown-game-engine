@@ -84,6 +84,10 @@ struct TdLevelData {
   // Saves each wave in a sparse format
   std::vector<std::map<TdLevelItem, int>> enemyWaves;
 
+  // A vector of enemy possible paths.
+  // Saves each path in a sparse format
+  std::vector<std::vector<Vector2D<int>>> enemyPossiblePaths;
+
   Vector2D<int> startPosition;
   Vector2D<int> endPosition;
 

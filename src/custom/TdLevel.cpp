@@ -201,7 +201,7 @@ void TdLevel::createBottomBarControls() {
       int currentWaveNumber = mCurrentWaveNumberIndicator.lock()->getGenericComponent<GameVariableComponent<int>>()->getVariable() - 1;
       for (auto enemyInfo : mLevelData.enemyWaves[currentWaveNumber]) {
         for (int i = 0; i < enemyInfo.second; i++) {
-          spawnEnemy(enemyInfo.first, i * 2);
+          spawnEnemy(enemyInfo.first, i * 2, i);
         }
       }
       mStartWaveButton.get()->setIsVisibleOnScreen(false);
@@ -325,7 +325,7 @@ std::string TdLevel::getTdBlockPath(TdLevelItem item) {
       return "";
   }
 }
-void TdLevel::spawnEnemy(TdLevelItem enemyType, int delay) {
+void TdLevel::spawnEnemy(TdLevelItem enemyType, int delay, int enemyNumber) {
   // Function to increase coin and score upon death
   auto increaseScoreAndCoinsIndicatorLambda = [&]() {
     auto scoreVarComponent =
@@ -337,7 +337,6 @@ void TdLevel::spawnEnemy(TdLevelItem enemyType, int delay) {
     scoreVarComponent->setVariable(scoreVarComponent->getVariable() + 10);
     coinsVarComponent->setVariable(coinsVarComponent->getVariable() + 5);
     mNumEnemiesLeft--;
-    std::cout << "End - Enemycount:" << std::to_string(mNumEnemiesLeft) << "\n"; 
     // Increment the wave number if there are no enemies remaining
     if (mNumEnemiesLeft <= 0) {
       auto waveNumberVariable = mCurrentWaveNumberIndicator.lock()->getGenericComponent<GameVariableComponent<int>>();
@@ -346,10 +345,11 @@ void TdLevel::spawnEnemy(TdLevelItem enemyType, int delay) {
     }
   };
   // Actual constructor
+  int pathIdx = enemyNumber % mLevelData.enemyPossiblePaths.size();
   std::shared_ptr<NonHostileEnemy> enemy = std::make_shared<NonHostileEnemy>(
       *this, mLevelData.blockSize.x * mLevelData.startPosition.x,
       mLevelData.blockSize.y * mLevelData.startPosition.y, mLevelData.blockSize.x, mLevelData.blockSize.y,
-      enemyType, mLevelData.endPosition, mLevelData.levelGrid, increaseScoreAndCoinsIndicatorLambda);
+      enemyType, mLevelData.endPosition, mLevelData.levelGrid, mLevelData.enemyPossiblePaths[pathIdx], increaseScoreAndCoinsIndicatorLambda);
   // Decrease score and lives when reaching the end of the line
   auto decreaseScoreAndLivesIndicatorLambda = [=](Level& level, std::shared_ptr<GameObject> gameObject) {
     auto scoreVarComponent =

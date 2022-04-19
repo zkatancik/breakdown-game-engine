@@ -102,7 +102,7 @@ CustomEnemy::CustomEnemy(Level& level, float tl_x, float tl_y, float w, float h,
   renderer_ = std::make_shared<TextureRenderComponent>(*this);
   setRenderComponent(renderer_);
 
-  setPhysicsComponent(std::make_shared<PhysicsComponent>(*this, b2BodyType::b2_dynamicBody, false));
+  setPhysicsComponent(std::make_shared<PhysicsComponent>(*this, b2BodyType::b2_kinematicBody, false));
   
   addGenericComponent(std::make_shared<RemoveOnCollideComponent>(*this, TdBulletTag));
 

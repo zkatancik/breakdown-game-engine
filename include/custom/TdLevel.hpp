@@ -63,7 +63,8 @@ class TdLevel : public Level {
   std::shared_ptr<GameObject> createLevelIndicatorObject();
   std::shared_ptr<GameObject> createIndicatorObject(std::string label,
                                                     int initialVal, int x, int y);
-  void spawnEnemy(TdLevelItem enemyType, int delay);
+                                                    
+  void spawnEnemy(TdLevelItem enemyType, int delay, int enemyNumber);
 
   std::string getTdBlockPath(TdLevelItem item);
 
