@@ -3,7 +3,7 @@
 NonHostileEnemy::NonHostileEnemy(Level& level, float tl_x, float tl_y, float w,
                            float h, TdLevelItem enemyItem, Vector2D<int> targetPosition,
                            const std::vector<std::vector<TdBlockData>>& levelGrid, const std::function<void(void)>& callbackAtDeath)
-    : CustomEnemy(level, tl_x, tl_y, w, h, enemyItem, 5, callbackAtDeath) {
+    : CustomEnemy(level, tl_x, tl_y, w, h, enemyItem, 12, callbackAtDeath) {
   
   std::vector<std::vector<bool>> pathGrid;
 
