@@ -311,7 +311,10 @@ void updateCurrentLevel(TdLevelData *levelData,
                         TdLevelItem item) {
   // Update the Level
   if (item != TdLevelItem::NONE) {
+    // Level Grid
     if (item == TdLevelItem::PLAINBLOCK
+        || item == TdLevelItem::NOBLOCK
+        || item == TdLevelItem::ROCKTHROWER
         || item == TdLevelItem::PATHBLOCK0
         || item == TdLevelItem::PATHBLOCK1
         || item == TdLevelItem::PATHBLOCK2
@@ -323,28 +326,37 @@ void updateCurrentLevel(TdLevelData *levelData,
         || item == TdLevelItem::PATHBLOCK8
         || item == TdLevelItem::PATHBLOCK9
         || item == TdLevelItem::PATHBLOCKA) {
+      
       auto data = TdBlockData();
-      data.levelItemType = item;
-      data.blockNumber = getItemChar(item);
+      if (item == TdLevelItem::NOBLOCK)
+      {
+        data.levelItemType = TdLevelItem::PLAINBLOCK;
+      } else {
+        data.levelItemType = item;
+      }
+      data.blockNumber = getItemChar(data.levelItemType);
       data.isTowerPlacable = levelData->placableBlockGrid[gridPosition.x][gridPosition.y].isTowerPlacable;
       levelData->levelGrid[gridPosition.x][gridPosition.y] = data;
       // Update the Level File
-      updateLevelFile(*levelData, gridPosition, item);
-    } else if (item == TdLevelItem::PLACETOWER
+      updateLevelFile(*levelData, gridPosition, data.levelItemType);
+    } 
+    
+    // Placeable Grid (Tower Map)
+    if (item == TdLevelItem::PLACETOWER
         || item == TdLevelItem::START
         || item == TdLevelItem::NOBLOCK
         || item == TdLevelItem::END) {
       auto towerPlacableData = TdBlockData();
-      towerPlacableData.blockNumber = getItemChar(item);
+      towerPlacableData.levelItemType = item;
+      towerPlacableData.blockNumber = getItemChar(towerPlacableData.levelItemType);
       towerPlacableData.isTowerPlacable = false;
-      if (item == TdLevelItem::PLACETOWER)
+      if (towerPlacableData.levelItemType == TdLevelItem::PLACETOWER)
       {
         towerPlacableData.isTowerPlacable = true;
       }
-      towerPlacableData.levelItemType = item;
       levelData->placableBlockGrid[gridPosition.x][gridPosition.y] = towerPlacableData;
       // Update the Level File
-      updateLevelFile(*levelData, gridPosition, item);
+      updateLevelFile(*levelData, gridPosition, towerPlacableData.levelItemType);
     }
   }
 }

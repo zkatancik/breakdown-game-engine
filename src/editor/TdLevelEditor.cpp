@@ -57,13 +57,8 @@ void TdLevelEditor::initialize() {
       Mix_PlayChannel(1, ResourceManager::getInstance().getChunk(mSoundPath),
                       0);
 
-      std::cout << "Clicked -> (x,y) = (" << std::to_string(j)
-      << ","
-      << std::to_string(i) << ")\n";
-
       updateCurrentLevel(mLevelData, Vector2D<int>(j, i), currentlySelected);
       refreshLevelEditor();
-      // currentlySelected = GraveRunnerLevelItem::NONE;
     }
   };
 
