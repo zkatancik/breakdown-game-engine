@@ -3,6 +3,7 @@
 - Marcin Kierzenka - mkierzenka
 - Zachary Katancik - zkatancik
 - Matin Raayai Ardakani - matinraayai
+- Alexander Chen - adotnotlex
 
 
 -- Did you implement any extensions? If so, which ones, who implemented each, and how can they be tried out?
@@ -63,11 +64,17 @@ Built full Level editor.
 Built 4 levels. Wrote Enemy spawner and enemy spawner file with config data on what to spawn.
 Updated instructions.
 
+Alex - 
+(Milestone 2):
+Updated UI placement and spacing. 
+Added asset for coin icon to be displayed. 
+
 -- How many hours did it take you to complete this lab?
 Roshan - (M1) 40, (M2) 80
 Zack - (M1) 40, (M2) 20
 Matin - 60
 Marcin - (M1) 20, (M2) 20
+Alex - 2
 
 
 -- (Optional) What was your favorite part of the lab?
