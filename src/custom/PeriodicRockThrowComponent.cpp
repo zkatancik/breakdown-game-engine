@@ -11,11 +11,11 @@ PeriodicRockThrowComponent::PeriodicRockThrowComponent(GameObject& gameObject,
                                                        float radius,
                                                        float speed,
                                                        Uint32 cooldown)
-    : mRadius(radius),
+    : GenericComponent(gameObject),
+      mRadius(radius),
       mSpeed(speed),
       mCooldownDelay(cooldown),
-      mNextThrowTime(0),
-      GenericComponent(gameObject) {}
+      mNextThrowTime(0) {}
 
 void PeriodicRockThrowComponent::update(Level& level) {
   if (!SDL_TICKS_PASSED(SDL_GetTicks(), mNextThrowTime)) {

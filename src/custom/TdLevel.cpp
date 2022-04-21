@@ -134,13 +134,13 @@ void TdLevel::initialize() {
 bool TdLevel::isLevelWon() const {
   auto waveNumberVariable = mCurrentWaveNumberIndicator.lock()->getGenericComponent<GameVariableComponent<int>>();
   auto healthVariable = mHealthIndicator.lock()->getGenericComponent<GameVariableComponent<int>>();
-  return (waveNumberVariable->getVariable() - 1 == mLevelData.enemyWaves.size() && healthVariable->getVariable() > 0);
+  return ((size_t) (waveNumberVariable->getVariable() - 1) == mLevelData.enemyWaves.size() && healthVariable->getVariable() > 0);
 }
 
 bool TdLevel::isLevelInProgress() const {
   auto waveNumberVariable = mCurrentWaveNumberIndicator.lock()->getGenericComponent<GameVariableComponent<int>>();
   auto healthVariable = mHealthIndicator.lock()->getGenericComponent<GameVariableComponent<int>>();
-  return (waveNumberVariable->getVariable() - 1 < mLevelData.enemyWaves.size() && healthVariable->getVariable() > 0);
+  return ((size_t) (waveNumberVariable->getVariable() - 1) < mLevelData.enemyWaves.size() && healthVariable->getVariable() > 0);
 }
 
 void TdLevel::createSidebarControls() {

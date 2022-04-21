@@ -93,7 +93,7 @@ void loadLevel(TdLevelData *levelData, int level) {
       char tmch = 0;
 
       // Traverse the string
-      for (auto idx = 0; idx < line.size(); idx++) {
+      for (size_t idx = 0; idx < line.size(); idx++) {
         ch = line[idx];
         tmch = towerMapline[idx];
 
@@ -411,7 +411,6 @@ void updateLevelFile(TdLevelData ld, Vector2D<int> gridPosition, TdLevelItem ite
   std::fstream *towerMapfile = ResourceManager::getInstance().openFile(towerMapFilename, std::fstream::out | std::fstream::trunc);
 
   int lineCounter = 0;
-  int colNumber = 0;
 
   if (myfile->is_open() && towerMapfile->is_open()) {
 
