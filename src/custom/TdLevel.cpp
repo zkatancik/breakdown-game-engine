@@ -27,6 +27,24 @@ void TdLevel::initialize() {
   // Level indicator
   auto levelIndicator = createLevelIndicatorObject();
   /********************************************************************************************************************/
+  // Create icons for health and coins indicators
+
+  // Health Icon
+  auto healthIcon = std::make_shared<GameObject>(*this, 1300, 95, 50, 50, BaseTextTag);
+  auto hIconRenderer = std::make_shared<TextureRenderComponent>(*healthIcon);
+
+  hIconRenderer->setRenderMode(TextureRenderComponent::RenderMode::QUERY);
+  healthIcon->setRenderComponent(hIconRenderer);
+  hIconRenderer->setTexture(ResourceManager::getInstance().getTexture("TD2D/Sprites/GUI/Menu/life_0.png"));
+  // Coins Icon
+  auto coinsIcon = std::make_shared<GameObject>(*this, 1300, 130, 50, 50, BaseTextTag);
+  auto cIconRenderer = std::make_shared<TextureRenderComponent>(*coinsIcon);
+
+  cIconRenderer->setRenderMode(TextureRenderComponent::RenderMode::QUERY);
+  coinsIcon->setRenderComponent(cIconRenderer);
+  cIconRenderer->setTexture(ResourceManager::getInstance().getTexture("TD2D/Sprites/GUI/Menu/coin_0.png"));
+
+  /********************************************************************************************************************/
   // Add background
   auto background =
       std::make_shared<GameObject>(*this, 0, 0, 1280, 768, TdBGTag);

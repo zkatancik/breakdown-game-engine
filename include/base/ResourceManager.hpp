@@ -325,7 +325,9 @@ class ResourceManager {
       {u8"Wave Number: ", {{Language::SPANISH, u8"Número de onda: "}}},
       {u8"Tower Defense", {{Language::SPANISH, u8"Tower Defense"}}},
       {u8"Coins: ", {{Language::SPANISH, u8"Monedas: "}}},
-      {u8"Start Wave!", {{Language::SPANISH, u8"Onda de Inicio!"}}}
+      {u8"Start Wave!", {{Language::SPANISH, u8"Onda de Inicio!"}}},
+      {u8": ", {{Language::SPANISH, u8": "}}},
+      {u8"Score: -", {{Language::SPANISH, u8"Puntaje -"}}}
   };
 };
 #endif
