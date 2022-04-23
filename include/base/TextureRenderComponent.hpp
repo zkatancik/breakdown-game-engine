@@ -41,6 +41,12 @@ class TextureRenderComponent : public RenderComponent {
       &GetPrevComponents() const {
     return prevComponents;
   };
+
+  inline const std::vector<std::shared_ptr<RectangleRenderComponent>>
+      &GetPrevRects() const {
+    return prevRects;
+  };
+
   void render(SDL_Renderer *renderer) const;
 
  private:
