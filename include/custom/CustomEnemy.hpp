@@ -46,5 +46,7 @@ class CustomEnemy : public GameObject {
   TdLevelItem enemyItem_{TdLevelItem::NONE};
 
   std::shared_ptr<TextureRenderComponent> renderer_;
+  std::shared_ptr<RectangleRenderComponent> healthBarR_;
+  std::shared_ptr<RectangleRenderComponent> healthBarG_;
 };
 #endif
