@@ -17,6 +17,8 @@ class HealthComponent: public GenericComponent {
   void collision(Level & level, std::shared_ptr<GameObject> obj) override;
 
   void setCallbackAtDeath(const std::function<void(void)> &callbackAtDeath);
+  void setCallbackAtUpdate(const std::function<void(int)> &callbackAtUpdate);
+
   void addHealthModifier(int tag, int healthIncrementVal);
   int getHealth() const {return mHealth;}
 
@@ -24,6 +26,7 @@ class HealthComponent: public GenericComponent {
   int mHealth{1};
   std::map<int, int> mHealthModifiers{};
   std::function<void(void)> mCallbackAtDeath{[]{}};
+  std::function<void(int)> mCallbackAtUpdate;
 };
 
 #endif

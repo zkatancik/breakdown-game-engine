@@ -18,10 +18,15 @@ void HealthComponent::update(Level &level) {
   if (mHealth <= 0) {
     level.removeObject(getGameObject().shared_from_this());
     mCallbackAtDeath();
+  } else {
+    mCallbackAtUpdate(mHealth);
   }
 }
 void HealthComponent::setCallbackAtDeath(const std::function<void(void)> &callbackAtDeath) {
   mCallbackAtDeath = callbackAtDeath;
+}
+void HealthComponent::setCallbackAtUpdate(const std::function<void(int)> &callbackAtUpdate) {
+  mCallbackAtUpdate = callbackAtUpdate;
 }
 void HealthComponent::addHealthModifier(int tag, int healthIncrementVal) {
   auto healthModifier = mHealthModifiers.find(tag);
