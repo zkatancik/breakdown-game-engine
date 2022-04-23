@@ -18,6 +18,8 @@ class RectangleRenderComponent : public RenderComponent {
 
   inline void setFlip(bool flip) { flip_ = flip; }
 
+  inline void setRect(const SDL_Rect &rect) { rect_ = rect; }
+
   void render(SDL_Renderer *renderer) const;
 
  private:

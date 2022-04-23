@@ -1,4 +1,5 @@
 #include <box2d/b2_body.h>
+#include <functional>
 #include "custom/CustomEnemy.hpp"
 #include "custom/Tag.hpp"
 #include "base/ResourceManager.hpp"
@@ -98,8 +99,12 @@ CustomEnemy::CustomEnemy(Level& level, float tl_x, float tl_y, float w, float h,
     : GameObject(level, tl_x, tl_y, w, h, TdEnemyTag) {
 
   enemyItem_ = enemyItem;
-  
-  renderer_ = std::make_shared<TextureRenderComponent>(*this);
+
+  // Add the texture render component, along with the health bar rendering components
+  healthBarR_ = std::make_shared<RectangleRenderComponent>(255, 0, 0, *this);
+  healthBarG_ = std::make_shared<RectangleRenderComponent>(0, 255, 0, *this);
+  std::vector otherRenderComps = {healthBarR_, healthBarG_};
+  renderer_ = std::make_shared<TextureRenderComponent>(*this, otherRenderComps);
   setRenderComponent(renderer_);
 
   setPhysicsComponent(std::make_shared<PhysicsComponent>(*this, b2BodyType::b2_kinematicBody, false));
@@ -111,6 +116,20 @@ CustomEnemy::CustomEnemy(Level& level, float tl_x, float tl_y, float w, float h,
   // Health component for the enemy
   auto healthComponent = std::make_shared<HealthComponent>(*this, health);
   healthComponent->setCallbackAtDeath(callBackAtDeath);
+
+  // A lambda function which moves the health bar with the enemy
+  // and updates it when health decreases
+  auto redrawHealthBarLambda = [this, health](int curHealth) {
+    int totalBarWidth = this->w();
+    SDL_Rect healthRect = {(int)(this->x()), (int)(this->y()) - 5,
+                           (int)totalBarWidth, 5};
+    healthBarR_->setRect(healthRect);
+    float greenWidth = ((float) curHealth) / health;
+    healthRect = {(int)(this->x()), (int)(this->y()) - 5,
+                          (int)(greenWidth * totalBarWidth) , 5};
+    healthBarG_->setRect(healthRect);
+  };
+  healthComponent->setCallbackAtUpdate(redrawHealthBarLambda);
   healthComponent->addHealthModifier(TdBulletTag, -1);
   addGenericComponent(healthComponent);
   addGenericComponent(std::make_shared<RemoveOnCollideComponent>(*this, TdBulletTag));
