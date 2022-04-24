@@ -272,6 +272,43 @@ void loadLevel(TdLevelData *levelData, int level) {
     }
 
     ResourceManager::getInstance().closeFile(enemiesPathFilename);
+
+    // Load Level Environment
+    std::string levelEnvFilename =
+      (resPath /
+      ("level" + std::to_string(levelData->levelNumber) + "-environment.txt"))
+      .string();
+  
+    std::string envLine;
+    std::fstream *envFile = ResourceManager::getInstance().openFile(
+      levelEnvFilename, std::ios_base::in);
+  
+    if (envFile->is_open()) {
+      while (std::getline(*envFile, envLine)) {
+        // Read Line
+        std::vector<Vector2D<int>> linePath;
+        size_t pos = 0;
+        std::string mapElement;
+
+        while ((pos = envLine.find(';')) != std::string::npos) {
+          mapElement = envLine.substr(0, pos);
+      
+          // Find the enemy type and number of enemies in the wave
+          size_t colonPos = mapElement.find(',');
+
+          int x = std::stoi(mapElement.substr(0, colonPos));
+          int y = std::stoi(mapElement.substr(colonPos + 1, std::string::npos));
+          // Find the appropriate Enum for enemyType String
+          linePath.push_back(Vector2D<int>(y,x));
+          envLine.erase(0, pos + 1);
+        }
+        levelData->enemyPossiblePaths.push_back(linePath);
+      }
+    } else {
+      std::cerr << "Failed to open enemies path file at " << levelEnvFilename << std::endl;
+    }
+
+    ResourceManager::getInstance().closeFile(levelEnvFilename);
   }
   else {
     std::cerr << "Failed to open enemies file at " << enemiesFilename << std::endl;
