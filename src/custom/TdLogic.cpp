@@ -374,7 +374,6 @@ void TdLogic::initializeLevelFailedMenu() {
   auto goToMainMenuLevelLambda = [&] {
     mGameLevels[mCurrentlySelectedGameLevelIdx]->finalize();
     mCurrentlyActiveLevel = mStartMenu;
-    std::cout << mCurrentlySelectedGameLevelIdx << std::endl;
   };
 
   int width = mLevelFailedMenu->w();

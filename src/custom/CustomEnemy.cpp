@@ -1,4 +1,5 @@
 #include <box2d/b2_body.h>
+#include <functional>
 #include "custom/CustomEnemy.hpp"
 #include "custom/Tag.hpp"
 #include "base/ResourceManager.hpp"
@@ -93,13 +94,17 @@ std::string getEnemySpritePath(const TdLevelItem enemyItem) {
 }
 
 CustomEnemy::CustomEnemy(Level& level, float tl_x, float tl_y, float w, float h,
-                         TdLevelItem enemyItem, int health,
+                         TdLevelItem enemyItem,
                          const std::function<void(void)>& callBackAtDeath)
     : GameObject(level, tl_x, tl_y, w, h, TdEnemyTag) {
 
   enemyItem_ = enemyItem;
-  
-  renderer_ = std::make_shared<TextureRenderComponent>(*this);
+
+  // Add the texture render component, along with the health bar rendering components
+  healthBarR_ = std::make_shared<RectangleRenderComponent>(255, 0, 0, *this);
+  healthBarG_ = std::make_shared<RectangleRenderComponent>(0, 255, 0, *this);
+  std::vector otherRenderComps = {healthBarR_, healthBarG_};
+  renderer_ = std::make_shared<TextureRenderComponent>(*this, otherRenderComps);
   setRenderComponent(renderer_);
 
   setPhysicsComponent(std::make_shared<PhysicsComponent>(*this, b2BodyType::b2_kinematicBody, false));
@@ -109,9 +114,70 @@ CustomEnemy::CustomEnemy(Level& level, float tl_x, float tl_y, float w, float h,
   addGenericComponent(std::make_shared<CustomEnemyUpdateSpriteSheetComponent>(*this, getEnemySpritePath(enemyItem_), renderer_));
 
   // Health component for the enemy
+  int health;
+  switch (enemyItem)
+  {
+    case TdLevelItem::SCORPIONS:
+      health = 5;
+      break;
+
+    case TdLevelItem::WIZARD:
+      health = 8;
+      break;
+
+    case TdLevelItem::OGRE:
+      health = 10;
+      break;
+
+    case TdLevelItem::HELMETSWORDSMAN:
+      health = 5;
+      break;
+
+    case TdLevelItem::HELMETOGRE:
+      health = 12;
+      break;
+
+    case TdLevelItem::SWORDCAT:
+      health = 12;
+      break;
+
+    case TdLevelItem::ETCAT:
+      health = 14;
+      break;
+
+    case TdLevelItem::MOONOGRE:
+      health = 10;
+      break;
+
+    case TdLevelItem::ETSHURIKEN:
+      health = 4;
+      break;
+
+    case TdLevelItem::HELMETOGRESWORDSMAN:
+      health = 15;
+      break;
+
+    default:
+      break;
+  }
   auto healthComponent = std::make_shared<HealthComponent>(*this, health);
   healthComponent->setCallbackAtDeath(callBackAtDeath);
+
+  // A lambda function which moves the health bar with the enemy
+  // and updates it when health decreases
+  auto redrawHealthBarLambda = [this, health](int curHealth) {
+    int totalBarWidth = this->w();
+    SDL_Rect healthRect = {(int)(this->x()), (int)(this->y()) - 5,
+                           (int)totalBarWidth, 5};
+    healthBarR_->setRect(healthRect);
+    float greenWidth = ((float) curHealth) / health;
+    healthRect = {(int)(this->x()), (int)(this->y()) - 5,
+                          (int)(greenWidth * totalBarWidth) , 5};
+    healthBarG_->setRect(healthRect);
+  };
+  healthComponent->setCallbackAtUpdate(redrawHealthBarLambda);
   healthComponent->addHealthModifier(TdBulletTag, -1);
+  healthComponent->addHealthModifier(TdAntiTankTowerTag, -10000000);
   addGenericComponent(healthComponent);
   addGenericComponent(std::make_shared<RemoveOnCollideComponent>(*this, TdBulletTag));
 }

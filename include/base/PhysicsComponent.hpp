@@ -10,7 +10,6 @@ class Level;
 //! \brief A component for handling physics.
 class PhysicsComponent : public Component {
  public:
-  enum class Type { DYNAMIC_SOLID, STATIC_SOLID, STATIC_SENSOR };
 
   PhysicsComponent(GameObject &gameObject, b2BodyType type, bool isSensor,
                    float linearDamping = 2.0f, float density = 1.0,

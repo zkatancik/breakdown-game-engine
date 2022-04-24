@@ -28,7 +28,7 @@ void DelayedSpawnComponent::update(Level &level) {
   // Logic to add any other components added after the delayed spawn component was added
   auto curGenComponentList = go.genericComponents();
   if (curGenComponentList.size() > 2) {
-    for (int i = 2; i < curGenComponentList.size(); i++)
+    for (size_t i = 2; i < curGenComponentList.size(); i++)
       mGenericComponents.push_back(curGenComponentList[i]);
     go.clearGenericComponents();
     for (int i = 0; i < 2; i++) {

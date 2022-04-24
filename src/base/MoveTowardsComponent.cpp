@@ -79,7 +79,6 @@ bool MoveTowardsComponent::GetDirection() {
 }
 
 bool MoveTowardsComponent::InBounds(int x, int y) {
-  return (x >= 0 && x < pathGrid.size()) 
-    &&
-    (y >= 0 && y < pathGrid[0].size());
+  return (x >= 0 && (size_t)x < pathGrid.size()) &&
+         (y >= 0 && (size_t)y < pathGrid[0].size());
 }

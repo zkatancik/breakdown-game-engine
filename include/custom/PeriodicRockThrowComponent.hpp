@@ -33,10 +33,10 @@ class PeriodicRockThrowComponent : public GenericComponent {
   void update(Level &level) override;
 
  private:
-  const Uint32 mCooldownDelay;
-  Uint32 mNextThrowTime;
   const float mRadius;
   const float mSpeed;
+  const Uint32 mCooldownDelay;
+  Uint32 mNextThrowTime;
 };
 
 #endif

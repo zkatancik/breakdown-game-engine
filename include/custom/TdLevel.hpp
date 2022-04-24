@@ -63,7 +63,7 @@ class TdLevel : public Level {
   int mLevelNumber{0};
   int mNumEnemiesLeft{0};
 
-  std::shared_ptr<GameObject> mStartWaveButton;
+  std::weak_ptr<GameObject> mStartWaveButton;
 
   std::string mSoundPath = "TD2D/Audio/Common/Click2.mp3";
   TdLevelItem currentlySelected{TdLevelItem::NONE};
@@ -87,7 +87,8 @@ class TdLevel : public Level {
   std::string getTdBlockPath(TdLevelItem item);
 
   std::vector<TdLevelItem> itemVector = {TdLevelItem::PLACETOWER,
-                                         TdLevelItem::ROCKTHROWER};
+                                         TdLevelItem::ROCKTHROWER,
+                                         TdLevelItem::ANTITANKMINE};
 };
 
 #endif

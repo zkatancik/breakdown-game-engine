@@ -12,8 +12,8 @@ class GridComponent : public GenericComponent {
                 std::vector<std::vector<SDL_Rect>>& rectGrid,
                 std::function<void(int, int)> callback)
       : GenericComponent(gameObject),
-        mGrid(rectGrid),
-        mCallBack(std::move(callback)){};
+        mCallBack(std::move(callback)),
+        mGrid(rectGrid){};
 
   std::pair<int, int> getMouseGridCoords() {
     SDL_Rect mousePos;
@@ -21,8 +21,8 @@ class GridComponent : public GenericComponent {
     mousePos.h = 1;
     std::pair<int, int> gridCoords{-1, -1};
     SDL_GetMouseState(&mousePos.x, &mousePos.y);
-    for (int ii = 0; ii < mGrid.size(); ++ii) {
-      for (int jj = 0; jj < mGrid[ii].size(); ++jj) {
+    for (size_t ii = 0; ii < mGrid.size(); ++ii) {
+      for (size_t jj = 0; jj < mGrid[ii].size(); ++jj) {
         SDL_Rect drawRect = mGrid[ii][jj];
         if (SDL_HasIntersection(&drawRect, &mousePos)) {
           gridCoords.first = jj;
