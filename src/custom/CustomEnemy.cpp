@@ -177,6 +177,7 @@ CustomEnemy::CustomEnemy(Level& level, float tl_x, float tl_y, float w, float h,
   };
   healthComponent->setCallbackAtUpdate(redrawHealthBarLambda);
   healthComponent->addHealthModifier(TdBulletTag, -1);
+  healthComponent->addHealthModifier(TdAntiTankTowerTag, -10000000);
   addGenericComponent(healthComponent);
   addGenericComponent(std::make_shared<RemoveOnCollideComponent>(*this, TdBulletTag));
 }

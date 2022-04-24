@@ -40,6 +40,7 @@ enum class TdLevelItem {
   MOONOGRE,
   ETSHURIKEN,
   HELMETOGRESWORDSMAN,
+  ANTITANKMINE
 };
 
 /**
