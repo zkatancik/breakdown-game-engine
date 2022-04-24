@@ -217,9 +217,11 @@ void TdLevel::createBottomBarControls() {
   auto startWaveLambda = [&] () {
     if (mNumEnemiesLeft == 0) {
       int currentWaveNumber = mCurrentWaveNumberIndicator.lock()->getGenericComponent<GameVariableComponent<int>>()->getVariable() - 1;
+      Mix_PlayChannel(1, ResourceManager::getInstance().getChunk("TD2D/Audio/Common/WaveStart1.mp3"),
+                      0);
       for (auto enemyInfo : mLevelData.enemyWaves[currentWaveNumber]) {
         for (int i = 0; i < enemyInfo.second; i++) {
-          spawnEnemy(enemyInfo.first, i * 2, i);
+          spawnEnemy(enemyInfo.first, i * 2 + std::rand() % 5, i);
         }
       }
       mStartWaveButton.get()->setIsVisibleOnScreen(false);

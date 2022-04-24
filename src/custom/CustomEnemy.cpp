@@ -94,7 +94,7 @@ std::string getEnemySpritePath(const TdLevelItem enemyItem) {
 }
 
 CustomEnemy::CustomEnemy(Level& level, float tl_x, float tl_y, float w, float h,
-                         TdLevelItem enemyItem, int health,
+                         TdLevelItem enemyItem,
                          const std::function<void(void)>& callBackAtDeath)
     : GameObject(level, tl_x, tl_y, w, h, TdEnemyTag) {
 
@@ -114,6 +114,52 @@ CustomEnemy::CustomEnemy(Level& level, float tl_x, float tl_y, float w, float h,
   addGenericComponent(std::make_shared<CustomEnemyUpdateSpriteSheetComponent>(*this, getEnemySpritePath(enemyItem_), renderer_));
 
   // Health component for the enemy
+  int health;
+  switch (enemyItem)
+  {
+    case TdLevelItem::SCORPIONS:
+      health = 5;
+      break;
+
+    case TdLevelItem::WIZARD:
+      health = 8;
+      break;
+
+    case TdLevelItem::OGRE:
+      health = 10;
+      break;
+
+    case TdLevelItem::HELMETSWORDSMAN:
+      health = 5;
+      break;
+
+    case TdLevelItem::HELMETOGRE:
+      health = 12;
+      break;
+
+    case TdLevelItem::SWORDCAT:
+      health = 12;
+      break;
+
+    case TdLevelItem::ETCAT:
+      health = 14;
+      break;
+
+    case TdLevelItem::MOONOGRE:
+      health = 10;
+      break;
+
+    case TdLevelItem::ETSHURIKEN:
+      health = 4;
+      break;
+
+    case TdLevelItem::HELMETOGRESWORDSMAN:
+      health = 15;
+      break;
+
+    default:
+      break;
+  }
   auto healthComponent = std::make_shared<HealthComponent>(*this, health);
   healthComponent->setCallbackAtDeath(callBackAtDeath);
 

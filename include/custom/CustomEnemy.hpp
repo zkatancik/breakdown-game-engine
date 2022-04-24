@@ -29,7 +29,7 @@ class CustomEnemy : public GameObject {
    * @param checkpoints checkpoints where this enemy patrols
    */
   explicit CustomEnemy(Level& level, float tl_x, float tl_y, float w, float h,
-                       TdLevelItem enemyItem, int health,
+                       TdLevelItem enemyItem,
                        const std::function<void(void)>& callBackAtDeath);
 
   /**
