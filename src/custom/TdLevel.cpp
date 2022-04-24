@@ -250,6 +250,8 @@ void TdLevel::createGrid() {
               removeObject(g);
               addObject(tower);
               coinIndicatorVariable->setVariable(coinIndicatorVariable->getVariable() - 10);
+              Mix_PlayChannel(1, ResourceManager::getInstance().getChunk("TD2D/Audio/Common/Construct1.mp3"),
+                              0);
             }
           }
         }
@@ -269,6 +271,8 @@ void TdLevel::createGrid() {
           auto coinIndicatorVariable = mCoinIndicator.lock()->getGenericComponent<GameVariableComponent<int>>();
           coinIndicatorVariable->setVariable(coinIndicatorVariable->getVariable() + 5);
           removeObject(g);
+          Mix_PlayChannel(1, ResourceManager::getInstance().getChunk("TD2D/Audio/Common/Sell1.mp3"),
+                          0);
           addObject(placeTower);
             }
           }
