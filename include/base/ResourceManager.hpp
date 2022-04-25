@@ -326,8 +326,11 @@ class ResourceManager {
       {u8"Tower Defense", {{Language::SPANISH, u8"Tower Defense"}}},
       {u8"Coins: ", {{Language::SPANISH, u8"Monedas: "}}},
       {u8"Start Wave!", {{Language::SPANISH, u8"Onda de Inicio!"}}},
+      {u8" map", {{Language::SPANISH, u8"mapa"}}},
+      {u8" enemies", {{Language::SPANISH, u8"enemigos"}}},
       {u8": ", {{Language::SPANISH, u8": "}}},
-      {u8"Score: -", {{Language::SPANISH, u8"Puntaje -"}}}
+      {u8"Score: -", {{Language::SPANISH, u8"Puntaje -"}}},
+      {u8"Wave ", {{Language::SPANISH, u8"onda "}}}
   };
 };
 #endif

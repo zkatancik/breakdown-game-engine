@@ -11,8 +11,8 @@ class UICounterButton : public GameObject {
     // Load sprite sheet for the buttons
     auto buttonRenderer = std::make_shared<TextureRenderComponent>(*this);
     buttonRenderer->setTexture(ResourceManager::getInstance().getTexture(counterOp == INCREMENT ?
-        "TD2D/Sprites/TD2D/Sprites/Editor/Next.png" : "TD2D/Sprites/TD2D/Sprites/Editor/Prev.png"));
-
+        "TD2D/Sprites/Editor/Next.png" : "TD2D/Sprites/Editor/Prev.png"));
+    setRenderComponent(buttonRenderer);
     // Set event handlers for the SelectableComponent
 
     auto addedSoundWithSelectHook = [selectHook = std::move(clickCallBack)] {
@@ -29,19 +29,19 @@ class UICounterButton : public GameObject {
 };
 
 
-UICounter::UICounter(Level &level, float x, float y, int minValue, int maxValue) : Collection(level) {
+UICounter::UICounter(Level &level, float x, float y, int currentValue, int minValue, int maxValue) : Collection(level) {
   // Add the text field
-  auto counterValue = std::make_shared<GameObject>(level, x + 20, y, 32, 32, BaseTextTag);
+  auto counterValue = std::make_shared<GameObject>(level, x + 40, y, 32, 32, BaseTextTag);
   auto textRenderer = std::make_shared<TextureRenderComponent>(*counterValue);
 
   textRenderer->setRenderMode(TextureRenderComponent::RenderMode::QUERY);
   counterValue->setRenderComponent(textRenderer);
   auto textComponent = std::make_shared<TextComponent>(
-      *counterValue, "", 32, "Graverunner/fonts/GADAQUALI.ttf",
+      *counterValue, std::to_string(currentValue), 32, "TD2D/Fonts/madera-tygra.ttf",
       textRenderer);
   counterValue->addGenericComponent(textComponent);
   auto gameVariableComponent =
-  std::make_shared<GameVariableComponent<int>>(*counterValue, minValue);
+  std::make_shared<GameVariableComponent<int>>(*counterValue, currentValue);
   counterValue->addGenericComponent(gameVariableComponent);
   std::weak_ptr<GameVariableComponent<int>> gameVariableComponentWeak(
       gameVariableComponent);
@@ -52,21 +52,25 @@ UICounter::UICounter(Level &level, float x, float y, int minValue, int maxValue)
                 std::to_string(gameVariableComponentWeak.lock()->getVariable()));
       });
   // Add decrement button
-  auto decrementButton = std::make_shared<UICounterButton>(level, x, y, UICounterButton::DECREMENT,
-                                                           [counterVariable = std::weak_ptr(gameVariableComponent)] {
+  auto decrementButton = std::make_shared<UICounterButton>(level, x - 40, y, UICounterButton::DECREMENT,
+                                                           [counterVariable = std::weak_ptr(gameVariableComponent), minValue] {
     auto c = counterVariable.lock();
-    c->setVariable(c->getVariable() - 1);
+    if (c->getVariable() > minValue)
+      c->setVariable(c->getVariable() - 1);
   });
   // Add increment button
-  auto incrementButton = std::make_shared<UICounterButton>(level, x, y, UICounterButton::INCREMENT,
-                                                           [counterVariable = std::weak_ptr(gameVariableComponent)] {
+  auto incrementButton = std::make_shared<UICounterButton>(level, x + 80, y, UICounterButton::INCREMENT,
+                                                           [counterVariable = std::weak_ptr(gameVariableComponent), maxValue] {
                                                              auto c = counterVariable.lock();
-                                                             c->setVariable(c->getVariable() + 1);
+                                                             if (c->getVariable() < maxValue)
+                                                              c->setVariable(c->getVariable() + 1);
                                                            });
   // Add everything to the level + collection list
   mCounterValue = counterValue->weak_from_this();
-  addGameObject(counterValue);
-  addGameObject(decrementButton);
-  addGameObject(incrementButton);
-
+  level.addObject(counterValue);
+  level.addObject(decrementButton);
+  level.addObject(incrementButton);
+}
+int UICounter::getCounterValue() {
+  return mCounterValue.lock()->getGenericComponent<GameVariableComponent<int>>()->getVariable();
 }

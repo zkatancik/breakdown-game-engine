@@ -6,6 +6,57 @@
 #include "base/ResPath.hpp"
 #include "base/ResourceManager.hpp"
 
+std::string getEnemySpritePath(const TdLevelItem enemyItem) {
+  filesystem::path returnPath = "TD2D/Sprites/Enemies/cpix_enemies/";
+  switch (enemyItem)
+  {
+    case TdLevelItem::SCORPIONS:
+      returnPath /= "1/1_enemies_1_run_";
+      break;
+
+    case TdLevelItem::WIZARD:
+      returnPath /= "2/2_enemies_1_run_";
+      break;
+
+    case TdLevelItem::OGRE:
+      returnPath /= "3/3_enemies_1_run_";
+      break;
+
+    case TdLevelItem::HELMETSWORDSMAN:
+      returnPath /= "4/4_enemies_1_run_";
+      break;
+
+    case TdLevelItem::HELMETOGRE:
+      returnPath /= "5/5_enemies_1_run_";
+      break;
+
+    case TdLevelItem::SWORDCAT:
+      returnPath /= "6/6_enemies_1_run_";
+      break;
+
+    case TdLevelItem::ETCAT:
+      returnPath /= "7/7_enemies_1_run_";
+      break;
+
+    case TdLevelItem::MOONOGRE:
+      returnPath /= "8/8_enemies_1_run_";
+      break;
+
+    case TdLevelItem::ETSHURIKEN:
+      returnPath /= "9/9_enemies_1_run_";
+      break;
+
+    case TdLevelItem::HELMETOGRESWORDSMAN:
+      returnPath /= "10/10_enemies_1_run_";
+      break;
+
+    default:
+      break;
+  }
+
+  return returnPath.u8string();
+}
+
 TdLevelItem getEnemy(const std::string &enemyTypeStr) {
   if (enemyTypeStr == "S")
     return TdLevelItem::SCORPIONS;
@@ -70,6 +121,7 @@ void loadLevel(TdLevelData *levelData, int level) {
   levelData->levelEnvItems.clear();
   levelData->levelEnvItemPositions.clear();
   levelData->levelNumber = level;
+  levelData->enemyWaves.clear();
 
   const filesystem::path resPath = getResourcePath("TD2D/Levels");
   std::string resourceFilename =

@@ -130,9 +130,10 @@ void EditorLogic::createAndInitTdSelector(int width, int height) {
   mTowerDefenceLevelSelector->addObject(gameSelectMessage);
   // Level numbers button
   for (size_t i = 0; i < mTowerDefenseLevelEditors.size(); i++) {
-    auto tdButton = std::make_shared<TdButton>(
-        *mTowerDefenceLevelSelector, width * 0.4 + i * (width * 0.4), height / 2,
-        2 * width / 3, 139, std::to_string(i + 1), [=]() {
+    // Add map editor level select buttons
+    auto tdButtonMap = std::make_shared<TdButton>(
+        *mTowerDefenceLevelSelector, width * 0.4 + i * (width * 0.4), height / 3,
+        2 * width / 3, 139, std::to_string(i + 1) + " map", [=]() {
           mTowerDefenseLevelEditors[i]->finalize();
           mTowerDefenseLevelEditors[i]->initialize();
           auto returnButton = std::make_shared<TdButton>(
@@ -141,7 +142,21 @@ void EditorLogic::createAndInitTdSelector(int width, int height) {
           mTowerDefenseLevelEditors[i]->addObject(returnButton);
           mCurrentlyActiveLevel = mTowerDefenseLevelEditors[i];
         }, 32);
-    mTowerDefenceLevelSelector->addObject(tdButton);
+    mTowerDefenceLevelSelector->addObject(tdButtonMap);
+    // Add enemy editor select buttons
+    auto tdButtonEnemy = std::make_shared<TdButton>(
+        *mTowerDefenceLevelSelector, width * 0.4 + i * (width * 0.4), height / 3 + 150,
+        2 * width / 3, 139, std::to_string(i + 1) + " enemies", [=]() {
+          mTowerDefenseEnemyEditors[i]->finalize();
+          mTowerDefenseEnemyEditors[i]->initialize();
+          auto returnButton = std::make_shared<TdButton>(
+              *mTowerDefenceLevelSelector, 200, 670, 2 * width / 5, 12, u8"Return",
+              [&]() { mCurrentlyActiveLevel = mStartMenu; }, 15);
+          mTowerDefenseEnemyEditors[i]->addObject(returnButton);
+          mCurrentlyActiveLevel = mTowerDefenseEnemyEditors[i];
+        }, 32);
+    mTowerDefenceLevelSelector->addObject(tdButtonEnemy);
+
   }
 
   // Back button
@@ -169,5 +184,9 @@ void EditorLogic::createTdLevelEditors(int width, int height) {
   for (size_t i = 0; i < mTowerDefenseLevelEditors.size(); i++) {
     mTowerDefenseLevelEditors[i] =
         std::make_shared<TdLevelEditor>(width, height, i + 1);
+  }
+  for (size_t i = 0; i < mTowerDefenseLevelEditors.size(); i++) {
+    mTowerDefenseEnemyEditors[i] =
+        std::make_shared<TdEnemyEditor>(width, height, i + 1);
   }
 }

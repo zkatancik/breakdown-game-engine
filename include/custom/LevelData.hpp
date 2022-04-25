@@ -148,4 +148,12 @@ void updateCurrentLevel(TdLevelData* levelData, Vector2D<int> gridPosition, Vect
 void updateLevelFile(TdLevelData ld, Vector2D<int> gridPosition,
                      TdLevelItem item);
 
+
+/**
+ * Gets the path to the sprite of each enemy.
+ * @param enemyItem enemy type
+ * @return path to the sprite on disk
+ */
+std::string getEnemySpritePath(TdLevelItem enemyItem);
+
 #endif

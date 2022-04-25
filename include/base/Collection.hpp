@@ -9,9 +9,9 @@ class Collection {
  public:
   explicit Collection(Level& level);
 
-  void addGameObject(std::shared_ptr<GameObject> gameObject);
+  void addGameObject(const std::shared_ptr<GameObject>& gameObject);
 
-  void removeGameObject(std::shared_ptr<GameObject> gameObject);
+  void removeGameObject(const std::shared_ptr<GameObject>& gameObject);
 
   const std::vector<std::weak_ptr<GameObject>> &GetObjects() const;
 

@@ -67,6 +67,7 @@ void TdLogic::update() {
     if (isGameActive()) {
       mCurrentlyActiveLevel->finalize();
       mCurrentlyActiveLevel->initialize();
+      mCurrentlyActiveLevel->addObject(std::make_shared<Mouse>(*mCurrentlyActiveLevel));
     }
   }
 
