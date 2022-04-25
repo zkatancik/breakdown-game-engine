@@ -30,6 +30,7 @@ class TextureRenderComponent : public RenderComponent {
   inline void setTexture(SDL_Texture *texture) { texture_ = texture; }
   SDL_Texture *GetTexture() const { return texture_; }
   inline void setFlip(bool flip) { flip_ = flip; }
+  inline void setRotation(double angle) { rotation_ = angle; }
   inline void setCrop(SDL_Rect crop) { crop_ = crop; }
   inline void setOffSetX(int x) { xOffset_ = x; }
   inline void setOffSetY(int y) { yOffset_ = y; }
@@ -53,6 +54,7 @@ class TextureRenderComponent : public RenderComponent {
   SDL_Texture *texture_{nullptr};
   SDL_Rect crop_{0, 0, 0, 0};
   bool flip_{false};
+  double rotation_{0.0};
   int xOffset_{0};
   int yOffset_{0};
   int customH_{0};
