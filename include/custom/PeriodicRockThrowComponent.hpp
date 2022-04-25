@@ -6,6 +6,7 @@
 #include "base/CyclicCounterComponent.hpp"
 #include "base/GameObject.hpp"
 #include "base/GenericComponent.hpp"
+#include "base/TextureRenderComponent.hpp"
 
 /**
  * @brief Component which launches a rock at the closest enemy. Has a
@@ -22,8 +23,9 @@ class PeriodicRockThrowComponent : public GenericComponent {
    * @param speed the speed of the rocks thrown
    * @param cooldown the minimum delay (SDL ticks) between firings
    */
-  PeriodicRockThrowComponent(GameObject &gameObject, float radius, float speed,
-                             Uint32 cooldown);
+  PeriodicRockThrowComponent(
+      GameObject &gameObject, float radius, float speed, Uint32 cooldown,
+      const std::shared_ptr<TextureRenderComponent> &textureRenderComponent);
 
   /**
    * @brief Updates this component, meaning checks for enemies within radius and
@@ -39,6 +41,7 @@ class PeriodicRockThrowComponent : public GenericComponent {
   const Uint32 mCooldownDelay;
   Uint32 mNextThrowTime;
   std::shared_ptr<CyclicCounterComponent> mCounterComponent;
+  std::shared_ptr<TextureRenderComponent> mTRenderComponent;
 };
 
 #endif
