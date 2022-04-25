@@ -17,23 +17,23 @@ If the user’s defenses destroy all enemies before the end point is destroyed, 
 * Milestone 2
 
 Must
-[ ] At least one enemy type spawning from the beginning of the track.
-[ ] At least one track where enemies can enter from the start gate, traverse the map, and exit at the exit gate.
-[ ] At least one tower type, where a tower can be placed on the map by the user. The tower will be able to shoot enemies, removing them from the screen and giving the user some sort of credits. 
-[ ] A UI should be present on the left side of the map where a user can view their lives left, current amount of currency, and tower types available to be placed. 
-[ ] There should be turns, where between rounds users can place towers and hit a button to begin.
-[ ] Currency and score should be gained and deducted as expected.
-[ ] A user should win when they defeat all enemies or reach a certain round, and a user should lose when they lose all lives. The game menu should respond accordingly.
+[☑️] At least one enemy type spawning from the beginning of the track.
+[☑️] At least one track where enemies can enter from the start gate, traverse the map, and exit at the exit gate.
+[☑️] At least one tower type, where a tower can be placed on the map by the user. The tower will be able to shoot enemies, removing them from the screen and giving the user some sort of credits. 
+[☑️] A UI should be present on the left side of the map where a user can view their lives left, current amount of currency, and tower types available to be placed. 
+[☑️] There should be turns, where between rounds users can place towers and hit a button to begin.
+[☑️] Currency and score should be gained and deducted as expected.
+[☑️] A user should win when they defeat all enemies or reach a certain round, and a user should lose when they lose all lives. The game menu should respond accordingly.
 
 Should
 [ ] At least 3 tower types of differing mechanics should be available to the user
-[ ] At least 3 enemy types should be available to the user
+[☑️] At least 3 enemy types should be available to the user
 
 Could
 [ ] Towers upgradable, with improvements like faster shooting or more powerful rounds
 [ ] A fast-forward button during rounds to allow for better gameplay experience
-[ ] At least 3 maps should be available to the user
-[ ] Users can view current round, rounds to go
+[☑️] At least 3 maps should be available to the user
+[☑️] Users can view current round, rounds to go
 
 Won't
 [ ] Consumable items outside of towers to be placed on the track
@@ -45,9 +45,9 @@ Won't
 
 Must
 [ ] At least 3 tower types of differing mechanics should be available to the user
-[ ] At least 3 enemy types should be in the game.
-[ ] At least 3 maps should be available to the user.
-[ ] Users can view the current round number, rounds to go.
+[☑️] At least 3 enemy types should be in the game.
+[☑️] At least 3 maps should be available to the user.
+[☑️] Users can view the current round number, rounds to go.
 [ ] Level Editor (sans enemies)
 
 Should
@@ -64,6 +64,7 @@ Won't
 
 Extensions
 [ ] Add ability for towers to have user-selected enemy targeting (strong, weak, first, last). - Zack 
-[ ] Enemies with healthbars. - Marcin
-[ ] Anti-tank mine - Matin
+[☑️] Enemies with healthbars. - Marcin
+[☑️] Anti-tank mine - Matin
 [ ] Making towers upgradable - Roshan
+[ ] Environment editing in Editor - Roshan
