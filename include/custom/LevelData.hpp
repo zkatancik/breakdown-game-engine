@@ -40,7 +40,21 @@ enum class TdLevelItem {
   MOONOGRE,
   ETSHURIKEN,
   HELMETOGRESWORDSMAN,
-  ANTITANKMINE
+  ANTITANKMINE,
+  BUSH1,
+  BUSH2,
+  BUSH3,
+  FOREST1,
+  GRASS1,
+  GRASS2,
+  GRASS3,
+  GRASS4,
+  STONE1,
+  TREE1,
+  TREE2,
+  TREE3,
+  TREE4,
+  TREE5,
 };
 
 /**
@@ -81,6 +95,10 @@ struct TdLevelData {
   // A vector of enemy possible paths.
   // Saves each path in a sparse format
   std::vector<std::vector<Vector2D<int>>> enemyPossiblePaths;
+
+  // A vector of Level environment elements.
+  std::vector<TdBlockData> levelEnvItems;
+  std::vector<Vector2D<int>> levelEnvItemPositions;
 
   // Start and end positions of the path
   Vector2D<int> startPosition;

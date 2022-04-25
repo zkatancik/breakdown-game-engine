@@ -135,6 +135,18 @@ void TdLevel::initialize() {
     count++;
     y = y + blockSize.y;
   }
+
+  /********************************************************************************************************************/
+  // Place Env
+  for (int i = 0 ; i < mLevelData.levelEnvItems.size(); i++) {
+    std::shared_ptr<GameObject> envObj;
+    auto envItemInfo = mLevelData.levelEnvItems[i];
+    auto envItemPos = mLevelData.levelEnvItemPositions[i];
+    envObj = std::make_shared<TdBlock>(*this, envItemPos.x, envItemPos.y, envItemInfo,
+                                                   blockSize);
+    addObject(envObj);
+  }
+
   /********************************************************************************************************************/
   // Create controls
   createSidebarControls();
