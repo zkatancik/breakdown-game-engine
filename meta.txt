@@ -9,6 +9,12 @@
 -- Did you implement any extensions? If so, which ones, who implemented each, and how can they be tried out?
 Matin - Implemented an Anti-tank mine inspired by SovietWomble. The mine can be placed on the roads and cannot be sold,
 and upon explosion, kills an enemy.
+Roshan - Built support for environment items in a level and can use Level editor for adding/deleting Environment items.
+Environment item are not realted to the grid and can be placed freely within the level. My previous extension according to
+the moscow was to have upgradable tower, but that was wayy too complicated to have in our game along with animated towers.
+I have mentioned this change in extension/moSCow to Professor Cooper as well as we had modify the moSCow to reach our goals,
+based on the playability of the game. The second reason behind going against tower upgrades was that the levels were already
+easy to finish and the enemy waves would become easier to overcome if we upgrade towers. So I worked on level balancing as well. 
 
 
 -- Did you use any external resources? If so, cite them below.
@@ -71,6 +77,10 @@ Added Enemy tower path to have layers levels.
 Built full Level editor.
 Built 4 levels. Wrote Enemy spawner and enemy spawner file with config data on what to spawn.
 Updated instructions.
+(Milestone 3):
+Built Level editor for Environment.
+The level editor would be able to edit 3 files at the same time, 
+where all the information related to the layering in the level would be present.
 
 Alex - 
 (Milestone 2):
@@ -78,7 +88,7 @@ Updated UI placement and spacing.
 Added asset for coin icon to be displayed. 
 
 -- How many hours did it take you to complete this lab?
-Roshan - (M1) 40, (M2) 80
+Roshan - (M1) 40, (M2) 80, (M3) 80
 Zack - (M1) 40, (M2) 20
 Matin - (M1) 60, (M2) 20, (M3) 20
 Marcin - (M1) 20, (M2) 20
@@ -86,7 +96,7 @@ Alex - 2
 
 
 -- (Optional) What was your favorite part of the lab?
-
+Roshan - The level editor can edit everything!!! Except enemy waves but everything other that that!
 
 
 -- (Optional) How would you improve the lab?
