@@ -466,6 +466,20 @@ std::string getItemChar(TdLevelItem item) {
   }
 }
 
+bool rangeIntersect(int min0, int max0, int min1, int max1)
+{
+    bool a = std::max(min0, max0) >= std::min(min1, max1);
+    bool b = std::min(min0, max0) <= std::max(min1, max1);
+    return a && b;
+}
+
+bool rectIntersect(Vector2D<int> r0, int width0, int height0, Vector2D<int> r1, int width1, int height1)
+{
+    bool a = rangeIntersect(r0.x - (width0 / 2), r0.x + (width0 / 2), r1.x - (width1 / 2), r1.x + (width1 / 2));
+    bool b = rangeIntersect(r0.y - (height0 / 2), r0.y + (height0 / 2), r1.y - (height1 / 2), r1.y + (height1 / 2));
+    return a && b;
+}
+
 void updateCurrentLevel(TdLevelData *levelData, Vector2D<int> gridPosition,
                         Vector2D<int> mousePosition,
                         TdLevelItem item) {
@@ -532,9 +546,23 @@ void updateCurrentLevel(TdLevelData *levelData, Vector2D<int> gridPosition,
       data.levelItemType = item;
       data.blockNumber = getItemChar(data.levelItemType);
       //data.isTowerPlacable;
-
-      levelData->levelEnvItems.push_back(data);
-      levelData->levelEnvItemPositions.push_back(Vector2D<int>(mousePosition.x - (levelData->blockSize.x / 2), mousePosition.y - (levelData->blockSize.y / 2)));
+      if (item == TdLevelItem::NOBLOCK) {
+        for (int i = 0; i < levelData->levelEnvItemPositions.size(); i++)
+        {
+          auto pos = levelData->levelEnvItemPositions[i];
+          // Search for envs in clicked area -> mousePosition
+          bool isColliding = rectIntersect(mousePosition, 1.0f, 1.0f, pos, levelData->blockSize.x, levelData->blockSize.y);
+          if (isColliding)
+          {
+            levelData->levelEnvItemPositions.erase(levelData->levelEnvItemPositions.begin( ) + i);
+            levelData->levelEnvItems.erase(levelData->levelEnvItems.begin( ) + i);
+            break;
+          }
+        }
+      } else {
+        levelData->levelEnvItems.push_back(data);
+        levelData->levelEnvItemPositions.push_back(Vector2D<int>(mousePosition.x - (levelData->blockSize.x / 2), mousePosition.y - (levelData->blockSize.y / 2)));
+      }
     }
 
     // Update the Level File
