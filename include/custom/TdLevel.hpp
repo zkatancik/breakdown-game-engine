@@ -64,6 +64,7 @@ class TdLevel : public Level {
  private:
   int mLevelNumber{0};
   int mNumEnemiesLeft{0};
+  int mEnemyCount{0};
 
   std::weak_ptr<GameObject> mStartWaveButton;
 
