@@ -33,7 +33,7 @@ class HealthComponent: public GenericComponent {
   int mHealth{1};
   std::map<int, int> mHealthModifiers{};
   std::function<void(void)> mCallbackAtDeath{[]{}};
-  std::function<void(int)> mCallbackAtUpdate;
+  std::function<void(int)> mCallbackAtUpdate{[](int i){}};
 };
 
 #endif

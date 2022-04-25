@@ -168,7 +168,6 @@ void TdLevel::initialize() {
   addObject(healthIndicator);
   addObject(waveNumberIndicator);
   createGrid();
-  addObject(std::make_shared<Mouse>(*this));
 }
 
 bool TdLevel::isLevelWon() const {

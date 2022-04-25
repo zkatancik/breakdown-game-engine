@@ -239,6 +239,7 @@ void TdLogic::createStartMenuLevel(int width, int height) {
   auto startGameLevelButtonHook = [&]() {
     mGameLevels[mCurrentlySelectedGameLevelIdx]->finalize();
     mGameLevels[mCurrentlySelectedGameLevelIdx]->initialize();
+    mGameLevels[mCurrentlySelectedGameLevelIdx]->addObject(std::make_shared<Mouse>(*mGameLevels[mCurrentlySelectedGameLevelIdx]));
     mCurrentlyActiveLevel = mGameLevels[mCurrentlySelectedGameLevelIdx];
   };
 
