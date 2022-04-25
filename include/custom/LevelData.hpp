@@ -29,6 +29,7 @@ enum class TdLevelItem {
   PLACETOWER,
   ROCKTHROWER,
   MAGICTOWER,
+  ARROWTOWER,
   START,
   END,
   SCORPIONS,
