@@ -12,6 +12,6 @@ ArrowTower::ArrowTower(Level &level, float x, float y, Vector2D<int> bs)
   renderer_->setTexture(ResourceManager::getInstance().getTexture(
       "TD2D/Sprites/Towers/cpix_towers/arrow_tower_1.png"));
   auto throwerComponent = std::make_shared<ArrowBarrageComponent>(
-      *this, RADIUS, SPEED, COOLDOWN, renderer_);
+      *this, RADIUS, SPEED, COOLDOWN, targetPref, renderer_);
   addGenericComponent(throwerComponent);
 }

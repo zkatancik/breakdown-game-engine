@@ -6,6 +6,7 @@
 void TdLevel::initialize() {
   // Load level file
   mNumEnemiesLeft = 0;
+  mEnemyCount = 0;
   loadLevel(&mLevelData, mLevelNumber);
 
   int rowsOfBlocks = mLevelData.rowCount;
@@ -324,9 +325,8 @@ void TdLevel::createBottomBarControls() {
 }
 
 void TdLevel::createGrid() {
-  auto gridObject =
-      std::make_shared<GridObject>(*this, 0, 0, 20, 12, 64, 64,
-                                   getTdBlockPath(currentlySelected));
+  auto gridObject = std::make_shared<GridObject>(
+      *this, 0, 0, 20, 12, 64, 64, getTdBlockPath(currentlySelected));
   mGridObject = std::weak_ptr(gridObject);
 
   auto gridCallback = [&, mLevelData = &mLevelData](int i, int j, int x,
@@ -355,7 +355,8 @@ void TdLevel::createGrid() {
                                   "TD2D/Audio/Common/Construct1.mp3"),
                               0);
               currentlySelected = TdLevelItem::NONE;
-              mGridObject.lock()->setCurrentlySelected("TD2D/Sprites/Tiles/Empty.png");
+              mGridObject.lock()->setCurrentlySelected(
+                  "TD2D/Sprites/Tiles/Empty.png");
             }
           }
         }
@@ -384,7 +385,8 @@ void TdLevel::createGrid() {
                                   "TD2D/Audio/Common/Construct1.mp3"),
                               0);
               currentlySelected = TdLevelItem::NONE;
-              mGridObject.lock()->setCurrentlySelected("TD2D/Sprites/Tiles/Empty.png");
+              mGridObject.lock()->setCurrentlySelected(
+                  "TD2D/Sprites/Tiles/Empty.png");
             }
           }
         }
@@ -413,7 +415,8 @@ void TdLevel::createGrid() {
                                   "TD2D/Audio/Common/Construct1.mp3"),
                               0);
               currentlySelected = TdLevelItem::NONE;
-              mGridObject.lock()->setCurrentlySelected("TD2D/Sprites/Tiles/Empty.png");
+              mGridObject.lock()->setCurrentlySelected(
+                  "TD2D/Sprites/Tiles/Empty.png");
             }
           }
         }
@@ -457,7 +460,8 @@ void TdLevel::createGrid() {
                                   "TD2D/Audio/Common/Construct1.mp3"),
                               0);
               currentlySelected = TdLevelItem::NONE;
-              mGridObject.lock()->setCurrentlySelected("TD2D/Sprites/Tiles/Empty.png");
+              mGridObject.lock()->setCurrentlySelected(
+                  "TD2D/Sprites/Tiles/Empty.png");
             }
           }
         }
@@ -487,8 +491,8 @@ void TdLevel::createGrid() {
                           0);
           addObject(placeTower);
           currentlySelected = TdLevelItem::NONE;
-          mGridObject.lock()->setCurrentlySelected("TD2D/Sprites/Tiles/Empty.png");
-
+          mGridObject.lock()->setCurrentlySelected(
+              "TD2D/Sprites/Tiles/Empty.png");
         }
       }
     }
@@ -594,7 +598,7 @@ void TdLevel::spawnEnemy(TdLevelItem enemyType, int delay, int enemyNumber) {
       mLevelData.blockSize.x, mLevelData.blockSize.y, enemyType,
       mLevelData.endPosition, mLevelData.levelGrid,
       mLevelData.enemyPossiblePaths[pathIdx],
-      increaseScoreAndCoinsIndicatorLambda);
+      increaseScoreAndCoinsIndicatorLambda, mEnemyCount++);
   // Decrease score and lives when reaching the end of the line
   auto decreaseScoreAndLivesIndicatorLambda =
       [=](Level& level, std::shared_ptr<GameObject> gameObject) {

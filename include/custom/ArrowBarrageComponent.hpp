@@ -7,6 +7,8 @@
 #include "base/GameObject.hpp"
 #include "base/GenericComponent.hpp"
 #include "base/TextureRenderComponent.hpp"
+#include "custom/ArrowTower.hpp"
+#include "custom/CustomEnemy.hpp"
 
 /**
  * @brief Component which launches a rock at the closest enemy. Has a
@@ -25,6 +27,7 @@ class ArrowBarrageComponent : public GenericComponent {
    */
   ArrowBarrageComponent(
       GameObject &gameObject, float radius, float speed, Uint32 cooldown,
+      ArrowTargetingPreference targetPref,
       const std::shared_ptr<TextureRenderComponent> &textureRenderComponent);
 
   /**
@@ -42,6 +45,7 @@ class ArrowBarrageComponent : public GenericComponent {
   Uint32 mNextThrowTime;
   std::shared_ptr<CyclicCounterComponent> mCounterComponent;
   std::shared_ptr<TextureRenderComponent> mTRenderComponent;
+  ArrowTargetingPreference mTargetPref{ArrowTargetingPreference::CLOSE};
 };
 
 #endif

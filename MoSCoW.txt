@@ -48,11 +48,9 @@ Must
 [☑️] At least 3 enemy types should be in the game.
 [☑️] At least 3 maps should be available to the user.
 [☑️] Users can view the current round number, rounds to go.
-[☑️] Level Editor (sans Environment)
 
 Should
 [☑️] Level Editor (with Environment)
-[ ] Upgradable towers
 
 Could
 [ ] Animated enemies with effects
@@ -66,5 +64,5 @@ Extensions
 [ ] Add ability for towers to have user-selected enemy targeting (strong, weak, first, last). - Zack 
 [☑️] Enemies with healthbars. - Marcin
 [☑️] Anti-tank mine - Matin
-[ ] Making towers upgradable - Roshan
+[ ] Making towers upgradable - Roshan - (Chose not to purse this as well because it was a long feature)
 [☑️] Environment editing in Editor - Roshan
