@@ -1,5 +1,5 @@
-#ifndef PERIODIC_ROCK_THROW_COMPONENT_HPP
-#define PERIODIC_ROCK_THROW_COMPONENT_HPP
+#ifndef MAGIC_BLAST_COMPONENT_HPP
+#define MAGIC_BLAST_COMPONENT_HPP
 
 #include <SDL2/SDL_types.h>
 
@@ -7,12 +7,13 @@
 #include "base/GameObject.hpp"
 #include "base/GenericComponent.hpp"
 #include "base/TextureRenderComponent.hpp"
+#include "custom/MagicBall.hpp"
 
 /**
  * @brief Component which launches a rock at the closest enemy. Has a
  * configurable cooldown delay (SDL ticks) between throws.
  */
-class PeriodicRockThrowComponent : public GenericComponent {
+class MagicBlastComponent : public GenericComponent {
  public:
   /**
    * @brief Construct a new Periodic Rock Throw Component object
@@ -22,9 +23,11 @@ class PeriodicRockThrowComponent : public GenericComponent {
    * searches for targets
    * @param speed the speed of the rocks thrown
    * @param cooldown the minimum delay (SDL ticks) between firings
+   * @param blasts the number of magic balls to create
    */
-  PeriodicRockThrowComponent(
+  MagicBlastComponent(
       GameObject &gameObject, float radius, float speed, Uint32 cooldown,
+      Uint32 blasts,
       const std::shared_ptr<TextureRenderComponent> &textureRenderComponent);
 
   /**
@@ -39,6 +42,7 @@ class PeriodicRockThrowComponent : public GenericComponent {
   const float mRadius;
   const float mSpeed;
   const Uint32 mCooldownDelay;
+  Uint32 mBlasts;
   Uint32 mNextThrowTime;
   std::shared_ptr<CyclicCounterComponent> mCounterComponent;
   std::shared_ptr<TextureRenderComponent> mTRenderComponent;

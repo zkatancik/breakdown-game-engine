@@ -11,6 +11,7 @@
 #include "custom/CustomLevelEditButton.hpp"
 #include "custom/LevelData.hpp"
 #include "custom/LevelTimer.hpp"
+#include "custom/MagicTower.hpp"
 #include "custom/Mouse.hpp"
 #include "custom/NonHostileEnemy.hpp"
 #include "custom/RockThrowerTower.hpp"
@@ -86,9 +87,9 @@ class TdLevel : public Level {
 
   std::string getTdBlockPath(TdLevelItem item);
 
-  std::vector<TdLevelItem> itemVector = {TdLevelItem::PLACETOWER,
-                                         TdLevelItem::ROCKTHROWER,
-                                         TdLevelItem::ANTITANKMINE};
+  std::vector<TdLevelItem> itemVector = {
+      TdLevelItem::PLACETOWER, TdLevelItem::ROCKTHROWER,
+      TdLevelItem::ANTITANKMINE, TdLevelItem::MAGICTOWER};
 };
 
 #endif

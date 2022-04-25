@@ -1,4 +1,5 @@
 #include "custom/TdLevel.hpp"
+
 #include "custom/AntiTankMine.hpp"
 
 void TdLevel::initialize() {
@@ -31,19 +32,23 @@ void TdLevel::initialize() {
   // Create icons for health and coins indicators
 
   // Health Icon
-  auto healthIcon = std::make_shared<GameObject>(*this, 1300, 95, 50, 50, BaseTextTag);
+  auto healthIcon =
+      std::make_shared<GameObject>(*this, 1300, 95, 50, 50, BaseTextTag);
   auto hIconRenderer = std::make_shared<TextureRenderComponent>(*healthIcon);
 
   hIconRenderer->setRenderMode(TextureRenderComponent::RenderMode::QUERY);
   healthIcon->setRenderComponent(hIconRenderer);
-  hIconRenderer->setTexture(ResourceManager::getInstance().getTexture("TD2D/Sprites/GUI/Menu/life_0.png"));
+  hIconRenderer->setTexture(ResourceManager::getInstance().getTexture(
+      "TD2D/Sprites/GUI/Menu/life_0.png"));
   // Coins Icon
-  auto coinsIcon = std::make_shared<GameObject>(*this, 1300, 130, 50, 50, BaseTextTag);
+  auto coinsIcon =
+      std::make_shared<GameObject>(*this, 1300, 130, 50, 50, BaseTextTag);
   auto cIconRenderer = std::make_shared<TextureRenderComponent>(*coinsIcon);
 
   cIconRenderer->setRenderMode(TextureRenderComponent::RenderMode::QUERY);
   coinsIcon->setRenderComponent(cIconRenderer);
-  cIconRenderer->setTexture(ResourceManager::getInstance().getTexture("TD2D/Sprites/GUI/Menu/coin_0.png"));
+  cIconRenderer->setTexture(ResourceManager::getInstance().getTexture(
+      "TD2D/Sprites/GUI/Menu/coin_0.png"));
 
   /********************************************************************************************************************/
   // Add background
@@ -72,20 +77,22 @@ void TdLevel::initialize() {
 
         if (b.levelItemType == TdLevelItem::PLAINBLOCK) {
           obj = std::make_shared<TdBlock>(*this, x, y, b, blockSize);
-        } else if (b.levelItemType == TdLevelItem::PATHBLOCK0
-        || b.levelItemType == TdLevelItem::PATHBLOCK1
-        || b.levelItemType == TdLevelItem::PATHBLOCK2
-        || b.levelItemType == TdLevelItem::PATHBLOCK3
-        || b.levelItemType == TdLevelItem::PATHBLOCK4
-        || b.levelItemType == TdLevelItem::PATHBLOCK5
-        || b.levelItemType == TdLevelItem::PATHBLOCK6
-        || b.levelItemType == TdLevelItem::PATHBLOCK7
-        || b.levelItemType == TdLevelItem::PATHBLOCK8
-        || b.levelItemType == TdLevelItem::PATHBLOCK9
-        || b.levelItemType == TdLevelItem::PATHBLOCKA) {
+        } else if (b.levelItemType == TdLevelItem::PATHBLOCK0 ||
+                   b.levelItemType == TdLevelItem::PATHBLOCK1 ||
+                   b.levelItemType == TdLevelItem::PATHBLOCK2 ||
+                   b.levelItemType == TdLevelItem::PATHBLOCK3 ||
+                   b.levelItemType == TdLevelItem::PATHBLOCK4 ||
+                   b.levelItemType == TdLevelItem::PATHBLOCK5 ||
+                   b.levelItemType == TdLevelItem::PATHBLOCK6 ||
+                   b.levelItemType == TdLevelItem::PATHBLOCK7 ||
+                   b.levelItemType == TdLevelItem::PATHBLOCK8 ||
+                   b.levelItemType == TdLevelItem::PATHBLOCK9 ||
+                   b.levelItemType == TdLevelItem::PATHBLOCKA) {
           obj = std::make_shared<TdBlock>(*this, x, y, b, blockSize);
         } else if (b.levelItemType == TdLevelItem::ROCKTHROWER) {
           obj = std::make_shared<RockThrowerTower>(*this, x, y, blockSize);
+        } else if (b.levelItemType == TdLevelItem::MAGICTOWER) {
+          obj = std::make_shared<MagicTower>(*this, x, y, blockSize);
         } else {
           std::cerr << "Error- Failed to add level item from row " << i
                     << ", col " << j << " in level file" << std::endl;
@@ -163,21 +170,30 @@ void TdLevel::initialize() {
 }
 
 bool TdLevel::isLevelWon() const {
-  auto waveNumberVariable = mCurrentWaveNumberIndicator.lock()->getGenericComponent<GameVariableComponent<int>>();
-  auto healthVariable = mHealthIndicator.lock()->getGenericComponent<GameVariableComponent<int>>();
-  return ((size_t) (waveNumberVariable->getVariable() - 1) == mLevelData.enemyWaves.size() && healthVariable->getVariable() > 0);
+  auto waveNumberVariable =
+      mCurrentWaveNumberIndicator.lock()
+          ->getGenericComponent<GameVariableComponent<int>>();
+  auto healthVariable = mHealthIndicator.lock()
+                            ->getGenericComponent<GameVariableComponent<int>>();
+  return ((size_t)(waveNumberVariable->getVariable() - 1) ==
+              mLevelData.enemyWaves.size() &&
+          healthVariable->getVariable() > 0);
 }
 
 bool TdLevel::isLevelInProgress() const {
-  auto waveNumberVariable = mCurrentWaveNumberIndicator.lock()->getGenericComponent<GameVariableComponent<int>>();
-  auto healthVariable = mHealthIndicator.lock()->getGenericComponent<GameVariableComponent<int>>();
-  return ((size_t) (waveNumberVariable->getVariable() - 1) < mLevelData.enemyWaves.size() && healthVariable->getVariable() > 0);
+  auto waveNumberVariable =
+      mCurrentWaveNumberIndicator.lock()
+          ->getGenericComponent<GameVariableComponent<int>>();
+  auto healthVariable = mHealthIndicator.lock()
+                            ->getGenericComponent<GameVariableComponent<int>>();
+  return ((size_t)(waveNumberVariable->getVariable() - 1) <
+              mLevelData.enemyWaves.size() &&
+          healthVariable->getVariable() > 0);
 }
 
 void TdLevel::createSidebarControls() {
-  auto toolbarBackground =
-      std::make_shared<GameObject>(*this, w() - sideBarXOffset, 0, sideBarXOffset,
-                                   h(), TdToolbarTag);
+  auto toolbarBackground = std::make_shared<GameObject>(
+      *this, w() - sideBarXOffset, 0, sideBarXOffset, h(), TdToolbarTag);
   auto backgroundRenderer =
       std::make_shared<TextureRenderComponent>(*toolbarBackground);
 
@@ -198,9 +214,9 @@ void TdLevel::createSidebarControls() {
       currentlySelected = item;
       mGridObject.lock()->setCurrentlySelected(getTdBlockPath(item));
     };
-    auto button = std::make_shared<CustomLevelEditButton>(*this, x, y, 74, 74, 5.f,
-                                                    5.f, getTdBlockPath(item),
-                                                    mSoundPath, lambda, true);
+    auto button = std::make_shared<CustomLevelEditButton>(
+        *this, x, y, 74, 74, 5.f, 5.f, getTdBlockPath(item), mSoundPath, lambda,
+        true);
     addObject(button);
     x = x + 89;
     count++;
@@ -226,11 +242,17 @@ void TdLevel::createBottomBarControls() {
       "TD2D/Sprites/GUI/Menu/bottombar.png"));
 
   addObject(toolbarBackground);
-  
-  auto startWaveLambda = [&] () {
+
+  auto startWaveLambda = [&]() {
     if (mNumEnemiesLeft == 0) {
-      int currentWaveNumber = mCurrentWaveNumberIndicator.lock()->getGenericComponent<GameVariableComponent<int>>()->getVariable() - 1;
-      Mix_PlayChannel(1, ResourceManager::getInstance().getChunk("TD2D/Audio/Common/WaveStart1.mp3"),
+      int currentWaveNumber =
+          mCurrentWaveNumberIndicator.lock()
+              ->getGenericComponent<GameVariableComponent<int>>()
+              ->getVariable() -
+          1;
+      Mix_PlayChannel(1,
+                      ResourceManager::getInstance().getChunk(
+                          "TD2D/Audio/Common/WaveStart1.mp3"),
                       0);
       for (auto enemyInfo : mLevelData.enemyWaves[currentWaveNumber]) {
         for (int i = 0; i < enemyInfo.second; i++) {
@@ -238,13 +260,13 @@ void TdLevel::createBottomBarControls() {
         }
       }
       mStartWaveButton.lock()->setIsVisibleOnScreen(false);
-    }    
+    }
   };
 
   // Add the start wave button
-  auto startWaveButton = std::make_shared<TdButton>(*this, 320, h() - sideBarYOffset, 24, 16, "Start Wave!",
-                                                    startWaveLambda,
-                                                    16);
+  auto startWaveButton =
+      std::make_shared<TdButton>(*this, 320, h() - sideBarYOffset, 24, 16,
+                                 "Start Wave!", startWaveLambda, 16);
   mStartWaveButton = std::weak_ptr(startWaveButton);
   mStartWaveButton.lock()->setTag(TdStartWaveButtonTag);
   addObject(startWaveButton);
@@ -253,52 +275,96 @@ void TdLevel::createBottomBarControls() {
 void TdLevel::createGrid() {
   auto gridCallback = [&, mLevelData = &mLevelData](int i, int j, int x, int y) {
     if (currentlySelected == TdLevelItem::ROCKTHROWER) {
-      auto tower = std::make_shared<RockThrowerTower>(*this, i * mLevelData->blockSize.x,
-                                                      j * mLevelData->blockSize.y, mLevelData->blockSize);
+      auto tower = std::make_shared<RockThrowerTower>(
+          *this, i * mLevelData->blockSize.x, j * mLevelData->blockSize.y,
+          mLevelData->blockSize);
       for (auto g : getGameObjects()) {
         if (tower->isOverlapping(*g) && g->tag() == TdBlockTag) {
           auto blockGameObject = std::dynamic_pointer_cast<TdBlock>(g).get();
-          if (blockGameObject->getBlockData().levelItemType == TdLevelItem::PLACETOWER) {
-            Mix_PlayChannel(1, ResourceManager::getInstance().getChunk(mSoundPath),
-                            0);
-            auto coinIndicatorVariable = mCoinIndicator.lock()->getGenericComponent<GameVariableComponent<int>>();
+          if (blockGameObject->getBlockData().levelItemType ==
+              TdLevelItem::PLACETOWER) {
+            Mix_PlayChannel(
+                1, ResourceManager::getInstance().getChunk(mSoundPath), 0);
+            auto coinIndicatorVariable =
+                mCoinIndicator.lock()
+                    ->getGenericComponent<GameVariableComponent<int>>();
             if (coinIndicatorVariable->getVariable() >= 10) {
               removeObject(g);
               addObject(tower);
-              coinIndicatorVariable->setVariable(coinIndicatorVariable->getVariable() - 10);
-              Mix_PlayChannel(1, ResourceManager::getInstance().getChunk("TD2D/Audio/Common/Construct1.mp3"),
+              coinIndicatorVariable->setVariable(
+                  coinIndicatorVariable->getVariable() - 10);
+              Mix_PlayChannel(1,
+                              ResourceManager::getInstance().getChunk(
+                                  "TD2D/Audio/Common/Construct1.mp3"),
                               0);
             }
           }
         }
       }
-    }
-    else if (currentlySelected == TdLevelItem::ANTITANKMINE) {
-      auto mine = std::make_shared<AntiTankMine>(*this, i * mLevelData->blockSize.x,
-                                                 j * mLevelData->blockSize.y, mLevelData->blockSize);
+    } else if (currentlySelected == TdLevelItem::MAGICTOWER) {
+      auto tower = std::make_shared<MagicTower>(
+          *this, i * mLevelData->blockSize.x, j * mLevelData->blockSize.y,
+          mLevelData->blockSize);
+      for (auto g : getGameObjects()) {
+        if (tower->isOverlapping(*g) && g->tag() == TdBlockTag) {
+          auto blockGameObject = std::dynamic_pointer_cast<TdBlock>(g).get();
+          if (blockGameObject->getBlockData().levelItemType ==
+              TdLevelItem::PLACETOWER) {
+            Mix_PlayChannel(
+                1, ResourceManager::getInstance().getChunk(mSoundPath), 0);
+            auto coinIndicatorVariable =
+                mCoinIndicator.lock()
+                    ->getGenericComponent<GameVariableComponent<int>>();
+            if (coinIndicatorVariable->getVariable() >= 15) {
+              removeObject(g);
+              addObject(tower);
+              coinIndicatorVariable->setVariable(
+                  coinIndicatorVariable->getVariable() - 15);
+              Mix_PlayChannel(1,
+                              ResourceManager::getInstance().getChunk(
+                                  "TD2D/Audio/Common/Construct1.mp3"),
+                              0);
+            }
+          }
+        }
+      }
+    } else if (currentlySelected == TdLevelItem::ANTITANKMINE) {
+      auto mine = std::make_shared<AntiTankMine>(
+          *this, i * mLevelData->blockSize.x, j * mLevelData->blockSize.y,
+          mLevelData->blockSize);
       std::vector<std::shared_ptr<GameObject>> overLaps;
       bool performPlacement = true;
       for (auto g : getGameObjects()) {
         if (mine->isOverlapping(*g)) {
           overLaps.push_back(g);
-          if (g->tag() == TdAntiTankTowerTag)
-            performPlacement = false;
+          if (g->tag() == TdAntiTankTowerTag) performPlacement = false;
         }
       }
       for (auto g : overLaps) {
-        if (performPlacement && mine->isOverlapping(*g) && g->tag() == TdBlockTag) {
+        if (performPlacement && mine->isOverlapping(*g) &&
+            g->tag() == TdBlockTag) {
           auto blockGameObject = std::dynamic_pointer_cast<TdBlock>(g).get();
-          if (blockGameObject && blockGameObject->getBlockData().levelItemType != TdLevelItem::PLACETOWER &&
-              blockGameObject->getBlockData().levelItemType != TdLevelItem::PLAINBLOCK &&
-              blockGameObject->getBlockData().levelItemType != TdLevelItem::START &&
-              blockGameObject->getBlockData().levelItemType != TdLevelItem::END) {
-            Mix_PlayChannel(1, ResourceManager::getInstance().getChunk(mSoundPath),
-                            0);
-            auto coinIndicatorVariable = mCoinIndicator.lock()->getGenericComponent<GameVariableComponent<int>>();
+          if (blockGameObject &&
+              blockGameObject->getBlockData().levelItemType !=
+                  TdLevelItem::PLACETOWER &&
+              blockGameObject->getBlockData().levelItemType !=
+                  TdLevelItem::PLAINBLOCK &&
+              blockGameObject->getBlockData().levelItemType !=
+                  TdLevelItem::START &&
+              blockGameObject->getBlockData().levelItemType !=
+                  TdLevelItem::END) {
+            Mix_PlayChannel(
+                1, ResourceManager::getInstance().getChunk(mSoundPath), 0);
+            auto coinIndicatorVariable =
+                mCoinIndicator.lock()
+                    ->getGenericComponent<GameVariableComponent<int>>();
             if (coinIndicatorVariable->getVariable() >= 20) {
               addObject(mine);
-              coinIndicatorVariable->setVariable(coinIndicatorVariable->getVariable() - 20);
-              Mix_PlayChannel(1, ResourceManager::getInstance().getChunk("TD2D/Audio/Common/Construct1.mp3"),
+              coinIndicatorVariable->setVariable(
+                  coinIndicatorVariable->getVariable() - 20);
+              Mix_PlayChannel(1,
+                              ResourceManager::getInstance().getChunk(
+                                  "TD2D/Audio/Common/Construct1.mp3"),
                               0);
             }
           }
@@ -311,21 +377,28 @@ void TdLevel::createGrid() {
       data.levelItemType = TdLevelItem::PLACETOWER;
       data.blockNumber = i;
       data.isTowerPlacable = true;
-      auto placeTower = std::make_shared<TdBlock>(*this, i * mLevelData->blockSize.x,
-                                                  j * mLevelData->blockSize.y, data, mLevelData->blockSize);
+      auto placeTower = std::make_shared<TdBlock>(
+          *this, i * mLevelData->blockSize.x, j * mLevelData->blockSize.y, data,
+          mLevelData->blockSize);
       for (auto g : getGameObjects()) {
-        if (placeTower->isOverlapping(*g) && g->tag() == TdRockThrowerTowerTag) {
-          Mix_PlayChannel(1, ResourceManager::getInstance().getChunk(mSoundPath),
-                          0);
-          auto coinIndicatorVariable = mCoinIndicator.lock()->getGenericComponent<GameVariableComponent<int>>();
-          coinIndicatorVariable->setVariable(coinIndicatorVariable->getVariable() + 5);
+        if (placeTower->isOverlapping(*g) &&
+            g->tag() == TdRockThrowerTowerTag) {
+          Mix_PlayChannel(
+              1, ResourceManager::getInstance().getChunk(mSoundPath), 0);
+          auto coinIndicatorVariable =
+              mCoinIndicator.lock()
+                  ->getGenericComponent<GameVariableComponent<int>>();
+          coinIndicatorVariable->setVariable(
+              coinIndicatorVariable->getVariable() + 5);
           removeObject(g);
-          Mix_PlayChannel(1, ResourceManager::getInstance().getChunk("TD2D/Audio/Common/Sell1.mp3"),
+          Mix_PlayChannel(1,
+                          ResourceManager::getInstance().getChunk(
+                              "TD2D/Audio/Common/Sell1.mp3"),
                           0);
           addObject(placeTower);
-            }
-          }
         }
+      }
+    }
   };
 
   auto gridObject =
@@ -351,7 +424,8 @@ std::shared_ptr<GameObject> TdLevel::createLevelIndicatorObject() {
 }
 
 std::shared_ptr<GameObject> TdLevel::createIndicatorObject(std::string label,
-                                                           int initialVal, int x, int y) {
+                                                           int initialVal,
+                                                           int x, int y) {
   auto scoreIndicator =
       std::make_shared<GameObject>(*this, x, y, 50, 50, BaseTextTag);
   auto textRenderer = std::make_shared<TextureRenderComponent>(*scoreIndicator);
@@ -388,7 +462,9 @@ std::string TdLevel::getTdBlockPath(TdLevelItem item) {
     case TdLevelItem::PLACETOWER:
       return "TD2D/Sprites/Towers/BuildingPlace.png";
     case TdLevelItem::ROCKTHROWER:
-      return "TD2D/Sprites/Towers/cpix_towers/3.png";
+      return "TD2D/Sprites/Towers/cpix_towers/stone_throw_1.png";
+    case TdLevelItem::MAGICTOWER:
+      return "TD2D/Sprites/Towers/cpix_towers/aoe_tower_1.png";
     case TdLevelItem::ANTITANKMINE:
       return "TD2D/Sprites/Towers/cpix_towers/40.png";
     default:
@@ -402,16 +478,18 @@ void TdLevel::spawnEnemy(TdLevelItem enemyType, int delay, int enemyNumber) {
   auto increaseScoreAndCoinsIndicatorLambda = [&]() {
     auto scoreVarComponent =
         mScoreIndicator.lock()
-        ->getGenericComponent<GameVariableComponent<int>>();
+            ->getGenericComponent<GameVariableComponent<int>>();
     auto coinsVarComponent =
         mCoinIndicator.lock()
-        ->getGenericComponent<GameVariableComponent<int>>();
+            ->getGenericComponent<GameVariableComponent<int>>();
     scoreVarComponent->setVariable(scoreVarComponent->getVariable() + 10);
     coinsVarComponent->setVariable(coinsVarComponent->getVariable() + 5);
     mNumEnemiesLeft--;
     // Increment the wave number if there are no enemies remaining
     if (mNumEnemiesLeft <= 0) {
-      auto waveNumberVariable = mCurrentWaveNumberIndicator.lock()->getGenericComponent<GameVariableComponent<int>>();
+      auto waveNumberVariable =
+          mCurrentWaveNumberIndicator.lock()
+              ->getGenericComponent<GameVariableComponent<int>>();
       waveNumberVariable->setVariable(waveNumberVariable->getVariable() + 1);
       mStartWaveButton.lock()->setIsVisibleOnScreen(true);
     }
@@ -420,24 +498,32 @@ void TdLevel::spawnEnemy(TdLevelItem enemyType, int delay, int enemyNumber) {
   int pathIdx = enemyNumber % mLevelData.enemyPossiblePaths.size();
   std::shared_ptr<NonHostileEnemy> enemy = std::make_shared<NonHostileEnemy>(
       *this, mLevelData.blockSize.x * mLevelData.startPosition.x,
-      mLevelData.blockSize.y * mLevelData.startPosition.y, mLevelData.blockSize.x, mLevelData.blockSize.y,
-      enemyType, mLevelData.endPosition, mLevelData.levelGrid, mLevelData.enemyPossiblePaths[pathIdx], increaseScoreAndCoinsIndicatorLambda);
+      mLevelData.blockSize.y * mLevelData.startPosition.y,
+      mLevelData.blockSize.x, mLevelData.blockSize.y, enemyType,
+      mLevelData.endPosition, mLevelData.levelGrid,
+      mLevelData.enemyPossiblePaths[pathIdx],
+      increaseScoreAndCoinsIndicatorLambda);
   // Decrease score and lives when reaching the end of the line
-  auto decreaseScoreAndLivesIndicatorLambda = [=](Level& level, std::shared_ptr<GameObject> gameObject) {
-    auto scoreVarComponent =
-        mScoreIndicator.lock()
-        ->getGenericComponent<GameVariableComponent<int>>();
-    scoreVarComponent->setVariable(scoreVarComponent->getVariable() - 5);
-    mNumEnemiesLeft--;
-    if (mNumEnemiesLeft <= 0) {
-      auto waveNumberVariable = mCurrentWaveNumberIndicator.lock()->getGenericComponent<GameVariableComponent<int>>();
-      waveNumberVariable->setVariable(waveNumberVariable->getVariable() + 1);
-      mStartWaveButton.lock()->setIsVisibleOnScreen(true);
-    }
-  };
+  auto decreaseScoreAndLivesIndicatorLambda =
+      [=](Level& level, std::shared_ptr<GameObject> gameObject) {
+        auto scoreVarComponent =
+            mScoreIndicator.lock()
+                ->getGenericComponent<GameVariableComponent<int>>();
+        scoreVarComponent->setVariable(scoreVarComponent->getVariable() - 5);
+        mNumEnemiesLeft--;
+        if (mNumEnemiesLeft <= 0) {
+          auto waveNumberVariable =
+              mCurrentWaveNumberIndicator.lock()
+                  ->getGenericComponent<GameVariableComponent<int>>();
+          waveNumberVariable->setVariable(waveNumberVariable->getVariable() +
+                                          1);
+          mStartWaveButton.lock()->setIsVisibleOnScreen(true);
+        }
+      };
   enemy->addGenericComponent(std::make_shared<PerformHookOnCollideComponent>(
       *enemy, TdEndBlockTag, decreaseScoreAndLivesIndicatorLambda));
-  enemy->addGenericComponent(std::make_shared<DelayedSpawnComponent>(*enemy, delay));
+  enemy->addGenericComponent(
+      std::make_shared<DelayedSpawnComponent>(*enemy, delay));
   addObject(enemy);
   mNumEnemiesLeft++;
 }
