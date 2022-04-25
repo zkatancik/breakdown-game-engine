@@ -275,6 +275,11 @@ void TdLevel::createBottomBarControls() {
 }
 
 void TdLevel::createGrid() {
+  auto gridObject =
+      std::make_shared<GridObject>(*this, 0, 0, 20, 12, 64, 64,
+                                   getTdBlockPath(currentlySelected));
+  mGridObject = std::weak_ptr(gridObject);
+
   auto gridCallback = [&, mLevelData = &mLevelData](int i, int j, int x,
                                                     int y) {
     if (currentlySelected == TdLevelItem::ROCKTHROWER) {
@@ -300,6 +305,8 @@ void TdLevel::createGrid() {
                               ResourceManager::getInstance().getChunk(
                                   "TD2D/Audio/Common/Construct1.mp3"),
                               0);
+              currentlySelected = TdLevelItem::NONE;
+              mGridObject.lock()->setCurrentlySelected("TD2D/Sprites/Tiles/Empty.png");
             }
           }
         }
@@ -327,6 +334,8 @@ void TdLevel::createGrid() {
                               ResourceManager::getInstance().getChunk(
                                   "TD2D/Audio/Common/Construct1.mp3"),
                               0);
+              currentlySelected = TdLevelItem::NONE;
+              mGridObject.lock()->setCurrentlySelected("TD2D/Sprites/Tiles/Empty.png");
             }
           }
         }
@@ -354,6 +363,8 @@ void TdLevel::createGrid() {
                               ResourceManager::getInstance().getChunk(
                                   "TD2D/Audio/Common/Construct1.mp3"),
                               0);
+              currentlySelected = TdLevelItem::NONE;
+              mGridObject.lock()->setCurrentlySelected("TD2D/Sprites/Tiles/Empty.png");
             }
           }
         }
@@ -396,6 +407,8 @@ void TdLevel::createGrid() {
                               ResourceManager::getInstance().getChunk(
                                   "TD2D/Audio/Common/Construct1.mp3"),
                               0);
+              currentlySelected = TdLevelItem::NONE;
+              mGridObject.lock()->setCurrentlySelected("TD2D/Sprites/Tiles/Empty.png");
             }
           }
         }
@@ -424,15 +437,15 @@ void TdLevel::createGrid() {
                               "TD2D/Audio/Common/Sell1.mp3"),
                           0);
           addObject(placeTower);
+          currentlySelected = TdLevelItem::NONE;
+          mGridObject.lock()->setCurrentlySelected("TD2D/Sprites/Tiles/Empty.png");
+
         }
       }
     }
   };
 
-  auto gridObject =
-      std::make_shared<GridObject>(*this, 0, 0, 20, 12, 64, 64, gridCallback,
-                                   getTdBlockPath(currentlySelected));
-  mGridObject = std::weak_ptr(gridObject);
+  gridObject->setGridCallBack(gridCallback);
   addObject(gridObject);
 }
 

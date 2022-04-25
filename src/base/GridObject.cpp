@@ -9,10 +9,8 @@
 class GridComponent : public GenericComponent {
  public:
   GridComponent(GameObject& gameObject,
-                std::vector<std::vector<SDL_Rect>>& rectGrid,
-                std::function<void(int, int, int, int)> callback)
+                std::vector<std::vector<SDL_Rect>>& rectGrid)
       : GenericComponent(gameObject),
-        mCallBack(std::move(callback)),
         mGrid(rectGrid){};
 
   std::tuple<int, int, int, int> getMouseGridCoords() {
@@ -48,6 +46,8 @@ class GridComponent : public GenericComponent {
     }
   }
 
+  void setGridCallback(std::function<void(int, int, int, int)> gridCallBack) {mCallBack = std::move(gridCallBack);}
+
  private:
   std::function<void(int, int, int, int)> mCallBack;
   std::vector<std::vector<SDL_Rect>> mGrid;
@@ -55,7 +55,6 @@ class GridComponent : public GenericComponent {
 
 GridObject::GridObject(Level& level, float xPos, float yPos, int numX, int numY,
                        int xsz, int ysz,
-                       std::function<void(int, int, int, int)> gridCallBack,
                        std::string currentlySelected)
     : GameObject(level, xPos, yPos, numX * xsz, numY * ysz, BaseGridTag) {
   for (int ii = 0; ii < numX; ++ii) {
@@ -64,28 +63,20 @@ GridObject::GridObject(Level& level, float xPos, float yPos, int numX, int numY,
       SDL_Rect drawRect = {int(x() + ii * xsz), int(y() + jj * ysz), int(xsz),
                            int(ysz)};
       gridRects[ii].push_back(drawRect);
-
-      //      auto itemRenderer =
-      //      std::make_shared<TextureRenderComponent>(*rectObj);
-      //      itemRenderer->setRenderMode(
-      //          TextureRenderComponent::RenderMode::CUSTOM_WIDTH);
-      //      itemRenderer->setCustomW(64);
-      //      itemRenderer->setCustomH(64);
-      //      rectObj->setRenderComponent(itemRenderer);
-      //      level.addObject(rectObj);
-      //
-      //      gridObjs[ii].push_back(rectObj);
-      // }
     }
   }
   auto gridComponent =
-      std::make_shared<GridComponent>(*this, gridRects, gridCallBack);
+      std::make_shared<GridComponent>(*this, gridRects);
   addGenericComponent(gridComponent);
   mGridRenderComponent = std::make_shared<GridRenderPreviewComponent>(
       *this, gridRects, currentlySelected);
   setRenderComponent(mGridRenderComponent);
 }
 
+void GridObject::setGridCallBack(std::function<void(int, int, int, int)> gridCallBack) {
+  getGenericComponent<GridComponent>()->setGridCallback(std::move(gridCallBack));
+}
+
 void GridObject::setCurrentlySelected(std::string currentlySelected) {
-  mGridRenderComponent->setCurrentlySelected(currentlySelected);
+  mGridRenderComponent->setCurrentlySelected(std::move(currentlySelected));
 }

@@ -19,18 +19,13 @@ class DespawnOnRadius : public GenericComponent {
         mOrigY(origY) {}
 
   void update(Level &level) override {
-    GameObject &gameObject = getGameObject();
-    // std::shared_ptr<GameObject> gameObjectPointer =
-    //     std::make_shared<GameObject>(gameObject);
+    auto gameObject = getGameObject().shared_from_this();
 
-    if (gameObject.x() >= mOrigX + mRadius ||
-        gameObject.x() <= mOrigX - mRadius ||
-        gameObject.y() >= mOrigY + mRadius ||
-        gameObject.y() <= mOrigY - mRadius) {
-      gameObject.setIsVisibleOnScreen(false);
-      //   std::shared_ptr<GameObject> gameObjectPointer =
-      //       std::make_shared<GameObject>(std::move(gameObject));
-      //   level.removeObject(gameObject);
+    if (gameObject->x() >= mOrigX + mRadius ||
+        gameObject->x() <= mOrigX - mRadius ||
+        gameObject->y() >= mOrigY + mRadius ||
+        gameObject->y() <= mOrigY - mRadius) {
+         level.removeObject(gameObject);
     }
   }
 
