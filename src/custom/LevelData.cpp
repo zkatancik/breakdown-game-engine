@@ -143,6 +143,9 @@ void loadLevel(TdLevelData *levelData, int level) {
         } else if (ch == 'M') {
           data.levelItemType = TdLevelItem::MAGICTOWER;
           data.blockNumber = ch;
+        } else if (ch == 'W') {
+          data.levelItemType = TdLevelItem::ARROWTOWER;
+          data.blockNumber = ch;
         } else {
           std::cerr << "Error- Failed to parse character \"" << ch
                     << "\" in level file at (" << lineCounter << ","
@@ -318,6 +321,8 @@ std::string getItemChar(TdLevelItem item) {
       return "O";
     case TdLevelItem::ROCKTHROWER:
       return "T";
+    case TdLevelItem::ARROWTOWER:
+      return "W";
     case TdLevelItem::MAGICTOWER:
       return "M";
     case TdLevelItem::END:
@@ -362,7 +367,7 @@ void updateCurrentLevel(TdLevelData *levelData, Vector2D<int> gridPosition,
         item == TdLevelItem::PATHBLOCK5 || item == TdLevelItem::PATHBLOCK6 ||
         item == TdLevelItem::PATHBLOCK7 || item == TdLevelItem::PATHBLOCK8 ||
         item == TdLevelItem::PATHBLOCK9 || item == TdLevelItem::PATHBLOCKA ||
-        item == TdLevelItem::MAGICTOWER) {
+        item == TdLevelItem::MAGICTOWER || item == TdLevelItem::ARROWTOWER) {
       auto data = TdBlockData();
       if (item == TdLevelItem::NOBLOCK) {
         data.levelItemType = TdLevelItem::PLAINBLOCK;
