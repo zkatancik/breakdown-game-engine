@@ -50,7 +50,7 @@ void ArrowBarrageComponent::update(Level& level) {
       if (curSquaredDist < minSquaredDist && enemyPos.x < towerPos.x) {
         int leftTargetNum = enemy->getCount();
         // std::cout << targetNum << std::endl;
-        std::cout << "left!" << std::endl;
+        // std::cout << "left!" << std::endl;
         if (mTargetPref == ArrowTargetingPreference::STRONG) {
         } else if (mTargetPref == ArrowTargetingPreference::LAST) {
           if (leftTargetNum > lowTargetNum) {
@@ -68,7 +68,7 @@ void ArrowBarrageComponent::update(Level& level) {
         }
       }
       if (curSquaredDist < minSquaredDist && enemyPos.x > towerPos.x) {
-        std::cout << "right!" << std::endl;
+        // std::cout << "right!" << std::endl;
         int rightTargetNum = enemy->getCount();
         // std::cout << targetNum << std::endl;
         if (mTargetPref == ArrowTargetingPreference::STRONG) {
@@ -107,8 +107,8 @@ void ArrowBarrageComponent::update(Level& level) {
   if (targetedEnemyRight != nullptr) {
     closestEnemyPosRight = {targetedEnemyRight->x(), targetedEnemyRight->y()};
   }
-  std::cout << "targetedLeft:" << closestEnemyPosLeft.x << std::endl;
-  std::cout << "targetedRight:" << closestEnemyPosRight.x << std::endl;
+  //   std::cout << "targetedLeft:" << closestEnemyPosLeft.x << std::endl;
+  //   std::cout << "targetedRight:" << closestEnemyPosRight.x << std::endl;
 
   std::shared_ptr<Arrow> arrowLeft;
   std::shared_ptr<Arrow> arrowRight;
