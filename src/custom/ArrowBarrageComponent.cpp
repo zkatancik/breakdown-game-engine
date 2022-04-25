@@ -31,8 +31,13 @@ void ArrowBarrageComponent::update(Level& level) {
   }
   // Tower ready to fire again
   // Get target
-  int highTargetNum = 1000000;
-  int lowTargetNum = -1;
+  int leftHighTargetNum = 1000000;
+  int leftLowTargetNum = -1;
+  int rightHighTargetNum = 1000000;
+  int rightLowTargetNum = -1;
+  int leftLowHealthNum = -1;
+  int rightLowHealthNum = -1;
+
   const auto& gameObject = getGameObject();
   const Vector2D<float> towerPos = {gameObject.x(), gameObject.y()};
   float minSquaredDist = mRadius * mRadius;
@@ -49,40 +54,46 @@ void ArrowBarrageComponent::update(Level& level) {
       const float curSquaredDist = towerPos.squaredDistance(enemyPos);
       if (curSquaredDist < minSquaredDist && enemyPos.x < towerPos.x) {
         int leftTargetNum = enemy->getCount();
-        // std::cout << targetNum << std::endl;
-        // std::cout << "left!" << std::endl;
+        int leftHealthNum = enemy->getHealth();
         if (mTargetPref == ArrowTargetingPreference::STRONG) {
+          if (leftHealthNum > leftLowHealthNum) {
+            leftLowHealthNum = leftHealthNum;
+            targetedEnemyLeft = gameobj;
+          }
         } else if (mTargetPref == ArrowTargetingPreference::LAST) {
-          if (leftTargetNum > lowTargetNum) {
-            lowTargetNum = leftTargetNum;
+          if (leftTargetNum > leftLowTargetNum) {
+            leftLowTargetNum = leftTargetNum;
             targetedEnemyLeft = gameobj;
           }
         } else if (mTargetPref == ArrowTargetingPreference::CLOSE) {
           minSquaredDist = curSquaredDist;
           targetedEnemyLeft = gameobj;
         } else {
-          if (leftTargetNum < highTargetNum) {
-            highTargetNum = leftTargetNum;
+          if (leftTargetNum < leftHighTargetNum) {
+            leftHighTargetNum = leftTargetNum;
             targetedEnemyLeft = gameobj;
           }
         }
       }
       if (curSquaredDist < minSquaredDist && enemyPos.x > towerPos.x) {
-        // std::cout << "right!" << std::endl;
         int rightTargetNum = enemy->getCount();
-        // std::cout << targetNum << std::endl;
+        int rightHealthNum = enemy->getHealth();
         if (mTargetPref == ArrowTargetingPreference::STRONG) {
+          if (rightHealthNum > rightLowHealthNum) {
+            rightLowHealthNum = rightHealthNum;
+            targetedEnemyRight = gameobj;
+          }
         } else if (mTargetPref == ArrowTargetingPreference::LAST) {
-          if (rightTargetNum > lowTargetNum) {
-            lowTargetNum = rightTargetNum;
+          if (rightTargetNum > rightLowTargetNum) {
+            rightLowTargetNum = rightTargetNum;
             targetedEnemyRight = gameobj;
           }
         } else if (mTargetPref == ArrowTargetingPreference::CLOSE) {
           minSquaredDist = curSquaredDist;
           targetedEnemyRight = gameobj;
         } else {
-          if (rightTargetNum < highTargetNum) {
-            highTargetNum = rightTargetNum;
+          if (rightTargetNum < rightHighTargetNum) {
+            rightHighTargetNum = rightTargetNum;
             targetedEnemyRight = gameobj;
           }
         }
@@ -99,32 +110,31 @@ void ArrowBarrageComponent::update(Level& level) {
     mCounterComponent->setCounter(0);
     return;
   }
-  Vector2D<float> closestEnemyPosLeft;
-  Vector2D<float> closestEnemyPosRight;
+  Vector2D<float> targetedEnemyPosLeft;
+  Vector2D<float> targetedEnemyPosRight;
   if (targetedEnemyLeft != nullptr) {
-    closestEnemyPosLeft = {targetedEnemyLeft->x(), targetedEnemyLeft->y()};
+    targetedEnemyPosLeft = {targetedEnemyLeft->x(), targetedEnemyLeft->y()};
   }
   if (targetedEnemyRight != nullptr) {
-    closestEnemyPosRight = {targetedEnemyRight->x(), targetedEnemyRight->y()};
+    targetedEnemyPosRight = {targetedEnemyRight->x(), targetedEnemyRight->y()};
   }
-  //   std::cout << "targetedLeft:" << closestEnemyPosLeft.x << std::endl;
-  //   std::cout << "targetedRight:" << closestEnemyPosRight.x << std::endl;
 
   std::shared_ptr<Arrow> arrowLeft;
   std::shared_ptr<Arrow> arrowRight;
   if (targetedEnemyLeft != nullptr) {
-    const Vector2D<float> arrowVelocity =
-        (Normalize(closestEnemyPosLeft - towerPos)) * mSpeed;
+    const Vector2D<float> arrowVelocityLeft =
+        (Normalize(targetedEnemyPosLeft - towerPos)) * mSpeed;
     arrowLeft = std::make_shared<Arrow>(
         level, gameObject.x() + 10, gameObject.y(), gameObject.w() / 2,
-        gameObject.h() / 6, arrowVelocity.x, arrowVelocity.y, mRadius);
+        gameObject.h() / 6, arrowVelocityLeft.x, arrowVelocityLeft.y, mRadius);
   }
   if (targetedEnemyRight != nullptr) {
-    const Vector2D<float> arrowVelocity2 =
-        (Normalize(closestEnemyPosRight - towerPos)) * mSpeed;
+    const Vector2D<float> arrowVelocityRight =
+        (Normalize(targetedEnemyPosRight - towerPos)) * mSpeed;
     arrowRight = std::make_shared<Arrow>(
         level, gameObject.x() + 10, gameObject.y(), gameObject.w() / 2,
-        gameObject.h() / 6, arrowVelocity2.x, arrowVelocity2.y, mRadius);
+        gameObject.h() / 6, arrowVelocityRight.x, arrowVelocityRight.y,
+        mRadius);
   }
 
   if (mCounterComponent->getCounter() == 6) {
