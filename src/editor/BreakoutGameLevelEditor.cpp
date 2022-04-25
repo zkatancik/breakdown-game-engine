@@ -61,7 +61,8 @@ void BreakoutGameLevelEditor::initialize() {
   };
 
   auto levelGrid = std::make_shared<GridObject>(*this, xOffset, 0, 20, 15, 64,
-                                                32, gridCallback);
+                                                32);
+  levelGrid->setGridCallBack(gridCallback);
   addObject(levelGrid);
   refreshLevelEditor();
 }

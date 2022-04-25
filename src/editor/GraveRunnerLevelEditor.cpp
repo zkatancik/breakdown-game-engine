@@ -62,7 +62,8 @@ void GraveRunnerLevelEditor::initialize() {
   };
 
   auto levelGrid = std::make_shared<GridObject>(*this, xOffset, 0, 20, 20, 64,
-                                                64, gridCallback);
+                                                64);
+  levelGrid->setGridCallBack(gridCallback);
   addObject(levelGrid);
   refreshLevelEditor();
 }
