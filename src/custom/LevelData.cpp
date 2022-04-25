@@ -529,7 +529,7 @@ void updateCurrentLevel(TdLevelData *levelData, Vector2D<int> gridPosition,
       //data.isTowerPlacable;
 
       levelData->levelEnvItems.push_back(data);
-      levelData->levelEnvItemPositions.push_back(Vector2D<int>(mousePosition.x, mousePosition.y));
+      levelData->levelEnvItemPositions.push_back(Vector2D<int>(mousePosition.x - (levelData->blockSize.x / 2), mousePosition.y - (levelData->blockSize.y / 2)));
     }
 
     // Update the Level File
