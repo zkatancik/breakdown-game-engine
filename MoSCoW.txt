@@ -44,14 +44,14 @@ Won't
 * Milestone 3
 
 Must
-[ ] At least 3 tower types of differing mechanics should be available to the user
+[☑️] At least 3 tower types of differing mechanics should be available to the user
 [☑️] At least 3 enemy types should be in the game.
 [☑️] At least 3 maps should be available to the user.
 [☑️] Users can view the current round number, rounds to go.
-[ ] Level Editor (sans enemies)
+[☑️] Level Editor (sans Environment)
 
 Should
-[ ] Level Editor (with enemies)
+[☑️] Level Editor (with Environment)
 [ ] Upgradable towers
 
 Could
