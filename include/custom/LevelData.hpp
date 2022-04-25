@@ -130,9 +130,10 @@ void loadLevel(TdLevelData* levelData, int levelNum);
  *
  * @param levelData the level data to update
  * @param gridPosition the position at which to update item
+ * @param mousePosition the mouse position at which to update env item
  * @param item the item to add at above position
  */
-void updateCurrentLevel(TdLevelData* levelData, Vector2D<int> gridPosition,
+void updateCurrentLevel(TdLevelData* levelData, Vector2D<int> gridPosition, Vector2D<int> mousePosition,
                         TdLevelItem item);
 
 /**

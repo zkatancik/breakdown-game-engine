@@ -9,7 +9,7 @@
 class GridObject : public GameObject {
  public:
   GridObject(Level &level, float xPos, float yPos, int numX, int numY, int xsz,
-             int ysz, std::function<void(int, int)> gridCallBack,
+             int ysz, std::function<void(int, int, int, int)> gridCallBack,
              std::string currentlySelected = "TD2D/Sprites/Tiles/Empty.png");
 
   void setCurrentlySelected(std::string currentlySelected);

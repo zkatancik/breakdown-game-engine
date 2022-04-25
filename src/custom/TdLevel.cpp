@@ -251,7 +251,7 @@ void TdLevel::createBottomBarControls() {
 }
 
 void TdLevel::createGrid() {
-  auto gridCallback = [&, mLevelData = &mLevelData](int i, int j) {
+  auto gridCallback = [&, mLevelData = &mLevelData](int i, int j, int x, int y) {
     if (currentlySelected == TdLevelItem::ROCKTHROWER) {
       auto tower = std::make_shared<RockThrowerTower>(*this, i * mLevelData->blockSize.x,
                                                       j * mLevelData->blockSize.y, mLevelData->blockSize);

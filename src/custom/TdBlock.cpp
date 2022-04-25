@@ -118,6 +118,10 @@ SDL_Texture* TdBlock::getBlockTexture() {
       filename = "Tree 4.png";
       return ResourceManager::getInstance().getTexture(
         (std::filesystem::path("TD2D/Sprites/Environment/") / filename).string());
+    case TdLevelItem::TREE5:
+      filename = "Tree 5.png";
+      return ResourceManager::getInstance().getTexture(
+        (std::filesystem::path("TD2D/Sprites/Environment/") / filename).string());
     default:
       std::cerr << "Error- getBlockTexture of unsupported block type!"
                 << std::endl;

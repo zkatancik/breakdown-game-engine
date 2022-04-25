@@ -52,7 +52,7 @@ void GraveRunnerLevelEditor::initialize() {
     }
   }
   // Grid component here
-  auto gridCallback = [&, mLevelData = &mLevelData](int i, int j) {
+  auto gridCallback = [&, mLevelData = &mLevelData](int i, int j, int x, int y) {
     if (currentlySelected != GraveRunnerLevelItem::NONE) {
       Mix_PlayChannel(1, ResourceManager::getInstance().getChunk(mSoundPath),
                       0);

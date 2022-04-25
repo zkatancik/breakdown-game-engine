@@ -11,7 +11,7 @@
 int main(int argc, char** argv) {
   // Create an instance of an object for a SDLGraphicsProgram
   auto logic = std::make_shared<EditorLogic>();
-  SDLGraphicsProgram mySDLGraphicsProgram(logic, 1480, 768);
+  SDLGraphicsProgram mySDLGraphicsProgram(logic, 1640, 768);
 
   // Run our program forever
   mySDLGraphicsProgram.loop();

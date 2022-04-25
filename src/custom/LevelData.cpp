@@ -67,6 +67,8 @@ TdLevelItem getEnvItem(const std::string& envTypeStr) {
 void loadLevel(TdLevelData *levelData, int level) {
   levelData->levelGrid.clear();
   levelData->placableBlockGrid.clear();
+  levelData->levelEnvItems.clear();
+  levelData->levelEnvItemPositions.clear();
   levelData->levelNumber = level;
 
   const filesystem::path resPath = getResourcePath("TD2D/Levels");
@@ -417,6 +419,34 @@ std::string getItemChar(
       return "ETS";
     case TdLevelItem::HELMETOGRESWORDSMAN:
       return "HOS";
+    case TdLevelItem::BUSH1:
+      return "B1";
+    case TdLevelItem::BUSH2:
+      return "B2";
+    case TdLevelItem::BUSH3:
+      return "B3";
+    case TdLevelItem::FOREST1:
+      return "F1";
+    case TdLevelItem::GRASS1:
+      return "G1";
+    case TdLevelItem::GRASS2:
+      return "G2";
+    case TdLevelItem::GRASS3:
+      return "G3";
+    case TdLevelItem::GRASS4:
+      return "G4";
+    case TdLevelItem::STONE1:
+      return "S1";
+    case TdLevelItem::TREE1:
+      return "T1";
+    case TdLevelItem::TREE2:
+      return "T2";
+    case TdLevelItem::TREE3:
+      return "T3";
+    case TdLevelItem::TREE4:
+      return "T4";
+    case TdLevelItem::TREE5:
+      return "T5";
     default:
       std::cerr << "Failed to get Tower Defense block key for item "
                 << static_cast<int>(item) << std::endl;
@@ -426,6 +456,7 @@ std::string getItemChar(
 
 void updateCurrentLevel(TdLevelData *levelData, 
                         Vector2D<int> gridPosition,
+                        Vector2D<int> mousePosition,
                         TdLevelItem item) {
   // Update the Level
   if (item != TdLevelItem::NONE) {
@@ -455,8 +486,7 @@ void updateCurrentLevel(TdLevelData *levelData,
       data.blockNumber = getItemChar(data.levelItemType);
       data.isTowerPlacable = levelData->placableBlockGrid[gridPosition.x][gridPosition.y].isTowerPlacable;
       levelData->levelGrid[gridPosition.x][gridPosition.y] = data;
-      // Update the Level File
-      updateLevelFile(*levelData, gridPosition, data.levelItemType);
+      
     } 
     
     // Placeable Grid (Tower Map)
@@ -473,9 +503,38 @@ void updateCurrentLevel(TdLevelData *levelData,
         towerPlacableData.isTowerPlacable = true;
       }
       levelData->placableBlockGrid[gridPosition.x][gridPosition.y] = towerPlacableData;
-      // Update the Level File
-      updateLevelFile(*levelData, gridPosition, towerPlacableData.levelItemType);
+
     }
+
+    // Env items
+    if (item == TdLevelItem::NOBLOCK
+        || item == TdLevelItem::BUSH1
+        || item == TdLevelItem::BUSH2
+        || item == TdLevelItem::BUSH3
+        || item == TdLevelItem::FOREST1
+        || item == TdLevelItem::GRASS1
+        || item == TdLevelItem::GRASS2
+        || item == TdLevelItem::GRASS3
+        || item == TdLevelItem::GRASS4
+        || item == TdLevelItem::STONE1
+        || item == TdLevelItem::TREE1
+        || item == TdLevelItem::TREE2
+        || item == TdLevelItem::TREE3
+        || item == TdLevelItem::TREE4
+        || item == TdLevelItem::TREE5
+      ) {
+      // Env items
+      auto data = TdBlockData();
+      data.levelItemType = item;
+      data.blockNumber = getItemChar(data.levelItemType);
+      //data.isTowerPlacable;
+
+      levelData->levelEnvItems.push_back(data);
+      levelData->levelEnvItemPositions.push_back(Vector2D<int>(mousePosition.x, mousePosition.y));
+    }
+
+    // Update the Level File
+    updateLevelFile(*levelData, gridPosition, item);
   }
 }
 
@@ -486,14 +545,18 @@ void updateLevelFile(TdLevelData ld, Vector2D<int> gridPosition, TdLevelItem ite
   
   std::string towerMapFilename =
       (resPath / ("level" + std::to_string(ld.levelNumber) + "-TowerMap.txt")).string();
+
+  std::string levelEnvFilename =
+      (resPath / ("level" + std::to_string(ld.levelNumber) + "-environment.txt")).string();
   
   std::string line;
   std::fstream *myfile = ResourceManager::getInstance().openFile(resourceFilename, std::fstream::out | std::fstream::trunc);
   std::fstream *towerMapfile = ResourceManager::getInstance().openFile(towerMapFilename, std::fstream::out | std::fstream::trunc);
+  std::fstream *envFile = ResourceManager::getInstance().openFile(levelEnvFilename, std::fstream::out | std::fstream::trunc);
 
   int lineCounter = 0;
 
-  if (myfile->is_open() && towerMapfile->is_open()) {
+  if (myfile->is_open() && towerMapfile->is_open() && envFile->is_open()) {
 
     *myfile << std::to_string(ld.rowCount) << std::endl;
     *towerMapfile << std::to_string(ld.rowCount) << std::endl;
@@ -530,9 +593,24 @@ void updateLevelFile(TdLevelData ld, Vector2D<int> gridPosition, TdLevelItem ite
 
       lineCounter++;
     }
+    
+    for (int i = 0; i < ld.levelEnvItems.size(); i++)
+    {
+      *envFile << getItemChar(ld.levelEnvItems[i].levelItemType);
+      *envFile << ";";
+      *envFile << std::to_string(ld.levelEnvItemPositions[i].x);
+      *envFile << ",";
+      *envFile << std::to_string(ld.levelEnvItemPositions[i].y);
+
+      if (i != ld.levelEnvItems.size() - 1)
+      {
+        *envFile << std::endl;
+      }
+    }
 
     ResourceManager::getInstance().closeFile(resourceFilename);
     ResourceManager::getInstance().closeFile(towerMapFilename);
+    ResourceManager::getInstance().closeFile(levelEnvFilename);
   } else {
 
     // Create a new file.
@@ -540,4 +618,5 @@ void updateLevelFile(TdLevelData ld, Vector2D<int> gridPosition, TdLevelItem ite
     std::cout << "Creating a new file \n";
 
   }
+
 }

@@ -24,7 +24,7 @@ class TdLevelEditor : public TdLevel {
   void initialize() override;
 
  private:
-  const int xOffset = 200;
+  const int xOffset = 360;
   std::shared_ptr<GridRenderComponent> mGridRenderComponent;
   int mScreenHeight;
   std::string mSoundPath = "TD2D/Audio/Common/Click1.mp3";
@@ -48,7 +48,22 @@ class TdLevelEditor : public TdLevel {
       TdLevelItem::PATHBLOCK8,
       TdLevelItem::PATHBLOCK9,
       TdLevelItem::PATHBLOCKA,
-      TdLevelItem::PLACETOWER};
+      TdLevelItem::PLACETOWER,
+      TdLevelItem::BUSH1,
+      TdLevelItem::BUSH2,
+      TdLevelItem::BUSH3,
+      TdLevelItem::FOREST1,
+      TdLevelItem::GRASS1,
+      TdLevelItem::GRASS2,
+      TdLevelItem::GRASS3,
+      TdLevelItem::GRASS4,
+      TdLevelItem::STONE1,
+      TdLevelItem::TREE1,
+      TdLevelItem::TREE2,
+      TdLevelItem::TREE3,
+      TdLevelItem::TREE4,
+      TdLevelItem::TREE5
+      };
 };
 
 #endif

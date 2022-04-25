@@ -50,7 +50,7 @@ void BreakoutGameLevelEditor::initialize() {
     }
   }
   // Grid component here
-  auto gridCallback = [&, mLevelData = &mLevelData](int i, int j) {
+  auto gridCallback = [&, mLevelData = &mLevelData](int i, int j, int x, int y) {
     if (currentlySelected != BreakoutLevelItem::NONE) {
       Mix_PlayChannel(1, ResourceManager::getInstance().getChunk(mSoundPath),
                       0);

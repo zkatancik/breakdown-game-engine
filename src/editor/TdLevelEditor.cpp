@@ -45,18 +45,18 @@ void TdLevelEditor::initialize() {
     addObject(button);
     x = x + 79;
     count++;
-    if (count == 2) {
+    if (count == 4) {
       y = y + 79;
       x = 26;
       count = 0;
     }
   }
   // Grid component here
-  auto gridCallback = [&, mLevelData = &mLevelData](int i, int j) {
+  auto gridCallback = [&, mLevelData = &mLevelData](int i, int j, int x, int y) {
     if (currentlySelected != TdLevelItem::NONE) {
       Mix_PlayChannel(1, ResourceManager::getInstance().getChunk(mSoundPath),
                       0);
-      updateCurrentLevel(mLevelData, Vector2D<int>(j, i), currentlySelected);
+      updateCurrentLevel(mLevelData, Vector2D<int>(j, i), Vector2D<int>(y - xOffset, x), currentlySelected);
       refreshLevelEditor();
     }
   };
@@ -100,6 +100,34 @@ std::string TdLevelEditor::getTdBlockPath(
       return "TD2D/Sprites/Gizmos/SpawnPointGizmo.png";
     case TdLevelItem::END:
       return "TD2D/Sprites/Gizmos/CapturePointGizmo.png";
+    case TdLevelItem::BUSH1:
+      return "TD2D/Sprites/Environment/Bush 1.png";
+    case TdLevelItem::BUSH2:
+      return "TD2D/Sprites/Environment/Bush 2.png";
+    case TdLevelItem::BUSH3:
+      return "TD2D/Sprites/Environment/Bush 3.png";
+    case TdLevelItem::FOREST1:
+      return "TD2D/Sprites/Environment/Forest 1.png";
+    case TdLevelItem::GRASS1:
+      return "TD2D/Sprites/Environment/Grass 1.png";
+    case TdLevelItem::GRASS2:
+      return "TD2D/Sprites/Environment/Grass 2.png";
+    case TdLevelItem::GRASS3:
+      return "TD2D/Sprites/Environment/Grass 3.png";
+    case TdLevelItem::GRASS4:
+      return "TD2D/Sprites/Environment/Grass 4.png";
+    case TdLevelItem::STONE1:
+      return "TD2D/Sprites/Environment/Stone 1.png";
+    case TdLevelItem::TREE1:
+      return "TD2D/Sprites/Environment/Tree 1.png";
+    case TdLevelItem::TREE2:
+      return "TD2D/Sprites/Environment/Tree 2.png";
+    case TdLevelItem::TREE3:
+      return "TD2D/Sprites/Environment/Tree 3.png";
+    case TdLevelItem::TREE4:
+      return "TD2D/Sprites/Environment/Tree 4.png";
+    case TdLevelItem::TREE5:
+      return "TD2D/Sprites/Environment/Tree 5.png";
     default:
       std::cerr << "Failed to get Tower Defense block path for item "
                 << static_cast<int>(item) << std::endl;
@@ -108,6 +136,21 @@ std::string TdLevelEditor::getTdBlockPath(
 }
 
 void TdLevelEditor::refreshLevelEditor() {
+  
+  for (const auto& gameObject : getGameObjects()) {
+    // Remove any blocks remaining previously
+    if (gameObject->tag() == TdRockThrowerTowerTag ||
+        gameObject->tag() == TdEndBlockTag ||
+        gameObject->tag() == TdBlockTag ||
+        gameObject->tag() == TdBGTag ||
+        gameObject->tag() == TdEnemyTag ||
+        gameObject->tag() == TdBulletTag ||
+        gameObject->tag() == TdStartWaveButtonTag ||
+        gameObject->tag() == TdEditButtonTag ||
+        gameObject->tag() == TdToolbarTag ||
+        gameObject->tag() == BaseTextTag)
+      removeObject(gameObject);
+  }
 
   TdLevel::initialize();
   // Strip away unwanted things for rendering in level editor

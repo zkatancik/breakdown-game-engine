@@ -11,9 +11,6 @@
 #include "breakout/Paddle.hpp"
 #include "editor/LevelEditButton.hpp"
 
-// TODO: Find a better place for this
-const int xOffset = 200;
-
 class BreakoutGameLevelEditor : public BreakoutGameLevel {
  public:
   BreakoutGameLevelEditor(int w, int h, int levelNumber)
@@ -25,7 +22,7 @@ class BreakoutGameLevelEditor : public BreakoutGameLevel {
   void initialize() override;
 
  private:
-
+  const int xOffset = 200;
   void refreshLevelEditor();
 
   int mScreenHeight;
