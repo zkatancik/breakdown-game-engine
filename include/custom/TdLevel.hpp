@@ -8,6 +8,7 @@
 #include "base/GameVariableComponent.hpp"
 #include "base/GridObject.hpp"
 #include "base/PerformHookOnCollideComponent.hpp"
+#include "custom/ArrowTower.hpp"
 #include "custom/CustomLevelEditButton.hpp"
 #include "custom/LevelData.hpp"
 #include "custom/LevelTimer.hpp"
@@ -89,7 +90,8 @@ class TdLevel : public Level {
 
   std::vector<TdLevelItem> itemVector = {
       TdLevelItem::PLACETOWER, TdLevelItem::ROCKTHROWER,
-      TdLevelItem::ANTITANKMINE, TdLevelItem::MAGICTOWER};
+      TdLevelItem::ANTITANKMINE, TdLevelItem::MAGICTOWER,
+      TdLevelItem::ARROWTOWER};
 };
 
 #endif
