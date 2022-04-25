@@ -156,4 +156,12 @@ void updateLevelFile(TdLevelData ld, Vector2D<int> gridPosition,
  */
 std::string getEnemySpritePath(TdLevelItem enemyItem);
 
+
+/**
+ * Edits the enemy file of the given level.
+ * @param waveInfo A vector of map of enemies. Each vector entry is a wave, and each row is the sparse representation of the enemies
+ * @param levelNumber level number
+ */
+void updateEnemiesLevelFile(const std::vector<std::map<TdLevelItem, int>>& waveInfo, int levelNumber);
+
 #endif

@@ -704,3 +704,32 @@ void updateLevelFile(TdLevelData ld, Vector2D<int> gridPosition,
   }
 
 }
+
+void updateEnemiesLevelFile(const std::vector<std::map<TdLevelItem, int>>& waveInfo, int levelNumber) {
+  auto resPath = getResourcePath("TD2D/Levels");
+  std::string enemiesFilename =
+      (resPath /
+          ("level" + std::to_string(levelNumber) + "-enemies.txt"))
+          .string();
+
+  std::fstream *enemyFile = ResourceManager::getInstance().openFile(
+      enemiesFilename, std::ios_base::out);
+
+  if (enemyFile->is_open()) {
+    int i = 0;
+    for (const auto& wave : waveInfo) {
+      for (auto enemyCount: wave) {
+        if (enemyCount.second != 0) {
+          *enemyFile << getItemChar(enemyCount.first) << ":" << enemyCount.second << ",";
+        }
+      }
+      i++;
+      if (i != waveInfo.size())
+        *enemyFile << std::endl;
+    }
+    ResourceManager::getInstance().closeFile(enemiesFilename);
+  } else {
+    std::cerr << "Failed to open enemies path file at " << enemiesFilename
+              << std::endl;
+  }
+}

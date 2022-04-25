@@ -4,40 +4,14 @@
 #include "custom/Tag.hpp"
 
 #include "base/Collection.hpp"
-#include "base/UICounter.hpp"
-
-
-
-class EnemyCounter : public Collection {
- public:
-  EnemyCounter(Level& level, float x, float y, Vector2D<int> blockSize, TdLevelItem enemyItem, int number) : Collection(level), mEnemyItem(enemyItem) {
-    // Enemy icon
-
-    auto button = std::make_shared<LevelEditButton>(
-        level, x, y - 20, 64, 64, 5, 5, getEnemySpritePath(enemyItem) + "0.png", "TD2D/Audio/Common/Click1.mp3", []{}, true);
-    level.addObject(button);
-    // Add counter
-    mCounter = std::make_shared<UICounter>(level, x + 100, y, number);
-  }
-
-  int getCount() {
-    return mCounter->getCounterValue();
-  }
-
-  TdLevelItem getEnemyItem() {return mEnemyItem;}
-
- private:
-  std::shared_ptr<UICounter> mCounter;
-  std::shared_ptr<GameObject> mEnemyIcon;
-  TdLevelItem mEnemyItem;
-};
-
+#include "editor/TDEnemyCounter.hpp"
 
 void TdEnemyEditor::initialize() {
   loadLevel(&mLevelData, mLevelNumber);
   // Add buttons here:
 
   int y = 10;
+  mCounters.clear();
   for (size_t i = 0; i < mLevelData.enemyWaves.size(); i++) {
     // Add wave label
     auto label = std::make_shared<GameObject>(*this, 2, y, 50, 50, BaseTextTag);
@@ -52,12 +26,11 @@ void TdEnemyEditor::initialize() {
     label->addGenericComponent(textComponent);
     addObject(label);
     int x = 150;
+    mCounters.push_back(std::vector<EnemyCounter>());
     for (int j = 0; j < itemVector.size(); j++) {
       auto it = mLevelData.enemyWaves[i].find(itemVector[j]);
-      if (it != mLevelData.enemyWaves[i].end())
-        std::cout << it->second << std::endl;
-      auto button = std::make_shared<EnemyCounter>(*this, x, y, mLevelData.blockSize, itemVector[j],
-                                                   (it != mLevelData.enemyWaves[i].end()) ? it->second : 0);
+      mCounters[i].push_back(EnemyCounter(*this, x, y, mLevelData.blockSize, itemVector[j],
+                                 (it != mLevelData.enemyWaves[i].end()) ? it->second : 0));
       x = x + 250;
       if ((j + 1) % 5 == 0) {
         x = 150;
@@ -65,52 +38,19 @@ void TdEnemyEditor::initialize() {
       }
     }
   }
+  auto editButtonHook = [&] {
+    std::vector<std::map<TdLevelItem, int>> waveInfo;
+    for (int i = 0; i < mCounters.size(); i++) {
+      waveInfo.emplace_back();
+      for (int j = 0; j < mCounters[i].size(); j++) {
+        waveInfo[i].insert(std::make_pair(mCounters[i][j].getEnemyItem(), mCounters[i][j].getCount()));
+      }
+    }
+    updateEnemiesLevelFile(waveInfo, mLevelNumber);
+  };
+
+  addObject(std::make_shared<TdButton>(*this, 1500, 500, 64, 32, "Edit Wave", editButtonHook));
 }
 
 void TdEnemyEditor::refreshLevelEditor() {
-//
-//  for (const auto& gameObject : getGameObjects()) {
-//    // Remove any blocks remaining previously
-//    if (gameObject->tag() == TdRockThrowerTowerTag ||
-//        gameObject->tag() == TdEndBlockTag ||
-//        gameObject->tag() == TdBlockTag ||
-//        gameObject->tag() == TdBGTag ||
-//        gameObject->tag() == TdEnemyTag ||
-//        gameObject->tag() == TdBulletTag ||
-//        gameObject->tag() == TdStartWaveButtonTag ||
-//        gameObject->tag() == TdEditButtonTag ||
-//        gameObject->tag() == TdToolbarTag ||
-//        gameObject->tag() == BaseTextTag)
-//      removeObject(gameObject);
-//  }
-//
-//  TdLevel::initialize();
-//  // Strip away unwanted things for rendering in level editor
-//  for (const auto& gameObject : getGameObjectsToAdd()) {
-//    // Remove any text components (lives, level, score, etc) + Ball + Paddle +
-//    // Boundaries
-//    if (
-//        gameObject->tag() == TdRockThrowerTowerTag ||
-//        gameObject->tag() == TdEndBlockTag ||
-//        gameObject->tag() == TdBlockTag ||
-//        gameObject->tag() == TdBGTag ||
-//        gameObject->tag() == BaseTextTag
-//      ) {
-//        // Add an x-offset to make space for buttons
-//        gameObject->setX(gameObject->x() + float(xOffset));
-//      } else if (
-//        gameObject->tag() == TdEnemyTag ||
-//        gameObject->tag() == TdBulletTag ||
-//        gameObject->tag() == TdStartWaveButtonTag ||
-//        gameObject->tag() == TdEditButtonTag ||
-//        gameObject->tag() == TdToolbarTag
-//      ) {
-//        gameObject->setIsVisibleOnScreen(false);
-//        removeObject(gameObject);
-//      }
-//  }
-//
-//  // Read in the level data for our own usage
-//  loadLevel(&mLevelData, getLevelNumber());
-//
 }

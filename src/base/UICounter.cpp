@@ -67,9 +67,9 @@ UICounter::UICounter(Level &level, float x, float y, int currentValue, int minVa
                                                            });
   // Add everything to the level + collection list
   mCounterValue = counterValue->weak_from_this();
-  level.addObject(counterValue);
-  level.addObject(decrementButton);
-  level.addObject(incrementButton);
+  addGameObject(counterValue);
+  addGameObject(decrementButton);
+  addGameObject(incrementButton);
 }
 int UICounter::getCounterValue() {
   return mCounterValue.lock()->getGenericComponent<GameVariableComponent<int>>()->getVariable();

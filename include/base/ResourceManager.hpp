@@ -330,7 +330,8 @@ class ResourceManager {
       {u8" enemies", {{Language::SPANISH, u8"enemigos"}}},
       {u8": ", {{Language::SPANISH, u8": "}}},
       {u8"Score: -", {{Language::SPANISH, u8"Puntaje -"}}},
-      {u8"Wave ", {{Language::SPANISH, u8"onda "}}}
+      {u8"Wave ", {{Language::SPANISH, u8"onda "}}},
+      {u8"Edit Wave", {{Language::SPANISH, u8"Ola de edición"}}}
   };
 };
 #endif

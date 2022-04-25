@@ -8,6 +8,8 @@
 #include "editor/LevelEditButton.hpp"
 #include "custom/TdLevel.hpp"
 #include "custom/LevelData.hpp"
+#include "base/UICounter.hpp"
+#include "editor/TDEnemyCounter.hpp"
 
 class TdEnemyEditor : public TdLevel {
  public:
@@ -21,7 +23,11 @@ class TdEnemyEditor : public TdLevel {
  private:
   const int xOffset = 360;
   std::shared_ptr<GridRenderComponent> mGridRenderComponent;
+
   int mScreenHeight;
+
+  std::vector<std::vector<EnemyCounter>> mCounters;
+
   std::string mSoundPath = "TD2D/Audio/Common/Click1.mp3";
 
   TdLevelData mLevelData;
