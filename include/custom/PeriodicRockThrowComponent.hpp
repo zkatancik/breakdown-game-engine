@@ -3,6 +3,7 @@
 
 #include <SDL2/SDL_types.h>
 
+#include "base/CyclicCounterComponent.hpp"
 #include "base/GameObject.hpp"
 #include "base/GenericComponent.hpp"
 
@@ -37,6 +38,7 @@ class PeriodicRockThrowComponent : public GenericComponent {
   const float mSpeed;
   const Uint32 mCooldownDelay;
   Uint32 mNextThrowTime;
+  std::shared_ptr<CyclicCounterComponent> mCounterComponent;
 };
 
 #endif
