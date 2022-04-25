@@ -30,7 +30,7 @@ class ArrowTower : public GameObject {
   std::shared_ptr<TextureRenderComponent> renderer_;
   const float RADIUS{500.0};
   const float SPEED{300.0};
-  const Uint32 COOLDOWN{500};
+  const Uint32 COOLDOWN{400};
 };
 
 #endif

@@ -30,7 +30,7 @@ class GridComponent : public GenericComponent {
         }
       }
     }
-    
+
     std::get<2>(gridCoords) = mousePos.x;
     std::get<3>(gridCoords) = mousePos.y;
 
@@ -43,7 +43,8 @@ class GridComponent : public GenericComponent {
         InputManager::getInstance().isMouseKeyPressed(SDL_BUTTON_LEFT);
     if (isLeftMousePressed && std::get<0>(mouseGridLocation) != -1 &&
         std::get<1>(mouseGridLocation) != -1) {
-      mCallBack(std::get<1>(mouseGridLocation), std::get<0>(mouseGridLocation), std::get<3>(mouseGridLocation), std::get<2>(mouseGridLocation));
+      mCallBack(std::get<1>(mouseGridLocation), std::get<0>(mouseGridLocation),
+                std::get<3>(mouseGridLocation), std::get<2>(mouseGridLocation));
     }
   }
 
@@ -64,23 +65,24 @@ GridObject::GridObject(Level& level, float xPos, float yPos, int numX, int numY,
                            int(ysz)};
       gridRects[ii].push_back(drawRect);
 
-
-//      auto itemRenderer = std::make_shared<TextureRenderComponent>(*rectObj);
-//      itemRenderer->setRenderMode(
-//          TextureRenderComponent::RenderMode::CUSTOM_WIDTH);
-//      itemRenderer->setCustomW(64);
-//      itemRenderer->setCustomH(64);
-//      rectObj->setRenderComponent(itemRenderer);
-//      level.addObject(rectObj);
-//
-//      gridObjs[ii].push_back(rectObj);
+      //      auto itemRenderer =
+      //      std::make_shared<TextureRenderComponent>(*rectObj);
+      //      itemRenderer->setRenderMode(
+      //          TextureRenderComponent::RenderMode::CUSTOM_WIDTH);
+      //      itemRenderer->setCustomW(64);
+      //      itemRenderer->setCustomH(64);
+      //      rectObj->setRenderComponent(itemRenderer);
+      //      level.addObject(rectObj);
+      //
+      //      gridObjs[ii].push_back(rectObj);
       // }
     }
   }
   auto gridComponent =
       std::make_shared<GridComponent>(*this, gridRects, gridCallBack);
   addGenericComponent(gridComponent);
-  mGridRenderComponent = std::make_shared<GridRenderPreviewComponent>(*this, gridRects, currentlySelected);
+  mGridRenderComponent = std::make_shared<GridRenderPreviewComponent>(
+      *this, gridRects, currentlySelected);
   setRenderComponent(mGridRenderComponent);
 }
 
