@@ -17,6 +17,7 @@ class GridObject : public GameObject {
  private:
   std::vector<std::vector<SDL_Rect>> gridRects;
   std::shared_ptr<GridRenderPreviewComponent> mGridRenderComponent;
+  std::string mCurrentlySelected{"TD2D/Sprites/Tiles/Empty.png"};
 };
 
 #endif

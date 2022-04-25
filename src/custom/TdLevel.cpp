@@ -147,12 +147,12 @@ void TdLevel::initialize() {
 
   /********************************************************************************************************************/
   // Place Env
-  for (int i = 0 ; i < mLevelData.levelEnvItems.size(); i++) {
+  for (int i = 0; i < mLevelData.levelEnvItems.size(); i++) {
     std::shared_ptr<GameObject> envObj;
     auto envItemInfo = mLevelData.levelEnvItems[i];
     auto envItemPos = mLevelData.levelEnvItemPositions[i];
-    envObj = std::make_shared<TdBlock>(*this, envItemPos.x, envItemPos.y, envItemInfo,
-                                                   blockSize);
+    envObj = std::make_shared<TdBlock>(*this, envItemPos.x, envItemPos.y,
+                                       envItemInfo, blockSize);
     addObject(envObj);
   }
 
@@ -275,7 +275,8 @@ void TdLevel::createBottomBarControls() {
 }
 
 void TdLevel::createGrid() {
-  auto gridCallback = [&, mLevelData = &mLevelData](int i, int j, int x, int y) {
+  auto gridCallback = [&, mLevelData = &mLevelData](int i, int j, int x,
+                                                    int y) {
     if (currentlySelected == TdLevelItem::ROCKTHROWER) {
       auto tower = std::make_shared<RockThrowerTower>(
           *this, i * mLevelData->blockSize.x, j * mLevelData->blockSize.y,
@@ -399,9 +400,7 @@ void TdLevel::createGrid() {
           }
         }
       }
-    }
-
-    else if (currentlySelected == TdLevelItem::PLACETOWER) {
+    } else if (currentlySelected == TdLevelItem::PLACETOWER) {
       TdBlockData data;
       data.levelItemType = TdLevelItem::PLACETOWER;
       data.blockNumber = i;
