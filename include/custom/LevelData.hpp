@@ -28,6 +28,7 @@ enum class TdLevelItem {
   PATHBLOCKA,
   PLACETOWER,
   ROCKTHROWER,
+  MAGICTOWER,
   START,
   END,
   SCORPIONS,

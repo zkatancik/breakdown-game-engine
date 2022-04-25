@@ -91,6 +91,8 @@ void TdLevel::initialize() {
           obj = std::make_shared<TdBlock>(*this, x, y, b, blockSize);
         } else if (b.levelItemType == TdLevelItem::ROCKTHROWER) {
           obj = std::make_shared<RockThrowerTower>(*this, x, y, blockSize);
+        } else if (b.levelItemType == TdLevelItem::MAGICTOWER) {
+          obj = std::make_shared<MagicTower>(*this, x, y, blockSize);
         } else {
           std::cerr << "Error- Failed to add level item from row " << i
                     << ", col " << j << " in level file" << std::endl;
@@ -287,6 +289,33 @@ void TdLevel::createGrid() {
           }
         }
       }
+    } else if (currentlySelected == TdLevelItem::MAGICTOWER) {
+      auto tower = std::make_shared<MagicTower>(
+          *this, i * mLevelData->blockSize.x, j * mLevelData->blockSize.y,
+          mLevelData->blockSize);
+      for (auto g : getGameObjects()) {
+        if (tower->isOverlapping(*g) && g->tag() == TdBlockTag) {
+          auto blockGameObject = std::dynamic_pointer_cast<TdBlock>(g).get();
+          if (blockGameObject->getBlockData().levelItemType ==
+              TdLevelItem::PLACETOWER) {
+            Mix_PlayChannel(
+                1, ResourceManager::getInstance().getChunk(mSoundPath), 0);
+            auto coinIndicatorVariable =
+                mCoinIndicator.lock()
+                    ->getGenericComponent<GameVariableComponent<int>>();
+            if (coinIndicatorVariable->getVariable() >= 15) {
+              removeObject(g);
+              addObject(tower);
+              coinIndicatorVariable->setVariable(
+                  coinIndicatorVariable->getVariable() - 15);
+              Mix_PlayChannel(1,
+                              ResourceManager::getInstance().getChunk(
+                                  "TD2D/Audio/Common/Construct1.mp3"),
+                              0);
+            }
+          }
+        }
+      }
     } else if (currentlySelected == TdLevelItem::ANTITANKMINE) {
       auto mine = std::make_shared<AntiTankMine>(
           *this, i * mLevelData->blockSize.x, j * mLevelData->blockSize.y,
@@ -422,6 +451,8 @@ std::string TdLevel::getTdBlockPath(TdLevelItem item) {
       return "TD2D/Sprites/Towers/BuildingPlace.png";
     case TdLevelItem::ROCKTHROWER:
       return "TD2D/Sprites/Towers/cpix_towers/stone_throw_1.png";
+    case TdLevelItem::MAGICTOWER:
+      return "TD2D/Sprites/Towers/cpix_towers/aoe_tower_1.png";
     case TdLevelItem::ANTITANKMINE:
       return "TD2D/Sprites/Towers/cpix_towers/40.png";
     default:
