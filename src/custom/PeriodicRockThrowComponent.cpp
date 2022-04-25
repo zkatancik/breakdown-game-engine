@@ -7,19 +7,24 @@
 #include "custom/Rock.hpp"
 #include "custom/Tag.hpp"
 
-PeriodicRockThrowComponent::PeriodicRockThrowComponent(GameObject& gameObject,
-                                                       float radius,
-                                                       float speed,
-                                                       Uint32 cooldown)
+PeriodicRockThrowComponent::PeriodicRockThrowComponent(
+    GameObject& gameObject, float radius, float speed, Uint32 cooldown,
+    const std::shared_ptr<TextureRenderComponent>& textureRenderComponent)
     : GenericComponent(gameObject),
       mRadius(radius),
       mSpeed(speed),
       mCooldownDelay(cooldown),
-      mNextThrowTime(0) {}
+      mNextThrowTime(0),
+      mTRenderComponent(textureRenderComponent) {
+  mCounterComponent =
+      std::make_shared<CyclicCounterComponent>(gameObject, 7, false);
+  gameObject.addGenericComponent(mCounterComponent);
+}
 
 void PeriodicRockThrowComponent::update(Level& level) {
   if (!SDL_TICKS_PASSED(SDL_GetTicks(), mNextThrowTime)) {
     // Tower fired too recently, still cooling down
+    mCounterComponent->setCounter(0);
     return;
   }
   // Tower ready to fire again
@@ -44,6 +49,10 @@ void PeriodicRockThrowComponent::update(Level& level) {
   // Shoot at target
   if (closestEnemy == nullptr) {
     // No targets in range
+    std::string path = "TD2D/Sprites/Towers/cpix_towers/stone_throw_1.png";
+    SDL_Texture* texture = ResourceManager::getInstance().getTexture(path);
+    mTRenderComponent->setTexture(texture);
+    mCounterComponent->setCounter(0);
     return;
   }
   const Vector2D<float> closestEnemyPos = {closestEnemy.get()->x(),
@@ -51,11 +60,25 @@ void PeriodicRockThrowComponent::update(Level& level) {
   const Vector2D<float> rockVelocity =
       (Normalize(closestEnemyPos - towerPos)) * mSpeed;
   auto rock = std::make_shared<Rock>(
-      level, gameObject.x() + 0.3 * (gameObject.w()) / 2,
-      gameObject.y() + gameObject.h() / 3, gameObject.w() / 3,
-      gameObject.h() / 3, rockVelocity.x, rockVelocity.y);
-  level.addObject(rock);
+      level, gameObject.x() + 0.3 * (gameObject.w()) / 2, gameObject.y(),
+      gameObject.w() / 3, gameObject.h() / 3, rockVelocity.x, rockVelocity.y);
 
-  // Need to cool down before next time it fires
-  mNextThrowTime = SDL_GetTicks() + mCooldownDelay;
+  if (mCounterComponent->getCounter() == 6) {
+    std::string path = "TD2D/Sprites/Towers/cpix_towers/stone_throw_6.png";
+
+    SDL_Texture* texture = ResourceManager::getInstance().getTexture(path);
+    mTRenderComponent->setTexture(texture);
+
+    level.addObject(rock);
+    mCounterComponent->setCounter(0);
+
+    // Need to cool down before next time it fires
+    mNextThrowTime = SDL_GetTicks() + mCooldownDelay;
+  } else {
+    std::string path = "TD2D/Sprites/Towers/cpix_towers/stone_throw_";
+    path += (std::to_string(mCounterComponent->getCounter() + 1) + ".png");
+
+    SDL_Texture* texture = ResourceManager::getInstance().getTexture(path);
+    mTRenderComponent->setTexture(texture);
+  }
 }
