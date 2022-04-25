@@ -39,7 +39,7 @@ void TextureRenderComponent::render(SDL_Renderer *renderer) const {
   }
 
   SDL_RenderCopyEx(renderer, texture_, SDL_RectEmpty(&crop_) ? nullptr : &crop_,
-                   &fillRect, 0, nullptr,
+                   &fillRect, rotation_, nullptr,
                    flip_ ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE);
 }
 TextureRenderComponent::TextureRenderComponent(

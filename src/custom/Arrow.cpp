@@ -1,6 +1,9 @@
 #include "custom/Arrow.hpp"
 
+#include <SDL2/SDL_stdinc.h>
 #include <box2d/b2_body.h>
+
+#include <cmath>
 
 #include "base/ConstantVelocityComponent.hpp"
 #include "base/DespawnOnRadiusComponent.hpp"
@@ -17,9 +20,10 @@ Arrow::Arrow(Level& level, float x, float y, float w, float h, float vx,
   renderer->setTexture(ResourceManager::getInstance().getTexture(
       "TD2D/Sprites/Bullets/Bullets.png"));
   renderer->setCrop({135, 312, 32, 10});
-  if (vx < 0) {
-    renderer->setFlip(true);
-  }
+  constexpr float PI = 3.1415926535897932384;
+  const float angleRads = vy / vx;
+  const float angleDegs = SDL_atan(angleRads) * 180.0 / PI;
+  renderer->setRotation(angleDegs);
   setRenderComponent(renderer);
   setPhysicsComponent(std::make_shared<PhysicsComponent>(
       *this, b2BodyType::b2_dynamicBody, false));
