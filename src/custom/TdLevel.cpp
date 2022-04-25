@@ -1,5 +1,6 @@
 #include "custom/TdLevel.hpp"
 
+#include "base/TextMessageObject.hpp"
 #include "custom/AntiTankMine.hpp"
 
 void TdLevel::initialize() {
@@ -271,6 +272,55 @@ void TdLevel::createBottomBarControls() {
   mStartWaveButton = std::weak_ptr(startWaveButton);
   mStartWaveButton.lock()->setTag(TdStartWaveButtonTag);
   addObject(startWaveButton);
+
+  // Create Tower Details Panel
+  float nextXOffset = 0;
+  auto towerDesc = std::make_shared<TextMessageObject>(
+      *this, "Tower **", 320 + nextXOffset, h() - sideBarYOffset + 15,
+      "TD2D/Fonts/ds-coptic.ttf", 16);
+  auto towerSellText = std::make_shared<TextMessageObject>(
+      *this, "Sell value: 10", 320 + nextXOffset,
+      h() - (sideBarYOffset / 2.0) + 15, "TD2D/Fonts/ds-coptic.ttf", 16);
+
+  nextXOffset += 200;
+  auto towerFireModeText = std::make_shared<TextMessageObject>(
+      *this, "Fire Mode:", 320 + nextXOffset, h() - sideBarYOffset + 15,
+      "TD2D/Fonts/ds-coptic.ttf", 16);
+  mTowerDescText = std::weak_ptr(towerDesc);
+  mTowerSellText = std::weak_ptr(towerSellText);
+  mTowerFMText = std::weak_ptr(towerFireModeText);
+  addObject(towerDesc);
+  addObject(towerSellText);
+  addObject(towerFireModeText);
+
+  nextXOffset += 400;
+  auto fmClosestButton =
+      std::make_shared<TdButton>(*this, 320 + nextXOffset, h() - sideBarYOffset,
+                                 24, 16, "Closest", startWaveLambda, 16);
+  mFMClosestButton = std::weak_ptr(fmClosestButton);
+  addObject(fmClosestButton);
+
+  nextXOffset += 400;
+  auto fmFirstButton =
+      std::make_shared<TdButton>(*this, 320 + nextXOffset, h() - sideBarYOffset,
+                                 24, 16, "First", startWaveLambda, 16);
+  mFMFirstButton = std::weak_ptr(fmFirstButton);
+  addObject(fmFirstButton);
+
+  nextXOffset += 300;
+  auto fmLastButton =
+      std::make_shared<TdButton>(*this, 320 + nextXOffset, h() - sideBarYOffset,
+                                 24, 16, "Last", startWaveLambda, 16);
+  mFMLastButton = std::weak_ptr(fmLastButton);
+  addObject(fmLastButton);
+
+  nextXOffset += 375;
+  auto fmStrongestButton =
+      std::make_shared<TdButton>(*this, 320 + nextXOffset, h() - sideBarYOffset,
+                                 24, 16, "Strongest", startWaveLambda, 16);
+  mFMStrongestButton = std::weak_ptr(fmStrongestButton);
+  addObject(fmStrongestButton);
+  hideTowerDetails();
 }
 
 void TdLevel::createGrid() {
@@ -568,4 +618,24 @@ void TdLevel::spawnEnemy(TdLevelItem enemyType, int delay, int enemyNumber) {
       std::make_shared<DelayedSpawnComponent>(*enemy, delay));
   addObject(enemy);
   mNumEnemiesLeft++;
+}
+
+void TdLevel::showTowerDetails() {
+  mTowerDescText.lock()->setIsVisibleOnScreen(true);
+  mTowerSellText.lock()->setIsVisibleOnScreen(true);
+  mTowerFMText.lock()->setIsVisibleOnScreen(true);
+  mFMClosestButton.lock()->setIsVisibleOnScreen(true);
+  mFMFirstButton.lock()->setIsVisibleOnScreen(true);
+  mFMLastButton.lock()->setIsVisibleOnScreen(true);
+  mFMStrongestButton.lock()->setIsVisibleOnScreen(true);
+}
+
+void TdLevel::hideTowerDetails() {
+  mTowerDescText.lock()->setIsVisibleOnScreen(false);
+  mTowerSellText.lock()->setIsVisibleOnScreen(false);
+  mTowerFMText.lock()->setIsVisibleOnScreen(false);
+  mFMClosestButton.lock()->setIsVisibleOnScreen(false);
+  mFMFirstButton.lock()->setIsVisibleOnScreen(false);
+  mFMLastButton.lock()->setIsVisibleOnScreen(false);
+  mFMStrongestButton.lock()->setIsVisibleOnScreen(false);
 }

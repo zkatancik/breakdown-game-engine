@@ -8,6 +8,7 @@
 #include "base/GameVariableComponent.hpp"
 #include "base/GridObject.hpp"
 #include "base/PerformHookOnCollideComponent.hpp"
+#include "base/TextMessageObject.hpp"
 #include "custom/ArrowTower.hpp"
 #include "custom/CustomLevelEditButton.hpp"
 #include "custom/LevelData.hpp"
@@ -66,6 +67,13 @@ class TdLevel : public Level {
   int mNumEnemiesLeft{0};
 
   std::weak_ptr<GameObject> mStartWaveButton;
+  std::weak_ptr<TextMessageObject> mTowerDescText;
+  std::weak_ptr<TextMessageObject> mTowerSellText;
+  std::weak_ptr<TextMessageObject> mTowerFMText;
+  std::weak_ptr<TdButton> mFMClosestButton;
+  std::weak_ptr<TdButton> mFMFirstButton;
+  std::weak_ptr<TdButton> mFMLastButton;
+  std::weak_ptr<TdButton> mFMStrongestButton;
 
   std::string mSoundPath = "TD2D/Audio/Common/Click2.mp3";
   TdLevelItem currentlySelected{TdLevelItem::NONE};
@@ -85,6 +93,9 @@ class TdLevel : public Level {
                                                     int y);
 
   void spawnEnemy(TdLevelItem enemyType, int delay, int enemyNumber);
+
+  void showTowerDetails();
+  void hideTowerDetails();
 
   std::string getTdBlockPath(TdLevelItem item);
 
