@@ -6,7 +6,7 @@
 #include "base/ResPath.hpp"
 #include "base/ResourceManager.hpp"
 
-TdLevelItem getEnemy(const std::string& enemyTypeStr) {
+TdLevelItem getEnemy(const std::string &enemyTypeStr) {
   if (enemyTypeStr == "S")
     return TdLevelItem::SCORPIONS;
   else if (enemyTypeStr == "W")
@@ -140,6 +140,9 @@ void loadLevel(TdLevelData *levelData, int level) {
         } else if (ch == 'T') {
           data.levelItemType = TdLevelItem::ROCKTHROWER;
           data.blockNumber = ch;
+        } else if (ch == 'M') {
+          data.levelItemType = TdLevelItem::MAGICTOWER;
+          data.blockNumber = ch;
         } else {
           std::cerr << "Error- Failed to parse character \"" << ch
                     << "\" in level file at (" << lineCounter << ","
@@ -207,8 +210,8 @@ void loadLevel(TdLevelData *levelData, int level) {
 
   std::string enemiesFilename =
       (resPath /
-      ("level" + std::to_string(levelData->levelNumber) + "-enemies.txt"))
-      .string();
+       ("level" + std::to_string(levelData->levelNumber) + "-enemies.txt"))
+          .string();
 
   std::string enemyMapLine;
   std::fstream *enemyFile = ResourceManager::getInstance().openFile(
@@ -219,7 +222,8 @@ void loadLevel(TdLevelData *levelData, int level) {
       // A map representing each wave
       std::map<TdLevelItem, int> waveInfo;
       // Extract map entries
-      // Code from https://stackoverflow.com/questions/14265581/parse-split-a-string-in-c-using-string-delimiter-standard-c
+      // Code from
+      // https://stackoverflow.com/questions/14265581/parse-split-a-string-in-c-using-string-delimiter-standard-c
       size_t pos = 0;
       std::string mapElement;
       while ((pos = enemyMapLine.find(',')) != std::string::npos) {
@@ -227,7 +231,8 @@ void loadLevel(TdLevelData *levelData, int level) {
         // Find the enemy type and number of enemies in the wave
         size_t colonPos = mapElement.find(':');
         std::string enemyTypeStr = mapElement.substr(0, colonPos);
-        int numEnemies = std::stoi(mapElement.substr(colonPos + 1, std::string::npos));
+        int numEnemies =
+            std::stoi(mapElement.substr(colonPos + 1, std::string::npos));
         // Find the appropriate Enum for enemyType String
         waveInfo.insert(std::make_pair(getEnemy(enemyTypeStr), numEnemies));
         enemyMapLine.erase(0, pos + 1);
@@ -238,14 +243,14 @@ void loadLevel(TdLevelData *levelData, int level) {
 
     // Load Enemy Paths
     std::string enemiesPathFilename =
-      (resPath /
-      ("level" + std::to_string(levelData->levelNumber) + "-enemyPaths.txt"))
-      .string();
-  
+        (resPath /
+         ("level" + std::to_string(levelData->levelNumber) + "-enemyPaths.txt"))
+            .string();
+
     std::string enemyPathLine;
     std::fstream *enemyPathFile = ResourceManager::getInstance().openFile(
-      enemiesPathFilename, std::ios_base::in);
-  
+        enemiesPathFilename, std::ios_base::in);
+
     if (enemyPathFile->is_open()) {
       while (std::getline(*enemyPathFile, enemyPathLine)) {
         // Read Line
@@ -255,31 +260,31 @@ void loadLevel(TdLevelData *levelData, int level) {
 
         while ((pos = enemyPathLine.find(';')) != std::string::npos) {
           mapElement = enemyPathLine.substr(0, pos);
-      
+
           // Find the enemy type and number of enemies in the wave
           size_t colonPos = mapElement.find(',');
 
           int x = std::stoi(mapElement.substr(0, colonPos));
           int y = std::stoi(mapElement.substr(colonPos + 1, std::string::npos));
           // Find the appropriate Enum for enemyType String
-          linePath.push_back(Vector2D<int>(y,x));
+          linePath.push_back(Vector2D<int>(y, x));
           enemyPathLine.erase(0, pos + 1);
         }
         levelData->enemyPossiblePaths.push_back(linePath);
       }
     } else {
-      std::cerr << "Failed to open enemies path file at " << enemiesPathFilename << std::endl;
+      std::cerr << "Failed to open enemies path file at " << enemiesPathFilename
+                << std::endl;
     }
 
     ResourceManager::getInstance().closeFile(enemiesPathFilename);
-  }
-  else {
-    std::cerr << "Failed to open enemies file at " << enemiesFilename << std::endl;
+  } else {
+    std::cerr << "Failed to open enemies file at " << enemiesFilename
+              << std::endl;
   }
 }
 
-std::string getItemChar(
-    TdLevelItem item) {
+std::string getItemChar(TdLevelItem item) {
   switch (item) {
     // case TdLevelItem::NONE:
     //   return "";
@@ -313,6 +318,8 @@ std::string getItemChar(
       return "O";
     case TdLevelItem::ROCKTHROWER:
       return "T";
+    case TdLevelItem::MAGICTOWER:
+      return "M";
     case TdLevelItem::END:
       return "E";
     case TdLevelItem::START:
@@ -343,77 +350,73 @@ std::string getItemChar(
   }
 }
 
-void updateCurrentLevel(TdLevelData *levelData, 
-                        Vector2D<int> gridPosition,
+void updateCurrentLevel(TdLevelData *levelData, Vector2D<int> gridPosition,
                         TdLevelItem item) {
   // Update the Level
   if (item != TdLevelItem::NONE) {
     // Level Grid
-    if (item == TdLevelItem::PLAINBLOCK
-        || item == TdLevelItem::NOBLOCK
-        || item == TdLevelItem::ROCKTHROWER
-        || item == TdLevelItem::PATHBLOCK0
-        || item == TdLevelItem::PATHBLOCK1
-        || item == TdLevelItem::PATHBLOCK2
-        || item == TdLevelItem::PATHBLOCK3
-        || item == TdLevelItem::PATHBLOCK4
-        || item == TdLevelItem::PATHBLOCK5
-        || item == TdLevelItem::PATHBLOCK6
-        || item == TdLevelItem::PATHBLOCK7
-        || item == TdLevelItem::PATHBLOCK8
-        || item == TdLevelItem::PATHBLOCK9
-        || item == TdLevelItem::PATHBLOCKA) {
-      
+    if (item == TdLevelItem::PLAINBLOCK || item == TdLevelItem::NOBLOCK ||
+        item == TdLevelItem::ROCKTHROWER || item == TdLevelItem::PATHBLOCK0 ||
+        item == TdLevelItem::PATHBLOCK1 || item == TdLevelItem::PATHBLOCK2 ||
+        item == TdLevelItem::PATHBLOCK3 || item == TdLevelItem::PATHBLOCK4 ||
+        item == TdLevelItem::PATHBLOCK5 || item == TdLevelItem::PATHBLOCK6 ||
+        item == TdLevelItem::PATHBLOCK7 || item == TdLevelItem::PATHBLOCK8 ||
+        item == TdLevelItem::PATHBLOCK9 || item == TdLevelItem::PATHBLOCKA ||
+        item == TdLevelItem::MAGICTOWER) {
       auto data = TdBlockData();
-      if (item == TdLevelItem::NOBLOCK)
-      {
+      if (item == TdLevelItem::NOBLOCK) {
         data.levelItemType = TdLevelItem::PLAINBLOCK;
       } else {
         data.levelItemType = item;
       }
       data.blockNumber = getItemChar(data.levelItemType);
-      data.isTowerPlacable = levelData->placableBlockGrid[gridPosition.x][gridPosition.y].isTowerPlacable;
+      data.isTowerPlacable =
+          levelData->placableBlockGrid[gridPosition.x][gridPosition.y]
+              .isTowerPlacable;
       levelData->levelGrid[gridPosition.x][gridPosition.y] = data;
       // Update the Level File
       updateLevelFile(*levelData, gridPosition, data.levelItemType);
-    } 
-    
+    }
+
     // Placeable Grid (Tower Map)
-    if (item == TdLevelItem::PLACETOWER
-        || item == TdLevelItem::START
-        || item == TdLevelItem::NOBLOCK
-        || item == TdLevelItem::END) {
+    if (item == TdLevelItem::PLACETOWER || item == TdLevelItem::START ||
+        item == TdLevelItem::NOBLOCK || item == TdLevelItem::END) {
       auto towerPlacableData = TdBlockData();
       towerPlacableData.levelItemType = item;
-      towerPlacableData.blockNumber = getItemChar(towerPlacableData.levelItemType);
+      towerPlacableData.blockNumber =
+          getItemChar(towerPlacableData.levelItemType);
       towerPlacableData.isTowerPlacable = false;
-      if (towerPlacableData.levelItemType == TdLevelItem::PLACETOWER)
-      {
+      if (towerPlacableData.levelItemType == TdLevelItem::PLACETOWER) {
         towerPlacableData.isTowerPlacable = true;
       }
-      levelData->placableBlockGrid[gridPosition.x][gridPosition.y] = towerPlacableData;
+      levelData->placableBlockGrid[gridPosition.x][gridPosition.y] =
+          towerPlacableData;
       // Update the Level File
-      updateLevelFile(*levelData, gridPosition, towerPlacableData.levelItemType);
+      updateLevelFile(*levelData, gridPosition,
+                      towerPlacableData.levelItemType);
     }
   }
 }
 
-void updateLevelFile(TdLevelData ld, Vector2D<int> gridPosition, TdLevelItem item) {
+void updateLevelFile(TdLevelData ld, Vector2D<int> gridPosition,
+                     TdLevelItem item) {
   const filesystem::path resPath = getResourcePath("TD2D/levels");
   std::string resourceFilename =
       (resPath / ("level" + std::to_string(ld.levelNumber) + ".txt")).string();
-  
+
   std::string towerMapFilename =
-      (resPath / ("level" + std::to_string(ld.levelNumber) + "-TowerMap.txt")).string();
-  
+      (resPath / ("level" + std::to_string(ld.levelNumber) + "-TowerMap.txt"))
+          .string();
+
   std::string line;
-  std::fstream *myfile = ResourceManager::getInstance().openFile(resourceFilename, std::fstream::out | std::fstream::trunc);
-  std::fstream *towerMapfile = ResourceManager::getInstance().openFile(towerMapFilename, std::fstream::out | std::fstream::trunc);
+  std::fstream *myfile = ResourceManager::getInstance().openFile(
+      resourceFilename, std::fstream::out | std::fstream::trunc);
+  std::fstream *towerMapfile = ResourceManager::getInstance().openFile(
+      towerMapFilename, std::fstream::out | std::fstream::trunc);
 
   int lineCounter = 0;
 
   if (myfile->is_open() && towerMapfile->is_open()) {
-
     *myfile << std::to_string(ld.rowCount) << std::endl;
     *towerMapfile << std::to_string(ld.rowCount) << std::endl;
 
@@ -428,21 +431,18 @@ void updateLevelFile(TdLevelData ld, Vector2D<int> gridPosition, TdLevelItem ite
 
     int i = 0;
     int j = 0;
-    for (i = 0; i < ld.rowCount; i++)
-    {
-      for (j = 0; j < ld.colCount; j++)
-      {
-        if (getItemChar(ld.levelGrid[i][j].levelItemType) == "")
-        {
-          std::cout << "Why is" << std::to_string(i) << "," << std::to_string(j) << " None?\n";
+    for (i = 0; i < ld.rowCount; i++) {
+      for (j = 0; j < ld.colCount; j++) {
+        if (getItemChar(ld.levelGrid[i][j].levelItemType) == "") {
+          std::cout << "Why is" << std::to_string(i) << "," << std::to_string(j)
+                    << " None?\n";
         }
 
         *myfile << getItemChar(ld.levelGrid[i][j].levelItemType);
         *towerMapfile << getItemChar(ld.placableBlockGrid[i][j].levelItemType);
       }
 
-      if (i != ld.rowCount - 1)
-      {
+      if (i != ld.rowCount - 1) {
         *myfile << std::endl;
         *towerMapfile << std::endl;
       }
@@ -453,10 +453,8 @@ void updateLevelFile(TdLevelData ld, Vector2D<int> gridPosition, TdLevelItem ite
     ResourceManager::getInstance().closeFile(resourceFilename);
     ResourceManager::getInstance().closeFile(towerMapFilename);
   } else {
-
     // Create a new file.
     std::cout << "Unable to open file \n";
     std::cout << "Creating a new file \n";
-
   }
 }

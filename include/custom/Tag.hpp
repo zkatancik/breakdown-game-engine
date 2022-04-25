@@ -10,6 +10,7 @@ const static int TdEnemyTag = hash("TdEnemy");
 const static int TdBulletTag = hash("TdBullet");
 const static int TdToolbarTag = hash("TdToolbarTag");
 const static int TdRockThrowerTowerTag = hash("TdRockThrowerTower");
+const static int TdMagicTowerTag = hash("TdMagicTower");
 const static int TdAntiTankTowerTag = hash("TdAntiTankTowerTag");
 const static int TdEditButtonTag = int(hash("TdEditButton"));
 const static int TdStartWaveButtonTag = int(hash("TdStartWaveButton"));
