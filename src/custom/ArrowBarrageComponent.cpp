@@ -63,12 +63,10 @@ void ArrowBarrageComponent::update(Level& level) {
   Vector2D<float> closestEnemyPosLeft;
   Vector2D<float> closestEnemyPosRight;
   if (closestEnemyLeft != nullptr) {
-    closestEnemyPosLeft = {closestEnemyLeft.get()->x(),
-                           closestEnemyLeft.get()->y()};
+    closestEnemyPosLeft = {closestEnemyLeft->x(), closestEnemyLeft->y()};
   }
   if (closestEnemyRight != nullptr) {
-    closestEnemyPosRight = {closestEnemyRight.get()->x(),
-                            closestEnemyRight.get()->y()};
+    closestEnemyPosRight = {closestEnemyRight->x(), closestEnemyRight->y()};
   }
 
   std::shared_ptr<Arrow> arrowLeft;

@@ -10,7 +10,7 @@ RockThrowerTower::RockThrowerTower(Level &level, float x, float y,
     : GameObject(level, x, y, bs.x, bs.y, TdRockThrowerTowerTag) {
   renderer_ = std::make_shared<TextureRenderComponent>(*this);
   setRenderComponent(renderer_);
-  renderer_.get()->setTexture(ResourceManager::getInstance().getTexture(
+  renderer_->setTexture(ResourceManager::getInstance().getTexture(
       "TD2D/Sprites/Towers/cpix_towers/stone_throw_1.png"));
   auto throwerComponent = std::make_shared<PeriodicRockThrowComponent>(
       *this, RADIUS, SPEED, COOLDOWN, renderer_);

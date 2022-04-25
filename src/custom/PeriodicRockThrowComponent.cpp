@@ -55,8 +55,8 @@ void PeriodicRockThrowComponent::update(Level& level) {
     mCounterComponent->setCounter(0);
     return;
   }
-  const Vector2D<float> closestEnemyPos = {closestEnemy.get()->x(),
-                                           closestEnemy.get()->y()};
+  const Vector2D<float> closestEnemyPos = {closestEnemy->x(),
+                                           closestEnemy->y()};
   const Vector2D<float> rockVelocity =
       (Normalize(closestEnemyPos - towerPos)) * mSpeed;
   auto rock = std::make_shared<Rock>(
