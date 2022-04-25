@@ -30,7 +30,10 @@ class CustomEnemy : public GameObject {
    */
   explicit CustomEnemy(Level& level, float tl_x, float tl_y, float w, float h,
                        TdLevelItem enemyItem,
-                       const std::function<void(void)>& callBackAtDeath);
+                       const std::function<void(void)>& callBackAtDeath,
+                       int count);
+
+  inline const int getCount() const { return mCount; }
 
   /**
    * @brief Destroy this Base CustomEnemy object
@@ -48,5 +51,6 @@ class CustomEnemy : public GameObject {
   std::shared_ptr<TextureRenderComponent> renderer_;
   std::shared_ptr<RectangleRenderComponent> healthBarR_;
   std::shared_ptr<RectangleRenderComponent> healthBarG_;
+  int mCount;
 };
 #endif

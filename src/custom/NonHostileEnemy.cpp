@@ -1,13 +1,14 @@
 #include "custom/NonHostileEnemy.hpp"
+
 #include "base/HealthComponent.hpp"
 
-NonHostileEnemy::NonHostileEnemy(Level& level, float tl_x, float tl_y, float w,
-                           float h, TdLevelItem enemyItem, Vector2D<int> targetPosition,
-                           const std::vector<std::vector<TdBlockData>>& levelGrid,
-                           std::vector<Vector2D<int>> possiblePath,
-                           const std::function<void(void)>& callbackAtDeath)
-    : CustomEnemy(level, tl_x, tl_y, w, h, enemyItem, callbackAtDeath) {
-  
+NonHostileEnemy::NonHostileEnemy(
+    Level& level, float tl_x, float tl_y, float w, float h,
+    TdLevelItem enemyItem, Vector2D<int> targetPosition,
+    const std::vector<std::vector<TdBlockData>>& levelGrid,
+    std::vector<Vector2D<int>> possiblePath,
+    const std::function<void(void)>& callbackAtDeath, int count)
+    : CustomEnemy(level, tl_x, tl_y, w, h, enemyItem, callbackAtDeath, count) {
   {
     // std::vector<std::vector<bool>> pathGrid;
 
@@ -21,7 +22,8 @@ NonHostileEnemy::NonHostileEnemy(Level& level, float tl_x, float tl_y, float w,
     // {
     //   for (size_t j = 0; j < levelGrid[0].size(); j++)
     //   {
-    //     if (3 <= (int)levelGrid[i][j].levelItemType && (int)levelGrid[i][j].levelItemType <= 13)
+    //     if (3 <= (int)levelGrid[i][j].levelItemType &&
+    //     (int)levelGrid[i][j].levelItemType <= 13)
     //     {
     //       pathGrid[i][j] = true;
     //     } else {
@@ -32,12 +34,14 @@ NonHostileEnemy::NonHostileEnemy(Level& level, float tl_x, float tl_y, float w,
     //   std::cout << "\n";
     // }
   }
-  
-  // mRandomWalk = std::make_shared<RandomWalkComponent>(*this, pathGrid, targetPosition, Vector2D<int>(w, h), CustomEnemy::xVelocity);
+
+  // mRandomWalk = std::make_shared<RandomWalkComponent>(*this, pathGrid,
+  // targetPosition, Vector2D<int>(w, h), CustomEnemy::xVelocity);
   // addGenericComponent(mMoveTowards);
 
-  //mMoveTowards = std::make_shared<MoveTowardsComponent>(*this, pathGrid, targetPosition, Vector2D<int>(w, h), CustomEnemy::xVelocity);
-  //addGenericComponent(mMoveTowards);
+  // mMoveTowards = std::make_shared<MoveTowardsComponent>(*this, pathGrid,
+  // targetPosition, Vector2D<int>(w, h), CustomEnemy::xVelocity);
+  // addGenericComponent(mMoveTowards);
 
   // Feed Path
   std::vector<float> Xs;
@@ -47,6 +51,7 @@ NonHostileEnemy::NonHostileEnemy(Level& level, float tl_x, float tl_y, float w,
     Ys.push_back(checkpoint.y * h);
   }
 
-  mPatrol = std::make_shared<PatrolComponent>(*this, Xs, Ys, CustomEnemy::xVelocity);
+  mPatrol =
+      std::make_shared<PatrolComponent>(*this, Xs, Ys, CustomEnemy::xVelocity);
   addGenericComponent(mPatrol);
 }
