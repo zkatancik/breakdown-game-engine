@@ -67,4 +67,4 @@ Extensions
 [☑️] Enemies with healthbars. - Marcin
 [☑️] Anti-tank mine - Matin
 [ ] Making towers upgradable - Roshan
-[☑️] Environment editing in Editor (without clear button for env) - Roshan
+[☑️] Environment editing in Editor - Roshan
