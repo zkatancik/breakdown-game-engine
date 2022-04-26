@@ -38,6 +38,20 @@ class PeriodicRockThrowComponent : public GenericComponent {
    */
   void update(Level &level) override;
 
+  /**
+   * @brief Change the targeting preference.
+   *
+   * @param newPref new value
+   */
+  inline void setTargetPref(RockThrowingPreference newPref) {
+    mTargetPref = newPref;
+  }
+
+  /**
+   * @brief Get the current targeting preference.
+   */
+  inline RockThrowingPreference getTargetPref() const { return mTargetPref; }
+
  private:
   const float mRadius;
   const float mSpeed;

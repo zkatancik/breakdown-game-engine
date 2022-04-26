@@ -44,23 +44,20 @@ class ArrowTower : public GameObject {
   /**
    * @brief Get the current targeting preference
    */
-  inline ArrowTargetingPreference getTargetPref() const { return targetPref; }
+  ArrowTargetingPreference getTargetPref();
 
   /**
    * @brief Set the new targeting preference.
    *
    * @param newPref new value
    */
-  inline void setTargetPref(ArrowTargetingPreference newPref) {
-    targetPref = newPref;
-  }
+  void setTargetPref(ArrowTargetingPreference newPref);
 
  private:
   std::shared_ptr<TextureRenderComponent> renderer_;
   const float RADIUS{300.0};
   const float SPEED{300.0};
   const Uint32 COOLDOWN{400};
-  ArrowTargetingPreference targetPref{ArrowTargetingPreference::FIRST};
   const std::string description = "Arrow Tower";
 };
 

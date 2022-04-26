@@ -37,16 +37,14 @@ class RockThrowerTower : public GameObject {
   /**
    * @brief Get the current targeting preference
    */
-  inline RockThrowingPreference getTargetPref() const { return targetPref; }
+  RockThrowingPreference getTargetPref();
 
   /**
    * @brief Set the new targeting preference.
    *
    * @param newPref new value
    */
-  inline void setTargetPref(RockThrowingPreference newPref) {
-    targetPref = newPref;
-  }
+  void setTargetPref(RockThrowingPreference newPref);
 
  private:
   std::shared_ptr<TextureRenderComponent> renderer_;
@@ -54,7 +52,6 @@ class RockThrowerTower : public GameObject {
   const float SPEED{200.0};
   const Uint32 COOLDOWN{500};
   const std::string description = "Rock Thrower Tower";
-  RockThrowingPreference targetPref{RockThrowingPreference::FIRST};
 };
 
 #endif
