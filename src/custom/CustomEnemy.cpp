@@ -1,15 +1,12 @@
-#include "custom/CustomEnemy.hpp"
-
 #include <box2d/b2_body.h>
-
 #include <functional>
-
-#include "base/HealthComponent.hpp"
-#include "base/PhysicsManager.hpp"
-#include "base/RemoveOnCollideComponent.hpp"
-#include "base/ResourceManager.hpp"
-#include "custom/LevelData.hpp"
+#include "custom/CustomEnemy.hpp"
 #include "custom/Tag.hpp"
+#include "base/ResourceManager.hpp"
+#include "base/RemoveOnCollideComponent.hpp"
+#include "base/PhysicsManager.hpp"
+#include "base/HealthComponent.hpp"
+#include "custom/LevelData.hpp"
 
 /**
  * A separate component for updating the sprite sheet for the CustomEnemy.
@@ -32,8 +29,8 @@ class CustomEnemyUpdateSpriteSheetComponent : public GenericComponent {
            getGameObject().physicsComponent()->vx() <= 0;
   }
 
-  void update(Level& level) override {
-    std::string path = "TD2D/Sprites/Enemies/cpix_enemies/" + mSpritePath;
+ void update(Level& level) override {
+    std::string path = mSpritePath;
     path += (std::to_string(mCounterComponent->getCounter() + 1) + ".png");
 
     SDL_Texture* texture = ResourceManager::getInstance().getTexture(path);
@@ -46,56 +43,6 @@ class CustomEnemyUpdateSpriteSheetComponent : public GenericComponent {
   std::shared_ptr<TextureRenderComponent> mTRenderComponent;
   std::shared_ptr<CyclicCounterComponent> mCounterComponent;
 };
-
-std::string getEnemySpritePath(const TdLevelItem enemyItem) {
-  std::string returnPath = "";
-  switch (enemyItem) {
-    case TdLevelItem::SCORPIONS:
-      returnPath = "1/1_enemies_1_run_";
-      break;
-
-    case TdLevelItem::WIZARD:
-      returnPath = "2/2_enemies_1_run_";
-      break;
-
-    case TdLevelItem::OGRE:
-      returnPath = "3/3_enemies_1_run_";
-      break;
-
-    case TdLevelItem::HELMETSWORDSMAN:
-      returnPath = "4/4_enemies_1_run_";
-      break;
-
-    case TdLevelItem::HELMETOGRE:
-      returnPath = "5/5_enemies_1_run_";
-      break;
-
-    case TdLevelItem::SWORDCAT:
-      returnPath = "6/6_enemies_1_run_";
-      break;
-
-    case TdLevelItem::ETCAT:
-      returnPath = "7/7_enemies_1_run_";
-      break;
-
-    case TdLevelItem::MOONOGRE:
-      returnPath = "8/8_enemies_1_run_";
-      break;
-
-    case TdLevelItem::ETSHURIKEN:
-      returnPath = "9/9_enemies_1_run_";
-      break;
-
-    case TdLevelItem::HELMETOGRESWORDSMAN:
-      returnPath = "10/10_enemies_1_run_";
-      break;
-
-    default:
-      break;
-  }
-
-  return returnPath;
-}
 
 CustomEnemy::CustomEnemy(Level& level, float tl_x, float tl_y, float w, float h,
                          TdLevelItem enemyItem,
@@ -123,62 +70,61 @@ CustomEnemy::CustomEnemy(Level& level, float tl_x, float tl_y, float w, float h,
       *this, getEnemySpritePath(enemyItem_), renderer_));
 
   // Health component for the enemy
-  int health;
   switch (enemyItem) {
     case TdLevelItem::SCORPIONS:
-      health = 5;
+      mHealth = 5;
       break;
 
     case TdLevelItem::WIZARD:
-      health = 8;
+      mHealth = 8;
       break;
 
     case TdLevelItem::OGRE:
-      health = 10;
+      mHealth = 10;
       break;
 
     case TdLevelItem::HELMETSWORDSMAN:
-      health = 5;
+      mHealth = 5;
       break;
 
     case TdLevelItem::HELMETOGRE:
-      health = 12;
+      mHealth = 12;
       break;
 
     case TdLevelItem::SWORDCAT:
-      health = 12;
+      mHealth = 12;
       break;
 
     case TdLevelItem::ETCAT:
-      health = 14;
+      mHealth = 14;
       break;
 
     case TdLevelItem::MOONOGRE:
-      health = 10;
+      mHealth = 10;
       break;
 
     case TdLevelItem::ETSHURIKEN:
-      health = 4;
+      mHealth = 4;
       break;
 
     case TdLevelItem::HELMETOGRESWORDSMAN:
-      health = 15;
+      mHealth = 15;
       break;
 
     default:
       break;
   }
-  auto healthComponent = std::make_shared<HealthComponent>(*this, health);
+  auto healthComponent = std::make_shared<HealthComponent>(*this, mHealth);
   healthComponent->setCallbackAtDeath(callBackAtDeath);
 
   // A lambda function which moves the health bar with the enemy
   // and updates it when health decreases
-  auto redrawHealthBarLambda = [this, health](int curHealth) {
+  auto redrawHealthBarLambda = [this](int curHealth) {
     int totalBarWidth = this->w();
     SDL_Rect healthRect = {(int)(this->x()), (int)(this->y()) - 5,
                            (int)totalBarWidth, 5};
     healthBarR_->setRect(healthRect);
-    float greenWidth = ((float)curHealth) / health;
+    float greenWidth = ((float)curHealth) / mHealth;
     healthRect = {(int)(this->x()), (int)(this->y()) - 5,
                   (int)(greenWidth * totalBarWidth), 5};
     healthBarG_->setRect(healthRect);

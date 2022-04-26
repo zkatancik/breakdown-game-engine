@@ -61,9 +61,9 @@ class TdLevel : public Level {
    * @brief Is this level still in progress?
    */
   bool isLevelInProgress() const;
-
- private:
+ protected:
   int mLevelNumber{0};
+ private:
   int mNumEnemiesLeft{0};
   int mEnemyCount{0};
 

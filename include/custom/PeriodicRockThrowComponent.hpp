@@ -7,6 +7,8 @@
 #include "base/GameObject.hpp"
 #include "base/GenericComponent.hpp"
 #include "base/TextureRenderComponent.hpp"
+#include "custom/CustomEnemy.hpp"
+#include "custom/RockThrowerTower.hpp"
 
 /**
  * @brief Component which launches a rock at the closest enemy. Has a
@@ -25,6 +27,7 @@ class PeriodicRockThrowComponent : public GenericComponent {
    */
   PeriodicRockThrowComponent(
       GameObject &gameObject, float radius, float speed, Uint32 cooldown,
+      RockThrowingPreference targetPref,
       const std::shared_ptr<TextureRenderComponent> &textureRenderComponent);
 
   /**
@@ -42,6 +45,7 @@ class PeriodicRockThrowComponent : public GenericComponent {
   Uint32 mNextThrowTime;
   std::shared_ptr<CyclicCounterComponent> mCounterComponent;
   std::shared_ptr<TextureRenderComponent> mTRenderComponent;
+  RockThrowingPreference mTargetPref{RockThrowingPreference::FIRST};
 };
 
 #endif

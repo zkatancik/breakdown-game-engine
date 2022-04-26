@@ -12,6 +12,7 @@
 #include "graverunner/GraveRunnerButton.hpp"
 #include "editor/TdLevelEditor.hpp"
 #include "custom/TdButton.hpp"
+#include "TdEnemyEditor.hpp"
 
 /**
  * @brief Contains Subsystem management for the editor
@@ -49,8 +50,11 @@ class EditorLogic : public SDLProgramLogic {
       nullptr, nullptr, nullptr, nullptr};  //< Level editors
   std::vector<std::shared_ptr<GraveRunnerLevelEditor>> mGraveRunnerLevelEditors{
       nullptr, nullptr, nullptr};  //< Level editors
-      std::vector<std::shared_ptr<TdLevelEditor>> mTowerDefenseLevelEditors{
-      nullptr, nullptr, nullptr, nullptr};  //< Level editors
+  std::vector<std::shared_ptr<TdLevelEditor>> mTowerDefenseLevelEditors{
+  nullptr, nullptr, nullptr, nullptr};  //< Level editors
+  std::vector<std::shared_ptr<TdEnemyEditor>> mTowerDefenseEnemyEditors{
+    nullptr, nullptr, nullptr, nullptr
+  };
   /**
    * Creates and initializes the start menu of the level editor.
    * The start menu lets the user select the game they wish to edit.
