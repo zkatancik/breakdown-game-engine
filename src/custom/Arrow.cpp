@@ -23,6 +23,9 @@ Arrow::Arrow(Level& level, float x, float y, float w, float h, float vx,
   constexpr float PI = 3.1415926535897932384;
   const float angleRads = vy / vx;
   const float angleDegs = SDL_atan(angleRads) * 180.0 / PI;
+  if (vx < 0) {
+    renderer->setFlip(true);
+  }
   renderer->setRotation(angleDegs);
   setRenderComponent(renderer);
   setPhysicsComponent(std::make_shared<PhysicsComponent>(
