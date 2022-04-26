@@ -13,3 +13,7 @@ TextMessageObject::TextMessageObject(Level &level,
   auto textComponent = std::make_shared<TextComponent>(*this, message, fontSize, fontFile, textRenderer);
   addGenericComponent(textComponent);
 }
+
+void TextMessageObject::changeText(const std::string &newText) {
+  getGenericComponent<TextComponent>()->SetMText(newText);
+}

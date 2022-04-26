@@ -21,6 +21,13 @@ class TextMessageObject : public GameObject {
                     float x, float y,
                     const std::string& fontFile,
                     int fontSize = 64);
+
+  /**
+   * @brief Change the text of this object.
+   *
+   * @param newText the new text
+   */
+  void changeText(const std::string& newText);
 };
 
 #endif
