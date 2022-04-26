@@ -75,6 +75,7 @@ class TdLevel : public Level {
   std::weak_ptr<TdButton> mFMFirstButton;
   std::weak_ptr<TdButton> mFMLastButton;
   std::weak_ptr<TdButton> mFMStrongestButton;
+  std::weak_ptr<GameObject> mSelectedObject;
 
   std::string mSoundPath = "TD2D/Audio/Common/Click2.mp3";
   TdLevelItem currentlySelected{TdLevelItem::NONE};
