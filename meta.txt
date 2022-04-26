@@ -48,6 +48,7 @@ Made delayed spawn component + other indicators used in the game logic. Made a s
 Helped with bug fixes of other group members.
 (Milestone 3)
 Added Anti-tank mine. Helped with bug fixes of other group members. Ensured playability of previous components.
+Added level editor support for the enemy waves for each file.
 
 Marcin -
 (Milestone 1)
