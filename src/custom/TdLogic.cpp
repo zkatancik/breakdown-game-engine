@@ -67,7 +67,8 @@ void TdLogic::update() {
     if (isGameActive()) {
       mCurrentlyActiveLevel->finalize();
       mCurrentlyActiveLevel->initialize();
-      mCurrentlyActiveLevel->addObject(std::make_shared<Mouse>(*mCurrentlyActiveLevel));
+      mCurrentlyActiveLevel->addObject(
+          std::make_shared<Mouse>(*mCurrentlyActiveLevel));
     }
   }
 
@@ -88,7 +89,7 @@ void TdLogic::createInstructionsLevel(int width, int height) {
   if (mInstructionsMenu != nullptr) return;
   mInstructionsMenu = std::make_shared<Level>(width, height);
 
-//   /******************************************************************************************************************/
+  //   /******************************************************************************************************************/
 
   auto background =
       std::make_shared<GameObject>(*mInstructionsMenu, 0, 0, width, height, 44);
@@ -103,17 +104,28 @@ void TdLogic::createInstructionsLevel(int width, int height) {
 
   mInstructionsMenu->addObject(background);
 
+  auto scroll = std::make_shared<GameObject>(*mInstructionsMenu, 100, 0, width,
+                                             height, 44);
+  auto scrollRenderer = std::make_shared<TextureRenderComponent>(*scroll);
+
+  scrollRenderer->setRenderMode(TextureRenderComponent::RenderMode::QUERY);
+  scroll->setRenderComponent(scrollRenderer);
+  scrollRenderer->setTexture(ResourceManager::getInstance().getTexture(
+      "TD2D/Sprites/GUI/Menu/instructions_scroll.png"));
+
+  mInstructionsMenu->addObject(scroll);
   /******************************************************************************************************************/
 
   // Add Instructions
   auto title =
-      std::make_shared<GameObject>(*mInstructionsMenu, 10, 10, 50, 50, 22);
+      std::make_shared<GameObject>(*mInstructionsMenu, 10, 80, 50, 50, 22);
   auto textRenderer = std::make_shared<TextureRenderComponent>(*title);
   textRenderer->setRenderMode(TextureRenderComponent::RenderMode::QUERY);
   title->setRenderComponent(textRenderer);
+  std::vector<int> color = {93, 35, 238, 0};
   auto textComponent = std::make_shared<TextComponent>(
-      *title, u8"How to Play", 128, "TD2D/Fonts/madera-tygra.ttf",
-      textRenderer);
+      *title, u8"How to Play", 128, "TD2D/Fonts/madera-tygra.ttf", textRenderer,
+      ENGLISH, color);
   title->addGenericComponent(std::make_shared<CenterTextComponent>(
       *title, textRenderer, width, height));
   textRenderer->setOffSetY(int(100));
@@ -125,11 +137,13 @@ void TdLogic::createInstructionsLevel(int width, int height) {
   auto textRenderer1 = std::make_shared<TextureRenderComponent>(*title);
   textRenderer1->setRenderMode(TextureRenderComponent::RenderMode::QUERY);
   instruction1->setRenderComponent(textRenderer1);
+  color = {0, 0, 0, 0};
   auto textComponent1 = std::make_shared<TextComponent>(
-      *instruction1, u8"Each level has three waves and each Tower costs ten coins.", 40,
-      "TD2D/Fonts/madera-tygra.ttf", textRenderer1);
-  textRenderer1->setOffSetX(-175);
-  textRenderer1->setOffSetY(int(300));
+      *instruction1,
+      u8"Each level has multiple waves and each tower costs coins.", 40,
+      "TD2D/Fonts/madera-tygra.ttf", textRenderer1, ENGLISH, color);
+  textRenderer1->setOffSetX(-100);
+  textRenderer1->setOffSetY(int(250));
   instruction1->addGenericComponent(textComponent1);
   mInstructionsMenu->addObject(instruction1);
 
@@ -139,12 +153,26 @@ void TdLogic::createInstructionsLevel(int width, int height) {
   textRenderer2->setRenderMode(TextureRenderComponent::RenderMode::QUERY);
   instruction2->setRenderComponent(textRenderer2);
   auto textComponent2 = std::make_shared<TextComponent>(
-      *instruction2, u8"Killing an enemy gives five coins. Click and place tower in spot.", 40,
-      "TD2D/Fonts/madera-tygra.ttf", textRenderer2);
-  textRenderer2->setOffSetX(-175);
-  textRenderer2->setOffSetY(int(400));
+      *instruction2, u8"Kill enemies to earn five coins each. Click a tower in",
+      40, "TD2D/Fonts/madera-tygra.ttf", textRenderer2, ENGLISH, color);
+  textRenderer2->setOffSetX(-100);
+  textRenderer2->setOffSetY(int(330));
   instruction2->addGenericComponent(textComponent2);
   mInstructionsMenu->addObject(instruction2);
+
+  auto instruction25 =
+      std::make_shared<GameObject>(*mInstructionsMenu, 10, 10, 50, 50, 22);
+  auto textRenderer25 = std::make_shared<TextureRenderComponent>(*title);
+  textRenderer25->setRenderMode(TextureRenderComponent::RenderMode::QUERY);
+  instruction25->setRenderComponent(textRenderer25);
+  auto textComponent25 = std::make_shared<TextComponent>(
+      *instruction25,
+      u8"the menu, then a vacant plot on the map to place a tower.", 40,
+      "TD2D/Fonts/madera-tygra.ttf", textRenderer25, ENGLISH, color);
+  textRenderer25->setOffSetX(-75);
+  textRenderer25->setOffSetY(int(400));
+  instruction25->addGenericComponent(textComponent25);
+  mInstructionsMenu->addObject(instruction25);
 
   auto instruction3 =
       std::make_shared<GameObject>(*mInstructionsMenu, 10, 10, 50, 50, 22);
@@ -152,9 +180,9 @@ void TdLogic::createInstructionsLevel(int width, int height) {
   textRenderer3->setRenderMode(TextureRenderComponent::RenderMode::QUERY);
   instruction3->setRenderComponent(textRenderer3);
   auto textComponent3 = std::make_shared<TextComponent>(
-      *instruction3, u8"'N' - next level, 'R' - Restart level", 40, "TD2D/Fonts/madera-tygra.ttf",
-      textRenderer3);
-  textRenderer3->setOffSetX(-175);
+      *instruction3, u8"'N' - next level, 'R' - Restart level", 40,
+      "TD2D/Fonts/madera-tygra.ttf", textRenderer3, ENGLISH, color);
+  textRenderer3->setOffSetX(-100);
   textRenderer3->setOffSetY(int(500));
   instruction3->addGenericComponent(textComponent3);
   mInstructionsMenu->addObject(instruction3);
@@ -165,7 +193,7 @@ void TdLogic::createInstructionsLevel(int width, int height) {
 
   // Add the return button
   mInstructionsMenu->addObject(std::make_shared<TdButton>(
-      *mInstructionsMenu, width, 2 * height / 3 + 75, width / 4, 139,
+      *mInstructionsMenu, width, 2 * height / 3 + 100, width / 4, 139,
       u8"RETURN", changeToStartMenu));
 
   /******************************************************************************************************************/
@@ -240,7 +268,8 @@ void TdLogic::createStartMenuLevel(int width, int height) {
   auto startGameLevelButtonHook = [&]() {
     mGameLevels[mCurrentlySelectedGameLevelIdx]->finalize();
     mGameLevels[mCurrentlySelectedGameLevelIdx]->initialize();
-    mGameLevels[mCurrentlySelectedGameLevelIdx]->addObject(std::make_shared<Mouse>(*mGameLevels[mCurrentlySelectedGameLevelIdx]));
+    mGameLevels[mCurrentlySelectedGameLevelIdx]->addObject(
+        std::make_shared<Mouse>(*mGameLevels[mCurrentlySelectedGameLevelIdx]));
     mCurrentlyActiveLevel = mGameLevels[mCurrentlySelectedGameLevelIdx];
   };
 
