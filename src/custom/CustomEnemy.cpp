@@ -70,62 +70,61 @@ CustomEnemy::CustomEnemy(Level& level, float tl_x, float tl_y, float w, float h,
       *this, getEnemySpritePath(enemyItem_), renderer_));
 
   // Health component for the enemy
-  int health;
   switch (enemyItem) {
     case TdLevelItem::SCORPIONS:
-      health = 5;
+      mHealth = 5;
       break;
 
     case TdLevelItem::WIZARD:
-      health = 8;
+      mHealth = 8;
       break;
 
     case TdLevelItem::OGRE:
-      health = 10;
+      mHealth = 10;
       break;
 
     case TdLevelItem::HELMETSWORDSMAN:
-      health = 5;
+      mHealth = 5;
       break;
 
     case TdLevelItem::HELMETOGRE:
-      health = 12;
+      mHealth = 12;
       break;
 
     case TdLevelItem::SWORDCAT:
-      health = 12;
+      mHealth = 12;
       break;
 
     case TdLevelItem::ETCAT:
-      health = 14;
+      mHealth = 14;
       break;
 
     case TdLevelItem::MOONOGRE:
-      health = 10;
+      mHealth = 10;
       break;
 
     case TdLevelItem::ETSHURIKEN:
-      health = 4;
+      mHealth = 4;
       break;
 
     case TdLevelItem::HELMETOGRESWORDSMAN:
-      health = 15;
+      mHealth = 15;
       break;
 
     default:
       break;
   }
-  auto healthComponent = std::make_shared<HealthComponent>(*this, health);
+  auto healthComponent = std::make_shared<HealthComponent>(*this, mHealth);
   healthComponent->setCallbackAtDeath(callBackAtDeath);
 
   // A lambda function which moves the health bar with the enemy
   // and updates it when health decreases
-  auto redrawHealthBarLambda = [this, health](int curHealth) {
+  auto redrawHealthBarLambda = [this](int curHealth) {
     int totalBarWidth = this->w();
     SDL_Rect healthRect = {(int)(this->x()), (int)(this->y()) - 5,
                            (int)totalBarWidth, 5};
     healthBarR_->setRect(healthRect);
-    float greenWidth = ((float)curHealth) / health;
+    float greenWidth = ((float)curHealth) / mHealth;
     healthRect = {(int)(this->x()), (int)(this->y()) - 5,
                   (int)(greenWidth * totalBarWidth), 5};
     healthBarG_->setRect(healthRect);
