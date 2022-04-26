@@ -25,7 +25,7 @@ void TdLevel::initialize() {
   auto healthIndicator = createIndicatorObject("Health", 200, 1300, 100);
   mHealthIndicator = std::weak_ptr(healthIndicator);
   // Coins indicator
-  auto coinsIndicator = createIndicatorObject("Coins", 40, 1300, 135);
+  auto coinsIndicator = createIndicatorObject("Coins", 60, 1300, 135);
   mCoinIndicator = std::weak_ptr(coinsIndicator);
 
   // Level indicator
