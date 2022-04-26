@@ -265,22 +265,23 @@ std::string ResourceManager::getTranslation(const std::string &message,
   std::string numbers{"0123456789"};
   for (unsigned int i = 0; i < message.size(); i++) {
     for (char number : numbers) {
-      if (message[i] == number) separators.push_back( i == 0 ? 1 : int(i));
+      if (message[i] == number) separators.push_back(i == 0 ? 1 : int(i));
     }
   }
   separators.push_back(int(message.size()));
   std::stringstream out;
   for (unsigned int i = 0; i < separators.size() - 1; i++) {
-    std::string subMessage = message.substr(separators[i], separators[i + 1] - separators[i]);
+    std::string subMessage =
+        message.substr(separators[i], separators[i + 1] - separators[i]);
     if (subMessage.size() == 1 || subMessage.empty()) {
       out << subMessage;
       continue;
     }
     auto it = localization_.find(subMessage);
     if (it == localization_.end()) {
-      std::cerr << "Couldn't find '" << subMessage
-                << "' in the localization database." << std::endl;
-      out << subMessage;
+      // std::cerr << "Couldn't find '" << subMessage
+      //           << "' in the localization database." << std::endl;
+      // out << subMessage;
     } else if (language == Language::ENGLISH)
       out << subMessage;
     else {
