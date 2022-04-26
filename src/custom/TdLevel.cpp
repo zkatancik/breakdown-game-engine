@@ -260,7 +260,7 @@ void TdLevel::createBottomBarControls() {
       for (auto enemyInfo : mLevelData.enemyWaves[currentWaveNumber]) {
         for (int i = 0; i < enemyInfo.second; i++) {
           spawnEnemy(enemyInfo.first, delayCounter, i);
-          delayCounter += std::rand() % 5 + 2;
+          delayCounter += std::rand() % 2 + 1;
         }
       }
       mStartWaveButton.lock()->setIsVisibleOnScreen(false);

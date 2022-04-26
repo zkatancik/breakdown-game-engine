@@ -84,31 +84,31 @@ CustomEnemy::CustomEnemy(Level& level, float tl_x, float tl_y, float w, float h,
       break;
 
     case TdLevelItem::HELMETSWORDSMAN:
-      mHealth = 5;
+      mHealth = 15;
       break;
 
     case TdLevelItem::HELMETOGRE:
-      mHealth = 12;
+      mHealth = 17;
       break;
 
     case TdLevelItem::SWORDCAT:
-      mHealth = 12;
+      mHealth = 19;
       break;
 
     case TdLevelItem::ETCAT:
-      mHealth = 14;
+      mHealth = 24;
       break;
 
     case TdLevelItem::MOONOGRE:
-      mHealth = 10;
+      mHealth = 27;
       break;
 
     case TdLevelItem::ETSHURIKEN:
-      mHealth = 4;
+      mHealth = 29;
       break;
 
     case TdLevelItem::HELMETOGRESWORDSMAN:
-      mHealth = 15;
+      mHealth = 30;
       break;
 
     default:
