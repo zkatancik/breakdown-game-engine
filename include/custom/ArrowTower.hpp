@@ -57,7 +57,7 @@ class ArrowTower : public GameObject {
 
  private:
   std::shared_ptr<TextureRenderComponent> renderer_;
-  const float RADIUS{500.0};
+  const float RADIUS{300.0};
   const float SPEED{300.0};
   const Uint32 COOLDOWN{400};
   ArrowTargetingPreference targetPref{ArrowTargetingPreference::FIRST};

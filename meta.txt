@@ -13,8 +13,9 @@ Roshan - Built support for environment items in a level and can use Level editor
 Environment item are not realted to the grid and can be placed freely within the level. My previous extension according to
 the moscow was to have upgradable tower, but that was wayy too complicated to have in our game along with animated towers.
 I have mentioned this change in extension/moSCow to Professor Cooper as well as we had modify the moSCow to reach our goals,
-based on the playability of the game. The second reason behind going against tower upgrades was that the levels were already
-easy to finish and the enemy waves would become easier to overcome if we upgrade towers. So I worked on level balancing as well. 
+based on the playability of the game, and it was approved. The second reason behind going against tower upgrades was that
+the levels were already easy to finish and the enemy waves would become easier to overcome if we upgrade towers. 
+So I worked on level balancing as well. 
 
 
 -- Did you use any external resources? If so, cite them below.
@@ -48,6 +49,7 @@ Made delayed spawn component + other indicators used in the game logic. Made a s
 Helped with bug fixes of other group members.
 (Milestone 3)
 Added Anti-tank mine. Helped with bug fixes of other group members. Ensured playability of previous components.
+Added level editor support for the enemy waves for each file.
 
 Marcin -
 (Milestone 1)

@@ -48,9 +48,11 @@ Must
 [☑️] At least 3 enemy types should be in the game.
 [☑️] At least 3 maps should be available to the user.
 [☑️] Users can view the current round number, rounds to go.
+[☑️] Level Editor (sans Environment)
 
 Should
 [☑️] Level Editor (with Environment)
+[ ] Upgradable towers
 
 Could
 [ ] Animated enemies with effects
@@ -62,7 +64,18 @@ Won't
 
 Extensions
 [ ] Add ability for towers to have user-selected enemy targeting (strong, weak, first, last). - Zack 
+
 [☑️] Enemies with healthbars. - Marcin
+
 [☑️] Anti-tank mine - Matin
-[ ] Making towers upgradable - Roshan - (Chose not to purse this as well because it was a long feature)
+
 [☑️] Environment editing in Editor - Roshan
+Built support for environment items in a level and can use Level editor for adding/deleting Environment items.
+Environment item are not realted to the grid and can be placed freely within the level. The level editor 
+would be able to edit 5 files at the same time, where all the information related to the layering in the level would be present. 
+
+[ ] Making towers upgradable - Roshan - (Chose not to purse this as well because it was a long feature)
+The above (Making towers upgradable) was wayy too complicated to have in our game along with animated towers.
+I have mentioned this change in extension/moSCow to Professor Cooper as well as we had modify the moSCow to reach our goals,
+based on the playability of the game, and it was approved. The second reason behind going against tower upgrades was that
+the levels were already easy to finish and the enemy waves would become easier to overcome if we upgrade towers.
