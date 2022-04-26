@@ -17,6 +17,10 @@ based on the playability of the game, and it was approved. The second reason beh
 the levels were already easy to finish and the enemy waves would become easier to overcome if we upgrade towers. 
 So I worked on level balancing as well. 
 Marcin - I added health bars to the enemies, you can see them pop up and change as the enemies get hit with projectiles.
+Zack - I added the ability for users to change the targeting preferences of towers on the board. If you click a tower on the 
+map, it will bring up some information about the tower, and display buttons for the user to change the targets the tower fires at.
+These can be the furthest along tower, the furthest behind tower, the closest tower, and the tower with the most starting HP.
+
 
 -- Did you use any external resources? If so, cite them below.
 -Resource Manager (Project 1)
@@ -72,6 +76,8 @@ on game editors front-end to match rest of the component based architecture.
 (Milestone 2) Did initial custom game setup getting a working game going from scratch, 
 reconfigured the menus to new game, added UI elements to the in-game experience, and worked on grid components for object placement like mouse over of 
 items when clicked.
+(Milestone 3) Added all new tower types with varying mechanics. Animated all towers and created sprites. Added 
+ability for users to change the targeting of towers.
 
 Roshan - 
 (Milestone 1): 
@@ -97,7 +103,7 @@ Applied coin and health icons to UI.
 
 -- How many hours did it take you to complete this lab?
 Roshan - (M1) 40, (M2) 80, (M3) 80
-Zack - (M1) 40, (M2) 20
+Zack - (M1) 40, (M2) 20, (M3) 30
 Matin - (M1) 60, (M2) 20, (M3) 20
 Marcin - (M1) 20, (M2) 20, (M3) 20
 Alex - (M2) 2, (M3), 5

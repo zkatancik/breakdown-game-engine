@@ -63,7 +63,7 @@ Won't
 [ ] user-controlled tower projectiles.
 
 Extensions
-[ ] Add ability for towers to have user-selected enemy targeting (strong, weak, first, last). - Zack 
+[☑️] Add ability for towers to have user-selected enemy targeting (strong, weak, first, last). - Zack 
 
 [☑️] Enemies with healthbars. - Marcin
 

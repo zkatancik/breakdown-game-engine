@@ -281,7 +281,7 @@ std::string ResourceManager::getTranslation(const std::string &message,
     if (it == localization_.end()) {
       // std::cerr << "Couldn't find '" << subMessage
       //           << "' in the localization database." << std::endl;
-      // out << subMessage;
+      out << subMessage;
     } else if (language == Language::ENGLISH)
       out << subMessage;
     else {
