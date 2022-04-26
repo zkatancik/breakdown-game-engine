@@ -88,13 +88,15 @@ Alex -
 (Milestone 2):
 Updated UI placement and spacing. 
 Added asset for coin icon to be displayed. 
+(Milestone 3):
+Applied coin and health icons to UI. 
 
 -- How many hours did it take you to complete this lab?
 Roshan - (M1) 40, (M2) 80, (M3) 80
 Zack - (M1) 40, (M2) 20
 Matin - (M1) 60, (M2) 20, (M3) 20
 Marcin - (M1) 20, (M2) 20
-Alex - 2
+Alex - (M2) 2, (M3), 5
 
 
 -- (Optional) What was your favorite part of the lab?
