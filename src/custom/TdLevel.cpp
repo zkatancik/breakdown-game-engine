@@ -495,6 +495,30 @@ void TdLevel::createGrid() {
               "TD2D/Sprites/Tiles/Empty.png");
         }
       }
+    } else {
+      bool clickedTower = false;
+      for (auto g : getGameObjects()) {
+        if (g->isOverlapping(y, x) && g->tag() == TdArrowTowerTag) {
+          Mix_PlayChannel(
+              1, ResourceManager::getInstance().getChunk(mSoundPath), 0);
+          const ArrowTower* tower = dynamic_cast<const ArrowTower*>(g.get());
+          mTowerDescText.lock()->changeText(tower->getDescription());
+          showTowerDetails();
+          clickedTower = true;
+        } else if (g->isOverlapping(y, x) &&
+                   g->tag() == TdRockThrowerTowerTag) {
+          Mix_PlayChannel(
+              1, ResourceManager::getInstance().getChunk(mSoundPath), 0);
+          const RockThrowerTower* tower =
+              dynamic_cast<const RockThrowerTower*>(g.get());
+          mTowerDescText.lock()->changeText(tower->getDescription());
+          showTowerDetails();
+          clickedTower = true;
+        }
+      }
+      if (!clickedTower) {
+        hideTowerDetails();
+      }
     }
   };
 
