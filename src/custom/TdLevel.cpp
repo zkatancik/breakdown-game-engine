@@ -1,5 +1,6 @@
 #include "custom/TdLevel.hpp"
 
+#include "base/TextMessageObject.hpp"
 #include "custom/AntiTankMine.hpp"
 
 void TdLevel::initialize() {
@@ -274,6 +275,99 @@ void TdLevel::createBottomBarControls() {
   mStartWaveButton = std::weak_ptr(startWaveButton);
   mStartWaveButton.lock()->setTag(TdStartWaveButtonTag);
   addObject(startWaveButton);
+
+  // Create Tower Details Panel
+  float nextXOffset = 0;
+  auto towerDesc = std::make_shared<TextMessageObject>(
+      *this, "Tower **", 320 + nextXOffset, h() - sideBarYOffset + 15,
+      "TD2D/Fonts/ds-coptic.ttf", 16);
+  auto towerSellText = std::make_shared<TextMessageObject>(
+      *this, "Sell value: 10", 320 + nextXOffset,
+      h() - (sideBarYOffset / 2.0) + 15, "TD2D/Fonts/ds-coptic.ttf", 16);
+
+  nextXOffset += 200;
+  auto towerFireModeText = std::make_shared<TextMessageObject>(
+      *this, "Fire Mode:", 320 + nextXOffset, h() - sideBarYOffset + 15,
+      "TD2D/Fonts/ds-coptic.ttf", 16);
+  mTowerDescText = std::weak_ptr(towerDesc);
+  mTowerSellText = std::weak_ptr(towerSellText);
+  mTowerFMText = std::weak_ptr(towerFireModeText);
+  addObject(towerDesc);
+  addObject(towerSellText);
+  addObject(towerFireModeText);
+
+  nextXOffset += 400;
+  auto fmClosestCallback = [&]() {
+    if (mSelectedObject.lock()->tag() == TdArrowTowerTag) {
+      std::shared_ptr<ArrowTower> tower =
+          std::dynamic_pointer_cast<ArrowTower>(mSelectedObject.lock());
+      tower->setTargetPref(ArrowTargetingPreference::CLOSE);
+    } else if (mSelectedObject.lock()->tag() == TdRockThrowerTowerTag) {
+      std::shared_ptr<RockThrowerTower> tower =
+          std::dynamic_pointer_cast<RockThrowerTower>(mSelectedObject.lock());
+      tower->setTargetPref(RockThrowingPreference::CLOSE);
+    }
+  };
+  auto fmClosestButton =
+      std::make_shared<TdButton>(*this, 320 + nextXOffset, h() - sideBarYOffset,
+                                 24, 16, "Closest", fmClosestCallback, 16);
+  mFMClosestButton = std::weak_ptr(fmClosestButton);
+  addObject(fmClosestButton);
+
+  nextXOffset += 400;
+  auto fmFirstCallback = [&]() {
+    if (mSelectedObject.lock()->tag() == TdArrowTowerTag) {
+      std::shared_ptr<ArrowTower> tower =
+          std::dynamic_pointer_cast<ArrowTower>(mSelectedObject.lock());
+      tower->setTargetPref(ArrowTargetingPreference::FIRST);
+    } else if (mSelectedObject.lock()->tag() == TdRockThrowerTowerTag) {
+      std::shared_ptr<RockThrowerTower> tower =
+          std::dynamic_pointer_cast<RockThrowerTower>(mSelectedObject.lock());
+      tower->setTargetPref(RockThrowingPreference::FIRST);
+    }
+  };
+  auto fmFirstButton =
+      std::make_shared<TdButton>(*this, 320 + nextXOffset, h() - sideBarYOffset,
+                                 24, 16, "First", fmFirstCallback, 16);
+  mFMFirstButton = std::weak_ptr(fmFirstButton);
+  addObject(fmFirstButton);
+
+  nextXOffset += 300;
+  auto fmLastCallback = [&]() {
+    if (mSelectedObject.lock()->tag() == TdArrowTowerTag) {
+      std::shared_ptr<ArrowTower> tower =
+          std::dynamic_pointer_cast<ArrowTower>(mSelectedObject.lock());
+      tower->setTargetPref(ArrowTargetingPreference::LAST);
+    } else if (mSelectedObject.lock()->tag() == TdRockThrowerTowerTag) {
+      std::shared_ptr<RockThrowerTower> tower =
+          std::dynamic_pointer_cast<RockThrowerTower>(mSelectedObject.lock());
+      tower->setTargetPref(RockThrowingPreference::LAST);
+    }
+  };
+  auto fmLastButton =
+      std::make_shared<TdButton>(*this, 320 + nextXOffset, h() - sideBarYOffset,
+                                 24, 16, "Last", fmLastCallback, 16);
+  mFMLastButton = std::weak_ptr(fmLastButton);
+  addObject(fmLastButton);
+
+  nextXOffset += 375;
+  auto fmStrongCallback = [&]() {
+    if (mSelectedObject.lock()->tag() == TdArrowTowerTag) {
+      std::shared_ptr<ArrowTower> tower =
+          std::dynamic_pointer_cast<ArrowTower>(mSelectedObject.lock());
+      tower->setTargetPref(ArrowTargetingPreference::STRONG);
+    } else if (mSelectedObject.lock()->tag() == TdRockThrowerTowerTag) {
+      std::shared_ptr<RockThrowerTower> tower =
+          std::dynamic_pointer_cast<RockThrowerTower>(mSelectedObject.lock());
+      tower->setTargetPref(RockThrowingPreference::STRONG);
+    }
+  };
+  auto fmStrongestButton =
+      std::make_shared<TdButton>(*this, 320 + nextXOffset, h() - sideBarYOffset,
+                                 24, 16, "Strongest", fmStrongCallback, 16);
+  mFMStrongestButton = std::weak_ptr(fmStrongestButton);
+  addObject(fmStrongestButton);
+  hideTowerDetails();
 }
 
 void TdLevel::createGrid() {
@@ -447,6 +541,33 @@ void TdLevel::createGrid() {
               "TD2D/Sprites/Tiles/Empty.png");
         }
       }
+    } else {
+      bool clickedTower = false;
+      for (auto g : getGameObjects()) {
+        if (g->isOverlapping(y, x) && g->tag() == TdArrowTowerTag) {
+          Mix_PlayChannel(
+              1, ResourceManager::getInstance().getChunk(mSoundPath), 0);
+          const ArrowTower* tower = dynamic_cast<const ArrowTower*>(g.get());
+          mTowerDescText.lock()->changeText(tower->getDescription());
+          mSelectedObject = g;
+          showTowerDetails();
+          clickedTower = true;
+        } else if (g->isOverlapping(y, x) &&
+                   g->tag() == TdRockThrowerTowerTag) {
+          Mix_PlayChannel(
+              1, ResourceManager::getInstance().getChunk(mSoundPath), 0);
+          const RockThrowerTower* tower =
+              dynamic_cast<const RockThrowerTower*>(g.get());
+          mTowerDescText.lock()->changeText(tower->getDescription());
+          mSelectedObject = g;
+          showTowerDetails();
+          clickedTower = true;
+        }
+      }
+      if (!clickedTower) {
+        hideTowerDetails();
+        mSelectedObject.reset();
+      }
     }
   };
 
@@ -574,4 +695,24 @@ void TdLevel::spawnEnemy(TdLevelItem enemyType, int delay, int enemyNumber) {
       std::make_shared<DelayedSpawnComponent>(*enemy, delay));
   addObject(enemy);
   mNumEnemiesLeft++;
+}
+
+void TdLevel::showTowerDetails() {
+  mTowerDescText.lock()->setIsVisibleOnScreen(true);
+  mTowerSellText.lock()->setIsVisibleOnScreen(true);
+  mTowerFMText.lock()->setIsVisibleOnScreen(true);
+  mFMClosestButton.lock()->setIsVisibleOnScreen(true);
+  mFMFirstButton.lock()->setIsVisibleOnScreen(true);
+  mFMLastButton.lock()->setIsVisibleOnScreen(true);
+  mFMStrongestButton.lock()->setIsVisibleOnScreen(true);
+}
+
+void TdLevel::hideTowerDetails() {
+  mTowerDescText.lock()->setIsVisibleOnScreen(false);
+  mTowerSellText.lock()->setIsVisibleOnScreen(false);
+  mTowerFMText.lock()->setIsVisibleOnScreen(false);
+  mFMClosestButton.lock()->setIsVisibleOnScreen(false);
+  mFMFirstButton.lock()->setIsVisibleOnScreen(false);
+  mFMLastButton.lock()->setIsVisibleOnScreen(false);
+  mFMStrongestButton.lock()->setIsVisibleOnScreen(false);
 }

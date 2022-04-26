@@ -330,8 +330,16 @@ class ResourceManager {
       {u8" enemies", {{Language::SPANISH, u8"enemigos"}}},
       {u8": ", {{Language::SPANISH, u8": "}}},
       {u8"Score: -", {{Language::SPANISH, u8"Puntaje -"}}},
-      {u8"Wave ", {{Language::SPANISH, u8"onda "}}},
-      {u8"Edit Wave", {{Language::SPANISH, u8"Ola de edición"}}}
+      {u8"Wave ", {{Language::SPANISH, u8"Onda "}}},
+      {u8"Edit Wave", {{Language::SPANISH, u8"Ola de edición"}}},
+      {u8"Strongest", {{Language::SPANISH, u8"Más Fuerte"}}},
+      {u8"Closest", {{Language::SPANISH, u8"Más Próximo"}}},
+      {u8"First", {{Language::SPANISH, u8"Primero"}}},
+      {u8"Last", {{Language::SPANISH, u8"Último"}}},
+      {u8"Sell value: ", {{Language::SPANISH, u8"Precio de venta: "}}},
+      {u8"Fire Mode:", {{Language::SPANISH, u8"Modo de Disparo:"}}},
+      {u8"Rock Thrower Tower", {{Language::SPANISH, u8"Más Fuerte"}}},
+      {u8"Arrow Tower", {{Language::SPANISH, u8"Torre de Flecha"}}}
   };
 };
 #endif

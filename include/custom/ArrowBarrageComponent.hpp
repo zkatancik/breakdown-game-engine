@@ -38,6 +38,20 @@ class ArrowBarrageComponent : public GenericComponent {
    */
   void update(Level &level) override;
 
+  /**
+   * @brief Change the targeting preference.
+   *
+   * @param newPref new value
+   */
+  inline void setTargetPref(ArrowTargetingPreference newPref) {
+    mTargetPref = newPref;
+  }
+
+  /**
+   * @brief Get the current targeting preference.
+   */
+  inline ArrowTargetingPreference getTargetPref() const { return mTargetPref; }
+
  private:
   const float mRadius;
   const float mSpeed;

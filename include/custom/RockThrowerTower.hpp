@@ -25,14 +25,33 @@ class RockThrowerTower : public GameObject {
    * @param y the location of the Block to render's y screen position in pixels
    * @param bs block size
    */
-  RockThrowerTower(Level &level, float x, float y, Vector2D<int> bs);
+  RockThrowerTower(Level& level, float x, float y, Vector2D<int> bs);
+
+  /**
+   * @brief Get a short description for this tower.
+   *
+   * @return const std::string& the description
+   */
+  inline const std::string& getDescription() const { return description; }
+
+  /**
+   * @brief Get the current targeting preference
+   */
+  RockThrowingPreference getTargetPref();
+
+  /**
+   * @brief Set the new targeting preference.
+   *
+   * @param newPref new value
+   */
+  void setTargetPref(RockThrowingPreference newPref);
 
  private:
   std::shared_ptr<TextureRenderComponent> renderer_;
   const float RADIUS{100.0};
   const float SPEED{200.0};
   const Uint32 COOLDOWN{500};
-  RockThrowingPreference targetPref{RockThrowingPreference::FIRST};
+  const std::string description = "Rock Thrower Tower";
 };
 
 #endif
