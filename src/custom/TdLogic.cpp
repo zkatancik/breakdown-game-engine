@@ -352,9 +352,10 @@ void TdLogic::createTextMessageForLevel(const std::shared_ptr<Level>& level,
 
   textRenderer->setRenderMode(TextureRenderComponent::RenderMode::QUERY);
   messageObject->setRenderComponent(textRenderer);
+  std::vector<int> color = {93, 35, 238, 0};
   auto textComponent = std::make_shared<TextComponent>(
-      *messageObject, message, fontSize, "Graverunner/fonts/GADAQUALI.ttf",
-      textRenderer);
+      *messageObject, message, fontSize, "TD2D/Fonts/ds-coptic.ttf",
+      textRenderer, ENGLISH, color);
   messageObject->addGenericComponent(textComponent);
   messageObject->addGenericComponent(std::make_shared<CenterTextComponent>(
       *messageObject, textRenderer, x, y));

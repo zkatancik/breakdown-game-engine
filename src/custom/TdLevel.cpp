@@ -285,9 +285,8 @@ void TdLevel::createBottomBarControls() {
       *this, "Sell value: 10", 320 + nextXOffset,
       h() - (sideBarYOffset / 2.0) + 15, "TD2D/Fonts/ds-coptic.ttf", 16);
 
-  nextXOffset += 200;
   auto towerFireModeText = std::make_shared<TextMessageObject>(
-      *this, "Fire Mode:", 320 + nextXOffset, h() - sideBarYOffset + 15,
+      *this, "Fire Mode: ", 320 + nextXOffset, h() - sideBarYOffset + 35,
       "TD2D/Fonts/ds-coptic.ttf", 16);
   mTowerDescText = std::weak_ptr(towerDesc);
   mTowerSellText = std::weak_ptr(towerSellText);
@@ -296,7 +295,7 @@ void TdLevel::createBottomBarControls() {
   addObject(towerSellText);
   addObject(towerFireModeText);
 
-  nextXOffset += 400;
+  nextXOffset += 1170;
   auto fmClosestCallback = [&]() {
     if (mSelectedObject.lock()->tag() == TdArrowTowerTag) {
       std::shared_ptr<ArrowTower> tower =
@@ -307,14 +306,15 @@ void TdLevel::createBottomBarControls() {
           std::dynamic_pointer_cast<RockThrowerTower>(mSelectedObject.lock());
       tower->setTargetPref(RockThrowingPreference::CLOSE);
     }
+    hideTowerDetails();
   };
-  auto fmClosestButton =
-      std::make_shared<TdButton>(*this, 320 + nextXOffset, h() - sideBarYOffset,
-                                 24, 16, "Closest", fmClosestCallback, 16);
+  auto fmClosestButton = std::make_shared<TdButton>(
+      *this, 320 + nextXOffset, h() - sideBarYOffset + 5, 24, 16, "Closest",
+      fmClosestCallback, 12);
   mFMClosestButton = std::weak_ptr(fmClosestButton);
   addObject(fmClosestButton);
 
-  nextXOffset += 400;
+  nextXOffset += 290;
   auto fmFirstCallback = [&]() {
     if (mSelectedObject.lock()->tag() == TdArrowTowerTag) {
       std::shared_ptr<ArrowTower> tower =
@@ -325,14 +325,15 @@ void TdLevel::createBottomBarControls() {
           std::dynamic_pointer_cast<RockThrowerTower>(mSelectedObject.lock());
       tower->setTargetPref(RockThrowingPreference::FIRST);
     }
+    hideTowerDetails();
   };
-  auto fmFirstButton =
-      std::make_shared<TdButton>(*this, 320 + nextXOffset, h() - sideBarYOffset,
-                                 24, 16, "First", fmFirstCallback, 16);
+  auto fmFirstButton = std::make_shared<TdButton>(
+      *this, 320 + nextXOffset, h() - sideBarYOffset + 5, 24, 16, "First",
+      fmFirstCallback, 12);
   mFMFirstButton = std::weak_ptr(fmFirstButton);
   addObject(fmFirstButton);
 
-  nextXOffset += 300;
+  nextXOffset += 265;
   auto fmLastCallback = [&]() {
     if (mSelectedObject.lock()->tag() == TdArrowTowerTag) {
       std::shared_ptr<ArrowTower> tower =
@@ -343,14 +344,15 @@ void TdLevel::createBottomBarControls() {
           std::dynamic_pointer_cast<RockThrowerTower>(mSelectedObject.lock());
       tower->setTargetPref(RockThrowingPreference::LAST);
     }
+    hideTowerDetails();
   };
-  auto fmLastButton =
-      std::make_shared<TdButton>(*this, 320 + nextXOffset, h() - sideBarYOffset,
-                                 24, 16, "Last", fmLastCallback, 16);
+  auto fmLastButton = std::make_shared<TdButton>(
+      *this, 320 + nextXOffset, h() - sideBarYOffset + 5, 24, 16, "Last",
+      fmLastCallback, 12);
   mFMLastButton = std::weak_ptr(fmLastButton);
   addObject(fmLastButton);
 
-  nextXOffset += 375;
+  nextXOffset += 300;
   auto fmStrongCallback = [&]() {
     if (mSelectedObject.lock()->tag() == TdArrowTowerTag) {
       std::shared_ptr<ArrowTower> tower =
@@ -361,10 +363,11 @@ void TdLevel::createBottomBarControls() {
           std::dynamic_pointer_cast<RockThrowerTower>(mSelectedObject.lock());
       tower->setTargetPref(RockThrowingPreference::STRONG);
     }
+    hideTowerDetails();
   };
-  auto fmStrongestButton =
-      std::make_shared<TdButton>(*this, 320 + nextXOffset, h() - sideBarYOffset,
-                                 24, 16, "Strongest", fmStrongCallback, 16);
+  auto fmStrongestButton = std::make_shared<TdButton>(
+      *this, 320 + nextXOffset, h() - sideBarYOffset + 5, 24, 16, "Strongest",
+      fmStrongCallback, 12);
   mFMStrongestButton = std::weak_ptr(fmStrongestButton);
   addObject(fmStrongestButton);
   hideTowerDetails();
@@ -547,8 +550,26 @@ void TdLevel::createGrid() {
         if (g->isOverlapping(y, x) && g->tag() == TdArrowTowerTag) {
           Mix_PlayChannel(
               1, ResourceManager::getInstance().getChunk(mSoundPath), 0);
-          const ArrowTower* tower = dynamic_cast<const ArrowTower*>(g.get());
+          ArrowTower* tower = dynamic_cast<ArrowTower*>(g.get());
           mTowerDescText.lock()->changeText(tower->getDescription());
+          std::string targetPrefString = "";
+          switch (tower->getTargetPref()) {
+            case ArrowTargetingPreference::FIRST:
+              targetPrefString = "Target Mode: First";
+              break;
+            case ArrowTargetingPreference::LAST:
+              targetPrefString = "Target Mode: Last";
+              break;
+            case ArrowTargetingPreference::CLOSE:
+              targetPrefString = "Target Mode: Closest";
+              break;
+            case ArrowTargetingPreference::STRONG:
+              targetPrefString = "Target Mode: Strong";
+              break;
+            default:
+              break;
+          }
+          mTowerFMText.lock()->changeText(targetPrefString);
           mSelectedObject = g;
           showTowerDetails();
           clickedTower = true;
@@ -556,9 +577,26 @@ void TdLevel::createGrid() {
                    g->tag() == TdRockThrowerTowerTag) {
           Mix_PlayChannel(
               1, ResourceManager::getInstance().getChunk(mSoundPath), 0);
-          const RockThrowerTower* tower =
-              dynamic_cast<const RockThrowerTower*>(g.get());
+          RockThrowerTower* tower = dynamic_cast<RockThrowerTower*>(g.get());
           mTowerDescText.lock()->changeText(tower->getDescription());
+          std::string targetPrefString = "";
+          switch (tower->getTargetPref()) {
+            case RockThrowingPreference::FIRST:
+              targetPrefString = "Target Mode: First";
+              break;
+            case RockThrowingPreference::LAST:
+              targetPrefString = "Target Mode: Last";
+              break;
+            case RockThrowingPreference::CLOSE:
+              targetPrefString = "Target Mode: Closest";
+              break;
+            case RockThrowingPreference::STRONG:
+              targetPrefString = "Target Mode: Strong";
+              break;
+            default:
+              break;
+          }
+          mTowerFMText.lock()->changeText(targetPrefString);
           mSelectedObject = g;
           showTowerDetails();
           clickedTower = true;
