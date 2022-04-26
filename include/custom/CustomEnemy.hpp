@@ -34,6 +34,7 @@ class CustomEnemy : public GameObject {
                        int count);
 
   inline const int getCount() const { return mCount; }
+  inline const int getHealth() const { return mHealth; }
 
   /**
    * @brief Destroy this Base CustomEnemy object
@@ -52,5 +53,6 @@ class CustomEnemy : public GameObject {
   std::shared_ptr<RectangleRenderComponent> healthBarR_;
   std::shared_ptr<RectangleRenderComponent> healthBarG_;
   int mCount;
+  int mHealth;
 };
 #endif

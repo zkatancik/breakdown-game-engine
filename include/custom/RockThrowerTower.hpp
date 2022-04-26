@@ -9,6 +9,8 @@
 #include "base/TextureRenderComponent.hpp"
 #include "base/TinyMath.hpp"
 
+enum class RockThrowingPreference { FIRST, LAST, CLOSE, STRONG };
+
 /**
  * @brief A Tower which launches rocks at nearby enemies within a radius and
  * with cooldown between firings.
@@ -30,6 +32,7 @@ class RockThrowerTower : public GameObject {
   const float RADIUS{100.0};
   const float SPEED{200.0};
   const Uint32 COOLDOWN{500};
+  RockThrowingPreference targetPref{RockThrowingPreference::FIRST};
 };
 
 #endif
