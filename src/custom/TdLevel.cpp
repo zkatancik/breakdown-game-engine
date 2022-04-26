@@ -256,9 +256,11 @@ void TdLevel::createBottomBarControls() {
                       ResourceManager::getInstance().getChunk(
                           "TD2D/Audio/Common/WaveStart1.mp3"),
                       0);
+      int delayCounter = 0;
       for (auto enemyInfo : mLevelData.enemyWaves[currentWaveNumber]) {
         for (int i = 0; i < enemyInfo.second; i++) {
-          spawnEnemy(enemyInfo.first, i * 2 + std::rand() % 5, i);
+          spawnEnemy(enemyInfo.first, delayCounter, i);
+          delayCounter += std::rand() % 5 + 2;
         }
       }
       mStartWaveButton.lock()->setIsVisibleOnScreen(false);
