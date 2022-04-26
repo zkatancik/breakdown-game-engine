@@ -45,7 +45,7 @@ class ArrowBarrageComponent : public GenericComponent {
   Uint32 mNextThrowTime;
   std::shared_ptr<CyclicCounterComponent> mCounterComponent;
   std::shared_ptr<TextureRenderComponent> mTRenderComponent;
-  ArrowTargetingPreference mTargetPref{ArrowTargetingPreference::STRONG};
+  ArrowTargetingPreference mTargetPref{ArrowTargetingPreference::FIRST};
 };
 
 #endif
