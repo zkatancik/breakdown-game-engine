@@ -16,7 +16,7 @@ I have mentioned this change in extension/moSCow to Professor Cooper as well as 
 based on the playability of the game, and it was approved. The second reason behind going against tower upgrades was that
 the levels were already easy to finish and the enemy waves would become easier to overcome if we upgrade towers. 
 So I worked on level balancing as well. 
-
+Marcin - I added health bars to the enemies, you can see them pop up and change as the enemies get hit with projectiles.
 
 -- Did you use any external resources? If so, cite them below.
 -Resource Manager (Project 1)
@@ -61,6 +61,10 @@ files, creating the new objects, defining the interactions between Rocks and Ene
 TdLevel/TdLogic-related code for handling the necessary new functionality (e.g. tracking score, lives, reducing enemy health, etc.).
 Ported over and fixed unit tests for previous games. Added unit tests for the Tower Defense game code. Added documentation
 throughout Tower Defense codebase.
+(Milestone 3)
+Added the health bars to enemies, put some time into investigating how to support tower upgrading. Then put some time into
+making the submenu for towers and working with Zach to change their targeting preferences.
+Also the usual small cleanups/touchups here and there.
 
 Zack - 
 (Milestone 1) Rewrote all UI components to be game objects, including buttons, menus, etc. Worked extensively
@@ -95,7 +99,7 @@ Applied coin and health icons to UI.
 Roshan - (M1) 40, (M2) 80, (M3) 80
 Zack - (M1) 40, (M2) 20
 Matin - (M1) 60, (M2) 20, (M3) 20
-Marcin - (M1) 20, (M2) 20
+Marcin - (M1) 20, (M2) 20, (M3) 20
 Alex - (M2) 2, (M3), 5
 
 
